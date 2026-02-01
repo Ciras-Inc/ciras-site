@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web制作｜AI検索で「正しく引用される」ホームページ制作｜Ciras株式会社</title>
+  <meta name="description" content="AI検索（ChatGPTなど）で、会社情報が「読み違えられない」ホームページを制作します。会社の強み・サービス・料金・よくある質問を整理し、引用されやすい形に整備。構造化データ（検索向けの説明書）を実装します。7ページ以内 220,000円〜（税込）。愛媛・松山のCiras株式会社。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --green: #2D5A27; --green-light: #E8F0E6; --black: #1A1A1A; --gray-dark: #4A4A4A; --gray: #888888; --gray-light: #E5E5E5; --white: #FFFFFF; --bg: #FAFAFA; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans JP', sans-serif; color: var(--black); line-height: 1.9; background: var(--bg); font-size: 15px; }
+    .mincho { font-family: 'Shippori Mincho', serif; }
+    a { color: inherit; text-decoration: none; }
+
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--white); border-bottom: 1px solid var(--gray-light); transition: box-shadow 0.3s ease; }
+    header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+    .header-inner { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; }
+    .logo-img { height: 32px; width: auto; }
+    .header-nav { display: flex; align-items: center; gap: 2rem; }
+    .header-nav > a, .nav-dropdown-trigger { font-size: 0.85rem; font-weight: 500; color: var(--black); transition: color 0.3s; cursor: pointer; background: none; border: none; font-family: inherit; }
+    .header-nav > a:hover, .nav-dropdown-trigger:hover { color: var(--green); }
+    .header-nav > .header-contact { font-size: 0.8rem; color: var(--white) !important; background: var(--green); padding: 0.7rem 1.8rem; border-radius: 4px; transition: all 0.3s; box-shadow: 0 2px 8px rgba(45,90,39,.3); font-weight: 600; letter-spacing: 0.05em; }
+    .header-nav > .header-contact:hover { opacity: 0.9; box-shadow: 0 4px 12px rgba(45,90,39,.4); transform: translateY(-1px); }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: var(--white); border: 1px solid var(--gray-light); border-radius: 4px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); min-width: 160px; padding: 0.5rem 0; opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s; z-index: 1001; margin-top: 0.5rem; }
+    .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; }
+    .nav-dropdown-menu a { display: block; padding: 0.6rem 1.2rem; font-size: 0.85rem; color: var(--black); transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .nav-dropdown-menu a:hover { background: var(--green-light); color: var(--green); }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; z-index: 1002; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--black); margin: 5px 0; transition: transform 0.3s, opacity 0.3s; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    .mobile-nav { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--white); padding: 5rem 2rem 2rem; z-index: 999; overflow-y: auto; flex-direction: column; gap: 0.5rem; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { display: block; padding: 0.8rem 0; font-size: 1rem; font-weight: 500; color: var(--black); border-bottom: 1px solid var(--gray-light); }
+    .mobile-nav-group { padding: 0.5rem 0; }
+    .mobile-nav-label { font-size: 0.75rem; font-weight: 600; color: var(--green); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+    .mobile-nav-group a { padding-left: 1rem; font-size: 0.95rem; }
+    .mobile-nav-cta { margin-top: 1rem; background: var(--green); color: var(--white) !important; text-align: center; padding: 1rem !important; border-radius: 2px; border-bottom: none !important; }
+
+    .hero { padding: 8rem 2rem 5rem; background: var(--white); }
+    .hero-inner { max-width: 900px; margin: 0 auto; opacity: 0; transform: translateY(30px); animation: heroIn 0.9s ease 0.2s forwards; }
+    .hero-label { font-size: 0.75rem; letter-spacing: 0.2em; color: var(--green); margin-bottom: 0.5rem; }
+    .hero-service { font-family: 'Shippori Mincho', serif; font-size: 1.5rem; font-weight: 600; margin-bottom: 2rem; }
+    .hero-title { font-family: 'Shippori Mincho', serif; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 600; line-height: 1.6; margin-bottom: 1.5rem; }
+    .hero-desc { font-size: 1rem; color: var(--gray-dark); line-height: 2; margin-bottom: 2rem; max-width: 600px; }
+    .hero-price { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+    .hero-price-main { font-family: 'Shippori Mincho', serif; font-size: 2.5rem; font-weight: 600; }
+    .hero-price-unit { font-size: 1rem; color: var(--gray-dark); }
+
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 900px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-label { font-size: 0.75rem; letter-spacing: 0.2em; color: var(--green); margin-bottom: 0.5rem; }
+    .section-title { font-family: 'Shippori Mincho', serif; font-size: clamp(1.5rem, 3vw, 1.8rem); font-weight: 600; }
+
+    .future { background: var(--black); color: var(--white); }
+    .future .section-label { color: var(--green); }
+    .future .section-title { color: var(--white); }
+    .future-content { font-size: 0.95rem; line-height: 2.2; color: rgba(255,255,255,0.85); }
+    .future-content p { margin-bottom: 1.5rem; }
+    .future-content strong { color: var(--white); font-weight: 600; }
+    .future-highlight { margin-top: 2rem; padding: 1.5rem; background: var(--green); border-radius: 4px; text-align: center; font-weight: 500; }
+
+    .problem { background: var(--bg); }
+    .problem-list { display: flex; flex-direction: column; }
+    .problem-item { padding: 1.2rem 0; border-bottom: 1px solid var(--gray-light); display: flex; align-items: center; gap: 1rem; }
+    .problem-item:first-child { border-top: 1px solid var(--gray-light); }
+    .problem-check { color: var(--gray); }
+    .problem-text { font-size: 0.95rem; color: var(--gray-dark); }
+
+    .about { background: var(--white); }
+    .about-lead { font-family: 'Shippori Mincho', serif; font-size: 1.3rem; font-weight: 600; line-height: 1.8; margin-bottom: 1.5rem; }
+    .about-text { font-size: 0.95rem; color: var(--gray-dark); line-height: 2; margin-bottom: 1.5rem; }
+    .about-text strong { color: var(--black); font-weight: 600; }
+    .about-features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 2rem; }
+    .about-feature { padding: 1.5rem; background: var(--bg); border-radius: 4px; }
+    .about-feature-title { font-size: 0.9rem; font-weight: 600; color: var(--green); margin-bottom: 0.5rem; }
+    .about-feature-desc { font-size: 0.85rem; color: var(--gray-dark); line-height: 1.8; }
+
+    .pricing { background: var(--bg); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+    .pricing-card { background: var(--white); padding: 2rem 1.5rem; border-radius: 4px; text-align: center; border: 2px solid transparent; }
+    .pricing-card.featured { border-color: var(--green); }
+    .pricing-card-name { font-family: 'Shippori Mincho', serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .pricing-card-pages { font-size: 0.8rem; color: var(--gray); margin-bottom: 1rem; }
+    .pricing-card-price { font-family: 'Shippori Mincho', serif; font-size: 2rem; font-weight: 600; color: var(--green); }
+    .pricing-card-price span { font-size: 1rem; }
+    .pricing-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    .pricing-option { padding: 1.5rem; background: var(--white); border-radius: 4px; }
+    .pricing-option-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .pricing-option-price { font-size: 0.85rem; color: var(--green); font-weight: 500; }
+    .pricing-includes { background: var(--white); padding: 2rem; border-radius: 4px; }
+    .pricing-includes h4 { font-size: 0.9rem; font-weight: 600; color: var(--green); margin-bottom: 1rem; }
+    .pricing-includes-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; list-style: none; }
+    .pricing-includes-list li { font-size: 0.85rem; color: var(--gray-dark); padding-left: 1.2rem; position: relative; }
+    .pricing-includes-list li::before { content: '✓'; position: absolute; left: 0; color: var(--green); }
+
+    .works { background: var(--white); }
+    .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .works-item { display: block; text-decoration: none; color: inherit; background: var(--bg); border-radius: 4px; overflow: hidden; transition: opacity 0.3s, transform 0.2s; }
+    .works-item:hover { opacity: 0.92; transform: translateY(-2px); }
+    .works-item-img { aspect-ratio: 16/10; background: var(--gray-light); overflow: hidden; }
+    .works-item-photo { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .works-item-info { padding: 1rem; }
+    .works-item-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .works-item-desc { font-size: 0.8rem; color: var(--gray); }
+
+    .flow { background: var(--bg); }
+    .flow-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .flow-item { background: var(--white); padding: 1.5rem; border-radius: 4px; text-align: center; }
+    .flow-item-step { font-size: 0.7rem; font-weight: 600; color: var(--green); margin-bottom: 0.8rem; }
+    .flow-item-title { font-family: 'Shippori Mincho', serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .flow-item-desc { font-size: 0.8rem; color: var(--gray-dark); line-height: 1.8; }
+
+    .faq { background: var(--white); }
+    .faq-list { display: flex; flex-direction: column; gap: 1rem; }
+    .faq-item { background: var(--bg); border-radius: 4px; }
+    .faq-question { padding: 1.2rem 1.5rem; font-size: 0.95rem; font-weight: 500; display: flex; gap: 0.8rem; }
+    .faq-q { font-family: 'Shippori Mincho', serif; font-weight: 600; color: var(--green); }
+    .faq-answer { padding: 0 1.5rem 1.2rem 3rem; font-size: 0.9rem; color: var(--gray-dark); line-height: 2; }
+
+    .cta { padding: 5rem 2rem; background: var(--green-light); text-align: center; }
+    .cta-title { font-family: 'Shippori Mincho', serif; font-size: clamp(1.5rem, 3vw, 1.8rem); font-weight: 600; margin-bottom: 1rem; }
+    .cta-text { font-size: 0.95rem; color: var(--gray-dark); margin-bottom: 2rem; line-height: 2; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-block; font-size: 0.9rem; font-weight: 500; padding: 1rem 2rem; border-radius: 2px; transition: all 0.3s ease, transform 0.2s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--green); color: var(--white); }
+    .btn-primary:hover { box-shadow: 0 4px 12px rgba(45, 90, 39, 0.3); }
+    .btn-secondary { background: var(--white); color: var(--green); border: 1px solid var(--green); }
+    .btn-secondary:hover { background: var(--green-light); }
+
+    footer { background: var(--black); color: var(--white); padding: 4rem 2rem 2rem; }
+    .footer-inner { max-width: 1000px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 2fr; gap: 4rem; margin-bottom: 3rem; }
+    .footer-brand { margin-bottom: 1rem; }
+    .footer-logo-img { height: 28px; width: auto; }
+    .footer-info { font-size: 0.8rem; color: rgba(255,255,255,0.6); line-height: 2; font-style: normal; }
+    .footer-nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .footer-nav-title { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; color: rgba(255,255,255,0.5); margin-bottom: 1rem; }
+    .footer-nav ul { list-style: none; }
+    .footer-nav li { margin-bottom: 0.5rem; }
+    .footer-nav a { font-size: 0.85rem; color: rgba(255,255,255,0.8); transition: color 0.3s; }
+    .footer-nav a:hover { color: var(--white); }
+    .footer-bottom { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    @keyframes heroIn { to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { .fade-in, .hero-inner { opacity: 1; transform: none; animation: none; transition: none; } .btn:hover, .works-item:hover { transform: none; } }
+
+    @media (max-width: 900px) {
+      .header-nav { display: none; }
+      .hamburger { display: block; }
+      .about-features, .pricing-grid, .pricing-options, .pricing-includes-list { grid-template-columns: 1fr; }
+      .works-grid { grid-template-columns: repeat(2, 1fr); }
+      .flow-list { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .works-grid, .flow-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo" aria-label="Ciras株式会社 ホーム"><img src="/images/logo-green.png" alt="Ciras" class="logo-img"></a>
+      <nav class="header-nav">
+        <div class="nav-dropdown">
+          <a href="#" class="nav-dropdown-trigger">サービス</a>
+          <div class="nav-dropdown-menu">
+            <a href="/ai-komon.html">Ciras AI顧問</a>
+            <a href="/kagemusha.html">影武者</a>
+            <a href="/web.html">Web制作</a>
+          </div>
+        </div>
+        <a href="/seminar.html">セミナー</a>
+        <div class="nav-dropdown">
+          <a href="/company.html" class="nav-dropdown-trigger">会社概要</a>
+          <div class="nav-dropdown-menu">
+            <a href="/voice.html">お客様の声</a>
+            <a href="/faq.html">よくある質問</a>
+          </div>
+        </div>
+        <a href="/partner.html">採用・協業</a>
+        <a href="/contact.html" class="header-contact">お問い合わせ</a>
+      </nav>
+      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+    <div class="mobile-nav">
+      <div class="mobile-nav-group">
+        <p class="mobile-nav-label">サービス</p>
+        <a href="/ai-komon.html">Ciras AI顧問</a>
+        <a href="/kagemusha.html">影武者</a>
+        <a href="/web.html">Web制作</a>
+      </div>
+      <a href="/seminar.html">セミナー</a>
+      <div class="mobile-nav-group">
+        <p class="mobile-nav-label">会社概要</p>
+        <a href="/company.html">会社概要</a>
+        <a href="/voice.html">お客様の声</a>
+        <a href="/faq.html">よくある質問</a>
+      </div>
+      <a href="/partner.html">採用・協業</a>
+      <a href="/blog.html">ブログ</a>
+      <a href="/contact.html" class="mobile-nav-cta">お問い合わせ</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-label">SERVICE 02</p>
+      <h1 class="hero-service mincho">AI活用 Webサイト制作</h1>
+      <p class="hero-title mincho">AI検索で<br>「誤解されない」ホームページを。</p>
+      <p class="hero-desc">検索は、AIが要点をまとめて答える場面が増えています。<br>そのとき大事なのは、会社の情報が「公式情報」として正しく扱われること。<br>Cirasは、AIに読み違えられない形で、御社の強みを整理して掲載します。</p>
+      <div class="hero-price">
+        <span class="hero-price-main">220,000</span>
+        <span class="hero-price-unit">円〜（7ページ以内・税込）</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="future fade-in">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-label">WHY NOW</p>
+        <h2 class="section-title mincho">検索の入口が、すでに変わり始めています</h2>
+      </div>
+      <div class="future-content">
+        <p>検索結果を開く前に、AIが答えを出す場面が増えています。<strong>その答えの材料になるのは、企業の「公式情報」</strong>です。</p>
+        <p>御社の社名で検索したとき、住所・事業内容・強みは、正しく一つにまとまっていますか。</p>
+        <p>情報が古い、散らばっている、説明が足りない。これだけで、AIに誤った形で紹介される原因になります。</p>
+        <p><strong>今やるべきことは一つ。会社の情報を整え、引用されやすい形で公開することです。</strong></p>
+        <p>ホームページがない／古い／伝えたいことが載っていない。これは、問い合わせの機会を減らします。</p>
+        <div class="future-highlight">だからこそ、今、AI検索に強いホームページが必要です。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="problem fade-in">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-label">CHECK</p>
+        <h2 class="section-title mincho">こんなお悩みありませんか</h2>
+      </div>
+      <div class="problem-list">
+        <div class="problem-item"><span class="problem-check">□</span><span class="problem-text">ホームページが古く、信頼感が出ない</span></div>
+        <div class="problem-item"><span class="problem-check">□</span><span class="problem-text">社名検索で、住所や事業内容がばらつく</span></div>
+        <div class="problem-item"><span class="problem-check">□</span><span class="problem-text">見られても、問い合わせに進まない</span></div>
+        <div class="problem-item"><span class="problem-check">□</span><span class="problem-text">AI検索（ChatGPTなど）で、会社がどう説明されているか不安</span></div>
+        <div class="problem-item"><span class="problem-check">□</span><span class="problem-text">文章づくりが負担で、公開まで進まない</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about fade-in">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-label">ABOUT</p>
+        <h2 class="section-title mincho">CirasのWeb制作とは</h2>
+      </div>
+      <h3 class="about-lead">AI検索で、<br>「正しく引用される」ホームページ。</h3>
+      <p class="about-text">これまでのホームページは、「検索で見つけてもらう」ことが中心でした。いまは、AIが答えの中で会社名を出す時代です。大事なのは、AIが御社を正しく理解し、<strong>公式情報として引用できる状態</strong>にすることです。</p>
+      <p class="about-text">Cirasでは、構造化データ（検索向けの説明書）を入れて、会社概要・サービス・料金・よくある質問を、読み違えられない形に整えます。さらに、ヒアリングをもとに原稿づくりまで一緒に進めます。<strong>「文章が苦手で止まる」を、なくします。</strong></p>
+      <div class="about-features">
+        <div class="about-feature"><p class="about-feature-title">AI検索で誤解されない設計</p><p class="about-feature-desc">構造化データを入れ、会社情報が正しく伝わる形に整えます。</p></div>
+        <div class="about-feature"><p class="about-feature-title">原稿づくりで止めない</p><p class="about-feature-desc">ヒアリング内容をもとに、文章と構成をこちらでまとめます。</p></div>
+        <div class="about-feature"><p class="about-feature-title">困ったときだけ相談できる</p><p class="about-feature-desc">権限をお渡しします。困ったときだけCirasへご相談ください。</p></div>
+        <div class="about-feature"><p class="about-feature-title">地図まわりも整える</p><p class="about-feature-desc">Googleビジネスプロフィールの初期設定も含みます。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing fade-in">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-label">PRICING</p>
+        <h2 class="section-title mincho">料金プラン</h2>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card"><p class="pricing-card-name mincho">スタンダード</p><p class="pricing-card-pages">7ページ以内</p><p class="pricing-card-price">220,000<span>円〜</span></p></div>
+        <div class="pricing-card featured"><p class="pricing-card-name mincho">プレミアム</p><p class="pricing-card-pages">8ページ以上</p><p class="pricing-card-price">440,000<span>円〜</span></p></div>
+        <div class="pricing-card"><p class="pricing-card-name mincho">こだわり制作</p><p class="pricing-card-pages">確認・修正が増える方</p><p class="pricing-card-price">660,000<span>円〜</span></p></div>
+      </div>
+      <div class="pricing-options">
+        <div class="pricing-option"><p class="pricing-option-title">AI検索対応（諸設定）</p><p class="pricing-option-price">55,000円</p></div>
+        <div class="pricing-option"><p class="pricing-option-title">ショップ機能</p><p class="pricing-option-price">220,000円〜</p></div>
+        <div class="pricing-option"><p class="pricing-option-title">サーバー代（実費別契約）</p><p class="pricing-option-price">実費</p></div>
+        <div class="pricing-option"><p class="pricing-option-title">ドメイン代（実費別契約）</p><p class="pricing-option-price">実費</p></div>
+      </div>
+      <div class="pricing-includes">
+        <h4>すべてのプランに含まれるもの</h4>
+        <ul class="pricing-includes-list">
+          <li>Googleマップ初期設定</li><li>スマートフォン対応</li><li>SSL対応（https）</li><li>権限を付与</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="works fade-in">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-label">WORKS</p>
+        <h2 class="section-title mincho">制作実績</h2>
+      </div>
+      <div class="works-grid">
+        <a class="works-item" href="https://www.oniku-kimuraya.jp/" target="_blank" rel="noopener" aria-label="木村屋精肉店 様のWebサイトを見る">
+          <div class="works-item-img"><img class="works-item-photo" src="/images/kimuraya.png" alt="木村屋精肉店 様｜精肉店（Webサイト制作実績）" loading="lazy"></div>
+          <div class="works-item-info"><p class="works-item-name">木村屋精肉店 様</p><p class="works-item-desc">精肉店</p></div>
+        </a>
+        <a class="works-item" href="https://www.mitsuhama-hanabi.com/" target="_blank" rel="noopener" aria-label="三津浜花火大会 様のWebサイトを見る">
+          <div class="works-item-img"><img class="works-item-photo" src="/images/mitsuhama.png" alt="三津浜花火大会 様｜イベント（Webサイト制作実績）" loading="lazy"></div>
+          <div class="works-item-info"><p class="works-item-name">三津浜花火大会 様</p><p class="works-item-desc">イベント</p></div>
+        </a>
+        <a class="works-item" href="https://www.kutsuna.co.jp/" target="_blank" rel="noopener" aria-label="忽那醸造 様のWebサイトを見る">
+          <div class="works-item-img"><img class="works-item-photo" src="/images/kutsuna.png" alt="忽那醸造 様｜醸造所（Webサイト制作実績）" loading="lazy"></div>
+          <div class="works-item-info"><p class="works-item-name">忽那醸造 様</p><p class="works-item-desc">醸造所</p></div>
+        </a>
+        <a class="works-item" href="https://www.daiei-flower.com/" target="_blank" rel="noopener" aria-label="大栄フラワーサービス 様のWebサイトを見る">
+          <div class="works-item-img"><img class="works-item-photo" src="/images/daiei.png" alt="大栄フラワーサービス 様｜葬祭サービス・生花販売（Webサイト制作実績）" loading="lazy"></div>
+          <div class="works-item-info"><p class="works-item-name">大栄フラワーサービス 様</p><p class="works-item-desc">葬祭サービス・生花販売</p></div>
+        </a>
+        <a class="works-item" href="https://www.higashino-group.com/" target="_blank" rel="noopener" aria-label="ノリテック 様のWebサイトを見る">
+          <div class="works-item-img"><img class="works-item-photo" src="/images/noritech.png" alt="ノリテック 様｜介護事業所（Webサイト制作実績）" loading="lazy"></div>
+          <div class="works-item-info"><p class="works-item-name">ノリテック 様</p><p class="works-item-desc">介護事業所</p></div>
+        </a>
+        <a class="works-item" href="https://www.soshitsu.jp/" target="_blank" rel="noopener" aria-label="素質研究会 西岡律美事務所 様のWebサイトを見る">
+          <div class="works-item-img"><img class="works-item-photo" src="/images/soshitsu.png" alt="素質研究会 西岡律美事務所 様｜専門サービス（Webサイト制作実績）" loading="lazy"></div>
+          <div class="works-item-info"><p class="works-item-name">素質研究会 西岡律美事務所 様</p><p class="works-item-desc">専門サービス</p></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="flow fade-in">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-label">FLOW</p>
+        <h2 class="section-title mincho">制作の流れ</h2>
+      </div>
+      <div class="flow-list">
+        <div class="flow-item"><p class="flow-item-step">STEP 1</p><h3 class="flow-item-title mincho">ヒアリング</h3><p class="flow-item-desc">御社の強み・想いをお聞きします</p></div>
+        <div class="flow-item"><p class="flow-item-step">STEP 2</p><h3 class="flow-item-title mincho">構成提案</h3><p class="flow-item-desc">ページ構成と原稿を作成</p></div>
+        <div class="flow-item"><p class="flow-item-step">STEP 3</p><h3 class="flow-item-title mincho">デザイン・制作</h3><p class="flow-item-desc">デザイン作成 → ご確認 → 修正</p></div>
+        <div class="flow-item"><p class="flow-item-step">STEP 4</p><h3 class="flow-item-title mincho">公開</h3><p class="flow-item-desc">公開と、更新方法のご案内</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq fade-in">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="section-label">FAQ</p>
+        <h2 class="section-title mincho">よくあるご質問</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item"><p class="faq-question"><span class="faq-q">Q.</span>原稿がなくても大丈夫ですか？</p><p class="faq-answer">はい。お聞きした内容をもとに、こちらで原稿を作ります。</p></div>
+        <div class="faq-item"><p class="faq-question"><span class="faq-q">Q.</span>制作期間はどれくらいですか？</p><p class="faq-answer">目安は1〜2ヶ月です。ご確認の回数で前後します。</p></div>
+        <div class="faq-item"><p class="faq-question"><span class="faq-q">Q.</span>公開後に自分で更新できますか？</p><p class="faq-answer">ホームページの公開の仕方によりますが、権限をお渡しします。困ったときだけCirasへご相談ください。</p></div>
+        <div class="faq-item"><p class="faq-question"><span class="faq-q">Q.</span>AI検索対応とは何ですか？</p><p class="faq-answer">AIが会社情報を読み違えないように、構造化データを入れます。（検索向けの説明書です）</p></div>
+        <div class="faq-item"><p class="faq-question"><span class="faq-q">Q.</span>保守・管理はお願いできますか？</p><p class="faq-answer">はい。Ciras AI顧問（月額33,000円）とあわせて対応できます。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta fade-in">
+    <h2 class="cta-title mincho">まずは、お気軽にご相談ください</h2>
+    <p class="cta-text">「何を載せるべきか」からで大丈夫です。<br>いまの状況を聞かせてください。必要な情報を整理して、形にします。</p>
+    <div class="cta-buttons">
+      <a href="/contact.html" class="btn btn-primary">お問い合わせ</a>
+      <a href="https://lin.ee/s2u6VUw" class="btn btn-secondary">LINEで相談</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand"><a href="index.html" aria-label="トップページへ"><img src="/images/logo-white.png" alt="Ciras" class="footer-logo-img"></a></p>
+          <address class="footer-info">
+            Ciras株式会社<br>
+            〒790-0813 愛媛県松山市萱町3-2-3 9CROSS 501<br>
+            TEL: <a href="tel:050-3637-6324" style="color:inherit">050-3637-6324</a><br>
+            営業時間: 10:00〜17:30（土日祝休）
+          </address>
+        </div>
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <div>
+            <p class="footer-nav-title">SERVICE</p>
+            <ul>
+              <li><a href="/ai-komon.html">Ciras AI顧問</a></li>
+              <li><a href="/web.html">Web制作</a></li>
+              <li><a href="/kagemusha.html">影武者</a></li>
+              <li><a href="/seminar.html">セミナー</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-nav-title">COMPANY</p>
+            <ul>
+              <li><a href="/voice.html">お客様の声</a></li>
+              <li><a href="/faq.html">よくある質問</a></li>
+              <li><a href="/company.html">会社概要</a></li>
+              <li><a href="/blog.html">ブログ</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-nav-title">CONTACT</p>
+            <ul>
+              <li><a href="/contact.html">お問い合わせ</a></li>
+              <li><a href="/partner.html">採用・協業</a></li>
+              <li><a href="https://lin.ee/s2u6VUw">LINE</a></li>
+              <li><a href="/privacy.html">プライバシーポリシー</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="footer-bottom">© 2026 Ciras Inc.</div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){var t=document.querySelectorAll('.fade-in');if(!('IntersectionObserver' in window)){t.forEach(function(e){e.classList.add('visible')});return}var o=new IntersectionObserver(function(e){e.forEach(function(n){if(n.isIntersecting){n.target.classList.add('visible');o.unobserve(n.target)}})},{threshold:.15,rootMargin:'0px 0px -40px 0px'});t.forEach(function(e){o.observe(e)})})();
+    (function(){var h=document.querySelector('header'),s=false;window.addEventListener('scroll',function(){if(window.scrollY>60&&!s){h.classList.add('scrolled');s=true}else if(window.scrollY<=60&&s){h.classList.remove('scrolled');s=false}},{passive:true})})();
+    (function(){var btn=document.querySelector('.hamburger'),nav=document.querySelector('.mobile-nav');if(btn&&nav){btn.addEventListener('click',function(){btn.classList.toggle('active');nav.classList.toggle('open');document.body.style.overflow=nav.classList.contains('open')?'hidden':''});nav.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){btn.classList.remove('active');nav.classList.remove('open');document.body.style.overflow=''})});}})();
+  </script>
+
+</body>
+</html>
