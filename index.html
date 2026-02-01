@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ciras株式会社｜AI活用で「迷い」を減らし「決断」を早くする｜愛媛・松山</title>
+  <meta name="description" content="Ciras株式会社は愛媛県松山市を拠点に、中小企業のAI活用を実務レベルで支援します。迷う時間を減らし、判断と実行を前に進めるために、月額33,000円のCiras AI顧問と、影武者（実務代行）、Web制作（AI検索で誤解されない設計）を提供しています。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Ciras株式会社",
+    "url": "https://ciras.jp",
+    "logo": "https://ciras.jp/logo.png",
+    "description": "愛媛県松山市を拠点に、中小企業のAI活用を実務レベルで支援する専門企業",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "萱町3丁目2番3号 9CROSS 501",
+      "addressLocality": "松山市",
+      "addressRegion": "愛媛県",
+      "postalCode": "790-0813",
+      "addressCountry": "JP"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+81-50-3637-6324",
+      "contactType": "customer service"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --green: #2D5A27;
+      --green-light: #E8F0E6;
+      --black: #1A1A1A;
+      --gray-dark: #4A4A4A;
+      --gray: #888888;
+      --gray-light: #E5E5E5;
+      --white: #FFFFFF;
+      --bg: #FAFAFA;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.9;
+      background: var(--bg);
+      font-size: 15px;
+      letter-spacing: 0.03em;
+    }
+
+    .mincho {
+      font-family: 'Shippori Mincho', serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-img {
+      height: 32px;
+      width: auto;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .header-nav > a,
+    .nav-dropdown-trigger {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--black);
+      transition: color 0.3s;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+
+    .header-nav > a:hover,
+    .nav-dropdown-trigger:hover {
+      color: var(--green);
+    }
+
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--white);
+      border: 1px solid var(--gray-light);
+      border-radius: 4px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      min-width: 160px;
+      padding: 0.5rem 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0.2s;
+      z-index: 1001;
+      margin-top: 0.5rem;
+    }
+
+    .nav-dropdown:hover .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-dropdown-menu a {
+      display: block;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.85rem;
+      color: var(--black);
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-dropdown-menu a:hover {
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .header-contact {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--white) !important;
+      background: var(--green);
+      padding: 0.6rem 1.5rem;
+      border-radius: 2px;
+      transition: opacity 0.3s;
+    }
+
+    .header-contact:hover {
+      opacity: 0.85;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: var(--white);
+      padding-top: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-catch {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 600;
+      line-height: 1.6;
+      color: var(--black);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-catch .highlight {
+      position: relative;
+      display: inline;
+    }
+
+    .hero-catch .highlight::after {
+      content: '';
+      position: absolute;
+      bottom: 0.1em;
+      left: 0;
+      right: 0;
+      height: 0.35em;
+      background: var(--green-light);
+      z-index: -1;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--gray-dark);
+      margin-bottom: 2rem;
+      line-height: 2;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 1rem 2rem;
+      border-radius: 2px;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.85;
+    }
+
+    .btn-secondary {
+      background: var(--white);
+      color: var(--green);
+      border: 1px solid var(--green);
+    }
+
+    .btn-secondary:hover {
+      background: var(--green-light);
+    }
+
+    /* 強烈な個性：右側の巨大テキスト */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-big-text {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(6rem, 18vw, 14rem);
+      font-weight: 700;
+      color: var(--green);
+      opacity: 0.08;
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .hero-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 100%;
+    }
+
+    .hero-message-main {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 600;
+      color: var(--black);
+      line-height: 1.8;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== PROBLEM ===== */
+    .problem {
+      padding: 6rem 2rem;
+      background: var(--green);
+      color: var(--white);
+    }
+
+    .problem-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .problem-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 600;
+      line-height: 2;
+      margin-bottom: 2rem;
+    }
+
+    .problem-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .problem-item {
+      background: rgba(255,255,255,0.15);
+      padding: 0.6rem 1.2rem;
+      border-radius: 2px;
+      font-size: 0.9rem;
+    }
+
+    .problem-answer {
+      font-size: 1.1rem;
+      line-height: 2;
+      opacity: 0.9;
+    }
+
+    .problem-answer strong {
+      font-weight: 600;
+      opacity: 1;
+    }
+
+    /* ===== SERVICES ===== */
+    .services {
+      padding: 6rem 2rem;
+      background: var(--white);
+    }
+
+    .services-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .service-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      gap: 2rem;
+      align-items: center;
+      padding: 2rem;
+      background: var(--bg);
+      border-radius: 4px;
+      transition: box-shadow 0.3s;
+    }
+
+    .service-card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .service-num {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.1em;
+    }
+
+    .service-name {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.3rem;
+    }
+
+    .service-desc {
+      font-size: 0.85rem;
+      color: var(--gray-dark);
+    }
+
+    .service-right {
+      text-align: right;
+    }
+
+    .service-price {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+    }
+
+    .service-link {
+      font-size: 0.8rem;
+      color: var(--gray);
+      transition: color 0.3s;
+    }
+
+    .service-link:hover {
+      color: var(--green);
+    }
+
+    /* ===== REASON ===== */
+    .reason {
+      padding: 6rem 2rem;
+      background: var(--bg);
+    }
+
+    .reason-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .reason-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .reason-block {
+      padding: 2rem;
+      background: var(--white);
+      border-radius: 4px;
+    }
+
+    .reason-block-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .reason-list {
+      list-style: none;
+    }
+
+    .reason-list li {
+      font-size: 0.9rem;
+      color: var(--gray-dark);
+      padding: 0.5rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .reason-list li::before {
+      content: '●';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-size: 0.5rem;
+      top: 0.8rem;
+    }
+
+    .reason-list.negative li::before {
+      content: '×';
+      color: #C41E3A;
+      font-size: 0.75rem;
+      top: 0.6rem;
+    }
+
+    /* ===== TRUST ===== */
+    .trust {
+      padding: 5rem 2rem;
+      background: var(--white);
+    }
+
+    .trust-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .trust-item-num {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--green);
+      line-height: 1.2;
+    }
+
+    .trust-item-num span {
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    .trust-item-label {
+      font-size: 0.8rem;
+      color: var(--gray-dark);
+      margin-top: 0.3rem;
+    }
+
+    /* ===== SEMINAR ===== */
+    .seminar {
+      padding: 6rem 2rem;
+      background: var(--bg);
+    }
+
+    .seminar-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .seminar-photos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .seminar-photo {
+      aspect-ratio: 4/3;
+      background: var(--gray-light);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .seminar-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .seminar-content {
+      padding: 1rem 0;
+    }
+
+    .seminar-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .seminar-text {
+      font-size: 0.95rem;
+      color: var(--gray-dark);
+      margin-bottom: 1.5rem;
+      line-height: 2;
+    }
+
+    .seminar-info {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .seminar-info-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .seminar-info-label {
+      font-size: 0.75rem;
+      color: var(--gray);
+    }
+
+    .seminar-info-value {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    /* ===== 2030 ===== */
+    .thesis {
+      padding: 6rem 2rem;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .thesis-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .thesis-year {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--green);
+      opacity: 0.5;
+      margin-bottom: 1rem;
+    }
+
+    .thesis-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 600;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .thesis-text {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.8);
+      line-height: 2;
+      margin-bottom: 2rem;
+    }
+
+    .thesis-link {
+      display: inline-block;
+      font-size: 0.9rem;
+      color: var(--white);
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.5);
+      transition: border-color 0.3s;
+    }
+
+    .thesis-link:hover {
+      border-color: var(--white);
+    }
+
+    /* ===== CTA ===== */
+    .cta {
+      padding: 6rem 2rem;
+      background: var(--green-light);
+      text-align: center;
+    }
+
+    .cta-inner {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+
+    .cta-text {
+      font-size: 0.95rem;
+      color: var(--gray-dark);
+      margin-bottom: 2rem;
+      line-height: 2;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--black);
+      color: var(--white);
+      padding: 4rem 2rem 2rem;
+    }
+
+    .footer-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 2fr;
+      gap: 4rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo-img {
+      height: 28px;
+      width: auto;
+    }
+
+    .footer-info {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 2;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .footer-nav-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 1rem;
+    }
+
+    .footer-nav ul {
+      list-style: none;
+    }
+
+    .footer-nav li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-nav a {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.8);
+      transition: color 0.3s;
+    }
+
+    .footer-nav a:hover {
+      color: var(--white);
+    }
+
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+      }
+
+      .hero-cta {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        order: -1;
+      }
+
+      .hero-big-text {
+        font-size: 8rem;
+      }
+
+      .service-card {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .service-right {
+        text-align: center;
+      }
+
+      .reason-content {
+        grid-template-columns: 1fr;
+      }
+
+      .trust-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .seminar-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .footer-nav {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 1002;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--black);
+      margin: 5px 0;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Mobile Nav */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--white);
+      padding: 5rem 2rem 2rem;
+      z-index: 999;
+      overflow-y: auto;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .mobile-nav.open {
+      display: flex;
+    }
+    .mobile-nav a {
+      display: block;
+      padding: 0.8rem 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--black);
+      border-bottom: 1px solid var(--gray-light);
+    }
+    .mobile-nav-group {
+      padding: 0.5rem 0;
+    }
+    .mobile-nav-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+    }
+    .mobile-nav-group a {
+      padding-left: 1rem;
+      font-size: 0.95rem;
+    }
+    .mobile-nav-cta {
+      margin-top: 1rem;
+      background: var(--green);
+      color: var(--white) !important;
+      text-align: center;
+      padding: 1rem !important;
+      border-radius: 2px;
+      border-bottom: none !important;
+    }
+
+    @media (max-width: 900px) {
+      .header-nav {
+        display: none;
+      }
+      .hamburger {
+        display: block;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-nav {
+        display: none;
+      }
+
+      .hero-big-text {
+        font-size: 5rem;
+      }
+
+      .problem-list {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .seminar-photos {
+        grid-template-columns: 1fr;
+      }
+
+      .seminar-info {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .trust-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .hero-content {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: heroIn 0.9s ease 0.2s forwards;
+    }
+    .hero-visual {
+      opacity: 0;
+      animation: heroIn 0.9s ease 0.5s forwards;
+    }
+    @keyframes heroIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    header {
+      transition: box-shadow 0.3s ease;
+    }
+    header.scrolled {
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+    .btn {
+      transition: all 0.3s ease, transform 0.2s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 4px 12px rgba(45, 90, 39, 0.3);
+    }
+    .service-card {
+      transition: box-shadow 0.3s, transform 0.2s ease;
+    }
+    .service-card:hover {
+      transform: translateX(4px);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in, .hero-content, .hero-visual {
+        opacity: 1; transform: none; animation: none; transition: none;
+      }
+      .btn:hover, .service-card:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="/" class="logo" aria-label="Ciras株式会社 ホーム"><img src="/images/logo-green.png" alt="Ciras" class="logo-img"></a>
+      <nav class="header-nav">
+        <div class="nav-dropdown">
+          <a href="#" class="nav-dropdown-trigger">サービス</a>
+          <div class="nav-dropdown-menu">
+            <a href="/ai-komon.html">Ciras AI顧問</a>
+            <a href="/kagemusha.html">影武者</a>
+            <a href="/web.html">Web制作</a>
+          </div>
+        </div>
+        <a href="/seminar.html">セミナー</a>
+        <div class="nav-dropdown">
+          <a href="/company.html" class="nav-dropdown-trigger">会社概要</a>
+          <div class="nav-dropdown-menu">
+            <a href="/voice.html">お客様の声</a>
+            <a href="/faq.html">よくある質問</a>
+          </div>
+        </div>
+        <a href="/partner.html">採用・協業</a>
+        <a href="/contact.html" class="header-contact">お問い合わせ</a>
+      </nav>
+      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+    <div class="mobile-nav">
+      <div class="mobile-nav-group">
+        <p class="mobile-nav-label">サービス</p>
+        <a href="/ai-komon.html">Ciras AI顧問</a>
+        <a href="/kagemusha.html">影武者</a>
+        <a href="/web.html">Web制作</a>
+      </div>
+      <a href="/seminar.html">セミナー</a>
+      <div class="mobile-nav-group">
+        <p class="mobile-nav-label">会社概要</p>
+        <a href="/company.html">会社概要</a>
+        <a href="/voice.html">お客様の声</a>
+        <a href="/faq.html">よくある質問</a>
+      </div>
+      <a href="/partner.html">採用・協業</a>
+      <a href="/blog.html">ブログ</a>
+      <a href="/contact.html" class="mobile-nav-cta">お問い合わせ</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <h1 class="hero-catch">
+          AI活用で<br>
+          経営の「迷い」を減らし<br>
+          <span class="highlight">「決断」</span>を早くする
+        </h1>
+        <p class="hero-sub">
+          愛媛・松山から、中小企業のAI活用を支援します。<br>
+          「何を、どう使うか」を整理し、業務で使える形まで落とし込みます。
+        </p>
+        <div class="hero-cta">
+          <a href="/contact.html" class="btn btn-primary">お問い合わせ</a>
+          <a href="/ai-komon.html" class="btn btn-secondary">サービスを見る</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-big-text">決断</div>
+        <div class="hero-message">
+          <p class="hero-message-main">
+            迷いを減らし<br>
+            実行を増やす
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section class="problem fade-in">
+    <div class="problem-inner">
+      <h2 class="problem-title">
+        こんなお悩み、ありませんか？
+      </h2>
+      <div class="problem-list">
+        <span class="problem-item">AIを試したが定着しない</span>
+        <span class="problem-item">何から始めればいいかわからない</span>
+        <span class="problem-item">相談できる相手がいない</span>
+        <span class="problem-item">ホームページが古い</span>
+        <span class="problem-item">人手が足りない</span>
+      </div>
+      <p class="problem-answer">
+        問題は、技術ではありません。<br>
+        <strong>「何に使うか」「どこから始めるか」が決まらないこと</strong>です。<br>
+        Cirasは、道具の説明では終わりません。御社の業務に合わせて、使える形まで一緒に作ります。
+      </p>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="services fade-in">
+    <div class="services-inner">
+      <div class="section-header">
+        <p class="section-label">SERVICE</p>
+        <h2 class="section-title mincho">サービス</h2>
+      </div>
+      <div class="service-list">
+        <a href="/ai-komon.html" class="service-card">
+          <div>
+            <p class="service-num">SERVICE 01</p>
+          </div>
+          <div>
+            <h3 class="service-name">Ciras AI顧問</h3>
+            <p class="service-desc">月1回のレクチャーと日常のチャット相談。迷う時間を減らし、決断を早くします。</p>
+          </div>
+          <div class="service-right">
+            <p class="service-price">月額 33,000円</p>
+            <span class="service-link">詳しく見る →</span>
+          </div>
+        </a>
+        <a href="/web.html" class="service-card">
+          <div>
+            <p class="service-num">SERVICE 02</p>
+          </div>
+          <div>
+            <h3 class="service-name">Web制作</h3>
+            <p class="service-desc">AI検索（AIが答える検索）で、会社情報が<strong>読み違えられない</strong>ホームページを作ります。強み・サービス・料金・よくある質問を整理し、引用されやすい形に整えます。</p>
+          </div>
+          <div class="service-right">
+            <p class="service-price">220,000円〜（税込）</p>
+            <span class="service-link">詳しく見る →</span>
+          </div>
+        </a>
+        <a href="/kagemusha.html" class="service-card">
+          <div>
+            <p class="service-num">SERVICE 03</p>
+          </div>
+          <div>
+            <h3 class="service-name">影武者</h3>
+            <p class="service-desc">経営者の業務を実際に巻き取る代行サービス。アドバイスだけでなく、実務を担います。</p>
+          </div>
+          <div class="service-right">
+            <p class="service-price">月額 25万円〜</p>
+            <span class="service-link">詳しく見る →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reason -->
+  <section class="reason fade-in">
+    <div class="reason-inner">
+      <div class="section-header">
+        <p class="section-label">WHY CIRAS</p>
+        <h2 class="section-title mincho">なぜAI顧問が必要か</h2>
+      </div>
+      <div class="reason-content">
+        <p class="problem-answer" style="text-align:center; margin-bottom:2rem;"><strong>社内の判断が遅れるほど、ムダな手戻りが増えます。</strong></p>
+        <div class="reason-block">
+          <h3 class="reason-block-title">AI顧問がいると</h3>
+          <ul class="reason-list">
+            <li>迷う時間が減り、決断が早くなる</li>
+            <li>AIの選び方・使い方がブレなくなる</li>
+            <li>社内で使い方が統一され、継続しやすい</li>
+            <li>困った時の相談先があり、つまずきにくい</li>
+          </ul>
+        </div>
+        <div class="reason-block">
+          <h3 class="reason-block-title">AI顧問がいないと</h3>
+          <ul class="reason-list negative">
+            <li>試すだけで終わり、業務改善につながらない</li>
+            <li>使い方が人によって異なり、社内が混乱</li>
+            <li>詳しい担当者に負担が集中し、続かない</li>
+            <li>判断が遅れ、競合に後れを取る</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust -->
+  <section class="trust fade-in">
+    <div class="trust-inner">
+      <div class="section-header">
+        <p class="section-label">TRACK RECORD</p>
+        <h2 class="section-title mincho">実績</h2>
+      </div>
+      <div class="trust-grid">
+        <div class="trust-item">
+          <p class="trust-item-num">80<span>回+</span></p>
+          <p class="trust-item-label">セミナー開催</p>
+        </div>
+        <div class="trust-item">
+          <p class="trust-item-num">5,000<span>件+</span></p>
+          <p class="trust-item-label">相談対応</p>
+        </div>
+        <div class="trust-item">
+          <p class="trust-item-num">80<span>%+</span></p>
+          <p class="trust-item-label">3年以上継続率</p>
+        </div>
+        <div class="trust-item">
+          <p class="trust-item-num">10<span>回+</span></p>
+          <p class="trust-item-label">メディア掲載</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seminar -->
+  <section class="seminar fade-in">
+    <div class="seminar-inner">
+      <div class="seminar-photos">
+        <div class="seminar-photo"><img src="/images/seminar-1.jpg" alt="セミナー風景 - 講演の様子" loading="lazy"></div>
+        <div class="seminar-photo"><img src="/images/seminar-2.jpg" alt="セミナー風景 - 研修の様子" loading="lazy"></div>
+      </div>
+      <div class="seminar-content">
+        <p class="section-label">SEMINAR</p>
+        <h2 class="seminar-title mincho">セミナー・研修</h2>
+        <p class="seminar-text">
+          オンライン・対面で定期開催。<br>
+          企業研修や外部講師としても登壇しています。<br>
+          まずはセミナーから、という方も歓迎です。
+        </p>
+        <div class="seminar-info">
+          <div class="seminar-info-item">
+            <span class="seminar-info-label">オンラインセミナー</span>
+            <span class="seminar-info-value">原則毎月開催（内容は都度案内）</span>
+          </div>
+          <div class="seminar-info-item">
+            <span class="seminar-info-label">生成AI活用塾</span>
+            <span class="seminar-info-value">対面（参加費は都度案内）</span>
+          </div>
+        </div>
+        <a href="/seminar.html" class="btn btn-secondary">セミナー情報を見る</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2030 -->
+  <section class="thesis fade-in">
+    <div class="thesis-inner">
+      <p class="thesis-year">2030</p>
+      <h2 class="thesis-title mincho">
+        検索の入口が、すでに変わり始めています
+      </h2>
+      <p class="thesis-text">
+        検索結果を開く前に、AIが要点をまとめて答える場面が増えています。<br>
+        そのとき材料になるのは、企業の「公式情報」です。<br>
+        御社の社名で検索したとき、住所・事業内容・強みは、正しくまとまっていますか。<br>
+        <strong>情報が古い／散らばっている／説明が足りない</strong>だけで、誤解の原因になります。<br>
+        だからこそ、今、会社情報を整えたホームページが必要です。
+      </p>
+      <a href="/web.html" class="thesis-link">Web制作について詳しく →</a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta fade-in">
+    <div class="cta-inner">
+      <h2 class="cta-title mincho">まずは、お気軽にご相談ください</h2>
+      <p class="cta-text">
+        「何を、どう使えばいいか」からで大丈夫です。<br>
+        状況を整理し、次の一手を一緒に決めます。<br>
+        ご相談は、フォーム／LINEからどうぞ。
+      </p>
+      <div class="cta-buttons">
+        <a href="/contact.html" class="btn btn-primary">お問い合わせ</a>
+        <a href="https://lin.ee/s2u6VUw" class="btn btn-secondary">LINEで相談</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand"><img src="/images/logo-white.png" alt="Ciras" class="footer-logo-img"></p>
+          <p class="footer-info">
+            Ciras株式会社<br>
+            〒790-0813 愛媛県松山市萱町3-2-3 9CROSS 501<br>
+            TEL: <a href="tel:050-3637-6324" style="color:inherit">050-3637-6324</a><br>
+            営業時間: 10:00〜17:30（土日祝休）
+          </p>
+        </div>
+        <div class="footer-nav">
+          <div>
+            <p class="footer-nav-title">SERVICE</p>
+            <ul>
+              <li><a href="/ai-komon.html">Ciras AI顧問</a></li>
+              <li><a href="/web.html">Web制作</a></li>
+              <li><a href="/kagemusha.html">影武者</a></li>
+              <li><a href="/seminar.html">セミナー</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-nav-title">COMPANY</p>
+            <ul>
+              <li><a href="/voice.html">お客様の声</a></li>
+              <li><a href="/faq.html">よくある質問</a></li>
+              <li><a href="/company.html">会社概要</a></li>
+              <li><a href="/blog.html">ブログ</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-nav-title">CONTACT</p>
+            <ul>
+              <li><a href="/contact.html">お問い合わせ</a></li>
+              <li><a href="/partner.html">採用・協業</a></li>
+              <li><a href="https://lin.ee/s2u6VUw">LINE</a></li>
+              <li><a href="/privacy.html">プライバシーポリシー</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 Ciras Inc.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){var t=document.querySelectorAll('.fade-in');if(!('IntersectionObserver' in window)){t.forEach(function(e){e.classList.add('visible')});return}var o=new IntersectionObserver(function(e){e.forEach(function(n){if(n.isIntersecting){n.target.classList.add('visible');o.unobserve(n.target)}})},{threshold:.15,rootMargin:'0px 0px -40px 0px'});t.forEach(function(e){o.observe(e)})})();
+    (function(){var h=document.querySelector('header'),s=false;window.addEventListener('scroll',function(){if(window.scrollY>60&&!s){h.classList.add('scrolled');s=true}else if(window.scrollY<=60&&s){h.classList.remove('scrolled');s=false}},{passive:true})})();
+    (function(){var btn=document.querySelector('.hamburger'),nav=document.querySelector('.mobile-nav');if(btn&&nav){btn.addEventListener('click',function(){btn.classList.toggle('active');nav.classList.toggle('open');document.body.style.overflow=nav.classList.contains('open')?'hidden':''});nav.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){btn.classList.remove('active');nav.classList.remove('open');document.body.style.overflow=''})});}})();
+  </script>
+
+</body>
+</html>
