@@ -20,4 +20,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://ciras.jp/sitemap.xml
+Sitemap: https://www.ciras.jp/sitemap.xml
