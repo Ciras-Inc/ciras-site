@@ -1,0 +1,21 @@
+# Cloudflare Pages serves .html files without extension automatically
+
+# === 旧Wix/WordPress URL → 新URL 301リダイレクト ===
+/about              /company.html       301
+/blog               /blog.html          301
+
+# 旧ブログ記事（個別ページが存在しないため、ブログ一覧へ）
+/post/241128        /blog.html          301
+/post/241130        /blog.html          301
+/post/241201        /blog.html          301
+/post/241031        /blog.html          301
+/post/241112        /blog.html          301
+/post/241118        /blog.html          301
+/post/241107        /blog.html          301
+/post/241030        /blog.html          301
+/post/241125        /blog.html          301
+/post/241103        /blog.html          301
+/post/20220904      /blog.html          301
+
+# 旧Wixブログのキャッチオール（上記以外の未知の記事URL用）
+/post/*             /blog.html          301
