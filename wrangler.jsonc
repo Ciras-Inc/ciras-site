@@ -3,14 +3,5 @@
   "compatibility_date": "2026-02-01",
   "assets": {
     "directory": "./"
-  },
-  // D1 データベース（予約・商品管理用）
-  // ※ database_id は Cloudflare Dashboard で D1 作成後に取得した値に置き換えてください
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "kimuraya-reservation",
-      "database_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-    }
-  ]
+  }
 }
