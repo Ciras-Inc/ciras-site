@@ -1,70 +1,54 @@
 /**
- * Stripe Webhook ハンドラー
- *
- * POST /api/webhook
- *
- * Stripe Dashboard > Developers > Webhooks で以下を設定:
- *   エンドポイントURL: https://www.ciras.jp/api/webhook
- *   イベント: checkout.session.completed
- *
- * 環境変数:
- *   STRIPE_WEBHOOK_SECRET - Webhook 署名シークレット (whsec_...)
+ * Stripe Webhook ハンドラー（DB連携版）
+ * checkout.session.completed → 予約の payment_status を 'paid' に更新
  */
 
 export async function onRequestPost(context) {
   const { request, env } = context;
+  const DB = env.DB;
 
   const WEBHOOK_SECRET = env.STRIPE_WEBHOOK_SECRET;
   if (!WEBHOOK_SECRET) {
-    console.error('STRIPE_WEBHOOK_SECRET is not set');
     return new Response('Webhook secret not configured', { status: 500 });
   }
 
   const signature = request.headers.get('stripe-signature');
   if (!signature) {
-    return new Response('Missing stripe-signature header', { status: 400 });
+    return new Response('Missing stripe-signature', { status: 400 });
   }
 
   const rawBody = await request.text();
 
-  // Stripe 署名検証
   const isValid = await verifyStripeSignature(rawBody, signature, WEBHOOK_SECRET);
   if (!isValid) {
-    console.error('Invalid Stripe signature');
     return new Response('Invalid signature', { status: 400 });
   }
 
   const event = JSON.parse(rawBody);
 
-  switch (event.type) {
-    case 'checkout.session.completed': {
-      const session = event.data.object;
-      const metadata = session.metadata || {};
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+    const reservationNumber = session.metadata?.reservation_number;
 
-      // 予約情報をログに記録
-      console.log('=== 予約完了 ===');
-      console.log('Session ID:', session.id);
-      console.log('お客様名:', metadata.customer_name);
-      console.log('電話番号:', metadata.customer_phone);
-      console.log('メール:', session.customer_email);
-      console.log('来店日:', metadata.visit_date);
-      console.log('来店時間:', metadata.visit_time);
-      console.log('早期割引:', metadata.is_early_bird);
-      console.log('合計:', metadata.total_amount, '円');
-      console.log('備考:', metadata.customer_note);
-      console.log('支払い状態:', session.payment_status);
-      console.log('================');
+    if (reservationNumber) {
+      // 決済完了 → payment_status を paid に更新
+      await DB.prepare(
+        "UPDATE reservations SET payment_status = 'paid', updated_at = datetime('now') WHERE reservation_number = ? AND payment_method = 'credit_card'"
+      ).bind(reservationNumber).run();
 
-      // --- ここに追加処理を記述 ---
-      // 例: メール通知、DB保存、スプレッドシート連携など
-      // await sendNotificationEmail(metadata, session);
-      // await saveToDatabase(metadata, session);
+      console.log(`Payment completed for reservation: ${reservationNumber}`);
 
-      break;
+      // 通知送信
+      try {
+        const settings = await getSettings(DB);
+        const reservation = await DB.prepare('SELECT * FROM reservations WHERE reservation_number = ?').bind(reservationNumber).first();
+        if (reservation) {
+          await sendNotifications(env, settings, reservation);
+        }
+      } catch (e) {
+        console.error('Notification error:', e);
+      }
     }
-
-    default:
-      console.log('Unhandled event type:', event.type);
   }
 
   return new Response(JSON.stringify({ received: true }), {
@@ -73,10 +57,47 @@ export async function onRequestPost(context) {
   });
 }
 
-/**
- * Stripe Webhook 署名の検証
- * stripe-signature ヘッダーの t= と v1= を使って HMAC-SHA256 で検証
- */
+async function getSettings(DB) {
+  const { results } = await DB.prepare('SELECT key, value FROM store_settings').all();
+  const s = {};
+  for (const r of results) s[r.key] = r.value;
+  return s;
+}
+
+async function sendNotifications(env, settings, reservation) {
+  const payLabel = 'クレジットカード（決済済み）';
+  const promises = [];
+
+  if (settings.notification_email) {
+    promises.push(
+      fetch('https://api.mailchannels.net/tx/v1/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          personalizations: [{ to: [{ email: settings.notification_email }] }],
+          from: { email: 'noreply@ciras.jp', name: settings.store_name || '精肉店予約システム' },
+          subject: `【新規予約・決済済】${reservation.customer_name}様 ${reservation.visit_date} ${reservation.visit_time}`,
+          content: [{ type: 'text/plain', value: `新しい予約が入りました（カード決済済み）。\n\n予約番号: ${reservation.reservation_number}\nお客様: ${reservation.customer_name}\n来店: ${reservation.visit_date} ${reservation.visit_time}\n合計: ¥${reservation.total_amount}\n決済: ${payLabel}` }],
+        }),
+      }).catch(console.error)
+    );
+  }
+
+  if (settings.notification_line_webhook) {
+    promises.push(
+      fetch(settings.notification_line_webhook, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: `【新規予約・決済済】\n${reservation.customer_name}様\n${reservation.visit_date} ${reservation.visit_time}\n¥${reservation.total_amount}\n決済: ${payLabel}\n予約番号: ${reservation.reservation_number}`,
+        }),
+      }).catch(console.error)
+    );
+  }
+
+  await Promise.allSettled(promises);
+}
+
 async function verifyStripeSignature(payload, sigHeader, secret) {
   try {
     const parts = sigHeader.split(',').reduce((acc, part) => {
@@ -84,35 +105,15 @@ async function verifyStripeSignature(payload, sigHeader, secret) {
       acc[key.trim()] = value;
       return acc;
     }, {});
-
     const timestamp = parts['t'];
     const expectedSig = parts['v1'];
-
     if (!timestamp || !expectedSig) return false;
-
-    // タイムスタンプが5分以内か確認（リプレイ攻撃防止）
-    const age = Math.floor(Date.now() / 1000) - parseInt(timestamp, 10);
-    if (age > 300) return false;
-
-    const signedPayload = `${timestamp}.${payload}`;
+    if (Math.floor(Date.now() / 1000) - parseInt(timestamp, 10) > 300) return false;
 
     const encoder = new TextEncoder();
-    const key = await crypto.subtle.importKey(
-      'raw',
-      encoder.encode(secret),
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['sign']
-    );
-
-    const signatureBuffer = await crypto.subtle.sign('HMAC', key, encoder.encode(signedPayload));
-    const computedSig = Array.from(new Uint8Array(signatureBuffer))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
-
-    return computedSig === expectedSig;
-  } catch (err) {
-    console.error('Signature verification error:', err);
-    return false;
-  }
+    const key = await crypto.subtle.importKey('raw', encoder.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+    const sig = await crypto.subtle.sign('HMAC', key, encoder.encode(`${timestamp}.${payload}`));
+    const computed = Array.from(new Uint8Array(sig)).map(b => b.toString(16).padStart(2, '0')).join('');
+    return computed === expectedSig;
+  } catch { return false; }
 }

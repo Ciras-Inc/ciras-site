@@ -10,7 +10,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ご予約完了｜精肉店オンライン予約｜Ciras（シラス）株式会社</title>
+  <title>ご予約完了｜木村屋精肉店 オンライン予約</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" href="images/favicon.ico" sizes="any">
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
@@ -190,10 +190,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="result-icon">
         <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
       </div>
-      <h1 class="result-title">ご予約・お支払いが完了しました</h1>
+      <h1 class="result-title">ご予約が完了しました</h1>
+      <div id="reservation-details" style="margin-bottom:1.5rem;"></div>
       <p class="result-text">
         ご予約ありがとうございます。<br>
-        ご登録のメールアドレスに確認メールをお送りしました。<br><br>
         ご来店日時にお取り置き商品をお渡しいたします。<br>
         ご不明な点がございましたら、お気軽にお問い合わせください。
       </p>
@@ -257,6 +257,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <script>
     (function(){var h=document.querySelector('header'),s=false;window.addEventListener('scroll',function(){if(window.scrollY>60&&!s){h.classList.add('scrolled');s=true}else if(window.scrollY<=60&&s){h.classList.remove('scrolled');s=false}},{passive:true})})();
     (function(){var btn=document.querySelector('.hamburger'),nav=document.querySelector('.mobile-nav');if(btn&&nav){btn.addEventListener('click',function(){btn.classList.toggle('active');nav.classList.toggle('open');document.body.style.overflow=nav.classList.contains('open')?'hidden':''});nav.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){btn.classList.remove('active');nav.classList.remove('open');document.body.style.overflow=''})});}})();
+    // 予約番号・決済方法の表示
+    (function(){
+      var params = new URLSearchParams(window.location.search);
+      var num = params.get('reservation');
+      var method = params.get('method');
+      var el = document.getElementById('reservation-details');
+      if (!num) { el.style.display='none'; return; }
+      var methodLabels = { credit_card:'クレジットカード（決済済み）', paypay:'PayPay（来店時お支払い）', cash:'現金（来店時お支払い）' };
+      var label = methodLabels[method] || 'クレジットカード（決済済み）';
+      el.innerHTML = '<div style="background:#E8F0E6;border:1px solid #2D5A27;border-radius:6px;padding:1.2rem;text-align:left;font-size:0.9rem;">'
+        + '<div style="margin-bottom:0.5rem;"><strong>予約番号:</strong> <span style="font-size:1.1rem;font-weight:700;color:#2D5A27;">' + num + '</span></div>'
+        + '<div><strong>お支払い方法:</strong> ' + label + '</div>'
+        + '</div>';
+    })();
   </script>
 </body>
 </html>
