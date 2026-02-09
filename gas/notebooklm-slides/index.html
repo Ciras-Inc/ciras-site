@@ -67,7 +67,6 @@
     .btn-primary:disabled { background: #94bef7; cursor: not-allowed; }
     .btn-secondary { background: #fff; color: var(--primary); border: 1px solid var(--border); }
     .btn-secondary:hover { background: #f1f3f4; }
-    .btn-sm { padding: 6px 14px; font-size: 13px; margin-top: 8px; }
 
     .result { padding: 16px; border-radius: 8px; margin-top: 16px; font-size: 14px; }
     .result.success { background: #e6f4ea; border: 1px solid #0d904f; color: #137333; }
@@ -101,13 +100,11 @@
     }
     .gemini-badge.ok { background: #e6f4ea; color: #137333; }
     .gemini-badge.ng { background: #fce8e6; color: #c5221f; }
-
     .checkbox-label {
       display: flex; align-items: center; gap: 8px; margin-top: 12px;
       cursor: pointer; font-size: 14px; color: var(--text);
     }
     .checkbox-label input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
-
     .hint { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
   </style>
 </head>
@@ -123,13 +120,11 @@
 
   <!-- ===== 新規作成タブ ===== -->
   <div id="tab-create" class="tab-content active">
-
-    <!-- Gemini API 設定 -->
     <div class="card">
       <h2>AI 解析設定 <span id="geminiStatus" class="gemini-badge ng">未設定</span></h2>
       <p class="hint">
-        Gemini API を使うと、PDF 内のテキスト・画像・背景を AI が解析し、
-        テキストを個別に編集可能なテキストボックスとしてスライドに配置します。
+        Gemini API でスライドを解析し、テキスト・イラスト・背景を個別の
+        編集可能な要素に分離して Google スライドを再構築します。
       </p>
       <label>Gemini API キー</label>
       <div style="display:flex; gap:8px">
@@ -140,14 +135,10 @@
         Google AI Studio（<a href="https://aistudio.google.com/apikey" target="_blank">https://aistudio.google.com/apikey</a>）で無料取得できます。
       </p>
       <div id="apiKeyResult"></div>
-
       <label class="checkbox-label">
         <input type="checkbox" id="useGemini" checked>
         Gemini AI でテキスト・画像を分離する（推奨）
       </label>
-      <p class="hint">
-        OFF にすると PDF.js のテキスト抽出（精度が低い）にフォールバックします。
-      </p>
     </div>
 
     <div class="card">
@@ -260,23 +251,6 @@
         <button class="btn btn-primary" onclick="doReplaceImage()">差し替え</button>
         <div id="imgResult"></div>
       </div>
-      <div class="card">
-        <h2>全画像のサイズ・位置を統一</h2>
-        <div class="row">
-          <div><label>左 (pt)</label><input type="text" id="uniLeft" value="0"></div>
-          <div><label>上 (pt)</label><input type="text" id="uniTop" value="0"></div>
-          <div><label>幅 (pt)</label><input type="text" id="uniWidth" value="720"></div>
-          <div><label>高さ (pt)</label><input type="text" id="uniHeight" value="405"></div>
-        </div>
-        <button class="btn btn-primary" onclick="doUnifyImages()">統一する</button>
-        <div id="unifyResult"></div>
-      </div>
-      <div class="card">
-        <h2>背景画像を一括削除</h2>
-        <p class="hint">Gemini AI で作成したスライドから背景画像を削除し、テキストボックスのみ残します。</p>
-        <button class="btn btn-secondary" onclick="doRemoveBgImages()">背景画像を削除</button>
-        <div id="bgRemoveResult"></div>
-      </div>
     </div>
     <div class="progress" id="editProgress"><div class="spinner"></div><span>処理中...</span></div>
   </div>
@@ -325,7 +299,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 // グローバル変数
 // ========================================================
 var uploadedFiles = [];
-var BATCH_SIZE = 5; // Gemini 解析ありの場合は小さめのバッチ
+var BATCH_SIZE = 3;
 
 // ========================================================
 // タブ切り替え
@@ -345,36 +319,23 @@ function checkApiKey() {
   google.script.run
     .withSuccessHandler(function(has) {
       var badge = document.getElementById('geminiStatus');
-      if (has) {
-        badge.textContent = '設定済み';
-        badge.className = 'gemini-badge ok';
-      } else {
-        badge.textContent = '未設定';
-        badge.className = 'gemini-badge ng';
-      }
+      if (has) { badge.textContent = '設定済み'; badge.className = 'gemini-badge ok'; }
+      else { badge.textContent = '未設定'; badge.className = 'gemini-badge ng'; }
     })
     .hasGeminiApiKey();
 }
-
 function saveApiKey() {
   var key = document.getElementById('geminiApiKey').value.trim();
-  if (!key) {
-    showResult('apiKeyResult', 'error', 'API キーを入力してください。');
-    return;
-  }
+  if (!key) { showResult('apiKeyResult', 'error', 'API キーを入力してください。'); return; }
   google.script.run
     .withSuccessHandler(function() {
       showResult('apiKeyResult', 'success', 'API キーを保存しました。');
       document.getElementById('geminiApiKey').value = '';
       checkApiKey();
     })
-    .withFailureHandler(function(e) {
-      showResult('apiKeyResult', 'error', escHtml(e.message));
-    })
+    .withFailureHandler(function(e) { showResult('apiKeyResult', 'error', escHtml(e.message)); })
     .setGeminiApiKey(key);
 }
-
-// 初期化時に API キーの有無を確認
 checkApiKey();
 
 // ========================================================
@@ -382,19 +343,9 @@ checkApiKey();
 // ========================================================
 function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('dragover'); }
 function handleDragLeave(e) { e.currentTarget.classList.remove('dragover'); }
-function handleDrop(e) {
-  e.preventDefault();
-  e.currentTarget.classList.remove('dragover');
-  handleFiles(e.dataTransfer.files);
-}
-function handleFiles(fileList) {
-  for (var i = 0; i < fileList.length; i++) uploadedFiles.push(fileList[i]);
-  renderFileList();
-}
-function removeFile(index) {
-  uploadedFiles.splice(index, 1);
-  renderFileList();
-}
+function handleDrop(e) { e.preventDefault(); e.currentTarget.classList.remove('dragover'); handleFiles(e.dataTransfer.files); }
+function handleFiles(fileList) { for (var i = 0; i < fileList.length; i++) uploadedFiles.push(fileList[i]); renderFileList(); }
+function removeFile(index) { uploadedFiles.splice(index, 1); renderFileList(); }
 function renderFileList() {
   var html = '';
   uploadedFiles.forEach(function(f, i) {
@@ -407,135 +358,116 @@ function renderFileList() {
 }
 
 // ========================================================
-// PDF → 画像変換（ブラウザ側 PDF.js）
+// 画像領域切り抜き
 // ========================================================
 
 /**
- * PDF の各ページを JPEG としてレンダリング。
- * Gemini 使用時はテキスト抽出をスキップ（サーバー側で Gemini が行う）。
+ * 高解像度キャンバスから指定領域を PNG として切り抜く
  */
-async function renderPdfToImages(file, skipTextExtraction) {
-  var arrayBuffer = await file.arrayBuffer();
-  var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-  var numPages = pdf.numPages;
-  var pages = [];
+function cropRegion(canvas, region) {
+  var sx = Math.round(region.x * canvas.width);
+  var sy = Math.round(region.y * canvas.height);
+  var sw = Math.round(region.width * canvas.width);
+  var sh = Math.round(region.height * canvas.height);
+  sx = Math.max(0, sx);
+  sy = Math.max(0, sy);
+  sw = Math.min(sw, canvas.width - sx);
+  sh = Math.min(sh, canvas.height - sy);
+  if (sw < 2 || sh < 2) return null;
 
-  for (var i = 1; i <= numPages; i++) {
-    updateProgress('PDF ページ変換中... (' + i + '/' + numPages + ')', i / numPages * 40);
-
-    var page = await pdf.getPage(i);
-    var viewport1x = page.getViewport({ scale: 1.0 });
-    var pdfW = viewport1x.width;
-    var pdfH = viewport1x.height;
-
-    // スケール 2.0 で高画質レンダリング
-    var viewport = page.getViewport({ scale: 2.0 });
-    var canvas = document.createElement('canvas');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    var ctx = canvas.getContext('2d');
-    await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-
-    var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-    var base64 = dataUrl.split(',')[1];
-    canvas.width = 0;
-    canvas.height = 0;
-
-    var pageData = {
-      fileName: 'page_' + i + '.jpg',
-      mimeType: 'image/jpeg',
-      data: base64
-    };
-
-    // Gemini 不使用時のみクライアント側テキスト抽出
-    if (!skipTextExtraction) {
-      pageData.pageWidth = pdfW;
-      pageData.pageHeight = pdfH;
-      pageData.textBlocks = await extractTextBlocks(page, pdfW, pdfH);
-    }
-
-    pages.push(pageData);
-  }
-
-  return pages;
+  var crop = document.createElement('canvas');
+  crop.width = sw;
+  crop.height = sh;
+  var ctx = crop.getContext('2d');
+  ctx.drawImage(canvas, sx, sy, sw, sh, 0, 0, sw, sh);
+  var data = crop.toDataURL('image/png').split(',')[1];
+  crop.width = 0;
+  crop.height = 0;
+  return data;
 }
 
 /**
- * PDF.js の getTextContent() でテキストを抽出（フォールバック用）
+ * 高解像度キャンバスから低解像度の解析用 JPEG を生成
  */
-async function extractTextBlocks(page, pageWidth, pageHeight) {
-  var textContent = await page.getTextContent();
-  var items = textContent.items;
-  if (!items || items.length === 0) return [];
+function createAnalysisImage(highResCanvas) {
+  var lo = document.createElement('canvas');
+  lo.width = Math.round(highResCanvas.width / 2);
+  lo.height = Math.round(highResCanvas.height / 2);
+  var ctx = lo.getContext('2d');
+  ctx.drawImage(highResCanvas, 0, 0, lo.width, lo.height);
+  var data = lo.toDataURL('image/jpeg', 0.7).split(',')[1];
+  lo.width = 0;
+  lo.height = 0;
+  return data;
+}
 
-  var rawItems = [];
-  for (var i = 0; i < items.length; i++) {
-    var item = items[i];
-    if (!item.str || !item.str.trim()) continue;
-    var tx = item.transform;
-    var fontSize = Math.max(Math.abs(tx[0]), Math.abs(tx[3]));
-    if (fontSize < 1) fontSize = 12;
-    var x = tx[4];
-    var y = pageHeight - tx[5] - fontSize;
-    rawItems.push({
-      text: item.str, x: x, y: y, fontSize: Math.round(fontSize),
-      width: item.width || fontSize * item.str.length * 0.6, height: fontSize * 1.3
-    });
-  }
-
-  rawItems.sort(function(a, b) {
-    var dy = a.y - b.y;
-    if (Math.abs(dy) < a.fontSize * 0.5) return a.x - b.x;
-    return dy;
+/**
+ * 画像ファイルを Canvas に読み込む
+ */
+function loadImageToCanvas(file) {
+  return new Promise(function(resolve, reject) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(img.src);
+      resolve(canvas);
+    };
+    img.onerror = reject;
+    img.src = URL.createObjectURL(file);
   });
+}
 
-  var blocks = [];
-  var current = null;
-  for (var i = 0; i < rawItems.length; i++) {
-    var item = rawItems[i];
-    if (!current) { current = newBlock(item); continue; }
-    var sameLine = Math.abs(item.y - current.lastY) < item.fontSize * 0.7;
-    var nextLine = !sameLine && (item.y - current.lastY) < item.fontSize * 2.0
-                   && Math.abs(item.x - current.x) < current.width * 0.5;
-    if (sameLine) {
-      current.text += item.text;
-      current.lastY = item.y;
-      current.endX = Math.max(current.endX, item.x + item.width);
-      current.width = current.endX - current.x;
-    } else if (nextLine) {
-      current.text += '\n' + item.text;
-      current.lastY = item.y;
-      current.height = item.y + item.height - current.y;
-      current.endX = Math.max(current.endX, item.x + item.width);
-      current.width = current.endX - current.x;
-    } else {
-      blocks.push(finalizeBlock(current));
-      current = newBlock(item);
+// ========================================================
+// Gemini 解析 + 画像切り抜きでページデータ構築
+// ========================================================
+
+/**
+ * Gemini の解析結果とキャンバスから、スライド1ページ分のデータを構築
+ * - texts: テキスト要素の配列
+ * - images: 切り抜き画像の配列（base64 + 位置情報）
+ * - backgroundColor: 背景色
+ */
+function buildPageData(analysis, canvas) {
+  var pageData = {
+    backgroundColor: analysis.backgroundColor || '#FFFFFF',
+    texts: [],
+    images: []
+  };
+
+  var elements = analysis.elements || [];
+  for (var i = 0; i < elements.length; i++) {
+    var el = elements[i];
+
+    if (el.type === 'text') {
+      pageData.texts.push({
+        content: el.content,
+        x: el.x, y: el.y, width: el.width, height: el.height,
+        fontSize: el.fontSize, fontColor: el.fontColor, bgColor: el.bgColor,
+        bold: el.bold, alignment: el.alignment
+      });
+    } else if (el.type === 'image') {
+      var cropped = cropRegion(canvas, el);
+      if (cropped) {
+        pageData.images.push({
+          data: cropped,
+          mimeType: 'image/png',
+          x: el.x, y: el.y, width: el.width, height: el.height
+        });
+      }
     }
   }
-  if (current) blocks.push(finalizeBlock(current));
-  return blocks;
-}
 
-function newBlock(item) {
-  return {
-    text: item.text, x: item.x, y: item.y, lastY: item.y,
-    fontSize: item.fontSize, width: item.width, height: item.height, endX: item.x + item.width
-  };
-}
-function finalizeBlock(block) {
-  return {
-    text: block.text,
-    x: Math.round(block.x * 10) / 10, y: Math.round(block.y * 10) / 10,
-    width: Math.round(Math.max(block.width, 20) * 10) / 10,
-    height: Math.round(Math.max(block.height, block.fontSize * 1.5) * 10) / 10,
-    fontSize: block.fontSize
-  };
+  return pageData;
 }
 
 // ========================================================
 // スライド作成メイン処理
 // ========================================================
+
 async function startCreation() {
   if (uploadedFiles.length === 0) return;
 
@@ -548,79 +480,11 @@ async function startCreation() {
   var useGemini = document.getElementById('useGemini').checked;
 
   try {
-    // Step 1: 全ファイルを画像データに変換
-    var allImageData = [];
-
-    for (var f = 0; f < uploadedFiles.length; f++) {
-      var file = uploadedFiles[f];
-
-      if (file.type === 'application/pdf') {
-        updateProgress(escHtml(file.name) + ' を変換中...', 0);
-        var pdfImages = await renderPdfToImages(file, useGemini);
-        allImageData = allImageData.concat(pdfImages);
-      } else {
-        updateProgress(escHtml(file.name) + ' を読み込み中...', 40);
-        var imgData = await readFileAsBase64(file);
-        allImageData.push(imgData);
-      }
+    if (useGemini) {
+      await startCreationGemini();
+    } else {
+      await startCreationBasic();
     }
-
-    if (allImageData.length === 0) {
-      throw new Error('画像データがありません。');
-    }
-
-    // Step 2: バッチでサーバーに送信
-    var title = document.getElementById('createTitle').value;
-    var shareMode = document.getElementById('createShareMode').value;
-    var emails = document.getElementById('createEmails').value;
-    var permission = document.getElementById('createPermission').value;
-    var presentationId = null;
-    var totalSlides = allImageData.length;
-    var batchSize = useGemini ? BATCH_SIZE : 10;
-
-    for (var batchStart = 0; batchStart < allImageData.length; batchStart += batchSize) {
-      var batch = allImageData.slice(batchStart, batchStart + batchSize);
-      var batchEnd = Math.min(batchStart + batchSize, allImageData.length);
-      var pct = 40 + (batchEnd / totalSlides) * 60;
-      var progressText = useGemini
-        ? 'AI 解析 + スライド作成中... (' + batchEnd + '/' + totalSlides + ')'
-        : 'スライド作成中... (' + batchEnd + '/' + totalSlides + ')';
-      updateProgress(progressText, pct);
-
-      if (batchStart === 0) {
-        var result = await callServer('createPresentation', {
-          files: batch,
-          title: title,
-          shareMode: shareMode,
-          emails: emails,
-          permission: permission,
-          useGemini: useGemini
-        });
-        presentationId = result.id;
-      } else {
-        await callServer('addSlidesToPresentation', {
-          presentationId: presentationId,
-          files: batch,
-          useGemini: useGemini
-        });
-      }
-    }
-
-    // 完了
-    hideProgress('createProgress');
-    document.getElementById('createProgressBar').classList.add('hidden');
-    var url = 'https://docs.google.com/presentation/d/' + presentationId + '/edit';
-    var geminiNote = useGemini
-      ? '<br><span style="font-size:12px;color:var(--text-sub)">Gemini AI でテキストを分離しました。各テキストボックスをクリックして編集できます。</span>'
-      : '';
-    showResult('createResult', 'success',
-      '<strong>' + escHtml(title) + '</strong> を作成しました（' + totalSlides + ' スライド）<br>' +
-      '<a href="' + url + '" target="_blank">Google スライドを開く</a>' + geminiNote +
-      '<br><span style="font-size:12px;color:var(--text-sub)">ID: ' + presentationId + '</span>'
-    );
-    uploadedFiles = [];
-    renderFileList();
-
   } catch (err) {
     hideProgress('createProgress');
     document.getElementById('createProgressBar').classList.add('hidden');
@@ -630,54 +494,236 @@ async function startCreation() {
   }
 }
 
+// ========================================================
+// Gemini フロー: 解析 → 切り抜き → スライド作成
+// ========================================================
+
+async function startCreationGemini() {
+  var allPages = [];
+  var totalFiles = uploadedFiles.length;
+
+  // Phase 1: 各ページを解析 + 画像領域を切り抜き
+  for (var f = 0; f < totalFiles; f++) {
+    var file = uploadedFiles[f];
+
+    if (file.type === 'application/pdf') {
+      var arrayBuffer = await file.arrayBuffer();
+      var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      var numPages = pdf.numPages;
+
+      for (var p = 1; p <= numPages; p++) {
+        var pageLabel = escHtml(file.name) + ' p.' + p + '/' + numPages;
+        updateProgress(pageLabel + ' レンダリング中...', (allPages.length / (numPages * totalFiles)) * 30);
+
+        // 高解像度レンダリング（キャンバスを保持）
+        var page = await pdf.getPage(p);
+        var viewport = page.getViewport({ scale: 2.0 });
+        var canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        var ctx = canvas.getContext('2d');
+        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+        // 低解像度 JPEG を Gemini 解析用に生成
+        updateProgress(pageLabel + ' AI 解析中...', 30 + (allPages.length / (numPages * totalFiles)) * 40);
+        var analyzeJpeg = createAnalysisImage(canvas);
+
+        // サーバー経由で Gemini API 呼び出し
+        var analysis;
+        try {
+          analysis = await callServer('analyzePageImage', { data: analyzeJpeg, mimeType: 'image/jpeg' });
+        } catch (e) {
+          // 解析失敗時: 全体画像をフォールバック
+          var fallbackData = canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+          allPages.push({
+            backgroundColor: '#FFFFFF',
+            texts: [],
+            images: [{ data: fallbackData, mimeType: 'image/jpeg', x: 0, y: 0, width: 1.0, height: 1.0 }]
+          });
+          canvas.width = 0;
+          canvas.height = 0;
+          continue;
+        }
+
+        // 解析結果 + キャンバスからページデータ構築
+        updateProgress(pageLabel + ' 画像切り抜き中...', 30 + (allPages.length / (numPages * totalFiles)) * 40);
+        var pageData = buildPageData(analysis, canvas);
+        allPages.push(pageData);
+
+        // キャンバスを解放
+        canvas.width = 0;
+        canvas.height = 0;
+      }
+    } else {
+      // 画像ファイル
+      updateProgress(escHtml(file.name) + ' 解析中...', 30);
+      var canvas = await loadImageToCanvas(file);
+      var analyzeJpeg = createAnalysisImage(canvas);
+
+      var analysis;
+      try {
+        analysis = await callServer('analyzePageImage', { data: analyzeJpeg, mimeType: 'image/jpeg' });
+        var pageData = buildPageData(analysis, canvas);
+        allPages.push(pageData);
+      } catch (e) {
+        var fallbackData = canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+        allPages.push({
+          backgroundColor: '#FFFFFF',
+          texts: [],
+          images: [{ data: fallbackData, mimeType: 'image/jpeg', x: 0, y: 0, width: 1.0, height: 1.0 }]
+        });
+      }
+      canvas.width = 0;
+      canvas.height = 0;
+    }
+  }
+
+  if (allPages.length === 0) throw new Error('ページデータがありません。');
+
+  // Phase 2: バッチでサーバーに送信してスライド作成
+  var title = document.getElementById('createTitle').value;
+  var shareMode = document.getElementById('createShareMode').value;
+  var emails = document.getElementById('createEmails').value;
+  var permission = document.getElementById('createPermission').value;
+  var presentationId = null;
+  var totalSlides = allPages.length;
+
+  for (var batchStart = 0; batchStart < allPages.length; batchStart += BATCH_SIZE) {
+    var batch = allPages.slice(batchStart, batchStart + BATCH_SIZE);
+    var batchEnd = Math.min(batchStart + BATCH_SIZE, allPages.length);
+    var pct = 70 + (batchEnd / totalSlides) * 30;
+    updateProgress('スライド作成中... (' + batchEnd + '/' + totalSlides + ')', pct);
+
+    if (batchStart === 0) {
+      var result = await callServer('createPresentationFromAnalysis', {
+        pages: batch, title: title, shareMode: shareMode, emails: emails, permission: permission
+      });
+      presentationId = result.id;
+    } else {
+      await callServer('addSlidesFromAnalysis', { presentationId: presentationId, pages: batch });
+    }
+  }
+
+  // 完了
+  hideProgress('createProgress');
+  document.getElementById('createProgressBar').classList.add('hidden');
+  var url = 'https://docs.google.com/presentation/d/' + presentationId + '/edit';
+  showResult('createResult', 'success',
+    '<strong>' + escHtml(title) + '</strong> を作成しました（' + totalSlides + ' スライド）<br>' +
+    '<a href="' + url + '" target="_blank">Google スライドを開く</a><br>' +
+    '<span style="font-size:12px;color:var(--text-sub)">テキスト・イラスト・背景が個別の要素として配置されています。</span><br>' +
+    '<span style="font-size:12px;color:var(--text-sub)">ID: ' + presentationId + '</span>'
+  );
+  uploadedFiles = [];
+  renderFileList();
+}
+
+// ========================================================
+// 基本フロー（Gemini なし: 全体画像のみ）
+// ========================================================
+
+async function startCreationBasic() {
+  var allImageData = [];
+
+  for (var f = 0; f < uploadedFiles.length; f++) {
+    var file = uploadedFiles[f];
+
+    if (file.type === 'application/pdf') {
+      var arrayBuffer = await file.arrayBuffer();
+      var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      var numPages = pdf.numPages;
+
+      for (var p = 1; p <= numPages; p++) {
+        updateProgress('PDF 変換中... (' + p + '/' + numPages + ')', (p / numPages) * 50);
+        var page = await pdf.getPage(p);
+        var viewport = page.getViewport({ scale: 2.0 });
+        var canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        var ctx = canvas.getContext('2d');
+        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+        var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        allImageData.push({ fileName: 'page_' + p + '.jpg', mimeType: 'image/jpeg', data: dataUrl.split(',')[1] });
+        canvas.width = 0;
+        canvas.height = 0;
+      }
+    } else {
+      updateProgress(escHtml(file.name) + ' 読み込み中...', 50);
+      allImageData.push(await readFileAsBase64(file));
+    }
+  }
+
+  if (allImageData.length === 0) throw new Error('画像データがありません。');
+
+  var title = document.getElementById('createTitle').value;
+  var shareMode = document.getElementById('createShareMode').value;
+  var emails = document.getElementById('createEmails').value;
+  var permission = document.getElementById('createPermission').value;
+  var presentationId = null;
+  var totalSlides = allImageData.length;
+
+  for (var batchStart = 0; batchStart < allImageData.length; batchStart += 10) {
+    var batch = allImageData.slice(batchStart, batchStart + 10);
+    var batchEnd = Math.min(batchStart + 10, allImageData.length);
+    updateProgress('スライド作成中... (' + batchEnd + '/' + totalSlides + ')', 50 + (batchEnd / totalSlides) * 50);
+
+    if (batchStart === 0) {
+      var result = await callServer('createPresentation', {
+        files: batch, title: title, shareMode: shareMode, emails: emails, permission: permission
+      });
+      presentationId = result.id;
+    } else {
+      await callServer('addSlidesToPresentation', { presentationId: presentationId, files: batch });
+    }
+  }
+
+  hideProgress('createProgress');
+  document.getElementById('createProgressBar').classList.add('hidden');
+  var url = 'https://docs.google.com/presentation/d/' + presentationId + '/edit';
+  showResult('createResult', 'success',
+    '<strong>' + escHtml(title) + '</strong> を作成しました（' + totalSlides + ' スライド）<br>' +
+    '<a href="' + url + '" target="_blank">Google スライドを開く</a>'
+  );
+  uploadedFiles = [];
+  renderFileList();
+}
+
+// ========================================================
+// ユーティリティ
+// ========================================================
+
 function readFileAsBase64(file) {
   return new Promise(function(resolve, reject) {
     var reader = new FileReader();
-    reader.onload = function() {
-      resolve({
-        fileName: file.name,
-        mimeType: file.type || 'image/png',
-        data: reader.result.split(',')[1]
-      });
-    };
+    reader.onload = function() { resolve({ fileName: file.name, mimeType: file.type || 'image/png', data: reader.result.split(',')[1] }); };
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
 }
 
-/**
- * google.script.run を Promise でラップ
- */
 function callServer(functionName, arg) {
   return new Promise(function(resolve, reject) {
-    google.script.run
-      .withSuccessHandler(resolve)
-      .withFailureHandler(reject)
-      [functionName](arg);
+    google.script.run.withSuccessHandler(resolve).withFailureHandler(reject)[functionName](arg);
   });
 }
 
 function updateProgress(text, percent) {
   showProgress('createProgress', text);
-  if (percent !== undefined) {
-    document.getElementById('progressBar').style.width = Math.round(percent) + '%';
-  }
+  if (percent !== undefined) document.getElementById('progressBar').style.width = Math.round(percent) + '%';
 }
 
 // ========================================================
-// 編集: プレゼンテーション一覧
+// 編集機能
 // ========================================================
 function loadPresentations() {
-  google.script.run
-    .withSuccessHandler(function(list) {
-      var sel = document.getElementById('editPresentationSelect');
-      sel.innerHTML = '<option value="">-- 選択してください --</option>';
-      list.forEach(function(p) {
-        var date = new Date(p.lastUpdated).toLocaleDateString('ja-JP');
-        sel.innerHTML += '<option value="' + p.id + '">' + escHtml(p.name) + ' (' + date + ')</option>';
-      });
-    })
-    .listMyPresentations();
+  google.script.run.withSuccessHandler(function(list) {
+    var sel = document.getElementById('editPresentationSelect');
+    sel.innerHTML = '<option value="">-- 選択してください --</option>';
+    list.forEach(function(p) {
+      var date = new Date(p.lastUpdated).toLocaleDateString('ja-JP');
+      sel.innerHTML += '<option value="' + p.id + '">' + escHtml(p.name) + ' (' + date + ')</option>';
+    });
+  }).listMyPresentations();
 }
 function onPresentationSelected() {
   var id = document.getElementById('editPresentationSelect').value;
@@ -687,12 +733,8 @@ function loadStructure() {
   var id = getEditId(); if (!id) return;
   showProgress('editProgress');
   google.script.run
-    .withSuccessHandler(function(structure) {
-      hideProgress('editProgress');
-      document.getElementById('editPanel').classList.remove('hidden');
-      renderStructure(structure);
-    })
-    .withFailureHandler(function(err) { hideProgress('editProgress'); showResult('structureView', 'error', escHtml(err.message)); })
+    .withSuccessHandler(function(s) { hideProgress('editProgress'); document.getElementById('editPanel').classList.remove('hidden'); renderStructure(s); })
+    .withFailureHandler(function(e) { hideProgress('editProgress'); showResult('structureView', 'error', escHtml(e.message)); })
     .getSlideStructure(id);
 }
 function renderStructure(structure) {
@@ -703,18 +745,12 @@ function renderStructure(structure) {
       var content = '';
       if (el.type === 'SHAPE' && el.text) content = escHtml(el.text.substring(0, 60));
       else if (el.type === 'IMAGE') content = '[画像]';
-      html += '<tr><td>' + el.index + '</td><td>' + el.type + '</td>' +
-              '<td>' + el.left + ', ' + el.top + '</td><td>' + el.width + ' x ' + el.height + '</td>' +
-              '<td>' + content + '</td></tr>';
+      html += '<tr><td>' + el.index + '</td><td>' + el.type + '</td><td>' + el.left + ', ' + el.top + '</td><td>' + el.width + ' x ' + el.height + '</td><td>' + content + '</td></tr>';
     });
   });
   html += '</table>';
   document.getElementById('structureView').innerHTML = html;
 }
-
-// ========================================================
-// 編集機能
-// ========================================================
 function doReplaceText() {
   var id = getEditId(), s = document.getElementById('searchText').value, r = document.getElementById('replaceTextVal').value;
   if (!id || !s) return;
@@ -745,19 +781,6 @@ function doReplaceImage() {
     }; reader.readAsDataURL(fi.files[0]);
   } else { showResult('imgResult', 'error', '画像ファイルまたは URL を指定してください。'); }
 }
-function doUnifyImages() {
-  var id = getEditId(); if (!id) return;
-  var l = parseFloat(document.getElementById('uniLeft').value), t = parseFloat(document.getElementById('uniTop').value),
-      w = parseFloat(document.getElementById('uniWidth').value), h = parseFloat(document.getElementById('uniHeight').value);
-  google.script.run.withSuccessHandler(function(c) { showResult('unifyResult', 'success', c + ' 枚の画像を統一しました。'); loadStructure(); })
-    .withFailureHandler(function(e) { showResult('unifyResult', 'error', escHtml(e.message)); }).unifyImageSizes(id, l, t, w, h);
-}
-function doRemoveBgImages() {
-  var id = getEditId(); if (!id) return;
-  if (!confirm('全スライドの背景画像を削除しますか？テキストボックスのみ残ります。')) return;
-  google.script.run.withSuccessHandler(function(c) { showResult('bgRemoveResult', 'success', c + ' 枚の背景画像を削除しました。'); loadStructure(); })
-    .withFailureHandler(function(e) { showResult('bgRemoveResult', 'error', escHtml(e.message)); }).removeBackgroundImages(id);
-}
 
 // ========================================================
 // 共有管理
@@ -786,7 +809,7 @@ function doUpdateSharing() {
 }
 
 // ========================================================
-// ユーティリティ
+// 共通ユーティリティ
 // ========================================================
 function getEditId() { return document.getElementById('editPresentationId').value.trim(); }
 function toggleEmailSection(prefix) {
