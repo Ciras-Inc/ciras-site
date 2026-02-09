@@ -4,6 +4,7 @@
   <base target="_top">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <style>
     :root {
       --primary: #1a73e8;
@@ -24,203 +25,67 @@
       line-height: 1.6;
     }
     .container { max-width: 800px; margin: 0 auto; padding: 24px 16px; }
-    h1 {
-      font-size: 22px;
-      font-weight: 500;
-      margin-bottom: 20px;
-      color: var(--text);
-    }
+    h1 { font-size: 22px; font-weight: 500; margin-bottom: 20px; }
 
-    /* タブ */
-    .tabs {
-      display: flex;
-      border-bottom: 2px solid var(--border);
-      margin-bottom: 24px;
-      gap: 4px;
-    }
+    .tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 24px; gap: 4px; }
     .tab {
-      padding: 10px 20px;
-      cursor: pointer;
-      border: none;
-      background: none;
-      font-size: 14px;
-      color: var(--text-sub);
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-      transition: all 0.2s;
+      padding: 10px 20px; cursor: pointer; border: none; background: none;
+      font-size: 14px; color: var(--text-sub); border-bottom: 2px solid transparent;
+      margin-bottom: -2px; transition: all 0.2s;
     }
     .tab:hover { color: var(--primary); }
-    .tab.active {
-      color: var(--primary);
-      border-bottom-color: var(--primary);
-      font-weight: 500;
-    }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 500; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* カード */
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 16px;
-    }
-    .card h2 {
-      font-size: 16px;
-      font-weight: 500;
-      margin-bottom: 12px;
-    }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    .card h2 { font-size: 16px; font-weight: 500; margin-bottom: 12px; }
 
-    /* フォーム */
-    label {
-      display: block;
-      font-size: 13px;
-      color: var(--text-sub);
-      margin-bottom: 4px;
-      margin-top: 12px;
-    }
+    label { display: block; font-size: 13px; color: var(--text-sub); margin-bottom: 4px; margin-top: 12px; }
     label:first-child { margin-top: 0; }
     input[type="text"], select, textarea {
-      width: 100%;
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 14px;
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s;
+      width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px;
+      font-size: 14px; color: var(--text); outline: none;
     }
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--primary);
-    }
+    input:focus, select:focus, textarea:focus { border-color: var(--primary); }
     textarea { resize: vertical; min-height: 60px; }
 
-    /* アップロードエリア */
     .upload-area {
-      border: 2px dashed var(--border);
-      border-radius: 8px;
-      padding: 32px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      background: #fafbfc;
+      border: 2px dashed var(--border); border-radius: 8px; padding: 32px;
+      text-align: center; cursor: pointer; transition: all 0.2s; background: #fafbfc;
     }
-    .upload-area:hover, .upload-area.dragover {
-      border-color: var(--primary);
-      background: #e8f0fe;
-    }
+    .upload-area:hover, .upload-area.dragover { border-color: var(--primary); background: #e8f0fe; }
     .upload-area p { color: var(--text-sub); font-size: 14px; margin: 4px 0; }
     .upload-area .icon { font-size: 36px; color: var(--text-sub); }
-    .file-list {
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--text-sub);
-      text-align: left;
-    }
-    .file-list div {
-      padding: 4px 0;
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid #f0f0f0;
-    }
-    .file-list .remove {
-      color: var(--error);
-      cursor: pointer;
-      font-size: 12px;
-    }
+    .file-list { margin-top: 12px; font-size: 13px; color: var(--text-sub); text-align: left; }
+    .file-list div { padding: 4px 0; display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0; }
+    .file-list .remove { color: var(--error); cursor: pointer; font-size: 12px; }
 
-    /* ボタン */
-    .btn {
-      display: inline-block;
-      padding: 10px 24px;
-      border: none;
-      border-radius: 4px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.2s;
-      margin-top: 16px;
-    }
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-    }
+    .btn { display: inline-block; padding: 10px 24px; border: none; border-radius: 4px; font-size: 14px; cursor: pointer; margin-top: 16px; }
+    .btn-primary { background: var(--primary); color: #fff; }
     .btn-primary:hover { background: var(--primary-hover); }
-    .btn-primary:disabled {
-      background: #94bef7;
-      cursor: not-allowed;
-    }
-    .btn-secondary {
-      background: #fff;
-      color: var(--primary);
-      border: 1px solid var(--border);
-    }
+    .btn-primary:disabled { background: #94bef7; cursor: not-allowed; }
+    .btn-secondary { background: #fff; color: var(--primary); border: 1px solid var(--border); }
     .btn-secondary:hover { background: #f1f3f4; }
 
-    /* 結果表示 */
-    .result {
-      padding: 16px;
-      border-radius: 8px;
-      margin-top: 16px;
-      font-size: 14px;
-    }
-    .result.success {
-      background: #e6f4ea;
-      border: 1px solid #0d904f;
-      color: #137333;
-    }
-    .result.error {
-      background: #fce8e6;
-      border: 1px solid var(--error);
-      color: #c5221f;
-    }
-    .result a {
-      color: var(--primary);
-      font-weight: 500;
-    }
+    .result { padding: 16px; border-radius: 8px; margin-top: 16px; font-size: 14px; }
+    .result.success { background: #e6f4ea; border: 1px solid #0d904f; color: #137333; }
+    .result.error { background: #fce8e6; border: 1px solid var(--error); color: #c5221f; }
+    .result a { color: var(--primary); font-weight: 500; }
 
-    /* プログレス */
-    .progress {
-      display: none;
-      align-items: center;
-      gap: 12px;
-      margin-top: 16px;
-      font-size: 14px;
-      color: var(--text-sub);
-    }
+    .progress { display: none; align-items: center; gap: 12px; margin-top: 16px; font-size: 14px; color: var(--text-sub); }
     .progress.show { display: flex; }
-    .spinner {
-      width: 20px; height: 20px;
-      border: 2px solid var(--border);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
+    .spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* 構成一覧 */
-    .structure-table {
-      width: 100%;
-      font-size: 13px;
-      border-collapse: collapse;
-      margin-top: 8px;
-    }
-    .structure-table th, .structure-table td {
-      padding: 6px 8px;
-      border: 1px solid var(--border);
-      text-align: left;
-    }
-    .structure-table th {
-      background: #f1f3f4;
-      font-weight: 500;
-    }
-    .slide-header {
-      background: #e8f0fe;
-      font-weight: 500;
-      color: var(--primary);
-    }
+    .progress-bar-container { width: 100%; background: #e0e0e0; border-radius: 4px; height: 8px; margin-top: 8px; }
+    .progress-bar { height: 8px; background: var(--primary); border-radius: 4px; transition: width 0.3s; }
 
-    /* 共有情報 */
+    .structure-table { width: 100%; font-size: 13px; border-collapse: collapse; margin-top: 8px; }
+    .structure-table th, .structure-table td { padding: 6px 8px; border: 1px solid var(--border); text-align: left; }
+    .structure-table th { background: #f1f3f4; font-weight: 500; }
+    .slide-header { background: #e8f0fe; font-weight: 500; color: var(--primary); }
+
     .share-info { font-size: 13px; margin-top: 8px; }
     .share-info dt { font-weight: 500; margin-top: 8px; }
     .share-info dd { margin-left: 12px; color: var(--text-sub); }
@@ -255,10 +120,8 @@
                onchange="handleFiles(this.files)" style="display:none">
       </div>
       <div class="file-list" id="fileList"></div>
-
       <p style="font-size:12px; color:var(--text-sub); margin-top:12px">
-        ※ PDF は自動で画像抽出を試みます。うまくいかない場合は、PDF の各ページを<br>
-        　画像として書き出してからアップロードしてください。
+        PDF は各ページを高画質画像に変換してスライドに挿入します。
       </p>
     </div>
 
@@ -266,7 +129,6 @@
       <h2>設定</h2>
       <label>プレゼンテーション名</label>
       <input type="text" id="createTitle" value="NotebookLM スライド" placeholder="タイトルを入力">
-
       <label>共有設定</label>
       <select id="createShareMode" onchange="toggleEmailSection('create')">
         <option value="private">自分のみ（非公開）</option>
@@ -274,7 +136,6 @@
         <option value="link_edit">リンクを知っている全員（編集可）</option>
         <option value="emails">メールアドレスで共有</option>
       </select>
-
       <div id="createEmailSection" class="hidden">
         <label>共有先メールアドレス（カンマ区切り）</label>
         <input type="text" id="createEmails" placeholder="user1@example.com, user2@example.com">
@@ -293,6 +154,9 @@
       <div class="spinner"></div>
       <span id="createProgressText">処理中...</span>
     </div>
+    <div id="createProgressBar" class="hidden">
+      <div class="progress-bar-container"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+    </div>
     <div id="createResult"></div>
   </div>
 
@@ -307,55 +171,30 @@
             <option value="">-- 読み込み中 --</option>
           </select>
         </div>
-        <button class="btn btn-secondary" onclick="loadPresentations()" style="margin-top:0;height:36px">
-          更新
-        </button>
+        <button class="btn btn-secondary" onclick="loadPresentations()" style="margin-top:0;height:36px">更新</button>
       </div>
       <label>または ID を直接入力</label>
       <div style="display:flex; gap:8px">
         <input type="text" id="editPresentationId" placeholder="プレゼンテーション ID">
-        <button class="btn btn-secondary" onclick="loadStructure()" style="margin-top:0;white-space:nowrap;height:36px">
-          読み込み
-        </button>
+        <button class="btn btn-secondary" onclick="loadStructure()" style="margin-top:0;white-space:nowrap;height:36px">読み込み</button>
       </div>
     </div>
-
     <div id="editPanel" class="hidden">
-      <!-- 構成一覧 -->
-      <div class="card">
-        <h2>スライド構成</h2>
-        <div id="structureView"></div>
-      </div>
-
-      <!-- テキスト編集 -->
+      <div class="card"><h2>スライド構成</h2><div id="structureView"></div></div>
       <div class="card">
         <h2>テキスト検索・置換</h2>
         <div class="row">
-          <div>
-            <label>検索テキスト</label>
-            <input type="text" id="searchText" placeholder="検索するテキスト">
-          </div>
-          <div>
-            <label>置換テキスト</label>
-            <input type="text" id="replaceTextVal" placeholder="置換後のテキスト">
-          </div>
+          <div><label>検索テキスト</label><input type="text" id="searchText" placeholder="検索するテキスト"></div>
+          <div><label>置換テキスト</label><input type="text" id="replaceTextVal" placeholder="置換後のテキスト"></div>
         </div>
         <button class="btn btn-primary" onclick="doReplaceText()">置換実行</button>
         <div id="replaceResult"></div>
       </div>
-
-      <!-- テキストボックス追加 -->
       <div class="card">
         <h2>テキストボックスを追加</h2>
         <div class="row">
-          <div>
-            <label>スライド番号</label>
-            <input type="text" id="tbSlide" value="1">
-          </div>
-          <div>
-            <label>フォントサイズ (pt)</label>
-            <input type="text" id="tbFontSize" value="18">
-          </div>
+          <div><label>スライド番号</label><input type="text" id="tbSlide" value="1"></div>
+          <div><label>フォントサイズ (pt)</label><input type="text" id="tbFontSize" value="18"></div>
         </div>
         <label>テキスト</label>
         <textarea id="tbText" placeholder="追加するテキストを入力"></textarea>
@@ -368,19 +207,11 @@
         <button class="btn btn-primary" onclick="doAddTextBox()">追加</button>
         <div id="tbResult"></div>
       </div>
-
-      <!-- 画像差し替え -->
       <div class="card">
         <h2>画像を差し替え</h2>
         <div class="row">
-          <div>
-            <label>スライド番号</label>
-            <input type="text" id="imgSlide" value="1">
-          </div>
-          <div>
-            <label>画像番号（スライド内の順番）</label>
-            <input type="text" id="imgIndex" value="1">
-          </div>
+          <div><label>スライド番号</label><input type="text" id="imgSlide" value="1"></div>
+          <div><label>画像番号</label><input type="text" id="imgIndex" value="1"></div>
         </div>
         <label>差し替え画像</label>
         <input type="file" id="imgFile" accept=".png,.jpg,.jpeg,.webp">
@@ -389,8 +220,6 @@
         <button class="btn btn-primary" onclick="doReplaceImage()">差し替え</button>
         <div id="imgResult"></div>
       </div>
-
-      <!-- 画像サイズ統一 -->
       <div class="card">
         <h2>全画像のサイズ・位置を統一</h2>
         <div class="row">
@@ -403,10 +232,7 @@
         <div id="unifyResult"></div>
       </div>
     </div>
-    <div class="progress" id="editProgress">
-      <div class="spinner"></div>
-      <span>処理中...</span>
-    </div>
+    <div class="progress" id="editProgress"><div class="spinner"></div><span>処理中...</span></div>
   </div>
 
   <!-- ===== 共有管理タブ ===== -->
@@ -417,13 +243,8 @@
       <input type="text" id="sharePresentationId" placeholder="プレゼンテーション ID を入力">
       <button class="btn btn-secondary" onclick="loadSharingInfo()">共有情報を取得</button>
     </div>
-
     <div id="sharePanel" class="hidden">
-      <div class="card">
-        <h2>現在の共有状態</h2>
-        <dl class="share-info" id="shareInfoView"></dl>
-      </div>
-
+      <div class="card"><h2>現在の共有状態</h2><dl class="share-info" id="shareInfoView"></dl></div>
       <div class="card">
         <h2>共有設定を変更</h2>
         <label>共有モード</label>
@@ -437,27 +258,28 @@
           <label>共有先メールアドレス（カンマ区切り）</label>
           <input type="text" id="shareEmails" placeholder="user@example.com">
           <label>権限</label>
-          <select id="sharePermission">
-            <option value="view">閲覧者</option>
-            <option value="edit">編集者</option>
-          </select>
+          <select id="sharePermission"><option value="view">閲覧者</option><option value="edit">編集者</option></select>
         </div>
         <button class="btn btn-primary" onclick="doUpdateSharing()">共有設定を更新</button>
         <div id="shareResult"></div>
       </div>
     </div>
-    <div class="progress" id="shareProgress">
-      <div class="spinner"></div>
-      <span>処理中...</span>
-    </div>
+    <div class="progress" id="shareProgress"><div class="spinner"></div><span>処理中...</span></div>
   </div>
 </div>
 
 <script>
 // ========================================================
+// PDF.js 初期化
+// ========================================================
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// ========================================================
 // グローバル変数
 // ========================================================
 var uploadedFiles = [];
+var BATCH_SIZE = 10; // サーバーに送るバッチサイズ
 
 // ========================================================
 // タブ切り替え
@@ -471,7 +293,7 @@ function switchTab(name) {
 }
 
 // ========================================================
-// 新規作成: ファイルアップロード
+// ファイルアップロード
 // ========================================================
 function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('dragover'); }
 function handleDragLeave(e) { e.currentTarget.classList.remove('dragover'); }
@@ -480,19 +302,14 @@ function handleDrop(e) {
   e.currentTarget.classList.remove('dragover');
   handleFiles(e.dataTransfer.files);
 }
-
 function handleFiles(fileList) {
-  for (var i = 0; i < fileList.length; i++) {
-    uploadedFiles.push(fileList[i]);
-  }
+  for (var i = 0; i < fileList.length; i++) uploadedFiles.push(fileList[i]);
   renderFileList();
 }
-
 function removeFile(index) {
   uploadedFiles.splice(index, 1);
   renderFileList();
 }
-
 function renderFileList() {
   var html = '';
   uploadedFiles.forEach(function(f, i) {
@@ -505,71 +322,173 @@ function renderFileList() {
 }
 
 // ========================================================
-// 新規作成: スライド作成
+// PDF → 画像変換（ブラウザ側 PDF.js）
 // ========================================================
-function startCreation() {
+
+/**
+ * PDF ファイルを各ページの JPEG 画像に変換する。
+ * PDF.js でブラウザ内レンダリングし、元のデザインをそのまま画像化する。
+ */
+async function renderPdfToImages(file) {
+  var arrayBuffer = await file.arrayBuffer();
+  var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  var numPages = pdf.numPages;
+  var images = [];
+
+  for (var i = 1; i <= numPages; i++) {
+    updateProgress('PDF ページ変換中... (' + i + '/' + numPages + ')', i / numPages * 50);
+
+    var page = await pdf.getPage(i);
+    // スケール 2.0 で高画質レンダリング
+    var viewport = page.getViewport({ scale: 2.0 });
+
+    var canvas = document.createElement('canvas');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    var ctx = canvas.getContext('2d');
+
+    await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+    // JPEG で圧縮（品質 0.85）→ サイズを抑えつつ高画質
+    var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+    var base64 = dataUrl.split(',')[1];
+
+    images.push({
+      fileName: 'page_' + i + '.jpg',
+      mimeType: 'image/jpeg',
+      data: base64
+    });
+
+    // メモリ解放
+    canvas.width = 0;
+    canvas.height = 0;
+  }
+
+  return images;
+}
+
+// ========================================================
+// スライド作成メイン処理
+// ========================================================
+async function startCreation() {
   if (uploadedFiles.length === 0) return;
 
   var btn = document.getElementById('createBtn');
   btn.disabled = true;
-  showProgress('createProgress', 'ファイルを読み込み中...');
   document.getElementById('createResult').innerHTML = '';
+  document.getElementById('createProgressBar').classList.remove('hidden');
+  showProgress('createProgress', '処理を開始...');
 
-  // 全ファイルを Base64 に変換
-  var fileDataArray = [];
-  var processed = 0;
-  var total = uploadedFiles.length;
+  try {
+    // Step 1: 全ファイルを画像データに変換
+    var allImageData = [];
 
-  uploadedFiles.forEach(function(file, idx) {
+    for (var f = 0; f < uploadedFiles.length; f++) {
+      var file = uploadedFiles[f];
+
+      if (file.type === 'application/pdf') {
+        // PDF → PDF.js でページ画像に変換
+        updateProgress(escHtml(file.name) + ' を変換中...', 0);
+        var pdfImages = await renderPdfToImages(file);
+        allImageData = allImageData.concat(pdfImages);
+      } else {
+        // 画像ファイル → そのまま Base64 に
+        updateProgress(escHtml(file.name) + ' を読み込み中...', 50);
+        var imgData = await readFileAsBase64(file);
+        allImageData.push(imgData);
+      }
+    }
+
+    if (allImageData.length === 0) {
+      throw new Error('画像データがありません。');
+    }
+
+    // Step 2: バッチでサーバーに送信
+    var title = document.getElementById('createTitle').value;
+    var shareMode = document.getElementById('createShareMode').value;
+    var emails = document.getElementById('createEmails').value;
+    var permission = document.getElementById('createPermission').value;
+    var presentationId = null;
+    var totalSlides = allImageData.length;
+
+    for (var batchStart = 0; batchStart < allImageData.length; batchStart += BATCH_SIZE) {
+      var batch = allImageData.slice(batchStart, batchStart + BATCH_SIZE);
+      var batchEnd = Math.min(batchStart + BATCH_SIZE, allImageData.length);
+      var pct = 50 + (batchEnd / totalSlides) * 50;
+      updateProgress('スライド作成中... (' + batchEnd + '/' + totalSlides + ')', pct);
+
+      if (batchStart === 0) {
+        // 最初のバッチ: プレゼンテーション作成
+        var result = await callServer('createPresentation', {
+          files: batch,
+          title: title,
+          shareMode: shareMode,
+          emails: emails,
+          permission: permission
+        });
+        presentationId = result.id;
+      } else {
+        // 追加バッチ: 既存プレゼンテーションにスライド追加
+        await callServer('addSlidesToPresentation', {
+          presentationId: presentationId,
+          files: batch
+        });
+      }
+    }
+
+    // 完了
+    hideProgress('createProgress');
+    document.getElementById('createProgressBar').classList.add('hidden');
+    var url = 'https://docs.google.com/presentation/d/' + presentationId + '/edit';
+    showResult('createResult', 'success',
+      '<strong>' + escHtml(title) + '</strong> を作成しました（' + totalSlides + ' スライド）<br>' +
+      '<a href="' + url + '" target="_blank">Google スライドを開く</a><br>' +
+      '<span style="font-size:12px;color:var(--text-sub)">ID: ' + presentationId + '</span>'
+    );
+    uploadedFiles = [];
+    renderFileList();
+
+  } catch (err) {
+    hideProgress('createProgress');
+    document.getElementById('createProgressBar').classList.add('hidden');
+    showResult('createResult', 'error', escHtml(err.message || String(err)));
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function readFileAsBase64(file) {
+  return new Promise(function(resolve, reject) {
     var reader = new FileReader();
     reader.onload = function() {
-      fileDataArray[idx] = {
+      resolve({
         fileName: file.name,
-        mimeType: file.type || 'application/octet-stream',
+        mimeType: file.type || 'image/png',
         data: reader.result.split(',')[1]
-      };
-      processed++;
-      showProgress('createProgress', 'ファイル読み込み中... (' + processed + '/' + total + ')');
-      if (processed === total) sendToServer(fileDataArray);
+      });
     };
-    reader.onerror = function() {
-      showResult('createResult', 'error', file.name + ' の読み込みに失敗しました。');
-      btn.disabled = false;
-      hideProgress('createProgress');
-    };
+    reader.onerror = reject;
     reader.readAsDataURL(file);
   });
 }
 
-function sendToServer(fileDataArray) {
-  showProgress('createProgress', 'スライドを作成中...');
+/**
+ * google.script.run を Promise でラップ
+ */
+function callServer(functionName, arg) {
+  return new Promise(function(resolve, reject) {
+    google.script.run
+      .withSuccessHandler(resolve)
+      .withFailureHandler(reject)
+      [functionName](arg);
+  });
+}
 
-  var config = {
-    files: fileDataArray,
-    title: document.getElementById('createTitle').value,
-    shareMode: document.getElementById('createShareMode').value,
-    emails: document.getElementById('createEmails').value,
-    permission: document.getElementById('createPermission').value
-  };
-
-  google.script.run
-    .withSuccessHandler(function(result) {
-      hideProgress('createProgress');
-      document.getElementById('createBtn').disabled = false;
-      showResult('createResult', 'success',
-        '<strong>' + escHtml(result.title) + '</strong> を作成しました（' + result.slideCount + ' スライド）<br>' +
-        '<a href="' + result.url + '" target="_blank">Google スライドを開く</a><br>' +
-        '<span style="font-size:12px;color:var(--text-sub)">ID: ' + result.id + '</span>'
-      );
-      uploadedFiles = [];
-      renderFileList();
-    })
-    .withFailureHandler(function(err) {
-      hideProgress('createProgress');
-      document.getElementById('createBtn').disabled = false;
-      showResult('createResult', 'error', escHtml(err.message || String(err)));
-    })
-    .createPresentation(config);
+function updateProgress(text, percent) {
+  showProgress('createProgress', text);
+  if (percent !== undefined) {
+    document.getElementById('progressBar').style.width = Math.round(percent) + '%';
+  }
 }
 
 // ========================================================
@@ -587,33 +506,22 @@ function loadPresentations() {
     })
     .listMyPresentations();
 }
-
 function onPresentationSelected() {
   var id = document.getElementById('editPresentationSelect').value;
-  if (id) {
-    document.getElementById('editPresentationId').value = id;
-    loadStructure();
-  }
+  if (id) { document.getElementById('editPresentationId').value = id; loadStructure(); }
 }
-
 function loadStructure() {
-  var id = getEditId();
-  if (!id) return;
+  var id = getEditId(); if (!id) return;
   showProgress('editProgress');
-
   google.script.run
     .withSuccessHandler(function(structure) {
       hideProgress('editProgress');
       document.getElementById('editPanel').classList.remove('hidden');
       renderStructure(structure);
     })
-    .withFailureHandler(function(err) {
-      hideProgress('editProgress');
-      showResult('structureView', 'error', escHtml(err.message));
-    })
+    .withFailureHandler(function(err) { hideProgress('editProgress'); showResult('structureView', 'error', escHtml(err.message)); })
     .getSlideStructure(id);
 }
-
 function renderStructure(structure) {
   var html = '<table class="structure-table"><tr><th>#</th><th>種類</th><th>位置</th><th>サイズ</th><th>内容</th></tr>';
   structure.forEach(function(s) {
@@ -623,8 +531,7 @@ function renderStructure(structure) {
       if (el.type === 'SHAPE' && el.text) content = escHtml(el.text.substring(0, 60));
       else if (el.type === 'IMAGE') content = '[画像]';
       html += '<tr><td>' + el.index + '</td><td>' + el.type + '</td>' +
-              '<td>' + el.left + ', ' + el.top + '</td>' +
-              '<td>' + el.width + ' x ' + el.height + '</td>' +
+              '<td>' + el.left + ', ' + el.top + '</td><td>' + el.width + ' x ' + el.height + '</td>' +
               '<td>' + content + '</td></tr>';
     });
   });
@@ -633,195 +540,84 @@ function renderStructure(structure) {
 }
 
 // ========================================================
-// 編集: テキスト置換
+// 編集機能
 // ========================================================
 function doReplaceText() {
-  var id = getEditId();
-  var search = document.getElementById('searchText').value;
-  var replace = document.getElementById('replaceTextVal').value;
-  if (!id || !search) return;
-
-  google.script.run
-    .withSuccessHandler(function(count) {
-      showResult('replaceResult', 'success', count + ' 箇所を置換しました。');
-      loadStructure();
-    })
-    .withFailureHandler(function(err) { showResult('replaceResult', 'error', escHtml(err.message)); })
-    .replaceText(id, search, replace);
+  var id = getEditId(), s = document.getElementById('searchText').value, r = document.getElementById('replaceTextVal').value;
+  if (!id || !s) return;
+  google.script.run.withSuccessHandler(function(c) { showResult('replaceResult', 'success', c + ' 箇所を置換しました。'); loadStructure(); })
+    .withFailureHandler(function(e) { showResult('replaceResult', 'error', escHtml(e.message)); }).replaceText(id, s, r);
 }
-
-// ========================================================
-// 編集: テキストボックス追加
-// ========================================================
 function doAddTextBox() {
-  var id = getEditId();
-  if (!id) return;
-  var slideNum = parseInt(document.getElementById('tbSlide').value) || 1;
-  var text = document.getElementById('tbText').value;
-  var left = parseFloat(document.getElementById('tbLeft').value) || 50;
-  var top = parseFloat(document.getElementById('tbTop').value) || 50;
-  var w = parseFloat(document.getElementById('tbWidth').value) || 300;
-  var h = parseFloat(document.getElementById('tbHeight').value) || 50;
-  var fs = parseInt(document.getElementById('tbFontSize').value) || 18;
-
-  google.script.run
-    .withSuccessHandler(function() {
-      showResult('tbResult', 'success', 'テキストボックスを追加しました。');
-      loadStructure();
-    })
-    .withFailureHandler(function(err) { showResult('tbResult', 'error', escHtml(err.message)); })
-    .addTextBox(id, slideNum, text, left, top, w, h, fs);
+  var id = getEditId(); if (!id) return;
+  var sn = parseInt(document.getElementById('tbSlide').value)||1, txt = document.getElementById('tbText').value,
+      l = parseFloat(document.getElementById('tbLeft').value)||50, t = parseFloat(document.getElementById('tbTop').value)||50,
+      w = parseFloat(document.getElementById('tbWidth').value)||300, h = parseFloat(document.getElementById('tbHeight').value)||50,
+      fs = parseInt(document.getElementById('tbFontSize').value)||18;
+  google.script.run.withSuccessHandler(function() { showResult('tbResult', 'success', 'テキストボックスを追加しました。'); loadStructure(); })
+    .withFailureHandler(function(e) { showResult('tbResult', 'error', escHtml(e.message)); }).addTextBox(id, sn, txt, l, t, w, h, fs);
 }
-
-// ========================================================
-// 編集: 画像差し替え
-// ========================================================
 function doReplaceImage() {
-  var id = getEditId();
-  if (!id) return;
-  var slideNum = parseInt(document.getElementById('imgSlide').value) || 1;
-  var imgIdx = parseInt(document.getElementById('imgIndex').value) || 1;
-  var url = document.getElementById('imgUrl').value.trim();
-  var fileInput = document.getElementById('imgFile');
-
+  var id = getEditId(); if (!id) return;
+  var sn = parseInt(document.getElementById('imgSlide').value)||1, idx = parseInt(document.getElementById('imgIndex').value)||1;
+  var url = document.getElementById('imgUrl').value.trim(), fi = document.getElementById('imgFile');
   if (url) {
-    google.script.run
-      .withSuccessHandler(function() {
-        showResult('imgResult', 'success', '画像を差し替えました。');
-        loadStructure();
-      })
-      .withFailureHandler(function(err) { showResult('imgResult', 'error', escHtml(err.message)); })
-      .replaceImage(id, slideNum, imgIdx, { url: url });
-  } else if (fileInput.files.length > 0) {
-    var file = fileInput.files[0];
-    var reader = new FileReader();
-    reader.onload = function() {
-      var imageData = {
-        data: reader.result.split(',')[1],
-        mimeType: file.type,
-        fileName: file.name
-      };
-      google.script.run
-        .withSuccessHandler(function() {
-          showResult('imgResult', 'success', '画像を差し替えました。');
-          loadStructure();
-        })
-        .withFailureHandler(function(err) { showResult('imgResult', 'error', escHtml(err.message)); })
-        .replaceImage(id, slideNum, imgIdx, imageData);
-    };
-    reader.readAsDataURL(file);
-  } else {
-    showResult('imgResult', 'error', '画像ファイルまたは URL を指定してください。');
-  }
+    google.script.run.withSuccessHandler(function() { showResult('imgResult', 'success', '画像を差し替えました。'); loadStructure(); })
+      .withFailureHandler(function(e) { showResult('imgResult', 'error', escHtml(e.message)); }).replaceImage(id, sn, idx, {url:url});
+  } else if (fi.files.length > 0) {
+    var reader = new FileReader(); reader.onload = function() {
+      var d = {data: reader.result.split(',')[1], mimeType: fi.files[0].type, fileName: fi.files[0].name};
+      google.script.run.withSuccessHandler(function() { showResult('imgResult', 'success', '画像を差し替えました。'); loadStructure(); })
+        .withFailureHandler(function(e) { showResult('imgResult', 'error', escHtml(e.message)); }).replaceImage(id, sn, idx, d);
+    }; reader.readAsDataURL(fi.files[0]);
+  } else { showResult('imgResult', 'error', '画像ファイルまたは URL を指定してください。'); }
 }
-
-// ========================================================
-// 編集: 画像サイズ統一
-// ========================================================
 function doUnifyImages() {
-  var id = getEditId();
-  if (!id) return;
-  var l = parseFloat(document.getElementById('uniLeft').value);
-  var t = parseFloat(document.getElementById('uniTop').value);
-  var w = parseFloat(document.getElementById('uniWidth').value);
-  var h = parseFloat(document.getElementById('uniHeight').value);
-
-  google.script.run
-    .withSuccessHandler(function(count) {
-      showResult('unifyResult', 'success', count + ' 枚の画像を統一しました。');
-      loadStructure();
-    })
-    .withFailureHandler(function(err) { showResult('unifyResult', 'error', escHtml(err.message)); })
-    .unifyImageSizes(id, l, t, w, h);
+  var id = getEditId(); if (!id) return;
+  var l = parseFloat(document.getElementById('uniLeft').value), t = parseFloat(document.getElementById('uniTop').value),
+      w = parseFloat(document.getElementById('uniWidth').value), h = parseFloat(document.getElementById('uniHeight').value);
+  google.script.run.withSuccessHandler(function(c) { showResult('unifyResult', 'success', c + ' 枚の画像を統一しました。'); loadStructure(); })
+    .withFailureHandler(function(e) { showResult('unifyResult', 'error', escHtml(e.message)); }).unifyImageSizes(id, l, t, w, h);
 }
 
 // ========================================================
 // 共有管理
 // ========================================================
 function loadSharingInfo() {
-  var id = document.getElementById('sharePresentationId').value.trim();
-  if (!id) return;
+  var id = document.getElementById('sharePresentationId').value.trim(); if (!id) return;
   showProgress('shareProgress');
-
-  google.script.run
-    .withSuccessHandler(function(info) {
-      hideProgress('shareProgress');
-      document.getElementById('sharePanel').classList.remove('hidden');
-      renderSharingInfo(info);
-    })
-    .withFailureHandler(function(err) {
-      hideProgress('shareProgress');
-      showResult('shareResult', 'error', escHtml(err.message));
-    })
-    .getSharingInfo(id);
+  google.script.run.withSuccessHandler(function(info) { hideProgress('shareProgress'); document.getElementById('sharePanel').classList.remove('hidden'); renderSharingInfo(info); })
+    .withFailureHandler(function(e) { hideProgress('shareProgress'); showResult('shareResult', 'error', escHtml(e.message)); }).getSharingInfo(id);
 }
-
 function renderSharingInfo(info) {
-  var accessMap = {
-    'ANYONE': '全員', 'ANYONE_WITH_LINK': 'リンクを知っている全員',
-    'DOMAIN': 'ドメイン内', 'DOMAIN_WITH_LINK': 'ドメイン（リンク）', 'PRIVATE': '非公開'
-  };
-  var permMap = { 'VIEW': '閲覧のみ', 'EDIT': '編集可', 'COMMENT': 'コメント可', 'NONE': 'なし' };
-
-  var html = '<dt>アクセス範囲</dt><dd>' + (accessMap[info.access] || info.access) + '</dd>';
-  html += '<dt>権限</dt><dd>' + (permMap[info.permission] || info.permission) + '</dd>';
-  html += '<dt>編集者</dt><dd>' + (info.editors.length > 0 ? escHtml(info.editors.join(', ')) : 'なし') + '</dd>';
-  html += '<dt>閲覧者</dt><dd>' + (info.viewers.length > 0 ? escHtml(info.viewers.join(', ')) : 'なし') + '</dd>';
-  html += '<dt>URL</dt><dd><a href="' + info.url + '" target="_blank">' + escHtml(info.url) + '</a></dd>';
-  document.getElementById('shareInfoView').innerHTML = html;
+  var am = {'ANYONE':'全員','ANYONE_WITH_LINK':'リンクを知っている全員','DOMAIN':'ドメイン内','PRIVATE':'非公開'};
+  var pm = {'VIEW':'閲覧のみ','EDIT':'編集可','COMMENT':'コメント可','NONE':'なし'};
+  var h = '<dt>アクセス範囲</dt><dd>'+(am[info.access]||info.access)+'</dd>';
+  h += '<dt>権限</dt><dd>'+(pm[info.permission]||info.permission)+'</dd>';
+  h += '<dt>編集者</dt><dd>'+(info.editors.length>0?escHtml(info.editors.join(', ')):'なし')+'</dd>';
+  h += '<dt>閲覧者</dt><dd>'+(info.viewers.length>0?escHtml(info.viewers.join(', ')):'なし')+'</dd>';
+  h += '<dt>URL</dt><dd><a href="'+info.url+'" target="_blank">'+escHtml(info.url)+'</a></dd>';
+  document.getElementById('shareInfoView').innerHTML = h;
 }
-
 function doUpdateSharing() {
-  var id = document.getElementById('sharePresentationId').value.trim();
-  if (!id) return;
-
-  google.script.run
-    .withSuccessHandler(function(info) {
-      showResult('shareResult', 'success', '共有設定を更新しました。');
-      renderSharingInfo(info);
-    })
-    .withFailureHandler(function(err) { showResult('shareResult', 'error', escHtml(err.message)); })
-    .updateSharing(
-      id,
-      document.getElementById('shareMode').value,
-      document.getElementById('shareEmails').value,
-      document.getElementById('sharePermission').value
-    );
+  var id = document.getElementById('sharePresentationId').value.trim(); if (!id) return;
+  google.script.run.withSuccessHandler(function(info) { showResult('shareResult', 'success', '共有設定を更新しました。'); renderSharingInfo(info); })
+    .withFailureHandler(function(e) { showResult('shareResult', 'error', escHtml(e.message)); })
+    .updateSharing(id, document.getElementById('shareMode').value, document.getElementById('shareEmails').value, document.getElementById('sharePermission').value);
 }
 
 // ========================================================
 // ユーティリティ
 // ========================================================
-function getEditId() {
-  return document.getElementById('editPresentationId').value.trim();
-}
-
+function getEditId() { return document.getElementById('editPresentationId').value.trim(); }
 function toggleEmailSection(prefix) {
   var mode = document.getElementById(prefix + (prefix === 'create' ? 'ShareMode' : 'Mode')).value;
-  var section = document.getElementById(prefix + 'EmailSection');
-  section.classList.toggle('hidden', mode !== 'emails');
+  document.getElementById(prefix + 'EmailSection').classList.toggle('hidden', mode !== 'emails');
 }
-
-function showProgress(id, text) {
-  var el = document.getElementById(id);
-  el.classList.add('show');
-  if (text) {
-    var span = el.querySelector('span');
-    if (span) span.textContent = text;
-  }
-}
+function showProgress(id, text) { var el = document.getElementById(id); el.classList.add('show'); if (text) { var s = el.querySelector('span'); if (s) s.textContent = text; } }
 function hideProgress(id) { document.getElementById(id).classList.remove('show'); }
-
-function showResult(containerId, type, html) {
-  document.getElementById(containerId).innerHTML =
-    '<div class="result ' + type + '">' + html + '</div>';
-}
-
-function escHtml(s) {
-  var d = document.createElement('div');
-  d.textContent = s || '';
-  return d.innerHTML;
-}
+function showResult(cid, type, html) { document.getElementById(cid).innerHTML = '<div class="result '+type+'">'+html+'</div>'; }
+function escHtml(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
 </script>
 </body>
 </html>
