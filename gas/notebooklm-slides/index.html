@@ -502,6 +502,12 @@ async function processWithGemini() {
     var pct = (i / pages.length) * 100;
     updateProgress(pg.label + ' を処理中... (' + (i + 1) + '/' + pages.length + ')', pct);
 
+    // ページ間に3秒待機（429レート制限対策、初回は不要）
+    if (i > 0) {
+      logInfo('  レート制限対策: 3秒待機中...');
+      await sleep(3000);
+    }
+
     // ステップ1: 低解像度画像を Gemini に送信して解析
     logInfo('--- ページ ' + (i + 1) + ': ' + pg.label + ' ---');
     log('  [1] Gemini に解析リクエスト送信...');
@@ -691,6 +697,10 @@ function buildPageData(analysis, canvas, overrideQuality) {
 // ========================================================
 // ユーティリティ
 // ========================================================
+function sleep(ms) {
+  return new Promise(function(resolve) { setTimeout(resolve, ms); });
+}
+
 function updateProgress(text, percent) {
   showProgress('createProgress', text);
   if (percent !== undefined) document.getElementById('progressBar').style.width = Math.round(percent) + '%';

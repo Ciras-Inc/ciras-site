@@ -130,11 +130,25 @@ function analyzePageImage(imageBase64, mimeType) {
     muteHttpExceptions: true
   };
 
-  var response = UrlFetchApp.fetch(url, options);
-  var code = response.getResponseCode();
-  var body = response.getContentText();
+  // リトライ付きリクエスト（429対策: 最大3回、指数バックオフ）
+  var response, code, body;
+  var maxRetries = 3;
+  var waitSeconds = [5, 15, 30]; // リトライ待機秒数
 
-  if (code !== 200) {
+  for (var attempt = 0; attempt <= maxRetries; attempt++) {
+    response = UrlFetchApp.fetch(url, options);
+    code = response.getResponseCode();
+    body = response.getContentText();
+
+    if (code === 200) break; // 成功
+
+    if (code === 429 && attempt < maxRetries) {
+      // レート制限 → 待機してリトライ
+      Logger.log('Gemini API 429: ' + waitSeconds[attempt] + '秒待機後リトライ (' + (attempt + 1) + '/' + maxRetries + ')');
+      Utilities.sleep(waitSeconds[attempt] * 1000);
+      continue;
+    }
+
     throw new Error('Gemini API エラー (HTTP ' + code + '): ' + body.substring(0, 300));
   }
 
