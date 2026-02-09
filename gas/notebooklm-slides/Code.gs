@@ -2,7 +2,7 @@
  * NotebookLM スライド管理ツール - Google Apps Script
  *
  * PDF のページ画像変換はブラウザ側（PDF.js）で行い、
- * サーバー側は画像の挿入・編集・共有のみを担当する。
+ * サーバー側は Gemini API での解析・画像の挿入・編集・共有を担当する。
  *
  * セットアップ手順:
  *   1. https://script.google.com で新規プロジェクトを作成
@@ -13,7 +13,7 @@
  *      - アクセス: 全員（Google アカウント必須）
  *   5. 表示された URL にアクセスして利用開始
  *
- * ※ Drive API のサービス追加は不要になりました（v3）
+ * ※ Gemini API キーは初回利用時にウェブアプリ上で設定してください
  */
 
 // =====================================================
@@ -27,11 +27,127 @@ function doGet() {
 }
 
 // =====================================================
+// Gemini API 設定
+// =====================================================
+
+function setGeminiApiKey(apiKey) {
+  PropertiesService.getScriptProperties().setProperty('GEMINI_API_KEY', apiKey);
+  return true;
+}
+
+function hasGeminiApiKey() {
+  var key = PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY');
+  return !!key;
+}
+
+function getGeminiApiKey_() {
+  var key = PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY');
+  if (!key) throw new Error('Gemini API キーが設定されていません。設定画面で API キーを入力してください。');
+  return key;
+}
+
+// =====================================================
+// Gemini Vision API でページ画像を解析
+// =====================================================
+
+function analyzePageWithGemini_(imageBase64, mimeType) {
+  var apiKey = getGeminiApiKey_();
+  var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey;
+
+  var prompt = [
+    'このプレゼンテーションスライド画像を分析し、すべてのテキスト要素を正確な位置情報とともに抽出してください。',
+    '',
+    '以下の構造の JSON オブジェクトのみを返してください:',
+    '{',
+    '  "backgroundColor": "#RRGGBB",',
+    '  "elements": [',
+    '    {',
+    '      "type": "text",',
+    '      "content": "テキスト内容",',
+    '      "x": 0.1,',
+    '      "y": 0.05,',
+    '      "width": 0.8,',
+    '      "height": 0.1,',
+    '      "fontSize": 24,',
+    '      "fontColor": "#333333",',
+    '      "bgColor": "#FFFFFF",',
+    '      "bold": false,',
+    '      "alignment": "left"',
+    '    }',
+    '  ]',
+    '}',
+    '',
+    'ルール:',
+    '- x, y, width, height はページ全体に対する割合（0.0〜1.0）',
+    '- x は左端からの位置、y は上端からの位置',
+    '- 見出し、本文、キャプション、ラベル、数字など、すべての見えるテキストを抽出',
+    '- fontSize はポイント単位（通常 8〜72）',
+    '- fontColor はテキストの色（16進数 #RRGGBB）',
+    '- bgColor はそのテキストの直下にある背景色（16進数 #RRGGBB）',
+    '- bold: 太字なら true',
+    '- alignment: "left", "center", "right" のいずれか',
+    '- 論理的にまとまるテキストは1つの要素にグループ化',
+    '- 見出し、段落、ラベルは別々の要素として保持',
+    '- backgroundColor: スライド全体の主要な背景色',
+    '- 有効な JSON のみを返すこと（マークダウンのコードフェンス不要）'
+  ].join('\n');
+
+  var payload = {
+    contents: [{
+      parts: [
+        { text: prompt },
+        { inlineData: { mimeType: mimeType || 'image/jpeg', data: imageBase64 } }
+      ]
+    }],
+    generationConfig: {
+      temperature: 0.1,
+      maxOutputTokens: 8192,
+      responseMimeType: 'application/json'
+    }
+  };
+
+  var options = {
+    method: 'post',
+    contentType: 'application/json',
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  };
+
+  var response = UrlFetchApp.fetch(url, options);
+  if (response.getResponseCode() !== 200) {
+    Logger.log('Gemini API error (' + response.getResponseCode() + '): '
+      + response.getContentText().substring(0, 500));
+    return null;
+  }
+
+  var result = JSON.parse(response.getContentText());
+  if (!result.candidates || !result.candidates[0] || !result.candidates[0].content) {
+    Logger.log('Gemini API: No candidates returned');
+    return null;
+  }
+
+  var text = result.candidates[0].content.parts[0].text;
+
+  // Extract JSON from possible markdown fences (safety fallback)
+  var jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (jsonMatch) text = jsonMatch[1];
+  text = text.trim();
+
+  try {
+    return JSON.parse(text);
+  } catch (e) {
+    Logger.log('Gemini JSON parse error: ' + e.message + '\nResponse: ' + text.substring(0, 500));
+    return null;
+  }
+}
+
+// =====================================================
 // プレゼンテーション作成（最初のバッチ）
 // =====================================================
 
 function createPresentation(config) {
   var title = config.title || 'NotebookLM スライド';
+  var useGemini = config.useGemini === true;
 
   var presentation = SlidesApp.create(title);
   var presentationId = presentation.getId();
@@ -46,7 +162,7 @@ function createPresentation(config) {
   for (var i = 0; i < config.files.length; i++) {
     var slide = (i === 0) ? firstSlide
       : presentation.appendSlide(SlidesApp.PredefinedLayout.BLANK);
-    insertPageContent_(slide, config.files[i], slideWidth, slideHeight);
+    insertSlideContent_(slide, config.files[i], slideWidth, slideHeight, useGemini);
   }
 
   if (config.shareMode && config.shareMode !== 'private') {
@@ -69,24 +185,138 @@ function addSlidesToPresentation(config) {
   var presentation = SlidesApp.openById(config.presentationId);
   var slideWidth = presentation.getPageWidth();
   var slideHeight = presentation.getPageHeight();
+  var useGemini = config.useGemini === true;
 
   for (var i = 0; i < config.files.length; i++) {
     var slide = presentation.appendSlide(SlidesApp.PredefinedLayout.BLANK);
-    insertPageContent_(slide, config.files[i], slideWidth, slideHeight);
+    insertSlideContent_(slide, config.files[i], slideWidth, slideHeight, useGemini);
   }
 
   return { added: config.files.length };
 }
 
 // =====================================================
-// ページコンテンツ挿入（背景画像 + テキストボックス）
+// スライドコンテンツ挿入（Gemini 有無で分岐）
+// =====================================================
+
+function insertSlideContent_(slide, fileData, slideWidth, slideHeight, useGemini) {
+  if (useGemini) {
+    try {
+      var analysis = analyzePageWithGemini_(fileData.data, fileData.mimeType);
+      if (analysis) {
+        insertPageContentWithGemini_(slide, fileData, slideWidth, slideHeight, analysis);
+        return;
+      }
+    } catch (e) {
+      Logger.log('Gemini 解析フォールバック: ' + e.message);
+    }
+  }
+  // フォールバック: 従来の方法（背景画像 + PDF.js テキスト）
+  insertPageContent_(slide, fileData, slideWidth, slideHeight);
+}
+
+// =====================================================
+// Gemini 解析結果を使ったスライド構築
 // =====================================================
 
 /**
- * 1枚のスライドに:
- *   1. PDFページ画像を背景として挿入
- *   2. 抽出されたテキストを編集可能なテキストボックスとして配置
+ * Gemini が解析したテキスト要素を使ってスライドを構築:
+ *   1. 背景色を設定
+ *   2. 元のページ画像を背景として挿入
+ *   3. 各テキスト要素を編集可能なテキストボックスとして配置
+ *      （テキストボックスにはローカル背景色を設定し、画像テキストを覆う）
  */
+function insertPageContentWithGemini_(slide, fileData, slideWidth, slideHeight, analysis) {
+  // 1. 背景色を設定
+  if (analysis.backgroundColor) {
+    try {
+      slide.getBackground().setSolidFill(analysis.backgroundColor);
+    } catch (e) {
+      Logger.log('背景色設定エラー: ' + e.message);
+    }
+  }
+
+  // 2. ページ画像を背景として挿入（イラスト・図表などのビジュアルを保持）
+  var blob = Utilities.newBlob(
+    Utilities.base64Decode(fileData.data),
+    fileData.mimeType,
+    fileData.fileName
+  );
+  var bgImage = slide.insertImage(blob);
+  bgImage.setLeft(0);
+  bgImage.setTop(0);
+  bgImage.setWidth(slideWidth);
+  bgImage.setHeight(slideHeight);
+
+  // 3. Gemini が抽出したテキスト要素を編集可能なテキストボックスとして配置
+  var elements = analysis.elements || [];
+  for (var i = 0; i < elements.length; i++) {
+    var el = elements[i];
+    if (el.type !== 'text' || !el.content || !el.content.trim()) continue;
+
+    var x = (el.x || 0) * slideWidth;
+    var y = (el.y || 0) * slideHeight;
+    var w = Math.max((el.width || 0.1) * slideWidth, 20);
+    var h = Math.max((el.height || 0.05) * slideHeight, 15);
+    var fontSize = Math.max(8, Math.min(72, el.fontSize || 14));
+
+    // スライド範囲内に収める
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
+    if (x + w > slideWidth) w = slideWidth - x;
+    if (y + h > slideHeight) h = slideHeight - y;
+
+    try {
+      var textBox = slide.insertTextBox(el.content, x, y, w, h);
+      var textRange = textBox.getText();
+      var style = textRange.getTextStyle();
+      style.setFontSize(fontSize);
+      style.setFontFamily('Noto Sans JP');
+
+      // テキスト色
+      if (el.fontColor) {
+        try { style.setForegroundColor(el.fontColor); } catch (e) {}
+      }
+
+      // 太字
+      if (el.bold) {
+        try { style.setBold(true); } catch (e) {}
+      }
+
+      // テキストボックスの背景色（画像のテキストを覆うため）
+      if (el.bgColor) {
+        try {
+          textBox.getFill().setSolidFill(el.bgColor);
+        } catch (e) {
+          textBox.getFill().setTransparent();
+        }
+      } else {
+        textBox.getFill().setTransparent();
+      }
+
+      // 枠線を透明に
+      textBox.getBorder().setTransparent();
+
+      // テキスト配置（左/中央/右）
+      if (el.alignment) {
+        var paragraphs = textRange.getParagraphs();
+        var align = SlidesApp.ParagraphAlignment.START;
+        if (el.alignment === 'center') align = SlidesApp.ParagraphAlignment.CENTER;
+        else if (el.alignment === 'right') align = SlidesApp.ParagraphAlignment.END;
+        for (var p = 0; p < paragraphs.length; p++) {
+          paragraphs[p].getRange().getParagraphStyle().setParagraphAlignment(align);
+        }
+      }
+    } catch (e) {
+      Logger.log('テキストボックス挿入エラー: ' + e.message);
+    }
+  }
+}
+
+// =====================================================
+// ページコンテンツ挿入（フォールバック: 背景画像 + PDF.js テキスト）
+// =====================================================
+
 function insertPageContent_(slide, fileData, slideWidth, slideHeight) {
   // 背景画像を挿入
   var blob = Utilities.newBlob(
@@ -270,6 +500,31 @@ function unifyImageSizes(presentationId, left, top, width, height) {
         img.setWidth(width);
         img.setHeight(height);
         count++;
+      }
+    }
+  }
+  return count;
+}
+
+// =====================================================
+// 背景画像一括削除（テキストのみにする）
+// =====================================================
+
+function removeBackgroundImages(presentationId) {
+  var presentation = SlidesApp.openById(presentationId);
+  var slides = presentation.getSlides();
+  var count = 0;
+
+  for (var i = 0; i < slides.length; i++) {
+    var elements = slides[i].getPageElements();
+    for (var j = elements.length - 1; j >= 0; j--) {
+      if (elements[j].getPageElementType() === SlidesApp.PageElementType.IMAGE) {
+        var img = elements[j].asImage();
+        // フルサイズの背景画像のみ削除（幅がスライド幅の90%以上）
+        if (img.getWidth() > presentation.getPageWidth() * 0.9) {
+          img.remove();
+          count++;
+        }
       }
     }
   }

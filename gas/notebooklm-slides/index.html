@@ -43,7 +43,7 @@
 
     label { display: block; font-size: 13px; color: var(--text-sub); margin-bottom: 4px; margin-top: 12px; }
     label:first-child { margin-top: 0; }
-    input[type="text"], select, textarea {
+    input[type="text"], input[type="password"], select, textarea {
       width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px;
       font-size: 14px; color: var(--text); outline: none;
     }
@@ -67,6 +67,7 @@
     .btn-primary:disabled { background: #94bef7; cursor: not-allowed; }
     .btn-secondary { background: #fff; color: var(--primary); border: 1px solid var(--border); }
     .btn-secondary:hover { background: #f1f3f4; }
+    .btn-sm { padding: 6px 14px; font-size: 13px; margin-top: 8px; }
 
     .result { padding: 16px; border-radius: 8px; margin-top: 16px; font-size: 14px; }
     .result.success { background: #e6f4ea; border: 1px solid #0d904f; color: #137333; }
@@ -93,6 +94,21 @@
     .hidden { display: none; }
     .row { display: flex; gap: 12px; }
     .row > * { flex: 1; }
+
+    .gemini-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 10px;
+      font-size: 11px; font-weight: 500; margin-left: 8px;
+    }
+    .gemini-badge.ok { background: #e6f4ea; color: #137333; }
+    .gemini-badge.ng { background: #fce8e6; color: #c5221f; }
+
+    .checkbox-label {
+      display: flex; align-items: center; gap: 8px; margin-top: 12px;
+      cursor: pointer; font-size: 14px; color: var(--text);
+    }
+    .checkbox-label input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
+
+    .hint { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
   </style>
 </head>
 <body>
@@ -107,6 +123,33 @@
 
   <!-- ===== 新規作成タブ ===== -->
   <div id="tab-create" class="tab-content active">
+
+    <!-- Gemini API 設定 -->
+    <div class="card">
+      <h2>AI 解析設定 <span id="geminiStatus" class="gemini-badge ng">未設定</span></h2>
+      <p class="hint">
+        Gemini API を使うと、PDF 内のテキスト・画像・背景を AI が解析し、
+        テキストを個別に編集可能なテキストボックスとしてスライドに配置します。
+      </p>
+      <label>Gemini API キー</label>
+      <div style="display:flex; gap:8px">
+        <input type="password" id="geminiApiKey" placeholder="AIza...">
+        <button class="btn btn-secondary" onclick="saveApiKey()" style="margin-top:0;white-space:nowrap;height:36px">保存</button>
+      </div>
+      <p class="hint">
+        Google AI Studio（<a href="https://aistudio.google.com/apikey" target="_blank">https://aistudio.google.com/apikey</a>）で無料取得できます。
+      </p>
+      <div id="apiKeyResult"></div>
+
+      <label class="checkbox-label">
+        <input type="checkbox" id="useGemini" checked>
+        Gemini AI でテキスト・画像を分離する（推奨）
+      </label>
+      <p class="hint">
+        OFF にすると PDF.js のテキスト抽出（精度が低い）にフォールバックします。
+      </p>
+    </div>
+
     <div class="card">
       <h2>ファイルをアップロード</h2>
       <div class="upload-area" id="dropZone"
@@ -120,9 +163,6 @@
                onchange="handleFiles(this.files)" style="display:none">
       </div>
       <div class="file-list" id="fileList"></div>
-      <p style="font-size:12px; color:var(--text-sub); margin-top:12px">
-        PDF は各ページを高画質画像に変換してスライドに挿入します。
-      </p>
     </div>
 
     <div class="card">
@@ -231,6 +271,12 @@
         <button class="btn btn-primary" onclick="doUnifyImages()">統一する</button>
         <div id="unifyResult"></div>
       </div>
+      <div class="card">
+        <h2>背景画像を一括削除</h2>
+        <p class="hint">Gemini AI で作成したスライドから背景画像を削除し、テキストボックスのみ残します。</p>
+        <button class="btn btn-secondary" onclick="doRemoveBgImages()">背景画像を削除</button>
+        <div id="bgRemoveResult"></div>
+      </div>
     </div>
     <div class="progress" id="editProgress"><div class="spinner"></div><span>処理中...</span></div>
   </div>
@@ -279,7 +325,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 // グローバル変数
 // ========================================================
 var uploadedFiles = [];
-var BATCH_SIZE = 10; // サーバーに送るバッチサイズ
+var BATCH_SIZE = 5; // Gemini 解析ありの場合は小さめのバッチ
 
 // ========================================================
 // タブ切り替え
@@ -291,6 +337,45 @@ function switchTab(name) {
   document.getElementById('tab-' + name).classList.add('active');
   if (name === 'edit') loadPresentations();
 }
+
+// ========================================================
+// Gemini API キー管理
+// ========================================================
+function checkApiKey() {
+  google.script.run
+    .withSuccessHandler(function(has) {
+      var badge = document.getElementById('geminiStatus');
+      if (has) {
+        badge.textContent = '設定済み';
+        badge.className = 'gemini-badge ok';
+      } else {
+        badge.textContent = '未設定';
+        badge.className = 'gemini-badge ng';
+      }
+    })
+    .hasGeminiApiKey();
+}
+
+function saveApiKey() {
+  var key = document.getElementById('geminiApiKey').value.trim();
+  if (!key) {
+    showResult('apiKeyResult', 'error', 'API キーを入力してください。');
+    return;
+  }
+  google.script.run
+    .withSuccessHandler(function() {
+      showResult('apiKeyResult', 'success', 'API キーを保存しました。');
+      document.getElementById('geminiApiKey').value = '';
+      checkApiKey();
+    })
+    .withFailureHandler(function(e) {
+      showResult('apiKeyResult', 'error', escHtml(e.message));
+    })
+    .setGeminiApiKey(key);
+}
+
+// 初期化時に API キーの有無を確認
+checkApiKey();
 
 // ========================================================
 // ファイルアップロード
@@ -322,28 +407,26 @@ function renderFileList() {
 }
 
 // ========================================================
-// PDF → 画像 + テキスト抽出（ブラウザ側 PDF.js）
+// PDF → 画像変換（ブラウザ側 PDF.js）
 // ========================================================
 
 /**
- * PDF の各ページを:
- *   1. 背景画像（JPEG）としてレンダリング
- *   2. テキストを位置情報付きで抽出
- * し、スライドで画像とテキストを別々に編集できるようにする。
+ * PDF の各ページを JPEG としてレンダリング。
+ * Gemini 使用時はテキスト抽出をスキップ（サーバー側で Gemini が行う）。
  */
-async function renderPdfToImages(file) {
+async function renderPdfToImages(file, skipTextExtraction) {
   var arrayBuffer = await file.arrayBuffer();
   var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
   var numPages = pdf.numPages;
   var pages = [];
 
   for (var i = 1; i <= numPages; i++) {
-    updateProgress('PDF ページ変換中... (' + i + '/' + numPages + ')', i / numPages * 50);
+    updateProgress('PDF ページ変換中... (' + i + '/' + numPages + ')', i / numPages * 40);
 
     var page = await pdf.getPage(i);
     var viewport1x = page.getViewport({ scale: 1.0 });
-    var pdfW = viewport1x.width;   // PDF のページ幅（ポイント）
-    var pdfH = viewport1x.height;  // PDF のページ高さ（ポイント）
+    var pdfW = viewport1x.width;
+    var pdfH = viewport1x.height;
 
     // スケール 2.0 で高画質レンダリング
     var viewport = page.getViewport({ scale: 2.0 });
@@ -358,118 +441,92 @@ async function renderPdfToImages(file) {
     canvas.width = 0;
     canvas.height = 0;
 
-    // テキストを位置情報付きで抽出
-    var textBlocks = await extractTextBlocks(page, pdfW, pdfH);
-
-    pages.push({
+    var pageData = {
       fileName: 'page_' + i + '.jpg',
       mimeType: 'image/jpeg',
-      data: base64,
-      pageWidth: pdfW,
-      pageHeight: pdfH,
-      textBlocks: textBlocks
-    });
+      data: base64
+    };
+
+    // Gemini 不使用時のみクライアント側テキスト抽出
+    if (!skipTextExtraction) {
+      pageData.pageWidth = pdfW;
+      pageData.pageHeight = pdfH;
+      pageData.textBlocks = await extractTextBlocks(page, pdfW, pdfH);
+    }
+
+    pages.push(pageData);
   }
 
   return pages;
 }
 
 /**
- * PDF.js の getTextContent() でテキストを抽出し、
- * 近くのテキストをブロックにまとめて返す。
+ * PDF.js の getTextContent() でテキストを抽出（フォールバック用）
  */
 async function extractTextBlocks(page, pageWidth, pageHeight) {
   var textContent = await page.getTextContent();
   var items = textContent.items;
   if (!items || items.length === 0) return [];
 
-  // 各テキストアイテムを座標変換（PDF座標 → スライド座標: Y軸反転）
   var rawItems = [];
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
     if (!item.str || !item.str.trim()) continue;
-
     var tx = item.transform;
     var fontSize = Math.max(Math.abs(tx[0]), Math.abs(tx[3]));
     if (fontSize < 1) fontSize = 12;
     var x = tx[4];
-    var y = pageHeight - tx[5] - fontSize; // Y反転 + ベースライン補正
-
+    var y = pageHeight - tx[5] - fontSize;
     rawItems.push({
-      text: item.str,
-      x: x,
-      y: y,
-      fontSize: Math.round(fontSize),
-      width: item.width || fontSize * item.str.length * 0.6,
-      height: fontSize * 1.3
+      text: item.str, x: x, y: y, fontSize: Math.round(fontSize),
+      width: item.width || fontSize * item.str.length * 0.6, height: fontSize * 1.3
     });
   }
 
-  // Y座標 → X座標 でソート
   rawItems.sort(function(a, b) {
     var dy = a.y - b.y;
     if (Math.abs(dy) < a.fontSize * 0.5) return a.x - b.x;
     return dy;
   });
 
-  // 近くのテキストをブロックにグループ化
   var blocks = [];
   var current = null;
-
   for (var i = 0; i < rawItems.length; i++) {
     var item = rawItems[i];
-
-    if (!current) {
-      current = newBlock(item);
-      continue;
-    }
-
+    if (!current) { current = newBlock(item); continue; }
     var sameLine = Math.abs(item.y - current.lastY) < item.fontSize * 0.7;
     var nextLine = !sameLine && (item.y - current.lastY) < item.fontSize * 2.0
                    && Math.abs(item.x - current.x) < current.width * 0.5;
-
     if (sameLine) {
-      // 同じ行: テキストを連結
       current.text += item.text;
       current.lastY = item.y;
       current.endX = Math.max(current.endX, item.x + item.width);
       current.width = current.endX - current.x;
     } else if (nextLine) {
-      // 次の行（同じブロック内）
       current.text += '\n' + item.text;
       current.lastY = item.y;
       current.height = item.y + item.height - current.y;
       current.endX = Math.max(current.endX, item.x + item.width);
       current.width = current.endX - current.x;
     } else {
-      // 新しいブロック
       blocks.push(finalizeBlock(current));
       current = newBlock(item);
     }
   }
   if (current) blocks.push(finalizeBlock(current));
-
   return blocks;
 }
 
 function newBlock(item) {
   return {
-    text: item.text,
-    x: item.x,
-    y: item.y,
-    lastY: item.y,
-    fontSize: item.fontSize,
-    width: item.width,
-    height: item.height,
-    endX: item.x + item.width
+    text: item.text, x: item.x, y: item.y, lastY: item.y,
+    fontSize: item.fontSize, width: item.width, height: item.height, endX: item.x + item.width
   };
 }
-
 function finalizeBlock(block) {
   return {
     text: block.text,
-    x: Math.round(block.x * 10) / 10,
-    y: Math.round(block.y * 10) / 10,
+    x: Math.round(block.x * 10) / 10, y: Math.round(block.y * 10) / 10,
     width: Math.round(Math.max(block.width, 20) * 10) / 10,
     height: Math.round(Math.max(block.height, block.fontSize * 1.5) * 10) / 10,
     fontSize: block.fontSize
@@ -488,6 +545,8 @@ async function startCreation() {
   document.getElementById('createProgressBar').classList.remove('hidden');
   showProgress('createProgress', '処理を開始...');
 
+  var useGemini = document.getElementById('useGemini').checked;
+
   try {
     // Step 1: 全ファイルを画像データに変換
     var allImageData = [];
@@ -496,13 +555,11 @@ async function startCreation() {
       var file = uploadedFiles[f];
 
       if (file.type === 'application/pdf') {
-        // PDF → PDF.js でページ画像に変換
         updateProgress(escHtml(file.name) + ' を変換中...', 0);
-        var pdfImages = await renderPdfToImages(file);
+        var pdfImages = await renderPdfToImages(file, useGemini);
         allImageData = allImageData.concat(pdfImages);
       } else {
-        // 画像ファイル → そのまま Base64 に
-        updateProgress(escHtml(file.name) + ' を読み込み中...', 50);
+        updateProgress(escHtml(file.name) + ' を読み込み中...', 40);
         var imgData = await readFileAsBase64(file);
         allImageData.push(imgData);
       }
@@ -519,28 +576,32 @@ async function startCreation() {
     var permission = document.getElementById('createPermission').value;
     var presentationId = null;
     var totalSlides = allImageData.length;
+    var batchSize = useGemini ? BATCH_SIZE : 10;
 
-    for (var batchStart = 0; batchStart < allImageData.length; batchStart += BATCH_SIZE) {
-      var batch = allImageData.slice(batchStart, batchStart + BATCH_SIZE);
-      var batchEnd = Math.min(batchStart + BATCH_SIZE, allImageData.length);
-      var pct = 50 + (batchEnd / totalSlides) * 50;
-      updateProgress('スライド作成中... (' + batchEnd + '/' + totalSlides + ')', pct);
+    for (var batchStart = 0; batchStart < allImageData.length; batchStart += batchSize) {
+      var batch = allImageData.slice(batchStart, batchStart + batchSize);
+      var batchEnd = Math.min(batchStart + batchSize, allImageData.length);
+      var pct = 40 + (batchEnd / totalSlides) * 60;
+      var progressText = useGemini
+        ? 'AI 解析 + スライド作成中... (' + batchEnd + '/' + totalSlides + ')'
+        : 'スライド作成中... (' + batchEnd + '/' + totalSlides + ')';
+      updateProgress(progressText, pct);
 
       if (batchStart === 0) {
-        // 最初のバッチ: プレゼンテーション作成
         var result = await callServer('createPresentation', {
           files: batch,
           title: title,
           shareMode: shareMode,
           emails: emails,
-          permission: permission
+          permission: permission,
+          useGemini: useGemini
         });
         presentationId = result.id;
       } else {
-        // 追加バッチ: 既存プレゼンテーションにスライド追加
         await callServer('addSlidesToPresentation', {
           presentationId: presentationId,
-          files: batch
+          files: batch,
+          useGemini: useGemini
         });
       }
     }
@@ -549,10 +610,13 @@ async function startCreation() {
     hideProgress('createProgress');
     document.getElementById('createProgressBar').classList.add('hidden');
     var url = 'https://docs.google.com/presentation/d/' + presentationId + '/edit';
+    var geminiNote = useGemini
+      ? '<br><span style="font-size:12px;color:var(--text-sub)">Gemini AI でテキストを分離しました。各テキストボックスをクリックして編集できます。</span>'
+      : '';
     showResult('createResult', 'success',
       '<strong>' + escHtml(title) + '</strong> を作成しました（' + totalSlides + ' スライド）<br>' +
-      '<a href="' + url + '" target="_blank">Google スライドを開く</a><br>' +
-      '<span style="font-size:12px;color:var(--text-sub)">ID: ' + presentationId + '</span>'
+      '<a href="' + url + '" target="_blank">Google スライドを開く</a>' + geminiNote +
+      '<br><span style="font-size:12px;color:var(--text-sub)">ID: ' + presentationId + '</span>'
     );
     uploadedFiles = [];
     renderFileList();
@@ -687,6 +751,12 @@ function doUnifyImages() {
       w = parseFloat(document.getElementById('uniWidth').value), h = parseFloat(document.getElementById('uniHeight').value);
   google.script.run.withSuccessHandler(function(c) { showResult('unifyResult', 'success', c + ' 枚の画像を統一しました。'); loadStructure(); })
     .withFailureHandler(function(e) { showResult('unifyResult', 'error', escHtml(e.message)); }).unifyImageSizes(id, l, t, w, h);
+}
+function doRemoveBgImages() {
+  var id = getEditId(); if (!id) return;
+  if (!confirm('全スライドの背景画像を削除しますか？テキストボックスのみ残ります。')) return;
+  google.script.run.withSuccessHandler(function(c) { showResult('bgRemoveResult', 'success', c + ' 枚の背景画像を削除しました。'); loadStructure(); })
+    .withFailureHandler(function(e) { showResult('bgRemoveResult', 'error', escHtml(e.message)); }).removeBackgroundImages(id);
 }
 
 // ========================================================
