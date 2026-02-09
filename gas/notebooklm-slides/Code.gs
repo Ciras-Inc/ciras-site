@@ -43,30 +43,12 @@ function createPresentation(config) {
   var defaultEls = firstSlide.getPageElements();
   for (var d = defaultEls.length - 1; d >= 0; d--) defaultEls[d].remove();
 
-  // 画像をスライドに挿入
   for (var i = 0; i < config.files.length; i++) {
-    var file = config.files[i];
-    var blob = Utilities.newBlob(
-      Utilities.base64Decode(file.data),
-      file.mimeType,
-      file.fileName
-    );
-
-    var slide;
-    if (i === 0) {
-      slide = firstSlide;
-    } else {
-      slide = presentation.appendSlide(SlidesApp.PredefinedLayout.BLANK);
-    }
-
-    var image = slide.insertImage(blob);
-    image.setLeft(0);
-    image.setTop(0);
-    image.setWidth(slideWidth);
-    image.setHeight(slideHeight);
+    var slide = (i === 0) ? firstSlide
+      : presentation.appendSlide(SlidesApp.PredefinedLayout.BLANK);
+    insertPageContent_(slide, config.files[i], slideWidth, slideHeight);
   }
 
-  // 共有設定
   if (config.shareMode && config.shareMode !== 'private') {
     setupSharing_(presentationId, config.shareMode, config.emails, config.permission);
   }
@@ -89,22 +71,72 @@ function addSlidesToPresentation(config) {
   var slideHeight = presentation.getPageHeight();
 
   for (var i = 0; i < config.files.length; i++) {
-    var file = config.files[i];
-    var blob = Utilities.newBlob(
-      Utilities.base64Decode(file.data),
-      file.mimeType,
-      file.fileName
-    );
-
     var slide = presentation.appendSlide(SlidesApp.PredefinedLayout.BLANK);
-    var image = slide.insertImage(blob);
-    image.setLeft(0);
-    image.setTop(0);
-    image.setWidth(slideWidth);
-    image.setHeight(slideHeight);
+    insertPageContent_(slide, config.files[i], slideWidth, slideHeight);
   }
 
   return { added: config.files.length };
+}
+
+// =====================================================
+// ページコンテンツ挿入（背景画像 + テキストボックス）
+// =====================================================
+
+/**
+ * 1枚のスライドに:
+ *   1. PDFページ画像を背景として挿入
+ *   2. 抽出されたテキストを編集可能なテキストボックスとして配置
+ */
+function insertPageContent_(slide, fileData, slideWidth, slideHeight) {
+  // 背景画像を挿入
+  var blob = Utilities.newBlob(
+    Utilities.base64Decode(fileData.data),
+    fileData.mimeType,
+    fileData.fileName
+  );
+  var image = slide.insertImage(blob);
+  image.setLeft(0);
+  image.setTop(0);
+  image.setWidth(slideWidth);
+  image.setHeight(slideHeight);
+
+  // テキストブロックがあれば、編集可能なテキストボックスとして配置
+  if (!fileData.textBlocks || fileData.textBlocks.length === 0) return;
+
+  // PDF座標 → スライド座標のスケール計算
+  var pdfW = fileData.pageWidth || slideWidth;
+  var pdfH = fileData.pageHeight || slideHeight;
+  var scaleX = slideWidth / pdfW;
+  var scaleY = slideHeight / pdfH;
+
+  for (var i = 0; i < fileData.textBlocks.length; i++) {
+    var block = fileData.textBlocks[i];
+    if (!block.text || !block.text.trim()) continue;
+
+    var x = block.x * scaleX;
+    var y = block.y * scaleY;
+    var w = block.width * scaleX + 10;
+    var h = block.height * scaleY + 5;
+    var fontSize = Math.max(8, Math.round(block.fontSize * scaleY));
+
+    // スライド範囲内に収める
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
+    if (x + w > slideWidth) w = slideWidth - x;
+    if (y + h > slideHeight) h = slideHeight - y;
+
+    try {
+      var textBox = slide.insertTextBox(block.text, x, y, w, h);
+      var style = textBox.getText().getTextStyle();
+      style.setFontSize(fontSize);
+      style.setFontFamily('Noto Sans JP');
+      // テキストボックスの背景を透明に
+      textBox.getFill().setTransparent();
+    } catch (e) {
+      // 個別のテキストボックス挿入エラーは無視して続行
+      Logger.log('テキストボックス挿入エラー: ' + e.message);
+    }
+  }
 }
 
 // =====================================================

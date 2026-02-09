@@ -322,49 +322,158 @@ function renderFileList() {
 }
 
 // ========================================================
-// PDF → 画像変換（ブラウザ側 PDF.js）
+// PDF → 画像 + テキスト抽出（ブラウザ側 PDF.js）
 // ========================================================
 
 /**
- * PDF ファイルを各ページの JPEG 画像に変換する。
- * PDF.js でブラウザ内レンダリングし、元のデザインをそのまま画像化する。
+ * PDF の各ページを:
+ *   1. 背景画像（JPEG）としてレンダリング
+ *   2. テキストを位置情報付きで抽出
+ * し、スライドで画像とテキストを別々に編集できるようにする。
  */
 async function renderPdfToImages(file) {
   var arrayBuffer = await file.arrayBuffer();
   var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
   var numPages = pdf.numPages;
-  var images = [];
+  var pages = [];
 
   for (var i = 1; i <= numPages; i++) {
     updateProgress('PDF ページ変換中... (' + i + '/' + numPages + ')', i / numPages * 50);
 
     var page = await pdf.getPage(i);
+    var viewport1x = page.getViewport({ scale: 1.0 });
+    var pdfW = viewport1x.width;   // PDF のページ幅（ポイント）
+    var pdfH = viewport1x.height;  // PDF のページ高さ（ポイント）
+
     // スケール 2.0 で高画質レンダリング
     var viewport = page.getViewport({ scale: 2.0 });
-
     var canvas = document.createElement('canvas');
     canvas.width = viewport.width;
     canvas.height = viewport.height;
     var ctx = canvas.getContext('2d');
-
     await page.render({ canvasContext: ctx, viewport: viewport }).promise;
 
-    // JPEG で圧縮（品質 0.85）→ サイズを抑えつつ高画質
     var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
     var base64 = dataUrl.split(',')[1];
-
-    images.push({
-      fileName: 'page_' + i + '.jpg',
-      mimeType: 'image/jpeg',
-      data: base64
-    });
-
-    // メモリ解放
     canvas.width = 0;
     canvas.height = 0;
+
+    // テキストを位置情報付きで抽出
+    var textBlocks = await extractTextBlocks(page, pdfW, pdfH);
+
+    pages.push({
+      fileName: 'page_' + i + '.jpg',
+      mimeType: 'image/jpeg',
+      data: base64,
+      pageWidth: pdfW,
+      pageHeight: pdfH,
+      textBlocks: textBlocks
+    });
   }
 
-  return images;
+  return pages;
+}
+
+/**
+ * PDF.js の getTextContent() でテキストを抽出し、
+ * 近くのテキストをブロックにまとめて返す。
+ */
+async function extractTextBlocks(page, pageWidth, pageHeight) {
+  var textContent = await page.getTextContent();
+  var items = textContent.items;
+  if (!items || items.length === 0) return [];
+
+  // 各テキストアイテムを座標変換（PDF座標 → スライド座標: Y軸反転）
+  var rawItems = [];
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    if (!item.str || !item.str.trim()) continue;
+
+    var tx = item.transform;
+    var fontSize = Math.max(Math.abs(tx[0]), Math.abs(tx[3]));
+    if (fontSize < 1) fontSize = 12;
+    var x = tx[4];
+    var y = pageHeight - tx[5] - fontSize; // Y反転 + ベースライン補正
+
+    rawItems.push({
+      text: item.str,
+      x: x,
+      y: y,
+      fontSize: Math.round(fontSize),
+      width: item.width || fontSize * item.str.length * 0.6,
+      height: fontSize * 1.3
+    });
+  }
+
+  // Y座標 → X座標 でソート
+  rawItems.sort(function(a, b) {
+    var dy = a.y - b.y;
+    if (Math.abs(dy) < a.fontSize * 0.5) return a.x - b.x;
+    return dy;
+  });
+
+  // 近くのテキストをブロックにグループ化
+  var blocks = [];
+  var current = null;
+
+  for (var i = 0; i < rawItems.length; i++) {
+    var item = rawItems[i];
+
+    if (!current) {
+      current = newBlock(item);
+      continue;
+    }
+
+    var sameLine = Math.abs(item.y - current.lastY) < item.fontSize * 0.7;
+    var nextLine = !sameLine && (item.y - current.lastY) < item.fontSize * 2.0
+                   && Math.abs(item.x - current.x) < current.width * 0.5;
+
+    if (sameLine) {
+      // 同じ行: テキストを連結
+      current.text += item.text;
+      current.lastY = item.y;
+      current.endX = Math.max(current.endX, item.x + item.width);
+      current.width = current.endX - current.x;
+    } else if (nextLine) {
+      // 次の行（同じブロック内）
+      current.text += '\n' + item.text;
+      current.lastY = item.y;
+      current.height = item.y + item.height - current.y;
+      current.endX = Math.max(current.endX, item.x + item.width);
+      current.width = current.endX - current.x;
+    } else {
+      // 新しいブロック
+      blocks.push(finalizeBlock(current));
+      current = newBlock(item);
+    }
+  }
+  if (current) blocks.push(finalizeBlock(current));
+
+  return blocks;
+}
+
+function newBlock(item) {
+  return {
+    text: item.text,
+    x: item.x,
+    y: item.y,
+    lastY: item.y,
+    fontSize: item.fontSize,
+    width: item.width,
+    height: item.height,
+    endX: item.x + item.width
+  };
+}
+
+function finalizeBlock(block) {
+  return {
+    text: block.text,
+    x: Math.round(block.x * 10) / 10,
+    y: Math.round(block.y * 10) / 10,
+    width: Math.round(Math.max(block.width, 20) * 10) / 10,
+    height: Math.round(Math.max(block.height, block.fontSize * 1.5) * 10) / 10,
+    fontSize: block.fontSize
+  };
 }
 
 // ========================================================
