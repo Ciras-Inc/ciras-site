@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google Tag Manager: 木村屋精肉店用のGTM IDに差し替えてください -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ご予約・お取り置き｜木村屋精肉店</title>
+  <meta name="description" content="木村屋精肉店のオンライン予約・お取り置きシステム。前日16時までのご予約で5%OFF。新鮮なお肉をご来店時にスムーズにお受け取りいただけます。">
+  <link rel="canonical" href="https://oniku-kimuraya.jp/">
+  <link rel="icon" href="images/favicon.ico" sizes="any">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <meta property="og:title" content="ご予約・お取り置き｜木村屋精肉店">
+  <meta property="og:description" content="木村屋精肉店のオンライン予約・お取り置きシステム。前日16時までのご予約で5%OFF。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://oniku-kimuraya.jp/">
+  <meta property="og:image" content="https://oniku-kimuraya.jp/images/ogp.png">
+  <meta property="og:site_name" content="木村屋精肉店">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ご予約・お取り置き｜木村屋精肉店">
+  <meta name="twitter:description" content="木村屋精肉店のオンライン予約・お取り置きシステム。前日16時までのご予約で5%OFF。">
+  <meta name="twitter:image" content="https://oniku-kimuraya.jp/images/ogp.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "ご予約・お取り置き｜木村屋精肉店",
+    "description": "木村屋精肉店のオンライン予約・お取り置きシステム。前日16時までのご予約で5%OFF。",
+    "provider": {
+      "@type": "Organization",
+      "name": "木村屋精肉店"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --green: #2D5A27;
+      --green-light: #E8F0E6;
+      --black: #1A1A1A;
+      --gray-dark: #4A4A4A;
+      --gray: #888888;
+      --gray-light: #E5E5E5;
+      --white: #FFFFFF;
+      --bg: #FAFAFA;
+      --red: #C0392B;
+      --red-light: #FDEAEA;
+      --accent: #D4A017;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.9;
+      background: var(--bg);
+      font-size: 15px;
+      letter-spacing: 0.03em;
+    }
+    .mincho { font-family: 'Shippori Mincho', serif; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== HEADER ===== */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-light);
+      transition: box-shadow 0.3s ease;
+    }
+    header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+    .header-inner {
+      max-width: 1200px; margin: 0 auto; padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { display: flex; align-items: center; }
+    .logo-img { height: 32px; width: auto; }
+    .header-nav { display: flex; align-items: center; gap: 2rem; }
+    .header-nav > a, .nav-dropdown-trigger {
+      font-size: 0.85rem; font-weight: 500; color: var(--black);
+      transition: color 0.3s; cursor: pointer; background: none;
+      border: none; font-family: inherit;
+    }
+    .header-nav > a:hover, .nav-dropdown-trigger:hover { color: var(--green); }
+    .header-nav > .header-contact {
+      font-size: 0.8rem; color: var(--white) !important;
+      background: var(--green); padding: 0.7rem 1.8rem; border-radius: 4px;
+      transition: all 0.3s; box-shadow: 0 2px 8px rgba(45,90,39,.3);
+      font-weight: 600; letter-spacing: 0.05em;
+    }
+    .header-nav > .header-contact:hover {
+      opacity: 0.9; box-shadow: 0 4px 12px rgba(45,90,39,.4); transform: translateY(-1px);
+    }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-menu {
+      position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      background: var(--white); border: 1px solid var(--gray-light);
+      border-radius: 4px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      min-width: 160px; padding: 0.5rem 0;
+      opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s;
+      z-index: 1001; margin-top: 0.5rem;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; }
+    .nav-dropdown-menu a {
+      display: block; padding: 0.5rem 1.2rem; font-size: 0.85rem;
+      color: var(--black); transition: background 0.2s; white-space: nowrap;
+    }
+    .nav-dropdown-menu a:hover { background: var(--green-light); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      padding: 0.5rem; z-index: 1002;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px; background: var(--black);
+      margin: 5px 0; transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* Mobile Nav */
+    .mobile-nav {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--white); padding: 5rem 2rem 2rem; z-index: 999;
+      overflow-y: auto; flex-direction: column; gap: 0.5rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      display: block; padding: 0.8rem 0; font-size: 1rem; font-weight: 500;
+      color: var(--black); border-bottom: 1px solid var(--gray-light);
+    }
+    .mobile-nav-group { padding: 0.5rem 0; }
+    .mobile-nav-label {
+      font-size: 0.75rem; font-weight: 600; color: var(--green);
+      letter-spacing: 0.1em; margin-bottom: 0.3rem;
+    }
+    .mobile-nav-group a { padding-left: 1rem; font-size: 0.95rem; }
+    .mobile-nav-cta {
+      margin-top: 1rem; background: var(--green); color: var(--white) !important;
+      text-align: center; padding: 1rem !important; border-radius: 2px;
+      border-bottom: none !important;
+    }
+    @media (max-width: 900px) { .header-nav { display: none; } .hamburger { display: block; } }
+
+    /* ===== PAGE HERO ===== */
+    .page-hero {
+      padding: 8rem 2rem 3rem;
+      background: var(--white);
+      text-align: center;
+    }
+    .page-hero-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .page-hero-sub {
+      font-size: 0.95rem;
+      color: var(--gray-dark);
+      line-height: 2;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===== DISCOUNT BANNER ===== */
+    .discount-banner {
+      background: var(--red);
+      color: var(--white);
+      text-align: center;
+      padding: 1rem 2rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+    }
+    .discount-banner span {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    /* ===== LOADING STATE ===== */
+    .loading-products {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--gray);
+    }
+    .loading-products-spinner {
+      display: inline-block;
+      width: 40px; height: 40px;
+      border: 3px solid var(--gray-light);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-products p {
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    .api-error {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--red);
+      background: var(--red-light);
+      border-radius: 8px;
+    }
+    .api-error p { margin-bottom: 1rem; }
+    .api-error button {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      padding: 0.7rem 2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .api-error button:hover { opacity: 0.9; }
+
+    /* ===== RESERVATION FLOW ===== */
+    .reservation-section {
+      padding: 3rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .step-number {
+      width: 40px; height: 40px;
+      background: var(--green);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .step-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    /* ===== DATE TIME PICKER ===== */
+    .datetime-section {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      margin-bottom: 2rem;
+    }
+    .datetime-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray-dark);
+    }
+    .form-group label .required {
+      color: var(--red);
+      font-size: 0.75rem;
+      margin-left: 0.3rem;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--gray-light);
+      border-radius: 4px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+      background: var(--white);
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--green);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Discount Status */
+    .discount-status {
+      margin-top: 1.5rem;
+      padding: 1rem 1.5rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .discount-status.early {
+      display: block;
+      background: var(--green-light);
+      border: 1px solid var(--green);
+      color: var(--green);
+    }
+    .discount-status.early strong { font-size: 1.1rem; }
+    .discount-status.normal {
+      display: block;
+      background: #FFF8E1;
+      border: 1px solid var(--accent);
+      color: #8B6914;
+    }
+    .discount-status.error {
+      display: block;
+      background: var(--red-light);
+      border: 1px solid var(--red);
+      color: var(--red);
+    }
+
+    /* ===== CATEGORY TABS ===== */
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .category-tab {
+      padding: 0.6rem 1.4rem;
+      border: 1px solid var(--gray-light);
+      border-radius: 30px;
+      background: var(--white);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+      color: var(--gray-dark);
+    }
+    .category-tab:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .category-tab.active {
+      background: var(--green);
+      color: var(--white);
+      border-color: var(--green);
+    }
+
+    /* ===== PRODUCT GRID ===== */
+    .products-section {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      margin-bottom: 2rem;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .product-card {
+      border: 1px solid var(--gray-light);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: box-shadow 0.3s, border-color 0.3s;
+    }
+    .product-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      border-color: var(--green);
+    }
+    .product-card.in-cart {
+      border-color: var(--green);
+      background: var(--green-light);
+    }
+    .product-category-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    .product-name {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+    .product-desc {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .product-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .product-price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--black);
+    }
+    .product-price-discounted {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--red);
+    }
+    .product-price-original {
+      font-size: 0.85rem;
+      color: var(--gray);
+      text-decoration: line-through;
+    }
+    .product-unit {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+    .product-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    .product-qty {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .qty-btn {
+      width: 36px; height: 36px;
+      border: 1px solid var(--gray-light);
+      border-radius: 4px;
+      background: var(--white);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+      color: var(--black);
+      font-weight: 600;
+    }
+    .qty-btn:hover {
+      background: var(--green-light);
+      border-color: var(--green);
+    }
+    .qty-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .qty-value {
+      font-size: 0.95rem;
+      font-weight: 600;
+      min-width: 3.5rem;
+      text-align: center;
+    }
+    .add-cart-btn {
+      flex: 1;
+      padding: 0.6rem 1rem;
+      background: var(--green);
+      color: var(--white);
+      border: none;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+    .add-cart-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .add-cart-btn:disabled { background: var(--gray); cursor: not-allowed; transform: none; }
+    .add-cart-btn.added {
+      background: var(--green-light);
+      color: var(--green);
+      border: 1px solid var(--green);
+    }
+
+    /* ===== CROSS-SELL SUGGESTION ===== */
+    .cross-sell-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-top: 2px solid var(--green);
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.12);
+      padding: 1.2rem 2rem;
+      z-index: 900;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .cross-sell-banner.visible {
+      transform: translateY(0);
+    }
+    .cross-sell-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .cross-sell-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .cross-sell-text {
+      flex: 1;
+    }
+    .cross-sell-label {
+      font-size: 0.75rem;
+      color: var(--green);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.2rem;
+    }
+    .cross-sell-message {
+      font-size: 0.9rem;
+      color: var(--gray-dark);
+      line-height: 1.6;
+    }
+    .cross-sell-message strong {
+      color: var(--black);
+    }
+    .cross-sell-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-shrink: 0;
+    }
+    .cross-sell-add-btn {
+      padding: 0.6rem 1.5rem;
+      background: var(--green);
+      color: var(--white);
+      border: none;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .cross-sell-add-btn:hover { opacity: 0.9; }
+    .cross-sell-close {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: var(--gray);
+      cursor: pointer;
+      padding: 0.3rem;
+      line-height: 1;
+    }
+    .cross-sell-close:hover { color: var(--black); }
+
+    /* ===== CART ===== */
+    .cart-section {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      margin-bottom: 2rem;
+    }
+    .cart-empty {
+      text-align: center;
+      color: var(--gray);
+      padding: 2rem;
+      font-size: 0.95rem;
+    }
+    .cart-items {
+      border-bottom: 1px solid var(--gray-light);
+      margin-bottom: 1rem;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-top: 1px solid var(--gray-light);
+    }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-weight: 600; font-size: 0.95rem; }
+    .cart-item-detail { font-size: 0.8rem; color: var(--gray); }
+    .cart-item-price {
+      font-weight: 600; font-size: 1rem;
+      margin-left: 1rem; white-space: nowrap;
+    }
+    .cart-item-remove {
+      margin-left: 1rem;
+      background: none; border: none;
+      color: var(--red); font-size: 0.8rem;
+      cursor: pointer; padding: 0.3rem 0.5rem;
+    }
+    .cart-item-remove:hover { text-decoration: underline; }
+    .cart-summary { padding: 1rem 0; }
+    .cart-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.3rem 0;
+      font-size: 0.95rem;
+    }
+    .cart-summary-row.discount { color: var(--red); }
+    .cart-summary-row.total {
+      font-size: 1.2rem; font-weight: 700;
+      padding-top: 0.8rem;
+      border-top: 2px solid var(--black);
+      margin-top: 0.5rem;
+    }
+
+    /* ===== CUSTOMER FORM ===== */
+    .customer-section {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      margin-bottom: 2rem;
+    }
+    .customer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .customer-grid .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    /* Payment Method */
+    .payment-methods {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.3rem;
+    }
+    .payment-method-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.2rem;
+      border: 1px solid var(--gray-light);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .payment-method-label:hover {
+      border-color: var(--green);
+    }
+    .payment-method-label input[type="radio"] {
+      accent-color: var(--green);
+    }
+    .payment-method-label.selected {
+      border-color: var(--green);
+      background: var(--green-light);
+    }
+
+    /* Receipt */
+    .receipt-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.3rem;
+    }
+    .receipt-row label {
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .receipt-row input[type="checkbox"] {
+      accent-color: var(--green);
+      width: 18px;
+      height: 18px;
+    }
+    .receipt-name-input {
+      margin-top: 0.8rem;
+      display: none;
+    }
+    .receipt-name-input.visible {
+      display: block;
+    }
+
+    /* ===== CHECKOUT ===== */
+    .checkout-section {
+      text-align: center;
+      padding: 2rem 0;
+    }
+    .checkout-btn {
+      display: inline-block;
+      background: var(--green);
+      color: var(--white);
+      padding: 1.2rem 3rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(45,90,39,.3);
+      letter-spacing: 0.05em;
+    }
+    .checkout-btn:hover {
+      opacity: 0.9;
+      box-shadow: 0 4px 16px rgba(45,90,39,.4);
+      transform: translateY(-2px);
+    }
+    .checkout-btn:disabled {
+      background: var(--gray);
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+    .checkout-note {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    /* ===== NOTES ===== */
+    .notes-section {
+      padding: 3rem 2rem;
+      background: var(--white);
+    }
+    .notes-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .notes-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .notes-list { list-style: none; }
+    .notes-list li {
+      padding: 0.8rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--gray-dark);
+      border-bottom: 1px solid var(--gray-light);
+    }
+    .notes-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1.1rem;
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+    }
+
+    /* ===== CTA ===== */
+    .cta {
+      padding: 5rem 2rem;
+      background: var(--green);
+      color: var(--white);
+      text-align: center;
+    }
+    .cta-inner { max-width: 600px; margin: 0 auto; }
+    .cta-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .cta-text {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+      line-height: 2;
+    }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      font-size: 0.9rem; font-weight: 500;
+      padding: 1rem 2rem; border-radius: 2px;
+      transition: all 0.3s; text-align: center;
+    }
+    .btn-primary { background: var(--white); color: var(--green); }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-secondary {
+      background: transparent; color: var(--white);
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--black);
+      color: var(--white);
+      padding: 4rem 2rem 2rem;
+    }
+    .footer-inner { max-width: 1000px; margin: 0 auto; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 2fr;
+      gap: 4rem;
+      margin-bottom: 3rem;
+    }
+    .footer-brand { margin-bottom: 1rem; }
+    .footer-logo-img { height: 28px; width: auto; }
+    .footer-info {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 2;
+    }
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .footer-nav-title {
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 1rem;
+    }
+    .footer-nav ul { list-style: none; }
+    .footer-nav li { margin-bottom: 0.5rem; }
+    .footer-nav a {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.8);
+      transition: color 0.3s;
+    }
+    .footer-nav a:hover { color: var(--white); }
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ===== FADE-IN ===== */
+    .fade-in {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.hidden {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    /* ===== LOADING OVERLAY ===== */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+    .loading-overlay.active { display: flex; }
+    .loading-spinner {
+      background: var(--white);
+      padding: 2rem 3rem;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+    }
+    .loading-spinner::before {
+      content: '';
+      display: block;
+      width: 40px; height: 40px;
+      border: 3px solid var(--gray-light);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      animation: spin 0.8s linear infinite;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-nav { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .datetime-grid { grid-template-columns: 1fr; }
+      .customer-grid { grid-template-columns: 1fr; }
+      .product-grid { grid-template-columns: 1fr; }
+      .cart-item { flex-wrap: wrap; }
+      .cross-sell-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+      .cross-sell-actions { justify-content: center; }
+      .payment-methods { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript): 木村屋精肉店用のGTM IDに差し替えてください -->
+
+  <header>
+    <div class="header-inner">
+      <a href="/" class="logo" aria-label="木村屋精肉店 ホーム">
+        <span style="font-family:'Shippori Mincho',serif;font-size:1.2rem;font-weight:700;color:#2D5A27;">木村屋精肉店</span>
+      </a>
+      <nav class="header-nav">
+        <a href="/">ご予約</a>
+        <a href="tel:000-0000-0000" class="header-contact">お電話でのご予約</a>
+      </nav>
+      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+    <div class="mobile-nav">
+      <a href="/">ご予約</a>
+      <a href="tel:000-0000-0000" class="mobile-nav-cta">お電話でのご予約</a>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero fade-in">
+    <h1 class="page-hero-title mincho">ご予約・お取り置き</h1>
+    <p class="page-hero-sub">
+      ご来店日時を指定して、お好みのお肉をご予約いただけます。<br>
+      事前決済またはご来店時のお支払いで、スムーズにお受け取りいただけます。
+    </p>
+  </section>
+
+  <!-- Discount Banner -->
+  <div class="discount-banner fade-in" id="top-discount-banner">
+    前日16:00までのご予約で <span>5%OFF</span>！ ── ご予約はご来店の3時間前まで
+  </div>
+
+  <!-- Main Content (shown after API load) -->
+  <div id="main-content" style="display:none;">
+
+    <!-- Step 1: Date & Time -->
+    <section class="reservation-section fade-in">
+      <div class="step-header">
+        <div class="step-number">1</div>
+        <h2 class="step-title">ご来店日時を選択</h2>
+      </div>
+      <div class="datetime-section">
+        <div class="datetime-grid">
+          <div class="form-group">
+            <label for="visit-date">ご来店日<span class="required">必須</span></label>
+            <input type="date" id="visit-date" required>
+          </div>
+          <div class="form-group">
+            <label for="visit-time">ご来店時間<span class="required">必須</span></label>
+            <select id="visit-time" required>
+              <option value="">時間を選択してください</option>
+            </select>
+          </div>
+        </div>
+        <div id="discount-status" class="discount-status"></div>
+      </div>
+    </section>
+
+    <!-- Step 2: Products -->
+    <section class="reservation-section fade-in">
+      <div class="step-header">
+        <div class="step-number">2</div>
+        <h2 class="step-title">カテゴリから商品を選択</h2>
+      </div>
+      <div class="products-section">
+        <div id="category-tabs" class="category-tabs"></div>
+        <div class="product-grid" id="product-grid"></div>
+      </div>
+    </section>
+
+    <!-- Step 3: Cart -->
+    <section class="reservation-section fade-in">
+      <div class="step-header">
+        <div class="step-number">3</div>
+        <h2 class="step-title">ご注文内容の確認</h2>
+      </div>
+      <div class="cart-section">
+        <div id="cart-content">
+          <p class="cart-empty">商品が選択されていません</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 4: Customer Info & Payment -->
+    <section class="reservation-section fade-in">
+      <div class="step-header">
+        <div class="step-number">4</div>
+        <h2 class="step-title">お客様情報・決済</h2>
+      </div>
+      <div class="customer-section">
+        <div class="customer-grid">
+          <div class="form-group">
+            <label for="customer-name">お名前<span class="required">必須</span></label>
+            <input type="text" id="customer-name" placeholder="山田 太郎" required>
+          </div>
+          <div class="form-group">
+            <label for="customer-phone">電話番号<span class="required">必須</span></label>
+            <input type="tel" id="customer-phone" placeholder="090-1234-5678" required>
+          </div>
+          <div class="form-group full">
+            <label for="customer-email">メールアドレス<span class="required">必須</span></label>
+            <input type="email" id="customer-email" placeholder="example@mail.com" required>
+          </div>
+          <div class="form-group full">
+            <label for="customer-note">備考（任意）</label>
+            <textarea id="customer-note" placeholder="ご要望があればご記入ください"></textarea>
+          </div>
+          <div class="form-group full">
+            <label>お支払い方法<span class="required">必須</span></label>
+            <div class="payment-methods" id="payment-methods">
+              <label class="payment-method-label selected">
+                <input type="radio" name="payment-method" value="credit_card" checked>
+                クレジットカード
+              </label>
+              <label class="payment-method-label">
+                <input type="radio" name="payment-method" value="paypay">
+                PayPay
+              </label>
+              <label class="payment-method-label">
+                <input type="radio" name="payment-method" value="cash">
+                現金（ご来店時）
+              </label>
+            </div>
+          </div>
+          <div class="form-group full">
+            <label>領収書</label>
+            <div class="receipt-row">
+              <label>
+                <input type="checkbox" id="receipt-needed">
+                領収書が必要
+              </label>
+            </div>
+            <div class="receipt-name-input" id="receipt-name-wrap">
+              <div class="form-group" style="margin-top: 0.5rem;">
+                <label for="receipt-name">宛名</label>
+                <input type="text" id="receipt-name" placeholder="株式会社○○">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Checkout -->
+    <section class="reservation-section">
+      <div class="checkout-section">
+        <button class="checkout-btn" id="checkout-btn" disabled>ご予約を確定する</button>
+        <p class="checkout-note" id="checkout-note"></p>
+      </div>
+    </section>
+
+  </div><!-- /main-content -->
+
+  <!-- Loading State -->
+  <div id="loading-state" class="loading-products">
+    <div class="loading-products-spinner"></div>
+    <p>商品情報を読み込んでいます...</p>
+  </div>
+
+  <!-- API Error State -->
+  <div id="error-state" style="display:none; max-width:600px; margin:2rem auto; padding:0 2rem;">
+    <div class="api-error">
+      <p>商品情報の読み込みに失敗しました。</p>
+      <button onclick="App.loadProducts()">再読み込み</button>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <section class="notes-section fade-in">
+    <div class="notes-inner">
+      <h2 class="notes-title mincho">ご予約に関する注意事項</h2>
+      <ul class="notes-list" id="notes-list">
+        <li>前日16:00までにご予約いただくと、全品5%OFFが適用されます。</li>
+        <li>16:00以降のご予約は定価での販売となります。</li>
+        <li>ご予約はご来店時間の3時間前までに完了してください。</li>
+        <li>ご来店時間を過ぎた場合、お取り置き商品のお渡しができない場合がございます。</li>
+        <li>決済完了後のキャンセル・返金については、お電話にてお問い合わせください。</li>
+        <li>商品の在庫状況により、ご予約をお受けできない場合がございます。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta fade-in">
+    <div class="cta-inner">
+      <h2 class="cta-title mincho">ご不明点はお気軽にどうぞ</h2>
+      <p class="cta-text">
+        ご予約に関するご質問やご要望がございましたら、<br>
+        お電話またはお問い合わせフォームよりご連絡ください。
+      </p>
+      <div class="cta-buttons">
+        <a href="tel:000-0000-0000" class="btn btn-primary">お電話でのお問い合わせ</a>
+        <a href="https://lin.ee/s2u6VUw" class="btn btn-secondary">LINEでのお問い合わせ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div style="text-align:center;">
+        <p class="footer-brand" style="margin-bottom:1rem;">
+          <span style="font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:700;">木村屋精肉店</span>
+        </p>
+        <p class="footer-info">
+          愛媛県松山市（住所をここに記載）<br>
+          TEL: <a href="tel:000-0000-0000" style="color:inherit">000-0000-0000</a><br>
+          営業時間: 10:00〜18:00
+        </p>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 木村屋精肉店 ── Powered by <a href="https://www.ciras.jp" style="color:rgba(255,255,255,0.7);">Ciras Inc.</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cross-sell Banner -->
+  <div class="cross-sell-banner" id="cross-sell-banner">
+    <div class="cross-sell-inner">
+      <div class="cross-sell-text">
+        <p class="cross-sell-label">こちらも一緒にいかがですか？</p>
+        <p class="cross-sell-message" id="cross-sell-message"></p>
+      </div>
+      <div class="cross-sell-actions">
+        <button class="cross-sell-add-btn" id="cross-sell-add-btn">追加</button>
+        <button class="cross-sell-close" id="cross-sell-close" aria-label="閉じる">&times;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner" id="loading-spinner-text">処理中...</div>
+  </div>
+
+  <script>
+  (function() {
+    'use strict';
+
+    // ===== API Data =====
+    var categories = [];
+    var products = [];
+    var crossSellRules = [];
+    var settings = {};
+
+    // ===== State =====
+    var cart = {};            // productId -> quantity
+    var selectedQty = {};     // productId -> currently selected qty on the card (before adding)
+    var isEarlyBird = false;
+    var canReserve = false;
+    var activeCategory = null;
+    var crossSellTimeout = null;
+
+    // ===== DOM Refs =====
+    var visitDateInput = document.getElementById('visit-date');
+    var visitTimeSelect = document.getElementById('visit-time');
+    var discountStatus = document.getElementById('discount-status');
+    var categoryTabsEl = document.getElementById('category-tabs');
+    var productGrid = document.getElementById('product-grid');
+    var cartContent = document.getElementById('cart-content');
+    var checkoutBtn = document.getElementById('checkout-btn');
+    var checkoutNote = document.getElementById('checkout-note');
+    var loadingOverlay = document.getElementById('loading-overlay');
+    var loadingState = document.getElementById('loading-state');
+    var errorState = document.getElementById('error-state');
+    var mainContent = document.getElementById('main-content');
+    var topDiscountBanner = document.getElementById('top-discount-banner');
+    var crossSellBanner = document.getElementById('cross-sell-banner');
+    var crossSellMessage = document.getElementById('cross-sell-message');
+    var crossSellAddBtn = document.getElementById('cross-sell-add-btn');
+    var crossSellCloseBtn = document.getElementById('cross-sell-close');
+    var receiptCheckbox = document.getElementById('receipt-needed');
+    var receiptNameWrap = document.getElementById('receipt-name-wrap');
+
+    // ===== Load Products from API =====
+    function loadProducts() {
+      loadingState.style.display = '';
+      errorState.style.display = 'none';
+      mainContent.style.display = 'none';
+
+      fetch('/api/products')
+        .then(function(res) {
+          if (!res.ok) throw new Error('API error: ' + res.status);
+          return res.json();
+        })
+        .then(function(data) {
+          categories = data.categories || [];
+          products = data.products || [];
+          crossSellRules = data.crossSell || [];
+          settings = data.settings || {};
+
+          loadingState.style.display = 'none';
+          mainContent.style.display = '';
+
+          initAfterLoad();
+        })
+        .catch(function(err) {
+          console.error('Failed to load products:', err);
+          loadingState.style.display = 'none';
+          errorState.style.display = '';
+        });
+    }
+
+    // ===== Initialize after API data loaded =====
+    function initAfterLoad() {
+      // Update the top discount banner with real settings
+      var discountRate = parseInt(settings.discount_rate || '5', 10);
+      var deadlineHour = parseInt(settings.discount_deadline_hour || '16', 10);
+      var minHours = parseInt(settings.min_hours_before_visit || '3', 10);
+      topDiscountBanner.innerHTML = '前日' + deadlineHour + ':00までのご予約で <span>' + discountRate + '%OFF</span>！ ── ご予約はご来店の' + minHours + '時間前まで';
+
+      // Build time select options from settings
+      buildTimeOptions();
+
+      // Set min date
+      setMinDate();
+
+      // Build category tabs
+      renderCategoryTabs();
+
+      // Set initial active category
+      if (categories.length > 0) {
+        activeCategory = categories[0].id;
+      }
+
+      // Render products
+      renderProducts();
+
+      // Update checkout note based on default payment method
+      updateCheckoutNote();
+
+      // Re-init fade-in observer for newly visible elements
+      initFadeIn();
+    }
+
+    // ===== Build Time Options =====
+    function buildTimeOptions() {
+      var start = settings.business_hours_start || '10:00';
+      var end = settings.business_hours_end || '18:00';
+
+      var startParts = start.split(':');
+      var endParts = end.split(':');
+      var startMinutes = parseInt(startParts[0]) * 60 + parseInt(startParts[1]);
+      var endMinutes = parseInt(endParts[0]) * 60 + parseInt(endParts[1]);
+
+      // Clear existing options except placeholder
+      visitTimeSelect.innerHTML = '<option value="">時間を選択してください</option>';
+
+      for (var m = startMinutes; m <= endMinutes; m += 30) {
+        var hours = Math.floor(m / 60);
+        var mins = m % 60;
+        var timeStr = String(hours).padStart(2, '0') + ':' + String(mins).padStart(2, '0');
+        var opt = document.createElement('option');
+        opt.value = timeStr;
+        opt.textContent = timeStr;
+        visitTimeSelect.appendChild(opt);
+      }
+    }
+
+    // ===== Set Min Date =====
+    function setMinDate() {
+      var today = new Date();
+      var yyyy = today.getFullYear();
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var dd = String(today.getDate()).padStart(2, '0');
+      visitDateInput.min = yyyy + '-' + mm + '-' + dd;
+    }
+
+    // ===== Check if date is closed day =====
+    function isClosedDay(dateStr) {
+      var closedDays;
+      try { closedDays = JSON.parse(settings.closed_days || '[]'); } catch(e) { closedDays = []; }
+      if (!closedDays || closedDays.length === 0) return false;
+      var d = new Date(dateStr + 'T00:00:00');
+      return closedDays.indexOf(d.getDay()) !== -1;
+    }
+
+    // ===== Date/Time Check =====
+    function checkDateTime() {
+      var dateVal = visitDateInput.value;
+      var timeVal = visitTimeSelect.value;
+
+      if (!dateVal || !timeVal) {
+        discountStatus.className = 'discount-status';
+        isEarlyBird = false;
+        canReserve = false;
+        renderProducts();
+        updateCart();
+        return;
+      }
+
+      // Check closed days
+      if (isClosedDay(dateVal)) {
+        discountStatus.className = 'discount-status error';
+        discountStatus.innerHTML = '選択された日は定休日です。別の日をお選びください。';
+        isEarlyBird = false;
+        canReserve = false;
+        renderProducts();
+        updateCart();
+        return;
+      }
+
+      var now = new Date();
+      var visitDate = new Date(dateVal + 'T' + timeVal + ':00');
+      var minHours = parseInt(settings.min_hours_before_visit || '3', 10);
+      var deadlineHour = parseInt(settings.discount_deadline_hour || '16', 10);
+      var discountRate = parseInt(settings.discount_rate || '5', 10);
+
+      // Check if visit time is in the past
+      if (visitDate <= now) {
+        discountStatus.className = 'discount-status error';
+        discountStatus.innerHTML = '過去の日時は選択できません。';
+        isEarlyBird = false;
+        canReserve = false;
+        renderProducts();
+        updateCart();
+        return;
+      }
+
+      // Check min hours before visit
+      var minReserveTime = new Date(visitDate.getTime() - minHours * 60 * 60 * 1000);
+      if (now > minReserveTime) {
+        discountStatus.className = 'discount-status error';
+        discountStatus.innerHTML = '予約受付時間を過ぎています（ご来店の' + minHours + '時間前まで）。別の日時をお選びください。';
+        isEarlyBird = false;
+        canReserve = false;
+        renderProducts();
+        updateCart();
+        return;
+      }
+
+      canReserve = true;
+
+      // Check early bird deadline: day before at deadline hour
+      var dayBefore = new Date(dateVal + 'T00:00:00');
+      dayBefore.setDate(dayBefore.getDate() - 1);
+      dayBefore.setHours(deadlineHour, 0, 0, 0);
+
+      if (now <= dayBefore) {
+        isEarlyBird = true;
+        discountStatus.className = 'discount-status early';
+        discountStatus.innerHTML = '早期予約割引 <strong>' + discountRate + '%OFF</strong>適用！';
+      } else {
+        isEarlyBird = false;
+        discountStatus.className = 'discount-status normal';
+        discountStatus.innerHTML = '定価での販売となります';
+      }
+
+      renderProducts();
+      updateCart();
+    }
+
+    // ===== Category Tabs =====
+    function renderCategoryTabs() {
+      var html = '';
+      for (var i = 0; i < categories.length; i++) {
+        var cat = categories[i];
+        var isActive = (i === 0) ? ' active' : '';
+        html += '<button class="category-tab' + isActive + '" data-category="' + cat.id + '">';
+        html += escapeHtml(cat.name);
+        html += '</button>';
+      }
+      categoryTabsEl.innerHTML = html;
+
+      // Attach click handlers
+      var tabs = categoryTabsEl.querySelectorAll('.category-tab');
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          activeCategory = parseInt(this.getAttribute('data-category'), 10);
+          tabs.forEach(function(t) { t.classList.remove('active'); });
+          this.classList.add('active');
+          renderProducts();
+        });
+      });
+    }
+
+    // ===== Render Products =====
+    function renderProducts() {
+      var filteredProducts = products.filter(function(p) {
+        return p.category_id === activeCategory;
+      });
+
+      if (filteredProducts.length === 0) {
+        productGrid.innerHTML = '<p style="text-align:center;color:var(--gray);padding:2rem;">このカテゴリの商品はありません</p>';
+        return;
+      }
+
+      var discountRate = parseInt(settings.discount_rate || '5', 10) / 100;
+      var html = '';
+
+      for (var i = 0; i < filteredProducts.length; i++) {
+        var p = filteredProducts[i];
+        var inCart = (cart[p.id] || 0) > 0;
+        var isPerWeight = (p.unit_type === 'per_100g');
+        var maxQty = p.max_quantity || 10;
+
+        // Current selected qty for this card (not yet in cart)
+        if (!selectedQty[p.id]) {
+          selectedQty[p.id] = isPerWeight ? 1 : 1; // 1 unit = 100g for per_100g, 1 piece for set
+        }
+
+        var currentQty = selectedQty[p.id];
+        var unitLabel = isPerWeight ? '100g' : 'セット';
+        var qtyDisplay = isPerWeight ? (currentQty * 100) + 'g' : currentQty + '';
+        var discountedPrice = Math.floor(p.price * (1 - discountRate));
+
+        // Category name lookup
+        var catName = '';
+        for (var c = 0; c < categories.length; c++) {
+          if (categories[c].id === p.category_id) {
+            catName = categories[c].name;
+            break;
+          }
+        }
+
+        html += '<div class="product-card' + (inCart ? ' in-cart' : '') + '">';
+        html += '<div class="product-category-label">' + escapeHtml(catName) + '</div>';
+        html += '<div class="product-name">' + escapeHtml(p.name) + '</div>';
+        if (p.description) {
+          html += '<div class="product-desc">' + escapeHtml(p.description) + '</div>';
+        }
+        html += '<div class="product-price-row">';
+        if (isEarlyBird && canReserve) {
+          html += '<span class="product-price-discounted">&yen;' + discountedPrice.toLocaleString() + '</span>';
+          html += '<span class="product-price-original">&yen;' + p.price.toLocaleString() + '</span>';
+        } else {
+          html += '<span class="product-price">&yen;' + p.price.toLocaleString() + '</span>';
+        }
+        html += '<span class="product-unit">/ ' + escapeHtml(unitLabel) + '</span>';
+        html += '</div>';
+
+        // Quantity selector + Add to cart
+        html += '<div class="product-actions">';
+        html += '<div class="product-qty">';
+        html += '<button class="qty-btn" data-action="dec" data-product="' + escapeAttr(p.id) + '"' + (currentQty <= 1 ? ' disabled' : '') + '>&minus;</button>';
+        html += '<span class="qty-value">' + qtyDisplay + '</span>';
+        html += '<button class="qty-btn" data-action="inc" data-product="' + escapeAttr(p.id) + '"' + (currentQty >= maxQty ? ' disabled' : '') + '>+</button>';
+        html += '</div>';
+
+        if (inCart) {
+          html += '<button class="add-cart-btn added" data-product="' + escapeAttr(p.id) + '">カートに追加済み</button>';
+        } else {
+          html += '<button class="add-cart-btn" data-product="' + escapeAttr(p.id) + '">カートに追加</button>';
+        }
+        html += '</div>';
+        html += '</div>';
+      }
+
+      productGrid.innerHTML = html;
+
+      // Attach event listeners
+      productGrid.querySelectorAll('.qty-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var productId = parseInt(this.getAttribute('data-product'), 10);
+          var action = this.getAttribute('data-action');
+          var product = findProduct(productId);
+          if (!product) return;
+          var maxQ = product.max_quantity || 10;
+
+          if (!selectedQty[productId]) selectedQty[productId] = 1;
+
+          if (action === 'inc' && selectedQty[productId] < maxQ) {
+            selectedQty[productId]++;
+          } else if (action === 'dec' && selectedQty[productId] > 1) {
+            selectedQty[productId]--;
+          }
+          renderProducts();
+        });
+      });
+
+      productGrid.querySelectorAll('.add-cart-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var productId = parseInt(this.getAttribute('data-product'), 10);
+          addToCart(productId);
+        });
+      });
+    }
+
+    // ===== Add to Cart =====
+    function addToCart(productId) {
+      var product = findProduct(productId);
+      if (!product) return;
+
+      var qty = selectedQty[productId] || 1;
+      cart[productId] = qty;
+
+      renderProducts();
+      updateCart();
+
+      // Check cross-sell rules
+      checkCrossSell(productId);
+    }
+
+    // ===== Cross-Sell =====
+    var pendingCrossSellProduct = null;
+
+    function checkCrossSell(addedProductId) {
+      if (!crossSellRules || crossSellRules.length === 0) return;
+
+      for (var i = 0; i < crossSellRules.length; i++) {
+        var rule = crossSellRules[i];
+        if (rule.product_id === addedProductId) {
+          var targetProduct = findProduct(rule.suggested_product_id);
+          if (targetProduct && !cart[targetProduct.id]) {
+            showCrossSell(rule, targetProduct);
+            return;
+          }
+        }
+      }
+    }
+
+    function showCrossSell(rule, targetProduct) {
+      pendingCrossSellProduct = targetProduct;
+
+      var message = rule.message || (targetProduct.name + 'も一緒にいかがですか？');
+      crossSellMessage.innerHTML = '<strong>' + escapeHtml(targetProduct.name) + '</strong> ' + escapeHtml(message);
+
+      // Show with animation
+      crossSellBanner.classList.add('visible');
+
+      // Auto-hide after 8 seconds
+      if (crossSellTimeout) clearTimeout(crossSellTimeout);
+      crossSellTimeout = setTimeout(function() {
+        hideCrossSell();
+      }, 8000);
+    }
+
+    function hideCrossSell() {
+      crossSellBanner.classList.remove('visible');
+      pendingCrossSellProduct = null;
+      if (crossSellTimeout) {
+        clearTimeout(crossSellTimeout);
+        crossSellTimeout = null;
+      }
+    }
+
+    crossSellAddBtn.addEventListener('click', function() {
+      if (pendingCrossSellProduct) {
+        var prodId = pendingCrossSellProduct.id;
+        selectedQty[prodId] = 1;
+        addToCart(prodId);
+        hideCrossSell();
+      }
+    });
+
+    crossSellCloseBtn.addEventListener('click', function() {
+      hideCrossSell();
+    });
+
+    // ===== Cart =====
+    function updateCart() {
+      var items = getCartItems();
+      if (items.length === 0) {
+        cartContent.innerHTML = '<p class="cart-empty">商品が選択されていません</p>';
+        checkoutBtn.disabled = true;
+        return;
+      }
+
+      var subtotal = 0;
+      var html = '<div class="cart-items">';
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var lineTotal = item.unitPrice * item.qty;
+        subtotal += lineTotal;
+
+        var qtyLabel = item.isPerWeight ? (item.qty * 100) + 'g' : item.qty + 'セット';
+
+        html += '<div class="cart-item">';
+        html += '<div class="cart-item-info">';
+        html += '<div class="cart-item-name">' + escapeHtml(item.name) + '</div>';
+        html += '<div class="cart-item-detail">&yen;' + item.unitPrice.toLocaleString() + ' &times; ' + escapeHtml(qtyLabel) + '</div>';
+        html += '</div>';
+        html += '<div class="cart-item-price">&yen;' + lineTotal.toLocaleString() + '</div>';
+        html += '<button class="cart-item-remove" data-product="' + escapeAttr(item.id) + '">削除</button>';
+        html += '</div>';
+      }
+      html += '</div>';
+
+      // Summary
+      html += '<div class="cart-summary">';
+      html += '<div class="cart-summary-row"><span>小計</span><span>&yen;' + subtotal.toLocaleString() + '</span></div>';
+
+      var discount = 0;
+      var discountRate = parseInt(settings.discount_rate || '5', 10);
+      if (isEarlyBird && canReserve) {
+        // Calculate discount from original prices
+        var originalSubtotal = 0;
+        for (var j = 0; j < items.length; j++) {
+          var prod = findProduct(items[j].id);
+          if (prod) {
+            originalSubtotal += prod.price * items[j].qty;
+          }
+        }
+        discount = originalSubtotal - subtotal;
+        if (discount > 0) {
+          html += '<div class="cart-summary-row discount"><span>早期予約割引（' + discountRate + '%OFF）</span><span>&minus;&yen;' + discount.toLocaleString() + '</span></div>';
+        }
+      }
+
+      var total = subtotal;
+      html += '<div class="cart-summary-row total"><span>合計（税込）</span><span>&yen;' + total.toLocaleString() + '</span></div>';
+      html += '</div>';
+
+      cartContent.innerHTML = html;
+
+      // Attach remove handlers
+      cartContent.querySelectorAll('.cart-item-remove').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var productId = parseInt(this.getAttribute('data-product'), 10);
+          removeItem(productId);
+        });
+      });
+
+      validateForm();
+    }
+
+    function getCartItems() {
+      var items = [];
+      var discountRateFrac = parseInt(settings.discount_rate || '5', 10) / 100;
+
+      for (var id in cart) {
+        if (cart[id] > 0) {
+          var product = findProduct(id);
+          if (product) {
+            var unitPrice = isEarlyBird && canReserve ? Math.floor(product.price * (1 - discountRateFrac)) : product.price;
+            var isPerWeight = (product.unit_type === 'per_100g');
+            items.push({
+              id: product.id,
+              name: product.name,
+              qty: cart[id],
+              unitPrice: unitPrice,
+              originalPrice: product.price,
+              unitType: product.unit_type,
+              isPerWeight: isPerWeight
+            });
+          }
+        }
+      }
+      return items;
+    }
+
+    function removeItem(id) {
+      delete cart[id];
+      selectedQty[id] = 1;
+      renderProducts();
+      updateCart();
+    }
+
+    // ===== Payment Method =====
+    var paymentLabels = document.querySelectorAll('.payment-method-label');
+    paymentLabels.forEach(function(label) {
+      label.addEventListener('click', function() {
+        paymentLabels.forEach(function(l) { l.classList.remove('selected'); });
+        this.classList.add('selected');
+        updateCheckoutNote();
+        validateForm();
+      });
+    });
+
+    function getSelectedPaymentMethod() {
+      var radios = document.querySelectorAll('input[name="payment-method"]');
+      for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) return radios[i].value;
+      }
+      return 'credit_card';
+    }
+
+    function updateCheckoutNote() {
+      var method = getSelectedPaymentMethod();
+      if (method === 'credit_card') {
+        checkoutBtn.textContent = 'お支払いへ進む（カード決済）';
+        checkoutNote.textContent = 'Stripe の安全な決済ページへ移動します。カード情報は当店では保管しません。';
+      } else if (method === 'paypay') {
+        checkoutBtn.textContent = '予約を確定する（PayPay）';
+        checkoutNote.textContent = 'ご来店時にPayPayでお支払いください。';
+      } else {
+        checkoutBtn.textContent = '予約を確定する（現金払い）';
+        checkoutNote.textContent = 'ご来店時に現金でお支払いください。';
+      }
+    }
+
+    // ===== Receipt Toggle =====
+    receiptCheckbox.addEventListener('change', function() {
+      if (this.checked) {
+        receiptNameWrap.classList.add('visible');
+      } else {
+        receiptNameWrap.classList.remove('visible');
+      }
+    });
+
+    // ===== Form Validation =====
+    function validateForm() {
+      var dateVal = visitDateInput.value;
+      var timeVal = visitTimeSelect.value;
+      var name = document.getElementById('customer-name').value.trim();
+      var phone = document.getElementById('customer-phone').value.trim();
+      var email = document.getElementById('customer-email').value.trim();
+      var items = getCartItems();
+
+      var valid = dateVal && timeVal && name && phone && email && items.length > 0 && canReserve;
+      checkoutBtn.disabled = !valid;
+    }
+
+    // Monitor input changes
+    document.getElementById('customer-name').addEventListener('input', validateForm);
+    document.getElementById('customer-phone').addEventListener('input', validateForm);
+    document.getElementById('customer-email').addEventListener('input', validateForm);
+
+    // ===== Date Input: disable closed days =====
+    visitDateInput.addEventListener('input', function() {
+      if (this.value && isClosedDay(this.value)) {
+        var closedDays; try { closedDays = JSON.parse(settings.closed_days || '[]'); } catch(e) { closedDays = []; }
+        var dayNames = ['日', '月', '火', '水', '木', '金', '土'];
+        var closedNames = closedDays.map(function(d) { return dayNames[d] + '曜日'; }).join('、');
+        discountStatus.className = 'discount-status error';
+        discountStatus.innerHTML = '定休日（' + closedNames + '）のため、ご予約いただけません。別の日をお選びください。';
+        isEarlyBird = false;
+        canReserve = false;
+        renderProducts();
+        updateCart();
+        return;
+      }
+      checkDateTime();
+    });
+
+    visitDateInput.addEventListener('change', checkDateTime);
+    visitTimeSelect.addEventListener('change', checkDateTime);
+
+    // ===== Checkout =====
+    checkoutBtn.addEventListener('click', handleCheckout);
+
+    function handleCheckout() {
+      if (checkoutBtn.disabled) return;
+
+      var items = getCartItems();
+      if (items.length === 0) {
+        alert('商品を選択してください。');
+        return;
+      }
+
+      var dateVal = visitDateInput.value;
+      var timeVal = visitTimeSelect.value;
+      var name = document.getElementById('customer-name').value.trim();
+      var phone = document.getElementById('customer-phone').value.trim();
+      var email = document.getElementById('customer-email').value.trim();
+      var note = document.getElementById('customer-note').value.trim();
+      var paymentMethod = getSelectedPaymentMethod();
+      var receiptRequired = receiptCheckbox.checked;
+      var receiptName = receiptRequired ? document.getElementById('receipt-name').value.trim() : '';
+
+      if (!dateVal || !timeVal || !name || !phone || !email) {
+        alert('必須項目をすべてご入力ください。');
+        return;
+      }
+
+      // Email validation
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('正しいメールアドレスを入力してください。');
+        return;
+      }
+
+      // Phone validation
+      var cleanPhone = phone.replace(/[-\s]/g, '');
+      if (!/^0\d{9,10}$/.test(cleanPhone)) {
+        alert('正しい電話番号を入力してください。');
+        return;
+      }
+
+      var payload = {
+        visitDate: dateVal,
+        visitTime: timeVal,
+        customerName: name,
+        customerPhone: phone,
+        customerEmail: email,
+        customerNote: note,
+        paymentMethod: paymentMethod,
+        receiptRequired: receiptRequired,
+        receiptName: receiptName,
+        items: items.map(function(item) {
+          return {
+            productId: item.id,
+            quantity: item.qty
+          };
+        })
+      };
+
+      loadingOverlay.classList.add('active');
+      checkoutBtn.disabled = true;
+
+      if (paymentMethod === 'credit_card') {
+        // Credit card: create Stripe checkout session
+        document.getElementById('loading-spinner-text').textContent = '決済ページへ移動中...';
+
+        fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(function(res) {
+          if (!res.ok) {
+            return res.json().then(function(data) {
+              throw new Error(data.error || '決済セッションの作成に失敗しました。');
+            });
+          }
+          return res.json();
+        })
+        .then(function(data) {
+          if (data.url) {
+            window.location.href = data.url;
+          } else {
+            throw new Error('決済URLの取得に失敗しました。');
+          }
+        })
+        .catch(function(err) {
+          loadingOverlay.classList.remove('active');
+          checkoutBtn.disabled = false;
+          alert('エラー: ' + err.message);
+        });
+
+      } else {
+        // PayPay or Cash: create reservation directly
+        document.getElementById('loading-spinner-text').textContent = '予約を処理中...';
+
+        fetch('/api/reservations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(function(res) {
+          if (!res.ok) {
+            return res.json().then(function(data) {
+              throw new Error(data.error || '予約の作成に失敗しました。');
+            });
+          }
+          return res.json();
+        })
+        .then(function(data) {
+          var reservationNumber = data.reservationNumber || data.reservation_number || '';
+          var redirectUrl = '/reservation-success.html?reservation=' + encodeURIComponent(reservationNumber) + '&method=' + encodeURIComponent(paymentMethod);
+          window.location.href = redirectUrl;
+        })
+        .catch(function(err) {
+          loadingOverlay.classList.remove('active');
+          checkoutBtn.disabled = false;
+          alert('エラー: ' + err.message);
+        });
+      }
+    }
+
+    // ===== Utility =====
+    function findProduct(id) {
+      var numId = typeof id === 'string' ? parseInt(id, 10) : id;
+      for (var i = 0; i < products.length; i++) {
+        if (products[i].id === numId) return products[i];
+      }
+      return null;
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      var div = document.createElement('div');
+      div.textContent = String(str);
+      return div.innerHTML;
+    }
+
+    function escapeAttr(str) {
+      if (str === null || str === undefined) return '';
+      str = String(str);
+      return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // ===== Fade-In (IntersectionObserver) =====
+    function initFadeIn() {
+      var targets = document.querySelectorAll('.fade-in');
+      targets.forEach(function(el) { el.classList.add('hidden'); });
+
+      if (!('IntersectionObserver' in window)) {
+        targets.forEach(function(el) { el.classList.remove('hidden'); });
+        return;
+      }
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove('hidden');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+      targets.forEach(function(el) { observer.observe(el); });
+
+      // Fallback: show all after 2 seconds
+      setTimeout(function() {
+        targets.forEach(function(el) { el.classList.remove('hidden'); });
+      }, 2000);
+    }
+
+    // ===== Header Scroll =====
+    (function() {
+      var h = document.querySelector('header');
+      var scrolled = false;
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 60 && !scrolled) {
+          h.classList.add('scrolled');
+          scrolled = true;
+        } else if (window.scrollY <= 60 && scrolled) {
+          h.classList.remove('scrolled');
+          scrolled = false;
+        }
+      }, { passive: true });
+    })();
+
+    // ===== Mobile Menu =====
+    (function() {
+      var btn = document.querySelector('.hamburger');
+      var nav = document.querySelector('.mobile-nav');
+      if (btn && nav) {
+        btn.addEventListener('click', function() {
+          btn.classList.toggle('active');
+          nav.classList.toggle('open');
+          document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+        });
+        nav.querySelectorAll('a').forEach(function(a) {
+          a.addEventListener('click', function() {
+            btn.classList.remove('active');
+            nav.classList.remove('open');
+            document.body.style.overflow = '';
+          });
+        });
+      }
+    })();
+
+    // ===== Global API for onclick fallbacks =====
+    window.App = {
+      loadProducts: loadProducts,
+      removeItem: removeItem
+    };
+
+    // ===== Start =====
+    initFadeIn();
+    loadProducts();
+
+  })();
+  </script>
+</body>
+</html>

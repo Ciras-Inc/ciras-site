@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>管理画面ログイン｜木村屋精肉店 予約管理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #2D5A27;
+      --green-light: #E8F0E6;
+      --black: #1A1A1A;
+      --gray-dark: #4A4A4A;
+      --gray: #888888;
+      --gray-light: #E5E5E5;
+      --white: #FFFFFF;
+      --bg: #FAFAFA;
+      --red: #C0392B;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: var(--bg);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    .login-card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .store-name {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .system-name {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--gray);
+      letter-spacing: 0.02em;
+    }
+
+    .divider {
+      width: 40px;
+      height: 2px;
+      background-color: var(--green);
+      margin: 16px auto 0;
+    }
+
+    .setup-notice {
+      background-color: var(--green-light);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: var(--gray-dark);
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-dark);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--gray-light);
+      border-radius: 8px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 15px;
+      color: var(--black);
+      background-color: var(--white);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+    }
+
+    .form-input::placeholder {
+      color: var(--gray);
+      font-weight: 300;
+    }
+
+    .password-hint {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--green);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease, opacity 0.2s ease;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 50px;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      background-color: #244a1f;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error-message {
+      color: var(--red);
+      font-size: 13px;
+      margin-top: 16px;
+      text-align: center;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .error-message.visible {
+      display: block;
+    }
+
+    .loading-screen {
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .loading-screen .spinner {
+      border-color: var(--gray-light);
+      border-top-color: var(--green);
+      width: 32px;
+      height: 32px;
+      margin: 0 auto 16px;
+    }
+
+    .loading-screen p {
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    .form-area {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 36px 24px;
+      }
+
+      .store-name {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="login-header">
+      <div class="store-name">木村屋精肉店</div>
+      <div class="system-name">予約管理システム</div>
+      <div class="divider"></div>
+    </div>
+
+    <div id="loadingScreen" class="loading-screen">
+      <div class="spinner"></div>
+      <p>読み込み中...</p>
+    </div>
+
+    <div id="formArea" class="form-area">
+      <div id="setupNotice" class="setup-notice" style="display: none;">
+        管理者アカウントが未登録です。<br>
+        初回セットアップとして、管理者ユーザーを作成してください。
+      </div>
+
+      <form id="authForm" novalidate>
+        <div class="form-group">
+          <label for="username" class="form-label">ユーザー名</label>
+          <input
+            type="text"
+            id="username"
+            class="form-input"
+            placeholder="ユーザー名を入力"
+            autocomplete="username"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">パスワード</label>
+          <input
+            type="password"
+            id="password"
+            class="form-input"
+            placeholder="パスワードを入力"
+            autocomplete="current-password"
+            required
+          >
+          <div class="password-hint">※ 6文字以上で入力してください</div>
+        </div>
+
+        <div id="confirmPasswordGroup" class="form-group" style="display: none;">
+          <label for="confirmPassword" class="form-label">パスワード（確認）</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            class="form-input"
+            placeholder="パスワードを再入力"
+            autocomplete="new-password"
+          >
+        </div>
+
+        <button type="submit" id="submitBtn" class="submit-btn">
+          <span id="submitText">ログイン</span>
+        </button>
+      </form>
+
+      <div id="errorMessage" class="error-message"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var isSetupMode = false;
+
+      var loadingScreen = document.getElementById('loadingScreen');
+      var formArea = document.getElementById('formArea');
+      var setupNotice = document.getElementById('setupNotice');
+      var authForm = document.getElementById('authForm');
+      var usernameInput = document.getElementById('username');
+      var passwordInput = document.getElementById('password');
+      var confirmPasswordGroup = document.getElementById('confirmPasswordGroup');
+      var confirmPasswordInput = document.getElementById('confirmPassword');
+      var submitBtn = document.getElementById('submitBtn');
+      var submitText = document.getElementById('submitText');
+      var errorMessage = document.getElementById('errorMessage');
+
+      function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.classList.add('visible');
+      }
+
+      function hideError() {
+        errorMessage.textContent = '';
+        errorMessage.classList.remove('visible');
+      }
+
+      function setLoading(loading) {
+        submitBtn.disabled = loading;
+        if (loading) {
+          submitText.textContent = '';
+          var spinner = document.createElement('div');
+          spinner.className = 'spinner';
+          spinner.id = 'btnSpinner';
+          submitBtn.insertBefore(spinner, submitText);
+          submitText.textContent = '処理中...';
+        } else {
+          var spinner = document.getElementById('btnSpinner');
+          if (spinner) spinner.remove();
+          submitText.textContent = isSetupMode ? '管理者を作成' : 'ログイン';
+        }
+      }
+
+      function showForm() {
+        loadingScreen.style.display = 'none';
+        formArea.style.display = 'block';
+      }
+
+      function enterSetupMode() {
+        isSetupMode = true;
+        setupNotice.style.display = 'block';
+        confirmPasswordGroup.style.display = 'block';
+        confirmPasswordInput.required = true;
+        passwordInput.autocomplete = 'new-password';
+        submitText.textContent = '管理者を作成';
+      }
+
+      function checkSetup() {
+        fetch('/api/admin/login?action=check-setup')
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
+            if (data.needsSetup) {
+              enterSetupMode();
+            }
+            showForm();
+          })
+          .catch(function () {
+            showForm();
+          });
+      }
+
+      function validateForm() {
+        var username = usernameInput.value.trim();
+        var password = passwordInput.value;
+
+        if (!username) {
+          showError('ユーザー名を入力してください。');
+          usernameInput.focus();
+          return false;
+        }
+
+        if (!password) {
+          showError('パスワードを入力してください。');
+          passwordInput.focus();
+          return false;
+        }
+
+        if (password.length < 6) {
+          showError('パスワードは6文字以上で入力してください。');
+          passwordInput.focus();
+          return false;
+        }
+
+        if (isSetupMode) {
+          var confirmPassword = confirmPasswordInput.value;
+          if (password !== confirmPassword) {
+            showError('パスワードが一致しません。');
+            confirmPasswordInput.focus();
+            return false;
+          }
+        }
+
+        return true;
+      }
+
+      function handleSubmit(e) {
+        e.preventDefault();
+        hideError();
+
+        if (!validateForm()) return;
+
+        var username = usernameInput.value.trim();
+        var password = passwordInput.value;
+
+        setLoading(true);
+
+        var url = '/api/admin/login';
+        var method = isSetupMode ? 'PUT' : 'POST';
+
+        fetch(url, {
+          method: method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: username, password: password })
+        })
+          .then(function (res) {
+            if (!res.ok) {
+              return res.json().then(function (data) {
+                throw new Error(data.message || 'エラーが発生しました。');
+              });
+            }
+            return res.json();
+          })
+          .then(function (data) {
+            if (isSetupMode) {
+              localStorage.setItem('admin_token', data.token);
+              window.location.href = '/admin/dashboard.html';
+            } else {
+              localStorage.setItem('admin_token', data.token);
+              window.location.href = '/admin/dashboard.html';
+            }
+          })
+          .catch(function (err) {
+            setLoading(false);
+            if (isSetupMode) {
+              showError(err.message || '管理者の作成に失敗しました。');
+            } else {
+              showError(err.message || 'ログインに失敗しました。ユーザー名とパスワードをご確認ください。');
+            }
+          });
+      }
+
+      authForm.addEventListener('submit', handleSubmit);
+
+      checkSetup();
+    })();
+  </script>
+</body>
+</html>

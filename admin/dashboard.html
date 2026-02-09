@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理画面｜木村屋精肉店 予約管理システム</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--green:#2D5A27;--green-light:#E8F0E6;--black:#1A1A1A;--gray-dark:#4A4A4A;--gray:#888;--gray-light:#E5E5E5;--white:#FFF;--bg:#F5F5F5;--red:#C0392B;--blue:#2980B9;--yellow:#F39C12}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Noto Sans JP',sans-serif;color:var(--black);background:var(--bg);font-size:14px;line-height:1.7}
+    a{color:inherit;text-decoration:none}
+    /* Layout */
+    .app{display:flex;min-height:100vh}
+    .sidebar{width:220px;background:var(--black);color:var(--white);padding:1.5rem 0;flex-shrink:0;position:fixed;top:0;left:0;bottom:0;z-index:100;overflow-y:auto}
+    .sidebar-brand{padding:0 1.2rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:1rem}
+    .sidebar-brand h1{font-size:1rem;font-weight:700}
+    .sidebar-brand p{font-size:.7rem;color:rgba(255,255,255,.5)}
+    .sidebar-nav a{display:block;padding:.7rem 1.2rem;font-size:.85rem;color:rgba(255,255,255,.7);transition:all .2s}
+    .sidebar-nav a:hover,.sidebar-nav a.active{background:rgba(255,255,255,.1);color:var(--white)}
+    .sidebar-nav a.active{border-left:3px solid var(--green);background:rgba(45,90,39,.3)}
+    .sidebar-bottom{position:absolute;bottom:0;left:0;right:0;padding:1rem 1.2rem;border-top:1px solid rgba(255,255,255,.1)}
+    .sidebar-bottom button{background:none;border:none;color:rgba(255,255,255,.5);font-size:.8rem;cursor:pointer;font-family:inherit}
+    .sidebar-bottom button:hover{color:var(--white)}
+    .main{margin-left:220px;flex:1;padding:2rem}
+    .main-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+    .main-header h2{font-size:1.3rem;font-weight:700}
+    /* Mobile */
+    .mobile-toggle{display:none;position:fixed;top:1rem;left:1rem;z-index:200;background:var(--black);color:var(--white);border:none;padding:.5rem .8rem;border-radius:4px;font-size:1.2rem;cursor:pointer}
+    @media(max-width:768px){.sidebar{transform:translateX(-100%);transition:transform .3s}.sidebar.open{transform:translateX(0)}.main{margin-left:0;padding:1rem;padding-top:4rem}.mobile-toggle{display:block}}
+    /* Cards */
+    .card{background:var(--white);border-radius:8px;padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:1.5rem}
+    /* Tabs content */
+    .tab{display:none}.tab.active{display:block}
+    /* Table */
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:.85rem}
+    th{background:var(--bg);font-weight:600;text-align:left;padding:.6rem .8rem;border-bottom:2px solid var(--gray-light);white-space:nowrap}
+    td{padding:.6rem .8rem;border-bottom:1px solid var(--gray-light);vertical-align:middle}
+    tr:hover td{background:var(--green-light)}
+    /* Badge */
+    .badge{display:inline-block;padding:.15rem .6rem;border-radius:3px;font-size:.75rem;font-weight:600}
+    .badge-green{background:#E8F5E9;color:#2E7D32}
+    .badge-blue{background:#E3F2FD;color:#1565C0}
+    .badge-yellow{background:#FFF8E1;color:#F57F17}
+    .badge-red{background:#FFEBEE;color:#C62828}
+    .badge-gray{background:#F5F5F5;color:#757575}
+    /* Buttons */
+    .btn{display:inline-block;padding:.5rem 1rem;border-radius:4px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .2s}
+    .btn-primary{background:var(--green);color:var(--white)}.btn-primary:hover{opacity:.85}
+    .btn-danger{background:var(--red);color:var(--white)}.btn-danger:hover{opacity:.85}
+    .btn-sm{padding:.3rem .6rem;font-size:.75rem}
+    .btn-outline{background:none;border:1px solid var(--gray-light);color:var(--gray-dark)}.btn-outline:hover{background:var(--bg)}
+    /* Forms */
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+    .form-row.full{grid-template-columns:1fr}
+    .form-group{display:flex;flex-direction:column;gap:.3rem}
+    .form-group label{font-size:.8rem;font-weight:600;color:var(--gray-dark)}
+    .form-group input,.form-group select,.form-group textarea{padding:.5rem .7rem;border:1px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit}
+    .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--green)}
+    @media(max-width:600px){.form-row{grid-template-columns:1fr}}
+    /* Modal */
+    .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;justify-content:center;align-items:center}
+    .modal-overlay.active{display:flex}
+    .modal{background:var(--white);border-radius:8px;padding:2rem;max-width:600px;width:90%;max-height:90vh;overflow-y:auto}
+    .modal h3{font-size:1.1rem;margin-bottom:1rem}
+    .modal-actions{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1.5rem}
+    /* Toast */
+    .toast{position:fixed;top:1rem;right:1rem;padding:.8rem 1.5rem;border-radius:4px;color:var(--white);font-size:.85rem;font-weight:600;z-index:2000;transform:translateX(120%);transition:transform .3s}
+    .toast.show{transform:translateX(0)}
+    .toast-success{background:var(--green)}
+    .toast-error{background:var(--red)}
+    /* Filter bar */
+    .filter-bar{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem;align-items:end}
+    .filter-bar .form-group{margin-bottom:0}
+    /* Detail row */
+    .detail-row{background:#FAFAFA;display:none}
+    .detail-row.open{display:table-row}
+    .detail-row td{padding:1rem}
+    .detail-items{font-size:.8rem;color:var(--gray-dark)}
+    .detail-items li{padding:.2rem 0}
+    /* Checkbox row */
+    .checkbox-row{display:flex;gap:1rem;flex-wrap:wrap}
+    .checkbox-row label{display:flex;align-items:center;gap:.3rem;font-size:.85rem;cursor:pointer}
+    /* Toggle */
+    .toggle{position:relative;width:40px;height:22px;display:inline-block}
+    .toggle input{display:none}
+    .toggle .slider{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--gray-light);border-radius:11px;cursor:pointer;transition:.3s}
+    .toggle .slider::before{content:'';position:absolute;width:16px;height:16px;left:3px;bottom:3px;background:var(--white);border-radius:50%;transition:.3s}
+    .toggle input:checked+.slider{background:var(--green)}
+    .toggle input:checked+.slider::before{transform:translateX(18px)}
+  </style>
+</head>
+<body>
+  <button class="mobile-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">&#9776;</button>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <h1>木村屋精肉店</h1>
+        <p>予約管理システム</p>
+      </div>
+      <nav class="sidebar-nav" id="sidebar-nav">
+        <a href="#" data-tab="reservations" class="active">予約管理</a>
+        <a href="#" data-tab="products">商品管理</a>
+        <a href="#" data-tab="categories">カテゴリ管理</a>
+        <a href="#" data-tab="crosssell">おすすめ設定</a>
+        <a href="#" data-tab="settings">店舗設定</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <button onclick="logout()">ログアウト</button>
+      </div>
+    </aside>
+    <main class="main">
+
+      <!-- ===== 予約管理 ===== -->
+      <div class="tab active" id="tab-reservations">
+        <div class="main-header"><h2>予約管理</h2></div>
+        <div class="card">
+          <div class="filter-bar">
+            <div class="form-group"><label>日付</label><input type="date" id="res-date"></div>
+            <div class="form-group"><label>ステータス</label>
+              <select id="res-status"><option value="all">すべて</option><option value="confirmed">予約確定</option><option value="picked_up">お渡し済み</option><option value="cancelled">キャンセル</option></select>
+            </div>
+            <div class="form-group"><label>検索</label><input type="text" id="res-search" placeholder="名前・電話・予約番号"></div>
+            <button class="btn btn-primary" onclick="loadReservations()">検索</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>予約番号</th><th>お客様</th><th>来店日時</th><th>合計</th><th>決済</th><th>決済状況</th><th>領収書</th><th>状態</th><th>操作</th></tr></thead>
+              <tbody id="res-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 商品管理 ===== -->
+      <div class="tab" id="tab-products">
+        <div class="main-header"><h2>商品管理</h2><button class="btn btn-primary" onclick="openProductModal()">商品追加</button></div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>カテゴリ</th><th>商品名</th><th>価格</th><th>単位</th><th>表示</th><th>操作</th></tr></thead>
+              <tbody id="prod-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== カテゴリ管理 ===== -->
+      <div class="tab" id="tab-categories">
+        <div class="main-header"><h2>カテゴリ管理</h2><button class="btn btn-primary" onclick="openCategoryModal()">カテゴリ追加</button></div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>カテゴリ名</th><th>表示順</th><th>表示</th><th>操作</th></tr></thead>
+              <tbody id="cat-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== おすすめ設定 ===== -->
+      <div class="tab" id="tab-crosssell">
+        <div class="main-header"><h2>おすすめ設定</h2><button class="btn btn-primary" onclick="openCrossSellModal()">ルール追加</button></div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>対象商品</th><th>→</th><th>おすすめ商品</th><th>メッセージ</th><th>操作</th></tr></thead>
+              <tbody id="cs-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 店舗設定 ===== -->
+      <div class="tab" id="tab-settings">
+        <div class="main-header"><h2>店舗設定</h2></div>
+        <div class="card">
+          <form id="settings-form" onsubmit="saveSettings(event)">
+            <h3 style="margin-bottom:1rem;font-size:1rem">基本情報</h3>
+            <div class="form-row">
+              <div class="form-group"><label>店舗名</label><input type="text" id="s-store_name"></div>
+              <div class="form-group"><label>電話番号</label><input type="tel" id="s-store_phone"></div>
+            </div>
+            <div class="form-row full">
+              <div class="form-group"><label>住所</label><input type="text" id="s-store_address"></div>
+            </div>
+            <h3 style="margin:1.5rem 0 1rem;font-size:1rem">営業時間</h3>
+            <div class="form-row">
+              <div class="form-group"><label>開店時間</label><input type="time" id="s-business_hours_start"></div>
+              <div class="form-group"><label>閉店時間</label><input type="time" id="s-business_hours_end"></div>
+            </div>
+            <div class="form-group" style="margin-bottom:1rem">
+              <label>定休日</label>
+              <div class="checkbox-row" id="closed-days-checks">
+                <label><input type="checkbox" value="0">日</label>
+                <label><input type="checkbox" value="1">月</label>
+                <label><input type="checkbox" value="2">火</label>
+                <label><input type="checkbox" value="3">水</label>
+                <label><input type="checkbox" value="4">木</label>
+                <label><input type="checkbox" value="5">金</label>
+                <label><input type="checkbox" value="6">土</label>
+              </div>
+            </div>
+            <h3 style="margin:1.5rem 0 1rem;font-size:1rem">割引設定</h3>
+            <div class="form-row">
+              <div class="form-group"><label>割引率（%）</label><input type="number" id="s-discount_rate" min="0" max="50"></div>
+              <div class="form-group"><label>割引締切時刻（前日の何時まで）</label><input type="number" id="s-discount_deadline_hour" min="0" max="23"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>予約受付最低時間（来店何時間前まで）</label><input type="number" id="s-min_hours_before_visit" min="1" max="24"></div>
+            </div>
+            <h3 style="margin:1.5rem 0 1rem;font-size:1rem">通知設定</h3>
+            <div class="form-row">
+              <div class="form-group"><label>通知メールアドレス</label><input type="email" id="s-notification_email"></div>
+              <div class="form-group"><label>LINE Webhook URL</label><input type="url" id="s-notification_line_webhook" placeholder="https://..."></div>
+            </div>
+            <div style="text-align:right;margin-top:1.5rem"><button type="submit" class="btn btn-primary">設定を保存</button></div>
+          </form>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal-content"></div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+  (function(){
+    'use strict';
+    var TOKEN = localStorage.getItem('admin_token');
+    if(!TOKEN) { location.href='/admin/'; return; }
+
+    var allProducts = [];
+    var allCategories = [];
+
+    // ===== API =====
+    function api(method, path, body){
+      var opts = { method:method, headers:{'Authorization':'Bearer '+TOKEN,'Content-Type':'application/json'} };
+      if(body) opts.body = JSON.stringify(body);
+      return fetch(path, opts).then(function(r){
+        if(r.status===401){location.href='/admin/';throw new Error('unauthorized');}
+        return r.json();
+      });
+    }
+
+    // ===== Tab Navigation =====
+    document.getElementById('sidebar-nav').addEventListener('click',function(e){
+      var a = e.target.closest('a[data-tab]');
+      if(!a)return;
+      e.preventDefault();
+      document.querySelectorAll('.sidebar-nav a').forEach(function(el){el.classList.remove('active')});
+      a.classList.add('active');
+      document.querySelectorAll('.tab').forEach(function(el){el.classList.remove('active')});
+      document.getElementById('tab-'+a.dataset.tab).classList.add('active');
+      if(a.dataset.tab==='reservations') loadReservations();
+      if(a.dataset.tab==='products') loadProducts();
+      if(a.dataset.tab==='categories') loadCategories();
+      if(a.dataset.tab==='crosssell') loadCrossSell();
+      if(a.dataset.tab==='settings') loadSettings();
+      document.querySelector('.sidebar').classList.remove('open');
+    });
+
+    // ===== Toast =====
+    window.showToast=function(msg,type){
+      var t=document.getElementById('toast');
+      t.textContent=msg;
+      t.className='toast toast-'+(type||'success')+' show';
+      setTimeout(function(){t.classList.remove('show')},3000);
+    };
+
+    // ===== Modal =====
+    window.closeModal=function(){document.getElementById('modal-overlay').classList.remove('active')};
+    document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+    function openModal(html){
+      document.getElementById('modal-content').innerHTML=html;
+      document.getElementById('modal-overlay').classList.add('active');
+    }
+
+    // ============================
+    // 予約管理
+    // ============================
+    var today=new Date().toISOString().slice(0,10);
+    document.getElementById('res-date').value=today;
+
+    window.loadReservations=function(){
+      var d=document.getElementById('res-date').value;
+      var s=document.getElementById('res-status').value;
+      var q=document.getElementById('res-search').value;
+      var url='/api/admin/reservations?status='+s;
+      if(d)url+='&date='+d;
+      if(q)url+='&search='+encodeURIComponent(q);
+      api('GET',url).then(function(data){
+        var rows=data.reservations||[];
+        var html='';
+        if(rows.length===0){html='<tr><td colspan="9" style="text-align:center;color:var(--gray);padding:2rem">予約がありません</td></tr>';}
+        rows.forEach(function(r){
+          var payLabels={credit_card:'カード',paypay:'PayPay',cash:'現金'};
+          var payStatusBadge=r.payment_status==='paid'?'badge-green':r.payment_status==='refunded'?'badge-gray':'badge-yellow';
+          var payStatusLabel={pending:'未決済',paid:'決済済',refunded:'返金済'};
+          var statusBadge=r.status==='confirmed'?'badge-blue':r.status==='picked_up'?'badge-green':'badge-red';
+          var statusLabel={confirmed:'予約確定',picked_up:'お渡し済み',cancelled:'キャンセル'};
+          html+='<tr onclick="toggleDetail('+r.id+')" style="cursor:pointer">';
+          html+='<td><strong>'+esc(r.reservation_number)+'</strong></td>';
+          html+='<td>'+esc(r.customer_name)+'<br><span style="font-size:.75rem;color:var(--gray)">'+esc(r.customer_phone)+'</span></td>';
+          html+='<td>'+esc(r.visit_date)+'<br>'+esc(r.visit_time)+'</td>';
+          html+='<td>&yen;'+r.total_amount.toLocaleString()+'</td>';
+          html+='<td>'+esc(payLabels[r.payment_method]||r.payment_method)+'</td>';
+          html+='<td><span class="badge '+payStatusBadge+'">'+esc(payStatusLabel[r.payment_status]||r.payment_status)+'</span></td>';
+          html+='<td>'+(r.receipt_required?'有'+(r.receipt_name?' ('+esc(r.receipt_name)+')':''):'−')+'</td>';
+          html+='<td><span class="badge '+statusBadge+'">'+esc(statusLabel[r.status]||r.status)+'</span></td>';
+          html+='<td onclick="event.stopPropagation()">';
+          if(r.status==='confirmed'){
+            if(r.payment_status==='pending')html+='<button class="btn btn-sm btn-primary" onclick="updateRes('+r.id+',null,\'paid\')">決済済み</button> ';
+            html+='<button class="btn btn-sm btn-outline" onclick="updateRes('+r.id+',\'picked_up\',null)">お渡し</button> ';
+            html+='<button class="btn btn-sm btn-danger" onclick="if(confirm(\'キャンセルしますか？\'))updateRes('+r.id+',\'cancelled\',null)">取消</button>';
+          }
+          html+='</td></tr>';
+          // Detail row
+          var items=r.items||[];
+          html+='<tr class="detail-row" id="detail-'+r.id+'"><td colspan="9"><div class="detail-items"><strong>注文明細:</strong><ul>';
+          items.forEach(function(it){
+            var unit=it.unit_type==='per_100g'?(it.quantity*100)+'g':it.quantity+'セット';
+            html+='<li>'+esc(it.product_name)+' × '+unit+' (&yen;'+it.unit_price.toLocaleString()+' × '+it.quantity+' = &yen;'+it.line_total.toLocaleString()+')</li>';
+          });
+          html+='</ul>';
+          if(r.is_early_bird)html+='<span class="badge badge-green">早期割引適用</span> 割引額: &yen;'+r.discount_amount.toLocaleString();
+          if(r.customer_note)html+='<br>備考: '+esc(r.customer_note);
+          if(r.customer_email)html+='<br>Email: '+esc(r.customer_email);
+          html+='</div></td></tr>';
+        });
+        document.getElementById('res-tbody').innerHTML=html;
+      });
+    };
+
+    window.toggleDetail=function(id){document.getElementById('detail-'+id).classList.toggle('open')};
+
+    window.updateRes=function(id,status,payStatus){
+      var body={id:id};
+      if(status)body.status=status;
+      if(payStatus)body.payment_status=payStatus;
+      api('PUT','/api/admin/reservations',body).then(function(){showToast('更新しました');loadReservations()}).catch(function(){showToast('エラー','error')});
+    };
+
+    // ============================
+    // 商品管理
+    // ============================
+    window.loadProducts=function(){
+      Promise.all([api('GET','/api/admin/products'),api('GET','/api/admin/categories')]).then(function(res){
+        allProducts=res[0];allCategories=res[1];
+        var html='';
+        if(allProducts.length===0){html='<tr><td colspan="6" style="text-align:center;color:var(--gray);padding:2rem">商品がありません</td></tr>';}
+        allProducts.forEach(function(p){
+          html+='<tr>';
+          html+='<td>'+esc(p.category_name||'')+'</td>';
+          html+='<td><strong>'+esc(p.name)+'</strong><br><span style="font-size:.75rem;color:var(--gray)">'+esc(p.description||'')+'</span></td>';
+          html+='<td>&yen;'+p.price.toLocaleString()+'</td>';
+          html+='<td>'+(p.unit_type==='per_100g'?'100gあたり':'セット')+'</td>';
+          html+='<td>'+(p.is_active?'<span class="badge badge-green">表示</span>':'<span class="badge badge-gray">非表示</span>')+'</td>';
+          html+='<td><button class="btn btn-sm btn-outline" onclick=\'openProductModal('+JSON.stringify(p).replace(/'/g,"\\'")+')\'> 編集</button> ';
+          html+='<button class="btn btn-sm btn-danger" onclick="if(confirm(\'削除しますか？\'))deleteProduct('+p.id+')">削除</button></td>';
+          html+='</tr>';
+        });
+        document.getElementById('prod-tbody').innerHTML=html;
+      });
+    };
+
+    window.openProductModal=function(p){
+      var isEdit=!!p;
+      api('GET','/api/admin/categories').then(function(cats){
+        var catOpts=cats.map(function(c){return '<option value="'+c.id+'"'+(p&&p.category_id==c.id?' selected':'')+'>'+esc(c.name)+'</option>'}).join('');
+        var html='<h3>'+(isEdit?'商品を編集':'商品を追加')+'</h3>';
+        html+='<div class="form-row"><div class="form-group"><label>カテゴリ</label><select id="m-cat">'+catOpts+'</select></div>';
+        html+='<div class="form-group"><label>商品名</label><input id="m-name" value="'+esc(p?p.name:'')+'"></div></div>';
+        html+='<div class="form-row full"><div class="form-group"><label>説明</label><input id="m-desc" value="'+esc(p?p.description||'':'')+'"></div></div>';
+        html+='<div class="form-row"><div class="form-group"><label>価格（円）</label><input type="number" id="m-price" value="'+(p?p.price:'')+'"></div>';
+        html+='<div class="form-group"><label>単位</label><select id="m-unit"><option value="per_100g"'+(p&&p.unit_type==='per_100g'?' selected':'')+'>100gあたり</option><option value="set"'+(p&&p.unit_type==='set'?' selected':'')+'>セット</option></select></div></div>';
+        html+='<div class="form-row"><div class="form-group"><label>最小数量</label><input type="number" id="m-min" value="'+(p?p.min_quantity:1)+'"></div>';
+        html+='<div class="form-group"><label>最大数量</label><input type="number" id="m-max" value="'+(p?p.max_quantity:50)+'"></div></div>';
+        html+='<div class="form-row"><div class="form-group"><label>表示順</label><input type="number" id="m-sort" value="'+(p?p.sort_order:0)+'"></div>';
+        html+='<div class="form-group"><label>表示</label><select id="m-active"><option value="1"'+(p&&p.is_active===0?'':' selected')+'>表示</option><option value="0"'+(p&&p.is_active===0?' selected':'')+'>非表示</option></select></div></div>';
+        html+='<div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">キャンセル</button><button class="btn btn-primary" onclick="saveProduct('+(isEdit?p.id:'null')+')">保存</button></div>';
+        openModal(html);
+      });
+    };
+
+    window.saveProduct=function(id){
+      var body={category_id:parseInt(document.getElementById('m-cat').value),name:document.getElementById('m-name').value,description:document.getElementById('m-desc').value,price:parseInt(document.getElementById('m-price').value),unit_type:document.getElementById('m-unit').value,min_quantity:parseInt(document.getElementById('m-min').value),max_quantity:parseInt(document.getElementById('m-max').value),sort_order:parseInt(document.getElementById('m-sort').value),is_active:parseInt(document.getElementById('m-active').value)};
+      if(id)body.id=id;
+      api(id?'PUT':'POST','/api/admin/products',body).then(function(){closeModal();showToast('保存しました');loadProducts()}).catch(function(){showToast('エラー','error')});
+    };
+
+    window.deleteProduct=function(id){
+      api('DELETE','/api/admin/products?id='+id).then(function(){showToast('削除しました');loadProducts()}).catch(function(){showToast('エラー','error')});
+    };
+
+    // ============================
+    // カテゴリ管理
+    // ============================
+    window.loadCategories=function(){
+      api('GET','/api/admin/categories').then(function(cats){
+        allCategories=cats;
+        var html='';
+        if(cats.length===0){html='<tr><td colspan="4" style="text-align:center;color:var(--gray);padding:2rem">カテゴリがありません</td></tr>';}
+        cats.forEach(function(c){
+          html+='<tr><td><strong>'+esc(c.name)+'</strong></td><td>'+c.sort_order+'</td>';
+          html+='<td>'+(c.is_active?'<span class="badge badge-green">表示</span>':'<span class="badge badge-gray">非表示</span>')+'</td>';
+          html+='<td><button class="btn btn-sm btn-outline" onclick=\'openCategoryModal('+JSON.stringify(c).replace(/'/g,"\\'")+')\'> 編集</button> ';
+          html+='<button class="btn btn-sm btn-danger" onclick="if(confirm(\'削除しますか？\'))deleteCategory('+c.id+')">削除</button></td></tr>';
+        });
+        document.getElementById('cat-tbody').innerHTML=html;
+      });
+    };
+
+    window.openCategoryModal=function(c){
+      var isEdit=!!c;
+      var html='<h3>'+(isEdit?'カテゴリを編集':'カテゴリを追加')+'</h3>';
+      html+='<div class="form-row"><div class="form-group"><label>カテゴリ名</label><input id="mc-name" value="'+esc(c?c.name:'')+'"></div>';
+      html+='<div class="form-group"><label>表示順</label><input type="number" id="mc-sort" value="'+(c?c.sort_order:0)+'"></div></div>';
+      if(isEdit){html+='<div class="form-row"><div class="form-group"><label>表示</label><select id="mc-active"><option value="1"'+(c.is_active?'selected':'')+'>表示</option><option value="0"'+(!c.is_active?'selected':'')+'>非表示</option></select></div></div>';}
+      html+='<div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">キャンセル</button><button class="btn btn-primary" onclick="saveCategory('+(isEdit?c.id:'null')+')">保存</button></div>';
+      openModal(html);
+    };
+
+    window.saveCategory=function(id){
+      var body={name:document.getElementById('mc-name').value,sort_order:parseInt(document.getElementById('mc-sort').value)||0};
+      if(id){body.id=id;var el=document.getElementById('mc-active');if(el)body.is_active=parseInt(el.value);}
+      api(id?'PUT':'POST','/api/admin/categories',body).then(function(){closeModal();showToast('保存しました');loadCategories()}).catch(function(){showToast('エラー','error')});
+    };
+
+    window.deleteCategory=function(id){
+      api('DELETE','/api/admin/categories?id='+id).then(function(d){if(d.error){showToast(d.error,'error')}else{showToast('削除しました');loadCategories()}}).catch(function(){showToast('エラー','error')});
+    };
+
+    // ============================
+    // おすすめ設定
+    // ============================
+    window.loadCrossSell=function(){
+      api('GET','/api/admin/cross-sell').then(function(rules){
+        var html='';
+        if(rules.length===0){html='<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:2rem">ルールがありません</td></tr>';}
+        rules.forEach(function(r){
+          html+='<tr><td>'+esc(r.product_name||'(削除済み)')+'</td><td>→</td><td>'+esc(r.suggested_product_name||'(削除済み)')+'</td>';
+          html+='<td style="font-size:.8rem">'+esc(r.message)+'</td>';
+          html+='<td><button class="btn btn-sm btn-danger" onclick="if(confirm(\'削除しますか？\'))deleteCrossSell('+r.id+')">削除</button></td></tr>';
+        });
+        document.getElementById('cs-tbody').innerHTML=html;
+      });
+    };
+
+    window.openCrossSellModal=function(){
+      Promise.all([api('GET','/api/admin/products')]).then(function(res){
+        var prods=res[0];
+        var opts=prods.map(function(p){return '<option value="'+p.id+'">'+esc(p.name)+'</option>'}).join('');
+        var html='<h3>おすすめルールを追加</h3>';
+        html+='<div class="form-row"><div class="form-group"><label>対象商品（これを選んだ時に）</label><select id="mcs-product">'+opts+'</select></div>';
+        html+='<div class="form-group"><label>おすすめ商品（これを提案する）</label><select id="mcs-suggested">'+opts+'</select></div></div>';
+        html+='<div class="form-row full"><div class="form-group"><label>メッセージ</label><input id="mcs-msg" value="こちらも一緒にいかがですか？"></div></div>';
+        html+='<div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">キャンセル</button><button class="btn btn-primary" onclick="saveCrossSell()">保存</button></div>';
+        openModal(html);
+      });
+    };
+
+    window.saveCrossSell=function(){
+      var body={product_id:parseInt(document.getElementById('mcs-product').value),suggested_product_id:parseInt(document.getElementById('mcs-suggested').value),message:document.getElementById('mcs-msg').value};
+      api('POST','/api/admin/cross-sell',body).then(function(d){if(d.error){showToast(d.error,'error')}else{closeModal();showToast('保存しました');loadCrossSell()}}).catch(function(){showToast('エラー','error')});
+    };
+
+    window.deleteCrossSell=function(id){
+      api('DELETE','/api/admin/cross-sell?id='+id).then(function(){showToast('削除しました');loadCrossSell()}).catch(function(){showToast('エラー','error')});
+    };
+
+    // ============================
+    // 店舗設定
+    // ============================
+    window.loadSettings=function(){
+      api('GET','/api/admin/settings').then(function(s){
+        var fields=['store_name','store_phone','store_address','business_hours_start','business_hours_end','discount_rate','discount_deadline_hour','min_hours_before_visit','notification_email','notification_line_webhook'];
+        fields.forEach(function(f){var el=document.getElementById('s-'+f);if(el&&s[f]!==undefined)el.value=s[f]});
+        // Closed days checkboxes
+        var closedDays=[];try{closedDays=JSON.parse(s.closed_days||'[]')}catch(e){}
+        document.querySelectorAll('#closed-days-checks input').forEach(function(cb){cb.checked=closedDays.indexOf(parseInt(cb.value))!==-1});
+      });
+    };
+
+    window.saveSettings=function(e){
+      e.preventDefault();
+      var closedDays=[];
+      document.querySelectorAll('#closed-days-checks input:checked').forEach(function(cb){closedDays.push(parseInt(cb.value))});
+      var body={
+        store_name:document.getElementById('s-store_name').value,
+        store_phone:document.getElementById('s-store_phone').value,
+        store_address:document.getElementById('s-store_address').value,
+        business_hours_start:document.getElementById('s-business_hours_start').value,
+        business_hours_end:document.getElementById('s-business_hours_end').value,
+        closed_days:JSON.stringify(closedDays),
+        discount_rate:document.getElementById('s-discount_rate').value,
+        discount_deadline_hour:document.getElementById('s-discount_deadline_hour').value,
+        min_hours_before_visit:document.getElementById('s-min_hours_before_visit').value,
+        notification_email:document.getElementById('s-notification_email').value,
+        notification_line_webhook:document.getElementById('s-notification_line_webhook').value
+      };
+      api('PUT','/api/admin/settings',body).then(function(){showToast('設定を保存しました')}).catch(function(){showToast('エラー','error')});
+    };
+
+    // ===== Logout =====
+    window.logout=function(){localStorage.removeItem('admin_token');location.href='/admin/'};
+
+    // ===== Util =====
+    function esc(s){if(!s)return '';var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+    // ===== Init =====
+    loadReservations();
+  })();
+  </script>
+</body>
+</html>
