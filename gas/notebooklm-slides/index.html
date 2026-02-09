@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-hover: #1557b0;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --border: #dadce0;
+      --text: #202124;
+      --text-sub: #5f6368;
+      --success: #0d904f;
+      --error: #d93025;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { max-width: 800px; margin: 0 auto; padding: 24px 16px; }
+    h1 {
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    /* タブ */
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 24px;
+      gap: 4px;
+    }
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 14px;
+      color: var(--text-sub);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+    }
+    .tab:hover { color: var(--primary); }
+    .tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      font-weight: 500;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* カード */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .card h2 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    /* フォーム */
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+      margin-top: 12px;
+    }
+    label:first-child { margin-top: 0; }
+    input[type="text"], select, textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+    }
+    textarea { resize: vertical; min-height: 60px; }
+
+    /* アップロードエリア */
+    .upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fafbfc;
+    }
+    .upload-area:hover, .upload-area.dragover {
+      border-color: var(--primary);
+      background: #e8f0fe;
+    }
+    .upload-area p { color: var(--text-sub); font-size: 14px; margin: 4px 0; }
+    .upload-area .icon { font-size: 36px; color: var(--text-sub); }
+    .file-list {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text-sub);
+      text-align: left;
+    }
+    .file-list div {
+      padding: 4px 0;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .file-list .remove {
+      color: var(--error);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    /* ボタン */
+    .btn {
+      display: inline-block;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 16px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-primary:disabled {
+      background: #94bef7;
+      cursor: not-allowed;
+    }
+    .btn-secondary {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { background: #f1f3f4; }
+
+    /* 結果表示 */
+    .result {
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+    .result.success {
+      background: #e6f4ea;
+      border: 1px solid #0d904f;
+      color: #137333;
+    }
+    .result.error {
+      background: #fce8e6;
+      border: 1px solid var(--error);
+      color: #c5221f;
+    }
+    .result a {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* プログレス */
+    .progress {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+    .progress.show { display: flex; }
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 構成一覧 */
+    .structure-table {
+      width: 100%;
+      font-size: 13px;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+    .structure-table th, .structure-table td {
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .structure-table th {
+      background: #f1f3f4;
+      font-weight: 500;
+    }
+    .slide-header {
+      background: #e8f0fe;
+      font-weight: 500;
+      color: var(--primary);
+    }
+
+    /* 共有情報 */
+    .share-info { font-size: 13px; margin-top: 8px; }
+    .share-info dt { font-weight: 500; margin-top: 8px; }
+    .share-info dd { margin-left: 12px; color: var(--text-sub); }
+
+    .hidden { display: none; }
+    .row { display: flex; gap: 12px; }
+    .row > * { flex: 1; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>NotebookLM スライド管理ツール</h1>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('create')">新規作成</button>
+    <button class="tab" onclick="switchTab('edit')">編集</button>
+    <button class="tab" onclick="switchTab('share')">共有管理</button>
+  </div>
+
+  <!-- ===== 新規作成タブ ===== -->
+  <div id="tab-create" class="tab-content active">
+    <div class="card">
+      <h2>ファイルをアップロード</h2>
+      <div class="upload-area" id="dropZone"
+           ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
+           ondrop="handleDrop(event)" onclick="document.getElementById('fileInput').click()">
+        <div class="icon">&#128196;</div>
+        <p>PDF または画像ファイルをドラッグ＆ドロップ</p>
+        <p style="font-size:12px">PNG / JPG / WEBP / PDF に対応（複数選択可）</p>
+        <input type="file" id="fileInput" multiple
+               accept=".pdf,.png,.jpg,.jpeg,.webp"
+               onchange="handleFiles(this.files)" style="display:none">
+      </div>
+      <div class="file-list" id="fileList"></div>
+
+      <p style="font-size:12px; color:var(--text-sub); margin-top:12px">
+        ※ PDF は自動で画像抽出を試みます。うまくいかない場合は、PDF の各ページを<br>
+        　画像として書き出してからアップロードしてください。
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>設定</h2>
+      <label>プレゼンテーション名</label>
+      <input type="text" id="createTitle" value="NotebookLM スライド" placeholder="タイトルを入力">
+
+      <label>共有設定</label>
+      <select id="createShareMode" onchange="toggleEmailSection('create')">
+        <option value="private">自分のみ（非公開）</option>
+        <option value="link_view">リンクを知っている全員（閲覧のみ）</option>
+        <option value="link_edit">リンクを知っている全員（編集可）</option>
+        <option value="emails">メールアドレスで共有</option>
+      </select>
+
+      <div id="createEmailSection" class="hidden">
+        <label>共有先メールアドレス（カンマ区切り）</label>
+        <input type="text" id="createEmails" placeholder="user1@example.com, user2@example.com">
+        <label>権限</label>
+        <select id="createPermission">
+          <option value="view">閲覧者</option>
+          <option value="edit">編集者</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="createBtn" onclick="startCreation()" disabled>
+      スライドを作成
+    </button>
+    <div class="progress" id="createProgress">
+      <div class="spinner"></div>
+      <span id="createProgressText">処理中...</span>
+    </div>
+    <div id="createResult"></div>
+  </div>
+
+  <!-- ===== 編集タブ ===== -->
+  <div id="tab-edit" class="tab-content">
+    <div class="card">
+      <h2>プレゼンテーションを選択</h2>
+      <div style="display:flex; gap:8px; align-items:end">
+        <div style="flex:1">
+          <label>プレゼンテーション</label>
+          <select id="editPresentationSelect" onchange="onPresentationSelected()">
+            <option value="">-- 読み込み中 --</option>
+          </select>
+        </div>
+        <button class="btn btn-secondary" onclick="loadPresentations()" style="margin-top:0;height:36px">
+          更新
+        </button>
+      </div>
+      <label>または ID を直接入力</label>
+      <div style="display:flex; gap:8px">
+        <input type="text" id="editPresentationId" placeholder="プレゼンテーション ID">
+        <button class="btn btn-secondary" onclick="loadStructure()" style="margin-top:0;white-space:nowrap;height:36px">
+          読み込み
+        </button>
+      </div>
+    </div>
+
+    <div id="editPanel" class="hidden">
+      <!-- 構成一覧 -->
+      <div class="card">
+        <h2>スライド構成</h2>
+        <div id="structureView"></div>
+      </div>
+
+      <!-- テキスト編集 -->
+      <div class="card">
+        <h2>テキスト検索・置換</h2>
+        <div class="row">
+          <div>
+            <label>検索テキスト</label>
+            <input type="text" id="searchText" placeholder="検索するテキスト">
+          </div>
+          <div>
+            <label>置換テキスト</label>
+            <input type="text" id="replaceTextVal" placeholder="置換後のテキスト">
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="doReplaceText()">置換実行</button>
+        <div id="replaceResult"></div>
+      </div>
+
+      <!-- テキストボックス追加 -->
+      <div class="card">
+        <h2>テキストボックスを追加</h2>
+        <div class="row">
+          <div>
+            <label>スライド番号</label>
+            <input type="text" id="tbSlide" value="1">
+          </div>
+          <div>
+            <label>フォントサイズ (pt)</label>
+            <input type="text" id="tbFontSize" value="18">
+          </div>
+        </div>
+        <label>テキスト</label>
+        <textarea id="tbText" placeholder="追加するテキストを入力"></textarea>
+        <div class="row">
+          <div><label>左 (pt)</label><input type="text" id="tbLeft" value="50"></div>
+          <div><label>上 (pt)</label><input type="text" id="tbTop" value="50"></div>
+          <div><label>幅 (pt)</label><input type="text" id="tbWidth" value="300"></div>
+          <div><label>高さ (pt)</label><input type="text" id="tbHeight" value="50"></div>
+        </div>
+        <button class="btn btn-primary" onclick="doAddTextBox()">追加</button>
+        <div id="tbResult"></div>
+      </div>
+
+      <!-- 画像差し替え -->
+      <div class="card">
+        <h2>画像を差し替え</h2>
+        <div class="row">
+          <div>
+            <label>スライド番号</label>
+            <input type="text" id="imgSlide" value="1">
+          </div>
+          <div>
+            <label>画像番号（スライド内の順番）</label>
+            <input type="text" id="imgIndex" value="1">
+          </div>
+        </div>
+        <label>差し替え画像</label>
+        <input type="file" id="imgFile" accept=".png,.jpg,.jpeg,.webp">
+        <p style="font-size:12px;color:var(--text-sub);margin-top:4px">または画像URL:</p>
+        <input type="text" id="imgUrl" placeholder="https://...">
+        <button class="btn btn-primary" onclick="doReplaceImage()">差し替え</button>
+        <div id="imgResult"></div>
+      </div>
+
+      <!-- 画像サイズ統一 -->
+      <div class="card">
+        <h2>全画像のサイズ・位置を統一</h2>
+        <div class="row">
+          <div><label>左 (pt)</label><input type="text" id="uniLeft" value="0"></div>
+          <div><label>上 (pt)</label><input type="text" id="uniTop" value="0"></div>
+          <div><label>幅 (pt)</label><input type="text" id="uniWidth" value="720"></div>
+          <div><label>高さ (pt)</label><input type="text" id="uniHeight" value="405"></div>
+        </div>
+        <button class="btn btn-primary" onclick="doUnifyImages()">統一する</button>
+        <div id="unifyResult"></div>
+      </div>
+    </div>
+    <div class="progress" id="editProgress">
+      <div class="spinner"></div>
+      <span>処理中...</span>
+    </div>
+  </div>
+
+  <!-- ===== 共有管理タブ ===== -->
+  <div id="tab-share" class="tab-content">
+    <div class="card">
+      <h2>プレゼンテーションを選択</h2>
+      <label>プレゼンテーション ID</label>
+      <input type="text" id="sharePresentationId" placeholder="プレゼンテーション ID を入力">
+      <button class="btn btn-secondary" onclick="loadSharingInfo()">共有情報を取得</button>
+    </div>
+
+    <div id="sharePanel" class="hidden">
+      <div class="card">
+        <h2>現在の共有状態</h2>
+        <dl class="share-info" id="shareInfoView"></dl>
+      </div>
+
+      <div class="card">
+        <h2>共有設定を変更</h2>
+        <label>共有モード</label>
+        <select id="shareMode" onchange="toggleEmailSection('share')">
+          <option value="private">自分のみ（非公開）</option>
+          <option value="link_view">リンクを知っている全員（閲覧のみ）</option>
+          <option value="link_edit">リンクを知っている全員（編集可）</option>
+          <option value="emails">メールアドレスで共有</option>
+        </select>
+        <div id="shareEmailSection" class="hidden">
+          <label>共有先メールアドレス（カンマ区切り）</label>
+          <input type="text" id="shareEmails" placeholder="user@example.com">
+          <label>権限</label>
+          <select id="sharePermission">
+            <option value="view">閲覧者</option>
+            <option value="edit">編集者</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="doUpdateSharing()">共有設定を更新</button>
+        <div id="shareResult"></div>
+      </div>
+    </div>
+    <div class="progress" id="shareProgress">
+      <div class="spinner"></div>
+      <span>処理中...</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========================================================
+// グローバル変数
+// ========================================================
+var uploadedFiles = [];
+
+// ========================================================
+// タブ切り替え
+// ========================================================
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+  event.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'edit') loadPresentations();
+}
+
+// ========================================================
+// 新規作成: ファイルアップロード
+// ========================================================
+function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('dragover'); }
+function handleDragLeave(e) { e.currentTarget.classList.remove('dragover'); }
+function handleDrop(e) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('dragover');
+  handleFiles(e.dataTransfer.files);
+}
+
+function handleFiles(fileList) {
+  for (var i = 0; i < fileList.length; i++) {
+    uploadedFiles.push(fileList[i]);
+  }
+  renderFileList();
+}
+
+function removeFile(index) {
+  uploadedFiles.splice(index, 1);
+  renderFileList();
+}
+
+function renderFileList() {
+  var html = '';
+  uploadedFiles.forEach(function(f, i) {
+    var size = (f.size / 1024).toFixed(1) + ' KB';
+    html += '<div><span>' + escHtml(f.name) + ' (' + size + ')</span>' +
+            '<span class="remove" onclick="removeFile(' + i + ')">削除</span></div>';
+  });
+  document.getElementById('fileList').innerHTML = html;
+  document.getElementById('createBtn').disabled = uploadedFiles.length === 0;
+}
+
+// ========================================================
+// 新規作成: スライド作成
+// ========================================================
+function startCreation() {
+  if (uploadedFiles.length === 0) return;
+
+  var btn = document.getElementById('createBtn');
+  btn.disabled = true;
+  showProgress('createProgress', 'ファイルを読み込み中...');
+  document.getElementById('createResult').innerHTML = '';
+
+  // 全ファイルを Base64 に変換
+  var fileDataArray = [];
+  var processed = 0;
+  var total = uploadedFiles.length;
+
+  uploadedFiles.forEach(function(file, idx) {
+    var reader = new FileReader();
+    reader.onload = function() {
+      fileDataArray[idx] = {
+        fileName: file.name,
+        mimeType: file.type || 'application/octet-stream',
+        data: reader.result.split(',')[1]
+      };
+      processed++;
+      showProgress('createProgress', 'ファイル読み込み中... (' + processed + '/' + total + ')');
+      if (processed === total) sendToServer(fileDataArray);
+    };
+    reader.onerror = function() {
+      showResult('createResult', 'error', file.name + ' の読み込みに失敗しました。');
+      btn.disabled = false;
+      hideProgress('createProgress');
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function sendToServer(fileDataArray) {
+  showProgress('createProgress', 'スライドを作成中...');
+
+  var config = {
+    files: fileDataArray,
+    title: document.getElementById('createTitle').value,
+    shareMode: document.getElementById('createShareMode').value,
+    emails: document.getElementById('createEmails').value,
+    permission: document.getElementById('createPermission').value
+  };
+
+  google.script.run
+    .withSuccessHandler(function(result) {
+      hideProgress('createProgress');
+      document.getElementById('createBtn').disabled = false;
+      showResult('createResult', 'success',
+        '<strong>' + escHtml(result.title) + '</strong> を作成しました（' + result.slideCount + ' スライド）<br>' +
+        '<a href="' + result.url + '" target="_blank">Google スライドを開く</a><br>' +
+        '<span style="font-size:12px;color:var(--text-sub)">ID: ' + result.id + '</span>'
+      );
+      uploadedFiles = [];
+      renderFileList();
+    })
+    .withFailureHandler(function(err) {
+      hideProgress('createProgress');
+      document.getElementById('createBtn').disabled = false;
+      showResult('createResult', 'error', escHtml(err.message || String(err)));
+    })
+    .createPresentation(config);
+}
+
+// ========================================================
+// 編集: プレゼンテーション一覧
+// ========================================================
+function loadPresentations() {
+  google.script.run
+    .withSuccessHandler(function(list) {
+      var sel = document.getElementById('editPresentationSelect');
+      sel.innerHTML = '<option value="">-- 選択してください --</option>';
+      list.forEach(function(p) {
+        var date = new Date(p.lastUpdated).toLocaleDateString('ja-JP');
+        sel.innerHTML += '<option value="' + p.id + '">' + escHtml(p.name) + ' (' + date + ')</option>';
+      });
+    })
+    .listMyPresentations();
+}
+
+function onPresentationSelected() {
+  var id = document.getElementById('editPresentationSelect').value;
+  if (id) {
+    document.getElementById('editPresentationId').value = id;
+    loadStructure();
+  }
+}
+
+function loadStructure() {
+  var id = getEditId();
+  if (!id) return;
+  showProgress('editProgress');
+
+  google.script.run
+    .withSuccessHandler(function(structure) {
+      hideProgress('editProgress');
+      document.getElementById('editPanel').classList.remove('hidden');
+      renderStructure(structure);
+    })
+    .withFailureHandler(function(err) {
+      hideProgress('editProgress');
+      showResult('structureView', 'error', escHtml(err.message));
+    })
+    .getSlideStructure(id);
+}
+
+function renderStructure(structure) {
+  var html = '<table class="structure-table"><tr><th>#</th><th>種類</th><th>位置</th><th>サイズ</th><th>内容</th></tr>';
+  structure.forEach(function(s) {
+    html += '<tr class="slide-header"><td colspan="5">スライド ' + s.slideNumber + '</td></tr>';
+    s.elements.forEach(function(el) {
+      var content = '';
+      if (el.type === 'SHAPE' && el.text) content = escHtml(el.text.substring(0, 60));
+      else if (el.type === 'IMAGE') content = '[画像]';
+      html += '<tr><td>' + el.index + '</td><td>' + el.type + '</td>' +
+              '<td>' + el.left + ', ' + el.top + '</td>' +
+              '<td>' + el.width + ' x ' + el.height + '</td>' +
+              '<td>' + content + '</td></tr>';
+    });
+  });
+  html += '</table>';
+  document.getElementById('structureView').innerHTML = html;
+}
+
+// ========================================================
+// 編集: テキスト置換
+// ========================================================
+function doReplaceText() {
+  var id = getEditId();
+  var search = document.getElementById('searchText').value;
+  var replace = document.getElementById('replaceTextVal').value;
+  if (!id || !search) return;
+
+  google.script.run
+    .withSuccessHandler(function(count) {
+      showResult('replaceResult', 'success', count + ' 箇所を置換しました。');
+      loadStructure();
+    })
+    .withFailureHandler(function(err) { showResult('replaceResult', 'error', escHtml(err.message)); })
+    .replaceText(id, search, replace);
+}
+
+// ========================================================
+// 編集: テキストボックス追加
+// ========================================================
+function doAddTextBox() {
+  var id = getEditId();
+  if (!id) return;
+  var slideNum = parseInt(document.getElementById('tbSlide').value) || 1;
+  var text = document.getElementById('tbText').value;
+  var left = parseFloat(document.getElementById('tbLeft').value) || 50;
+  var top = parseFloat(document.getElementById('tbTop').value) || 50;
+  var w = parseFloat(document.getElementById('tbWidth').value) || 300;
+  var h = parseFloat(document.getElementById('tbHeight').value) || 50;
+  var fs = parseInt(document.getElementById('tbFontSize').value) || 18;
+
+  google.script.run
+    .withSuccessHandler(function() {
+      showResult('tbResult', 'success', 'テキストボックスを追加しました。');
+      loadStructure();
+    })
+    .withFailureHandler(function(err) { showResult('tbResult', 'error', escHtml(err.message)); })
+    .addTextBox(id, slideNum, text, left, top, w, h, fs);
+}
+
+// ========================================================
+// 編集: 画像差し替え
+// ========================================================
+function doReplaceImage() {
+  var id = getEditId();
+  if (!id) return;
+  var slideNum = parseInt(document.getElementById('imgSlide').value) || 1;
+  var imgIdx = parseInt(document.getElementById('imgIndex').value) || 1;
+  var url = document.getElementById('imgUrl').value.trim();
+  var fileInput = document.getElementById('imgFile');
+
+  if (url) {
+    google.script.run
+      .withSuccessHandler(function() {
+        showResult('imgResult', 'success', '画像を差し替えました。');
+        loadStructure();
+      })
+      .withFailureHandler(function(err) { showResult('imgResult', 'error', escHtml(err.message)); })
+      .replaceImage(id, slideNum, imgIdx, { url: url });
+  } else if (fileInput.files.length > 0) {
+    var file = fileInput.files[0];
+    var reader = new FileReader();
+    reader.onload = function() {
+      var imageData = {
+        data: reader.result.split(',')[1],
+        mimeType: file.type,
+        fileName: file.name
+      };
+      google.script.run
+        .withSuccessHandler(function() {
+          showResult('imgResult', 'success', '画像を差し替えました。');
+          loadStructure();
+        })
+        .withFailureHandler(function(err) { showResult('imgResult', 'error', escHtml(err.message)); })
+        .replaceImage(id, slideNum, imgIdx, imageData);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    showResult('imgResult', 'error', '画像ファイルまたは URL を指定してください。');
+  }
+}
+
+// ========================================================
+// 編集: 画像サイズ統一
+// ========================================================
+function doUnifyImages() {
+  var id = getEditId();
+  if (!id) return;
+  var l = parseFloat(document.getElementById('uniLeft').value);
+  var t = parseFloat(document.getElementById('uniTop').value);
+  var w = parseFloat(document.getElementById('uniWidth').value);
+  var h = parseFloat(document.getElementById('uniHeight').value);
+
+  google.script.run
+    .withSuccessHandler(function(count) {
+      showResult('unifyResult', 'success', count + ' 枚の画像を統一しました。');
+      loadStructure();
+    })
+    .withFailureHandler(function(err) { showResult('unifyResult', 'error', escHtml(err.message)); })
+    .unifyImageSizes(id, l, t, w, h);
+}
+
+// ========================================================
+// 共有管理
+// ========================================================
+function loadSharingInfo() {
+  var id = document.getElementById('sharePresentationId').value.trim();
+  if (!id) return;
+  showProgress('shareProgress');
+
+  google.script.run
+    .withSuccessHandler(function(info) {
+      hideProgress('shareProgress');
+      document.getElementById('sharePanel').classList.remove('hidden');
+      renderSharingInfo(info);
+    })
+    .withFailureHandler(function(err) {
+      hideProgress('shareProgress');
+      showResult('shareResult', 'error', escHtml(err.message));
+    })
+    .getSharingInfo(id);
+}
+
+function renderSharingInfo(info) {
+  var accessMap = {
+    'ANYONE': '全員', 'ANYONE_WITH_LINK': 'リンクを知っている全員',
+    'DOMAIN': 'ドメイン内', 'DOMAIN_WITH_LINK': 'ドメイン（リンク）', 'PRIVATE': '非公開'
+  };
+  var permMap = { 'VIEW': '閲覧のみ', 'EDIT': '編集可', 'COMMENT': 'コメント可', 'NONE': 'なし' };
+
+  var html = '<dt>アクセス範囲</dt><dd>' + (accessMap[info.access] || info.access) + '</dd>';
+  html += '<dt>権限</dt><dd>' + (permMap[info.permission] || info.permission) + '</dd>';
+  html += '<dt>編集者</dt><dd>' + (info.editors.length > 0 ? escHtml(info.editors.join(', ')) : 'なし') + '</dd>';
+  html += '<dt>閲覧者</dt><dd>' + (info.viewers.length > 0 ? escHtml(info.viewers.join(', ')) : 'なし') + '</dd>';
+  html += '<dt>URL</dt><dd><a href="' + info.url + '" target="_blank">' + escHtml(info.url) + '</a></dd>';
+  document.getElementById('shareInfoView').innerHTML = html;
+}
+
+function doUpdateSharing() {
+  var id = document.getElementById('sharePresentationId').value.trim();
+  if (!id) return;
+
+  google.script.run
+    .withSuccessHandler(function(info) {
+      showResult('shareResult', 'success', '共有設定を更新しました。');
+      renderSharingInfo(info);
+    })
+    .withFailureHandler(function(err) { showResult('shareResult', 'error', escHtml(err.message)); })
+    .updateSharing(
+      id,
+      document.getElementById('shareMode').value,
+      document.getElementById('shareEmails').value,
+      document.getElementById('sharePermission').value
+    );
+}
+
+// ========================================================
+// ユーティリティ
+// ========================================================
+function getEditId() {
+  return document.getElementById('editPresentationId').value.trim();
+}
+
+function toggleEmailSection(prefix) {
+  var mode = document.getElementById(prefix + (prefix === 'create' ? 'ShareMode' : 'Mode')).value;
+  var section = document.getElementById(prefix + 'EmailSection');
+  section.classList.toggle('hidden', mode !== 'emails');
+}
+
+function showProgress(id, text) {
+  var el = document.getElementById(id);
+  el.classList.add('show');
+  if (text) {
+    var span = el.querySelector('span');
+    if (span) span.textContent = text;
+  }
+}
+function hideProgress(id) { document.getElementById(id).classList.remove('show'); }
+
+function showResult(containerId, type, html) {
+  document.getElementById(containerId).innerHTML =
+    '<div class="result ' + type + '">' + html + '</div>';
+}
+
+function escHtml(s) {
+  var d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+</script>
+</body>
+</html>
