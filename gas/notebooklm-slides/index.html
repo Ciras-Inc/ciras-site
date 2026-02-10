@@ -135,16 +135,17 @@
       </p>
       <label>AI プロバイダ</label>
       <select id="aiProvider" onchange="onProviderChange()">
-        <option value="openai" selected>OpenAI GPT-4o（推奨）</option>
-        <option value="gemini">Google Gemini</option>
+        <option value="groq" selected>Groq（無料・推奨）</option>
+        <option value="openai">OpenAI GPT-4o（有料）</option>
+        <option value="gemini">Google Gemini（無料枠あり）</option>
       </select>
-      <label id="apiKeyLabel">OpenAI API キー</label>
+      <label id="apiKeyLabel">Groq API キー</label>
       <div style="display:flex; gap:8px">
-        <input type="password" id="apiKeyInput" placeholder="sk-...">
+        <input type="password" id="apiKeyInput" placeholder="gsk_...">
         <button class="btn btn-secondary" onclick="saveApiKey()" style="margin-top:0;white-space:nowrap;height:36px">保存</button>
       </div>
       <p class="hint" id="apiKeyHint">
-        <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a> で取得できます（従量課金）
+        <a href="https://console.groq.com/keys" target="_blank">Groq Console</a> で無料取得できます（アカウント作成のみ）
       </p>
       <div id="apiKeyResult"></div>
     </div>
@@ -339,40 +340,29 @@ function switchTab(name) {
 // ========================================================
 // AI プロバイダ管理（ブラウザ localStorage に保存）
 // ========================================================
-function getProvider() {
-  return document.getElementById('aiProvider').value;
-}
-function getStorageKey() {
-  return getProvider() === 'openai' ? 'openaiApiKey' : 'geminiApiKey';
-}
+var PROVIDERS = {
+  groq:   { label: 'Groq', keyName: 'groqApiKey', placeholder: 'gsk_...', hint: '<a href="https://console.groq.com/keys" target="_blank">Groq Console</a> で無料取得できます（アカウント作成のみ）' },
+  openai: { label: 'OpenAI', keyName: 'openaiApiKey', placeholder: 'sk-...', hint: '<a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a> で取得できます（従量課金）' },
+  gemini: { label: 'Gemini', keyName: 'geminiApiKey', placeholder: 'AIza...', hint: '<a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a> で無料取得できます' }
+};
+
+function getProvider() { return document.getElementById('aiProvider').value; }
+function getStorageKey() { return PROVIDERS[getProvider()].keyName; }
+
 function onProviderChange() {
-  var p = getProvider();
-  var label = document.getElementById('apiKeyLabel');
-  var input = document.getElementById('apiKeyInput');
-  var hint = document.getElementById('apiKeyHint');
-  if (p === 'openai') {
-    label.textContent = 'OpenAI API キー';
-    input.placeholder = 'sk-...';
-    hint.innerHTML = '<a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a> で取得できます（従量課金）';
-  } else {
-    label.textContent = 'Gemini API キー';
-    input.placeholder = 'AIza...';
-    hint.innerHTML = '<a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a> で無料取得できます';
-  }
-  localStorage.setItem('aiProvider', p);
+  var p = PROVIDERS[getProvider()];
+  document.getElementById('apiKeyLabel').textContent = p.label + ' API キー';
+  document.getElementById('apiKeyInput').placeholder = p.placeholder;
+  document.getElementById('apiKeyHint').innerHTML = p.hint;
+  localStorage.setItem('aiProvider', getProvider());
   checkApiKey();
 }
 function checkApiKey() {
   var key = localStorage.getItem(getStorageKey());
   var badge = document.getElementById('aiStatus');
-  var provider = getProvider();
-  if (key) {
-    badge.textContent = (provider === 'openai' ? 'OpenAI' : 'Gemini') + ' 設定済み';
-    badge.className = 'gemini-badge ok';
-  } else {
-    badge.textContent = '未設定';
-    badge.className = 'gemini-badge ng';
-  }
+  var p = PROVIDERS[getProvider()];
+  if (key) { badge.textContent = p.label + ' 設定済み'; badge.className = 'gemini-badge ok'; }
+  else { badge.textContent = '未設定'; badge.className = 'gemini-badge ng'; }
 }
 function saveApiKey() {
   var key = document.getElementById('apiKeyInput').value.trim();
@@ -382,10 +372,9 @@ function saveApiKey() {
   document.getElementById('apiKeyInput').value = '';
   checkApiKey();
 }
-// 起動時にプロバイダを復元
 (function() {
   var saved = localStorage.getItem('aiProvider');
-  if (saved) document.getElementById('aiProvider').value = saved;
+  if (saved && PROVIDERS[saved]) document.getElementById('aiProvider').value = saved;
   onProviderChange();
 })();
 
@@ -467,77 +456,63 @@ function callServer(funcName) {
 }
 
 // ========================================================
-// AI 解析 API 呼び出し（OpenAI / Gemini 自動切替）
+// AI 解析 API 呼び出し（Groq / OpenAI / Gemini 自動切替）
 // ========================================================
+var AI_CONFIGS = {
+  groq:   { baseUrl: 'https://api.groq.com/openai/v1', model: 'llama-3.2-90b-vision-preview' },
+  openai: { baseUrl: 'https://api.openai.com/v1', model: 'gpt-4o-mini' }
+};
+
 async function callAnalysisApi(imageBase64, mimeType) {
   var provider = getProvider();
-  if (provider === 'openai') {
-    return await callOpenAI(imageBase64, mimeType);
-  } else {
+  if (provider === 'gemini') {
     return await callGeminiDirect(imageBase64, mimeType);
   }
-}
-
-// --- OpenAI: サーバー経由（GAS UrlFetchApp） ---
-async function callOpenAI(imageBase64, mimeType) {
-  var apiKey = localStorage.getItem('openaiApiKey');
-  if (!apiKey) throw new Error('OpenAI API キーが設定されていません。設定画面で API キーを入力してください。');
-  logInfo('    → OpenAI GPT-4o-mini で解析中...');
-  var result = await callServer('analyzePageWithOpenAI', imageBase64, mimeType, apiKey);
-  logOk('    ✓ OpenAI 解析成功');
+  // Groq / OpenAI → サーバー経由（OpenAI互換API）
+  var apiKey = localStorage.getItem(getStorageKey());
+  if (!apiKey) throw new Error(PROVIDERS[provider].label + ' API キーが未設定です。');
+  var cfg = AI_CONFIGS[provider];
+  logInfo('    → ' + PROVIDERS[provider].label + ' (' + cfg.model + ') で解析中...');
+  var result = await callServer('analyzePageWithAI', imageBase64, mimeType, {
+    apiKey: apiKey,
+    baseUrl: cfg.baseUrl,
+    model: cfg.model
+  });
+  logOk('    ✓ ' + PROVIDERS[provider].label + ' 解析成功');
   return result;
 }
 
 // --- Gemini: ブラウザから直接呼び出し ---
-var GEMINI_MODELS = ['gemini-2.0-flash-lite', 'gemini-2.0-flash'];
-
 async function callGeminiDirect(imageBase64, mimeType) {
   var apiKey = localStorage.getItem('geminiApiKey');
-  if (!apiKey) throw new Error('Gemini API キーが設定されていません。設定画面で API キーを入力してください。');
+  if (!apiKey) throw new Error('Gemini API キーが未設定です。');
 
-  var prompt = [
-    'このプレゼンテーションスライド画像を正確に解析してください。',
-    '以下のJSON形式で返してください:',
-    '{"backgroundColor":"#RRGGBB","elements":[{"type":"text","content":"テキスト","x":0.1,"y":0.05,"width":0.8,"height":0.1,"fontSize":24,"fontColor":"#333333","bold":false,"alignment":"left"},{"type":"image","description":"説明","x":0.05,"y":0.15,"width":0.4,"height":0.6}]}',
-    '■ ルール: x,y,width,height=0.0〜1.0の割合。テキスト全検出。画像=イラスト/写真/アイコン/図表の矩形。backgroundColor=主要背景色。JSON のみ返すこと。'
-  ].join('\n');
-
-  var payload = {
-    contents: [{ parts: [
-      { text: prompt },
-      { inlineData: { mimeType: mimeType || 'image/jpeg', data: imageBase64 } }
-    ]}],
-    generationConfig: { temperature: 0.1, maxOutputTokens: 8192, responseMimeType: 'application/json' }
-  };
+  var models = ['gemini-2.0-flash-lite', 'gemini-2.0-flash'];
+  var prompt = 'このスライド画像を解析し、JSON で返してください。形式: {"backgroundColor":"#RRGGBB","elements":[{"type":"text","content":"テキスト","x":0.1,"y":0.05,"width":0.8,"height":0.1,"fontSize":24,"fontColor":"#333333","bold":false,"alignment":"left"},{"type":"image","description":"説明","x":0.05,"y":0.15,"width":0.4,"height":0.6}]}。x,y,width,height=0.0〜1.0の割合。テキスト全検出。画像=イラスト/写真/アイコン/図表。JSON のみ返すこと。';
+  var payload = { contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: mimeType || 'image/jpeg', data: imageBase64 } }] }], generationConfig: { temperature: 0.1, maxOutputTokens: 8192, responseMimeType: 'application/json' } };
   var bodyStr = JSON.stringify(payload);
 
-  for (var m = 0; m < GEMINI_MODELS.length; m++) {
-    var model = GEMINI_MODELS[m];
-    var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + apiKey;
+  for (var m = 0; m < models.length; m++) {
     try {
-      logInfo('    → Gemini ' + model);
-      var resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: bodyStr });
+      logInfo('    → Gemini ' + models[m]);
+      var resp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + models[m] + ':generateContent?key=' + apiKey, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: bodyStr });
       if (resp.ok) {
         var data = await resp.json();
         if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) continue;
         var text = data.candidates[0].content.parts[0].text;
-        var jm = text.match(/```(?:json)?\s*([\s\S]*?)```/);
-        if (jm) text = jm[1];
+        var jm = text.match(/```(?:json)?\s*([\s\S]*?)```/); if (jm) text = jm[1];
         var analysis = JSON.parse(text.trim());
         if (!analysis.elements) continue;
         var tc = 0, ic = 0;
-        for (var i = 0; i < analysis.elements.length; i++) {
-          if (analysis.elements[i].type === 'text') tc++;
-          else if (analysis.elements[i].type === 'image') ic++;
-        }
-        logOk('    ✓ ' + model + ' で解析成功');
+        for (var i = 0; i < analysis.elements.length; i++) { if (analysis.elements[i].type === 'text') tc++; else if (analysis.elements[i].type === 'image') ic++; }
+        logOk('    ✓ Gemini ' + models[m] + ' 成功');
         return { analysis: analysis, stats: { textElements: tc, imageElements: ic, backgroundColor: analysis.backgroundColor || '#FFFFFF' } };
       }
-      if (resp.status === 429) { logWarn('    ' + model + ': 429 → 次へ'); continue; }
-      logWarn('    ' + model + ': HTTP ' + resp.status);
-    } catch (e) { logWarn('    ' + model + ': ' + e.message); }
+      if (resp.status === 429) { logWarn('    ' + models[m] + ': 429 → 次へ'); continue; }
+      logWarn('    ' + models[m] + ': HTTP ' + resp.status);
+    } catch (e) { logWarn('    ' + models[m] + ': ' + e.message); }
   }
-  throw new Error('Gemini API: 全モデルで失敗。OpenAI への切り替えを推奨します。');
+  throw new Error('Gemini: 全モデル失敗。Groq（無料）への切り替えを推奨します。');
 }
 
 // ========================================================
@@ -614,9 +589,9 @@ async function processWithGemini() {
       await sleep(5000);
     }
 
-    // ステップ1: 低解像度画像を Gemini に送信して解析
+    // ステップ1: AI に送信して解析
     logInfo('--- ページ ' + (i + 1) + ': ' + pg.label + ' ---');
-    log('  [1] Gemini に解析リクエスト送信...');
+    log('  [1] AI に解析リクエスト送信...');
 
     var analysisImage = createAnalysisImage(pg.canvas);
     logInfo('  解析用画像サイズ: ' + (analysisImage.length / 1024).toFixed(0) + ' KB');
@@ -625,7 +600,7 @@ async function processWithGemini() {
     try {
       geminiResult = await callAnalysisApi(analysisImage, 'image/jpeg');
     } catch (e) {
-      logErr('  Gemini 解析エラー: ' + e.message);
+      logErr('  AI 解析エラー: ' + e.message);
       logErr('  このページはスキップします');
       pg.canvas.width = 0;
       pg.canvas.height = 0;

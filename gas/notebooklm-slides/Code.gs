@@ -1,20 +1,8 @@
 /**
  * NotebookLM スライド管理ツール - Google Apps Script
  *
- * AI Vision API（OpenAI GPT-4o / Gemini）でスライド画像を解析し、
+ * AI Vision API（Groq / OpenAI / Gemini）でスライド画像を解析し、
  * テキスト・イラスト・背景を個別の編集可能な要素として Google スライドに再構築する。
- *
- * セットアップ手順:
- *   1. https://script.google.com で新規プロジェクトを作成
- *   2. Code.gs にこのファイルの内容を貼り付け
- *   3. ファイル追加（＋ → HTML）で「index」を作成し index.html の内容を貼り付け
- *   4. デプロイ → 新しいデプロイ → 種類「ウェブアプリ」
- *      - 実行ユーザー: 自分
- *      - アクセス: 全員（Google アカウント必須）
- *   5. 表示された URL にアクセスして利用開始
- *
- * ※ Gemini API キーはウェブアプリ画面で設定（ブラウザ localStorage に保存）
- * ※ Gemini API はブラウザから直接呼び出すため UrlFetchApp の権限は不要
  */
 
 // =====================================================
@@ -28,71 +16,35 @@ function doGet() {
 }
 
 // =====================================================
-// OpenAI GPT-4o Vision でページ画像を解析（サーバー側）
+// 汎用 Vision AI でページ画像を解析（OpenAI互換API共通）
+// config: { apiKey, baseUrl, model }
 // =====================================================
 
-function analyzePageWithOpenAI(imageBase64, mimeType, apiKey) {
-  var url = 'https://api.openai.com/v1/chat/completions';
+function analyzePageWithAI(imageBase64, mimeType, config) {
+  var url = config.baseUrl + '/chat/completions';
 
   var prompt = [
-    'このプレゼンテーションスライド画像を正確に解析してください。',
+    'このプレゼンテーションスライド画像を正確に解析し、JSON で返してください。',
     '',
-    '以下のJSON形式で返してください:',
-    '{',
-    '  "backgroundColor": "#RRGGBB",',
-    '  "elements": [',
-    '    {',
-    '      "type": "text",',
-    '      "content": "テキスト内容",',
-    '      "x": 0.1,',
-    '      "y": 0.05,',
-    '      "width": 0.8,',
-    '      "height": 0.1,',
-    '      "fontSize": 24,',
-    '      "fontColor": "#333333",',
-    '      "bold": false,',
-    '      "alignment": "left"',
-    '    },',
-    '    {',
-    '      "type": "image",',
-    '      "description": "画像の説明",',
-    '      "x": 0.05,',
-    '      "y": 0.15,',
-    '      "width": 0.4,',
-    '      "height": 0.6',
-    '    }',
-    '  ]',
-    '}',
+    '返すJSON形式:',
+    '{"backgroundColor":"#RRGGBB","elements":[...]}',
     '',
-    '■ 重要なルール:',
-    '- x, y, width, height はスライド全体に対する割合（0.0〜1.0）で指定',
-    '- 座標は左上を原点とする',
+    'elements の各要素:',
+    '- テキスト: {"type":"text","content":"テキスト内容","x":0.1,"y":0.05,"width":0.8,"height":0.1,"fontSize":24,"fontColor":"#333333","bold":false,"alignment":"left"}',
+    '- 画像: {"type":"image","description":"説明","x":0.05,"y":0.15,"width":0.4,"height":0.6}',
     '',
-    '■ テキスト要素 (type: "text"):',
-    '- すべてのテキストを検出（見出し、本文、キャプション、吹き出し内テキスト、ラベル等）',
-    '- content にテキスト内容を正確に含める（改行は \\n で）',
-    '- fontSize はポイント単位の推定値',
-    '- fontColor はテキスト色（#RRGGBB形式）',
-    '- bold: 太字なら true',
-    '- alignment: "left", "center", "right" のいずれか',
-    '- 論理的にまとまるテキストは1要素にグループ化（ただし離れた位置のテキストは別要素に）',
-    '',
-    '■ 画像要素 (type: "image"):',
-    '- イラスト、写真、アイコン、図表、装飾グラフィック（花、人物画、仏具等）の矩形領域',
-    '- テキストのみの領域は含めない',
-    '- 各画像領域はなるべく重複なく、正確な境界で切り出す',
-    '- description に画像内容の簡単な説明',
-    '',
-    '■ backgroundColor:',
-    '- スライド全体の主要な背景色（#RRGGBB形式）',
-    '',
-    '有効な JSON のみを返すこと。説明文やマークダウンは不要。'
+    'ルール:',
+    '- x, y, width, height はスライド全体に対する割合（0.0〜1.0）',
+    '- テキスト: 全テキストを検出。content に正確なテキスト（改行は\\n）。fontSize はpt推定。fontColor は#RRGGBB。',
+    '- 画像: イラスト・写真・アイコン・図表・装飾グラフィックの矩形領域。テキストのみの領域は含めない。',
+    '- backgroundColor: スライド全体の主要な背景色（#RRGGBB）',
+    '- 有効なJSONのみ返すこと。説明文やマークダウン不要。'
   ].join('\n');
 
   var dataUrl = 'data:' + (mimeType || 'image/jpeg') + ';base64,' + imageBase64;
 
   var payload = {
-    model: 'gpt-4o-mini',
+    model: config.model,
     messages: [{
       role: 'user',
       content: [
@@ -108,14 +60,14 @@ function analyzePageWithOpenAI(imageBase64, mimeType, apiKey) {
   var options = {
     method: 'post',
     headers: {
-      'Authorization': 'Bearer ' + apiKey,
+      'Authorization': 'Bearer ' + config.apiKey,
       'Content-Type': 'application/json'
     },
     payload: JSON.stringify(payload),
     muteHttpExceptions: true
   };
 
-  // リトライ付き（最大2回）
+  // リトライ付き
   var response, code, body;
   for (var attempt = 0; attempt < 3; attempt++) {
     response = UrlFetchApp.fetch(url, options);
@@ -125,29 +77,28 @@ function analyzePageWithOpenAI(imageBase64, mimeType, apiKey) {
     if (code === 200) break;
 
     if (code === 429 && attempt < 2) {
-      Logger.log('OpenAI 429: 10秒待機後リトライ (' + (attempt + 1) + '/2)');
+      Logger.log('AI API 429: 10秒待機後リトライ (' + (attempt + 1) + '/2)');
       Utilities.sleep(10000);
       continue;
     }
 
-    throw new Error('OpenAI API エラー (HTTP ' + code + '): ' + body.substring(0, 300));
+    throw new Error('AI API エラー (HTTP ' + code + '): ' + body.substring(0, 500));
   }
 
   var result = JSON.parse(body);
   if (!result.choices || !result.choices[0] || !result.choices[0].message) {
-    throw new Error('OpenAI API: 有効な応答がありません。');
+    throw new Error('AI API: 有効な応答がありません。Response: ' + body.substring(0, 300));
   }
 
   var text = result.choices[0].message.content;
 
-  // JSON抽出（マークダウンブロック内の場合）
   var jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (jsonMatch) text = jsonMatch[1];
   text = text.trim();
 
   var analysis = JSON.parse(text);
   if (!analysis.elements || !Array.isArray(analysis.elements)) {
-    throw new Error('OpenAI 応答に elements 配列がありません');
+    throw new Error('AI 応答に elements 配列がありません');
   }
 
   var textCount = 0, imageCount = 0;
