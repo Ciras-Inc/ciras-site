@@ -1,7 +1,7 @@
 /**
  * NotebookLM スライド管理ツール - Google Apps Script
  *
- * Gemini Vision API（ブラウザから直接呼び出し）でスライド画像を解析し、
+ * AI Vision API（OpenAI GPT-4o / Gemini）でスライド画像を解析し、
  * テキスト・イラスト・背景を個別の編集可能な要素として Google スライドに再構築する。
  *
  * セットアップ手順:
@@ -28,9 +28,143 @@ function doGet() {
 }
 
 // =====================================================
-// ※ Gemini API はクライアント側（ブラウザ）から直接呼び出す方式に変更済み
-// ※ API キーはブラウザの localStorage に保存される
+// OpenAI GPT-4o Vision でページ画像を解析（サーバー側）
 // =====================================================
+
+function analyzePageWithOpenAI(imageBase64, mimeType, apiKey) {
+  var url = 'https://api.openai.com/v1/chat/completions';
+
+  var prompt = [
+    'このプレゼンテーションスライド画像を正確に解析してください。',
+    '',
+    '以下のJSON形式で返してください:',
+    '{',
+    '  "backgroundColor": "#RRGGBB",',
+    '  "elements": [',
+    '    {',
+    '      "type": "text",',
+    '      "content": "テキスト内容",',
+    '      "x": 0.1,',
+    '      "y": 0.05,',
+    '      "width": 0.8,',
+    '      "height": 0.1,',
+    '      "fontSize": 24,',
+    '      "fontColor": "#333333",',
+    '      "bold": false,',
+    '      "alignment": "left"',
+    '    },',
+    '    {',
+    '      "type": "image",',
+    '      "description": "画像の説明",',
+    '      "x": 0.05,',
+    '      "y": 0.15,',
+    '      "width": 0.4,',
+    '      "height": 0.6',
+    '    }',
+    '  ]',
+    '}',
+    '',
+    '■ 重要なルール:',
+    '- x, y, width, height はスライド全体に対する割合（0.0〜1.0）で指定',
+    '- 座標は左上を原点とする',
+    '',
+    '■ テキスト要素 (type: "text"):',
+    '- すべてのテキストを検出（見出し、本文、キャプション、吹き出し内テキスト、ラベル等）',
+    '- content にテキスト内容を正確に含める（改行は \\n で）',
+    '- fontSize はポイント単位の推定値',
+    '- fontColor はテキスト色（#RRGGBB形式）',
+    '- bold: 太字なら true',
+    '- alignment: "left", "center", "right" のいずれか',
+    '- 論理的にまとまるテキストは1要素にグループ化（ただし離れた位置のテキストは別要素に）',
+    '',
+    '■ 画像要素 (type: "image"):',
+    '- イラスト、写真、アイコン、図表、装飾グラフィック（花、人物画、仏具等）の矩形領域',
+    '- テキストのみの領域は含めない',
+    '- 各画像領域はなるべく重複なく、正確な境界で切り出す',
+    '- description に画像内容の簡単な説明',
+    '',
+    '■ backgroundColor:',
+    '- スライド全体の主要な背景色（#RRGGBB形式）',
+    '',
+    '有効な JSON のみを返すこと。説明文やマークダウンは不要。'
+  ].join('\n');
+
+  var dataUrl = 'data:' + (mimeType || 'image/jpeg') + ';base64,' + imageBase64;
+
+  var payload = {
+    model: 'gpt-4o-mini',
+    messages: [{
+      role: 'user',
+      content: [
+        { type: 'text', text: prompt },
+        { type: 'image_url', image_url: { url: dataUrl, detail: 'high' } }
+      ]
+    }],
+    max_tokens: 8192,
+    temperature: 0.1,
+    response_format: { type: 'json_object' }
+  };
+
+  var options = {
+    method: 'post',
+    headers: {
+      'Authorization': 'Bearer ' + apiKey,
+      'Content-Type': 'application/json'
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  };
+
+  // リトライ付き（最大2回）
+  var response, code, body;
+  for (var attempt = 0; attempt < 3; attempt++) {
+    response = UrlFetchApp.fetch(url, options);
+    code = response.getResponseCode();
+    body = response.getContentText();
+
+    if (code === 200) break;
+
+    if (code === 429 && attempt < 2) {
+      Logger.log('OpenAI 429: 10秒待機後リトライ (' + (attempt + 1) + '/2)');
+      Utilities.sleep(10000);
+      continue;
+    }
+
+    throw new Error('OpenAI API エラー (HTTP ' + code + '): ' + body.substring(0, 300));
+  }
+
+  var result = JSON.parse(body);
+  if (!result.choices || !result.choices[0] || !result.choices[0].message) {
+    throw new Error('OpenAI API: 有効な応答がありません。');
+  }
+
+  var text = result.choices[0].message.content;
+
+  // JSON抽出（マークダウンブロック内の場合）
+  var jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (jsonMatch) text = jsonMatch[1];
+  text = text.trim();
+
+  var analysis = JSON.parse(text);
+  if (!analysis.elements || !Array.isArray(analysis.elements)) {
+    throw new Error('OpenAI 応答に elements 配列がありません');
+  }
+
+  var textCount = 0, imageCount = 0;
+  for (var i = 0; i < analysis.elements.length; i++) {
+    if (analysis.elements[i].type === 'text') textCount++;
+    else if (analysis.elements[i].type === 'image') imageCount++;
+  }
+
+  return {
+    analysis: analysis,
+    stats: {
+      textElements: textCount,
+      imageElements: imageCount,
+      backgroundColor: analysis.backgroundColor || '#FFFFFF'
+    }
+  };
+}
 
 // =====================================================
 // 1ページ分のスライドを作成（新規）
