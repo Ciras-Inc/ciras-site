@@ -591,10 +591,43 @@ async function processWithGemini() {
       }
     }
 
-    // ステップ2: 全ページ画像を JPEG で取得（背景用）
-    log('  [3] 全ページ画像を生成中...');
+    // ステップ2: Canvas上のテキスト領域をbgColorで塗りつぶし（テキスト消去）
+    log('  [3] テキスト領域を消去中...');
+    var eraseCtx = pg.canvas.getContext('2d');
+    var cw = pg.canvas.width;
+    var ch = pg.canvas.height;
+    var bgFallback = analysis.backgroundColor || '#FFFFFF';
+    var erasedCount = 0;
+
+    for (var ei = 0; ei < analysis.elements.length; ei++) {
+      var elem = analysis.elements[ei];
+      if (elem.type !== 'text') continue;
+
+      // bgColorがあればそれを使用、なければスライド背景色をフォールバック
+      var fillColor = elem.bgColor || bgFallback;
+
+      var rx = (elem.x || 0) * cw;
+      var ry = (elem.y || 0) * ch;
+      var rw = (elem.width || 0.1) * cw;
+      var rh = (elem.height || 0.05) * ch;
+
+      // パディングを追加して確実にテキストを覆う
+      var pad = 3;
+      rx = Math.max(0, rx - pad);
+      ry = Math.max(0, ry - pad);
+      rw = Math.min(cw - rx, rw + pad * 2);
+      rh = Math.min(ch - ry, rh + pad * 2);
+
+      eraseCtx.fillStyle = fillColor;
+      eraseCtx.fillRect(rx, ry, rw, rh);
+      erasedCount++;
+    }
+    logOk('  テキスト ' + erasedCount + ' 箇所を消去しました');
+
+    // ステップ3: テキスト消去済み画像を JPEG で取得（背景用）
+    log('  [4] クリーン背景画像を生成中...');
     var fullPageBase64 = pg.canvas.toDataURL('image/jpeg', 0.92).split(',')[1];
-    logInfo('  全ページ画像サイズ: ' + (fullPageBase64.length / 1024).toFixed(0) + ' KB');
+    logInfo('  クリーン背景画像サイズ: ' + (fullPageBase64.length / 1024).toFixed(0) + ' KB');
 
     // キャンバスを解放
     pg.canvas.width = 0;
@@ -632,8 +665,8 @@ async function processWithGemini() {
       pageData.fullPageImage = fullPageBase64;
     }
 
-    // ステップ3: サーバーに送信してスライド作成
-    log('  [4] サーバーにスライドデータ送信中...');
+    // ステップ4: サーバーに送信してスライド作成
+    log('  [5] サーバーにスライドデータ送信中...');
 
     try {
       if (presentationId === null) {
@@ -667,7 +700,7 @@ async function processWithGemini() {
   showResult('createResult', 'success',
     '<strong>' + escHtml(title) + '</strong> を作成しました（' + pages.length + ' スライド）<br>' +
     '<a href="' + url + '" target="_blank">Google スライドを開く</a><br>' +
-    '<span style="font-size:12px;color:var(--text-sub)">全ページ画像の上にテキストボックスが配置されています。テキストを直接編集できます。</span>'
+    '<span style="font-size:12px;color:var(--text-sub)">元画像からテキストを消去し、編集可能なテキストボックスとして再配置しました。テキストを直接編集できます。</span>'
   );
   logOk('=== 完了 ===');
   uploadedFiles = [];

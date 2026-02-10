@@ -234,12 +234,8 @@ function buildSlide_(slide, pageData, slideWidth, slideHeight) {
         try { style.setBold(true); } catch (e) {}
       }
 
-      // テキストボックスに背景色を設定（元画像のテキストを隠す）
-      if (el.bgColor) {
-        try { textBox.getFill().setSolidFill(el.bgColor); } catch (e) {}
-      } else {
-        textBox.getFill().setTransparent();
-      }
+      // テキストボックスは常に透明（元画像のテキストはCanvas上で既に消去済み）
+      textBox.getFill().setTransparent();
       textBox.getBorder().setTransparent();
 
       // 上寄せ配置（テキストが上端に揃う）
