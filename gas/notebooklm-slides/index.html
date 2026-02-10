@@ -43,12 +43,11 @@
 
     label { display: block; font-size: 13px; color: var(--text-sub); margin-bottom: 4px; margin-top: 12px; }
     label:first-child { margin-top: 0; }
-    input[type="text"], input[type="password"], select, textarea {
+    input[type="text"], select {
       width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px;
       font-size: 14px; color: var(--text); outline: none;
     }
-    input:focus, select:focus, textarea:focus { border-color: var(--primary); }
-    textarea { resize: vertical; min-height: 60px; }
+    input:focus, select:focus { border-color: var(--primary); }
 
     .upload-area {
       border: 2px dashed var(--border); border-radius: 8px; padding: 32px;
@@ -81,26 +80,13 @@
     .progress-bar-container { width: 100%; background: #e0e0e0; border-radius: 4px; height: 8px; margin-top: 8px; }
     .progress-bar { height: 8px; background: var(--primary); border-radius: 4px; transition: width 0.3s; }
 
-    .structure-table { width: 100%; font-size: 13px; border-collapse: collapse; margin-top: 8px; }
-    .structure-table th, .structure-table td { padding: 6px 8px; border: 1px solid var(--border); text-align: left; }
-    .structure-table th { background: #f1f3f4; font-weight: 500; }
-    .slide-header { background: #e8f0fe; font-weight: 500; color: var(--primary); }
-
     .share-info { font-size: 13px; margin-top: 8px; }
     .share-info dt { font-weight: 500; margin-top: 8px; }
     .share-info dd { margin-left: 12px; color: var(--text-sub); }
 
     .hidden { display: none; }
-    .row { display: flex; gap: 12px; }
-    .row > * { flex: 1; }
-
-    .gemini-badge {
-      display: inline-block; padding: 2px 8px; border-radius: 10px;
-      font-size: 11px; font-weight: 500; margin-left: 8px;
-    }
-    .gemini-badge.ok { background: #e6f4ea; color: #137333; }
-    .gemini-badge.ng { background: #fce8e6; color: #c5221f; }
-    .hint { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+    .hint { font-size: 12px; color: var(--text-sub); margin-top: 8px; line-height: 1.5; }
+    .hint a { color: var(--primary); }
 
     #debugLog {
       margin-top: 12px; padding: 12px; background: #1e1e1e; color: #d4d4d4;
@@ -117,39 +103,15 @@
 </head>
 <body>
 <div class="container">
-  <h1>NotebookLM スライド管理ツール</h1>
+  <h1>NotebookLM → Google スライド変換</h1>
 
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('create')">新規作成</button>
-    <button class="tab" onclick="switchTab('edit')">編集</button>
+    <button class="tab active" onclick="switchTab('create')">変換</button>
     <button class="tab" onclick="switchTab('share')">共有管理</button>
   </div>
 
-  <!-- ===== 新規作成タブ ===== -->
+  <!-- ===== 変換タブ ===== -->
   <div id="tab-create" class="tab-content active">
-    <div class="card">
-      <h2>AI 設定 <span id="aiStatus" class="gemini-badge ng">未設定</span></h2>
-      <p class="hint">
-        AI Vision API でスライド画像を解析し、テキスト・イラスト・背景を
-        個別の編集可能な要素に分離します。
-      </p>
-      <label>AI プロバイダ</label>
-      <select id="aiProvider" onchange="onProviderChange()">
-        <option value="groq" selected>Groq（無料・推奨）</option>
-        <option value="openai">OpenAI GPT-4o（有料・高精度）</option>
-        <option value="gemini">Google Gemini（無料枠あり）</option>
-      </select>
-      <label id="apiKeyLabel">Groq API キー</label>
-      <div style="display:flex; gap:8px">
-        <input type="password" id="apiKeyInput" placeholder="gsk_...">
-        <button class="btn btn-secondary" onclick="saveApiKey()" style="margin-top:0;white-space:nowrap;height:36px">保存</button>
-      </div>
-      <p class="hint" id="apiKeyHint">
-        <a href="https://console.groq.com/keys" target="_blank">Groq Console</a> で無料取得できます（アカウント作成のみ）
-      </p>
-      <div id="apiKeyResult"></div>
-    </div>
-
     <div class="card">
       <h2>PDF をアップロード</h2>
       <div class="upload-area" id="dropZone"
@@ -187,7 +149,7 @@
     </div>
 
     <button class="btn btn-primary" id="createBtn" onclick="startCreation()" disabled>
-      AI でスライドを作成
+      Google スライドに変換
     </button>
     <div class="progress" id="createProgress">
       <div class="spinner"></div>
@@ -198,77 +160,23 @@
     </div>
     <div id="createResult"></div>
     <div id="debugLog"></div>
-  </div>
 
-  <!-- ===== 編集タブ ===== -->
-  <div id="tab-edit" class="tab-content">
-    <div class="card">
-      <h2>プレゼンテーションを選択</h2>
-      <div style="display:flex; gap:8px; align-items:end">
-        <div style="flex:1">
-          <label>プレゼンテーション</label>
-          <select id="editPresentationSelect" onchange="onPresentationSelected()">
-            <option value="">-- 読み込み中 --</option>
-          </select>
-        </div>
-        <button class="btn btn-secondary" onclick="loadPresentations()" style="margin-top:0;height:36px">更新</button>
-      </div>
-      <label>または ID を直接入力</label>
-      <div style="display:flex; gap:8px">
-        <input type="text" id="editPresentationId" placeholder="プレゼンテーション ID">
-        <button class="btn btn-secondary" onclick="loadStructure()" style="margin-top:0;white-space:nowrap;height:36px">読み込み</button>
-      </div>
-    </div>
-    <div id="editPanel" class="hidden">
-      <div class="card"><h2>スライド構成</h2><div id="structureView"></div></div>
-      <div class="card">
-        <h2>テキスト検索・置換</h2>
-        <div class="row">
-          <div><label>検索テキスト</label><input type="text" id="searchText" placeholder="検索するテキスト"></div>
-          <div><label>置換テキスト</label><input type="text" id="replaceTextVal" placeholder="置換後のテキスト"></div>
-        </div>
-        <button class="btn btn-primary" onclick="doReplaceText()">置換実行</button>
-        <div id="replaceResult"></div>
-      </div>
-      <div class="card">
-        <h2>テキストボックスを追加</h2>
-        <div class="row">
-          <div><label>スライド番号</label><input type="text" id="tbSlide" value="1"></div>
-          <div><label>フォントサイズ (pt)</label><input type="text" id="tbFontSize" value="18"></div>
-        </div>
-        <label>テキスト</label>
-        <textarea id="tbText" placeholder="追加するテキストを入力"></textarea>
-        <div class="row">
-          <div><label>左 (pt)</label><input type="text" id="tbLeft" value="50"></div>
-          <div><label>上 (pt)</label><input type="text" id="tbTop" value="50"></div>
-          <div><label>幅 (pt)</label><input type="text" id="tbWidth" value="300"></div>
-          <div><label>高さ (pt)</label><input type="text" id="tbHeight" value="50"></div>
-        </div>
-        <button class="btn btn-primary" onclick="doAddTextBox()">追加</button>
-        <div id="tbResult"></div>
-      </div>
-      <div class="card">
-        <h2>画像を差し替え</h2>
-        <div class="row">
-          <div><label>スライド番号</label><input type="text" id="imgSlide" value="1"></div>
-          <div><label>画像番号</label><input type="text" id="imgIndex" value="1"></div>
-        </div>
-        <label>差し替え画像</label>
-        <input type="file" id="imgFile" accept=".png,.jpg,.jpeg,.webp">
-        <p style="font-size:12px;color:var(--text-sub);margin-top:4px">または画像URL:</p>
-        <input type="text" id="imgUrl" placeholder="https://...">
-        <button class="btn btn-primary" onclick="doReplaceImage()">差し替え</button>
-        <div id="imgResult"></div>
-      </div>
-    </div>
-    <div class="progress" id="editProgress"><div class="spinner"></div><span>処理中...</span></div>
+    <p class="hint">
+      各ページが高品質な画像としてスライドに変換されます。<br>
+      変換後は Google スライドの <strong>Nano Banana</strong> 機能で画像やテキストを AI 編集できます。<br>
+      Nano Banana の使い方: スライド内の画像を右クリック →「Gemini で編集」→ 変更したい内容を指示
+    </p>
   </div>
 
   <!-- ===== 共有管理タブ ===== -->
   <div id="tab-share" class="tab-content">
     <div class="card">
       <h2>プレゼンテーションを選択</h2>
-      <label>プレゼンテーション ID</label>
+      <label>プレゼンテーション</label>
+      <select id="sharePresentationSelect" onchange="onSharePresentationSelected()">
+        <option value="">-- 読み込み中 --</option>
+      </select>
+      <label>または ID を直接入力</label>
       <input type="text" id="sharePresentationId" placeholder="プレゼンテーション ID を入力">
       <button class="btn btn-secondary" onclick="loadSharingInfo()">共有情報を取得</button>
     </div>
@@ -323,7 +231,6 @@ function log(msg, cls) {
 }
 function logOk(msg) { log(msg, 'log-ok'); }
 function logErr(msg) { log(msg, 'log-err'); }
-function logWarn(msg) { log(msg, 'log-warn'); }
 function logInfo(msg) { log(msg, 'log-info'); }
 
 // ========================================================
@@ -334,49 +241,8 @@ function switchTab(name) {
   document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
   event.target.classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'edit') loadPresentations();
+  if (name === 'share') loadPresentations();
 }
-
-// ========================================================
-// AI プロバイダ管理（ブラウザ localStorage に保存）
-// ========================================================
-var PROVIDERS = {
-  groq:   { label: 'Groq', keyName: 'groqApiKey', placeholder: 'gsk_...', hint: '<a href="https://console.groq.com/keys" target="_blank">Groq Console</a> で無料取得できます（アカウント作成のみ）' },
-  openai: { label: 'OpenAI', keyName: 'openaiApiKey', placeholder: 'sk-...', hint: '<a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a> で取得できます（従量課金）' },
-  gemini: { label: 'Gemini', keyName: 'geminiApiKey', placeholder: 'AIza...', hint: '<a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a> で無料取得できます' }
-};
-
-function getProvider() { return document.getElementById('aiProvider').value; }
-function getStorageKey() { return PROVIDERS[getProvider()].keyName; }
-
-function onProviderChange() {
-  var p = PROVIDERS[getProvider()];
-  document.getElementById('apiKeyLabel').textContent = p.label + ' API キー';
-  document.getElementById('apiKeyInput').placeholder = p.placeholder;
-  document.getElementById('apiKeyHint').innerHTML = p.hint;
-  localStorage.setItem('aiProvider', getProvider());
-  checkApiKey();
-}
-function checkApiKey() {
-  var key = localStorage.getItem(getStorageKey());
-  var badge = document.getElementById('aiStatus');
-  var p = PROVIDERS[getProvider()];
-  if (key) { badge.textContent = p.label + ' 設定済み'; badge.className = 'gemini-badge ok'; }
-  else { badge.textContent = '未設定'; badge.className = 'gemini-badge ng'; }
-}
-function saveApiKey() {
-  var key = document.getElementById('apiKeyInput').value.trim();
-  if (!key) { showResult('apiKeyResult', 'error', 'API キーを入力してください。'); return; }
-  localStorage.setItem(getStorageKey(), key);
-  showResult('apiKeyResult', 'success', 'API キーを保存しました。');
-  document.getElementById('apiKeyInput').value = '';
-  checkApiKey();
-}
-(function() {
-  var saved = localStorage.getItem('aiProvider');
-  if (saved && PROVIDERS[saved]) document.getElementById('aiProvider').value = saved;
-  onProviderChange();
-})();
 
 // ========================================================
 // ファイルアップロード
@@ -398,24 +264,6 @@ function renderFileList() {
 }
 
 // ========================================================
-// 解析用の低解像度 JPEG を生成
-// ========================================================
-function createAnalysisImage(highResCanvas) {
-  // 解析用は1200px幅（精度向上のため十分な解像度を確保）
-  var ratio = 1200 / highResCanvas.width;
-  if (ratio > 1) ratio = 1;
-  var lo = document.createElement('canvas');
-  lo.width = Math.round(highResCanvas.width * ratio);
-  lo.height = Math.round(highResCanvas.height * ratio);
-  var ctx = lo.getContext('2d');
-  ctx.drawImage(highResCanvas, 0, 0, lo.width, lo.height);
-  var data = lo.toDataURL('image/jpeg', 0.8).split(',')[1];
-  lo.width = 0;
-  lo.height = 0;
-  return data;
-}
-
-// ========================================================
 // google.script.run ラッパー（Promise化）
 // ========================================================
 function callServer(funcName) {
@@ -427,67 +275,7 @@ function callServer(funcName) {
 }
 
 // ========================================================
-// AI 解析 API 呼び出し（Groq / OpenAI / Gemini 自動切替）
-// ========================================================
-var AI_CONFIGS = {
-  groq:   { baseUrl: 'https://api.groq.com/openai/v1', model: 'meta-llama/llama-4-scout-17b-16e-instruct' },
-  openai: { baseUrl: 'https://api.openai.com/v1', model: 'gpt-4o' }
-};
-
-async function callAnalysisApi(imageBase64, mimeType) {
-  var provider = getProvider();
-  if (provider === 'gemini') {
-    return await callGeminiDirect(imageBase64, mimeType);
-  }
-  // Groq / OpenAI → サーバー経由（OpenAI互換API）
-  var apiKey = localStorage.getItem(getStorageKey());
-  if (!apiKey) throw new Error(PROVIDERS[provider].label + ' API キーが未設定です。');
-  var cfg = AI_CONFIGS[provider];
-  logInfo('    → ' + PROVIDERS[provider].label + ' (' + cfg.model + ') で解析中...');
-  var result = await callServer('analyzePageWithAI', imageBase64, mimeType, {
-    apiKey: apiKey,
-    baseUrl: cfg.baseUrl,
-    model: cfg.model
-  });
-  logOk('    ✓ ' + PROVIDERS[provider].label + ' 解析成功');
-  return result;
-}
-
-// --- Gemini: ブラウザから直接呼び出し ---
-async function callGeminiDirect(imageBase64, mimeType) {
-  var apiKey = localStorage.getItem('geminiApiKey');
-  if (!apiKey) throw new Error('Gemini API キーが未設定です。');
-
-  var models = ['gemini-2.0-flash-lite', 'gemini-2.0-flash'];
-  var prompt = 'このスライド画像のテキストを全て検出し、JSON で返してください。目的: この画像を背景に使い、テキストボックスを重ねて編集可能にします。位置精度が重要です。形式: {"backgroundColor":"#RRGGBB","elements":[{"type":"text","content":"テキスト","x":0.1,"y":0.05,"width":0.8,"height":0.1,"fontSize":24,"fontColor":"#333333","bold":false,"alignment":"left","bgColor":"#FFFFFF"}]}。x=左端位置,y=上端位置,width=幅,height=高さ（全て0.0〜1.0の割合）。余白なく正確に。bgColor=テキスト背後の色付き矩形の色、スライド背景と同じか透明ならnull。全テキスト検出。画像要素不要。JSON のみ。';
-  var payload = { contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: mimeType || 'image/jpeg', data: imageBase64 } }] }], generationConfig: { temperature: 0.1, maxOutputTokens: 8192, responseMimeType: 'application/json' } };
-  var bodyStr = JSON.stringify(payload);
-
-  for (var m = 0; m < models.length; m++) {
-    try {
-      logInfo('    → Gemini ' + models[m]);
-      var resp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + models[m] + ':generateContent?key=' + apiKey, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: bodyStr });
-      if (resp.ok) {
-        var data = await resp.json();
-        if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) continue;
-        var text = data.candidates[0].content.parts[0].text;
-        var jm = text.match(/```(?:json)?\s*([\s\S]*?)```/); if (jm) text = jm[1];
-        var analysis = JSON.parse(text.trim());
-        if (!analysis.elements) continue;
-        var tc = 0, ic = 0;
-        for (var i = 0; i < analysis.elements.length; i++) { if (analysis.elements[i].type === 'text') tc++; else if (analysis.elements[i].type === 'image') ic++; }
-        logOk('    ✓ Gemini ' + models[m] + ' 成功');
-        return { analysis: analysis, stats: { textElements: tc, imageElements: ic, backgroundColor: analysis.backgroundColor || '#FFFFFF' } };
-      }
-      if (resp.status === 429) { logWarn('    ' + models[m] + ': 429 → 次へ'); continue; }
-      logWarn('    ' + models[m] + ': HTTP ' + resp.status);
-    } catch (e) { logWarn('    ' + models[m] + ': ' + e.message); }
-  }
-  throw new Error('Gemini: 全モデル失敗。Groq（無料）への切り替えを推奨します。');
-}
-
-// ========================================================
-// メイン作成フロー
+// メイン変換フロー
 // ========================================================
 async function startCreation() {
   if (uploadedFiles.length === 0) return;
@@ -501,29 +289,25 @@ async function startCreation() {
   showProgress('createProgress', '処理を開始...');
 
   try {
-    await processWithGemini();
+    await convertPdfToSlides();
   } catch (err) {
     hideProgress('createProgress');
     document.getElementById('createProgressBar').classList.add('hidden');
     showResult('createResult', 'error', escHtml(err.message || String(err)));
-    logErr('致命的エラー: ' + (err.message || String(err)));
+    logErr('エラー: ' + (err.message || String(err)));
   } finally {
     btn.disabled = false;
   }
 }
 
-// ========================================================
-// Gemini AI 解析フロー
-// 1ページずつ: レンダリング → Gemini解析 → 画像切り抜き → スライド作成
-// ========================================================
-async function processWithGemini() {
+async function convertPdfToSlides() {
   var title = document.getElementById('createTitle').value;
   var shareMode = document.getElementById('createShareMode').value;
-  var emails = document.getElementById('createEmails').value;
-  var permission = document.getElementById('createPermission').value;
+  var emails = document.getElementById('createEmails') ? document.getElementById('createEmails').value : '';
+  var permission = document.getElementById('createPermission') ? document.getElementById('createPermission').value : 'view';
 
   // 全ページを収集
-  var pages = []; // {canvas, fileLabel}
+  var pages = [];
   for (var f = 0; f < uploadedFiles.length; f++) {
     var file = uploadedFiles[f];
     if (file.type !== 'application/pdf') continue;
@@ -544,134 +328,40 @@ async function processWithGemini() {
     }
   }
 
-  if (pages.length === 0) throw new Error('PDFページがありません。');
-  logInfo('合計 ' + pages.length + ' ページを処理します');
+  if (pages.length === 0) throw new Error('PDF ページがありません。');
+  logInfo('合計 ' + pages.length + ' ページを変換します');
 
   var presentationId = null;
 
   for (var i = 0; i < pages.length; i++) {
     var pg = pages[i];
     var pct = (i / pages.length) * 100;
-    updateProgress(pg.label + ' を処理中... (' + (i + 1) + '/' + pages.length + ')', pct);
+    updateProgress(pg.label + ' を変換中... (' + (i + 1) + '/' + pages.length + ')', pct);
 
-    // ページ間に5秒待機（レート制限対策、初回は不要）
-    if (i > 0) {
-      logInfo('  レート制限対策: 5秒待機中...');
-      await sleep(5000);
-    }
-
-    // ステップ1: AI に送信して解析
     logInfo('--- ページ ' + (i + 1) + ': ' + pg.label + ' ---');
-    log('  [1] AI に解析リクエスト送信...');
 
-    var analysisImage = createAnalysisImage(pg.canvas);
-    logInfo('  解析用画像サイズ: ' + (analysisImage.length / 1024).toFixed(0) + ' KB');
-
-    var geminiResult;
-    try {
-      geminiResult = await callAnalysisApi(analysisImage, 'image/jpeg');
-    } catch (e) {
-      logErr('  AI 解析エラー: ' + e.message);
-      logErr('  このページはスキップします');
-      pg.canvas.width = 0;
-      pg.canvas.height = 0;
-      continue;
-    }
-
-    var analysis = geminiResult.analysis;
-    var stats = geminiResult.stats;
-    logOk('  [2] AI 解析完了: テキスト=' + stats.textElements + '個, 背景色=' + stats.backgroundColor);
-
-    // テキスト要素のログ
-    for (var ei = 0; ei < analysis.elements.length; ei++) {
-      var elem = analysis.elements[ei];
-      if (elem.type === 'text') {
-        var preview = (elem.content || '').substring(0, 50).replace(/\n/g, ' ');
-        log('    text: "' + preview + '..." @ (' + (elem.x||0).toFixed(2) + ',' + (elem.y||0).toFixed(2) + ') ' + (elem.fontSize||14) + 'pt', 'log-info');
-      }
-    }
-
-    // ステップ2: Canvas上のテキスト領域をbgColorで塗りつぶし（テキスト消去）
-    log('  [3] テキスト領域を消去中...');
-    var eraseCtx = pg.canvas.getContext('2d');
-    var cw = pg.canvas.width;
-    var ch = pg.canvas.height;
-    var bgFallback = analysis.backgroundColor || '#FFFFFF';
-    var erasedCount = 0;
-
-    for (var ei = 0; ei < analysis.elements.length; ei++) {
-      var elem = analysis.elements[ei];
-      if (elem.type !== 'text') continue;
-
-      // bgColorがあればそれを使用、なければスライド背景色をフォールバック
-      var fillColor = elem.bgColor || bgFallback;
-
-      var rx = (elem.x || 0) * cw;
-      var ry = (elem.y || 0) * ch;
-      var rw = (elem.width || 0.1) * cw;
-      var rh = (elem.height || 0.05) * ch;
-
-      // パディングを追加して確実にテキストを覆う
-      var pad = 3;
-      rx = Math.max(0, rx - pad);
-      ry = Math.max(0, ry - pad);
-      rw = Math.min(cw - rx, rw + pad * 2);
-      rh = Math.min(ch - ry, rh + pad * 2);
-
-      eraseCtx.fillStyle = fillColor;
-      eraseCtx.fillRect(rx, ry, rw, rh);
-      erasedCount++;
-    }
-    logOk('  テキスト ' + erasedCount + ' 箇所を消去しました');
-
-    // ステップ3: テキスト消去済み画像を JPEG で取得（背景用）
-    log('  [4] クリーン背景画像を生成中...');
-    var fullPageBase64 = pg.canvas.toDataURL('image/jpeg', 0.92).split(',')[1];
-    logInfo('  クリーン背景画像サイズ: ' + (fullPageBase64.length / 1024).toFixed(0) + ' KB');
+    // 高品質 JPEG に変換
+    log('  [1] 画像を生成中...');
+    var imageBase64 = pg.canvas.toDataURL('image/jpeg', 0.92).split(',')[1];
+    logInfo('  画像サイズ: ' + (imageBase64.length / 1024).toFixed(0) + ' KB');
 
     // キャンバスを解放
     pg.canvas.width = 0;
     pg.canvas.height = 0;
 
-    // pageData 構築（全ページ画像 + テキストのみ）
-    var pageData = {
-      fullPageImage: fullPageBase64,
-      texts: []
-    };
-    for (var ei = 0; ei < analysis.elements.length; ei++) {
-      var el = analysis.elements[ei];
-      if (el.type === 'text') {
-        pageData.texts.push({
-          content: el.content || '',
-          x: el.x || 0,
-          y: el.y || 0,
-          width: el.width || 0.1,
-          height: el.height || 0.05,
-          fontSize: el.fontSize || 14,
-          fontColor: el.fontColor || '#333333',
-          bold: el.bold || false,
-          alignment: el.alignment || 'left',
-          bgColor: el.bgColor || null
-        });
-      }
+    // データサイズを確認
+    if (imageBase64.length > 9 * 1024 * 1024) {
+      log('  画像が大きすぎます。品質を下げて再圧縮...', 'log-warn');
+      // 再レンダリングはできないので、既にあるbase64を使う
     }
 
-    // データサイズを確認（9MB超なら圧縮）
-    var dataSize = JSON.stringify(pageData).length;
-    logInfo('  送信データサイズ: ' + (dataSize / 1024).toFixed(0) + ' KB');
-    if (dataSize > 9 * 1024 * 1024) {
-      logWarn('  データが大きすぎます。画像品質を下げて再圧縮...');
-      fullPageBase64 = pg.canvas ? pg.canvas.toDataURL('image/jpeg', 0.4).split(',')[1] : fullPageBase64;
-      pageData.fullPageImage = fullPageBase64;
-    }
-
-    // ステップ4: サーバーに送信してスライド作成
-    log('  [5] サーバーにスライドデータ送信中...');
+    // サーバーに送信してスライド作成
+    log('  [2] サーバーに送信中...');
 
     try {
       if (presentationId === null) {
-        var result = await callServer('createSingleSlidePresentation', {
-          pageData: pageData,
+        var result = await callServer('createPresentation', {
+          imageBase64: imageBase64,
           title: title,
           shareMode: shareMode,
           emails: emails,
@@ -680,9 +370,9 @@ async function processWithGemini() {
         presentationId = result.id;
         logOk('  プレゼンテーション作成: ' + presentationId);
       } else {
-        await callServer('addSingleSlide', {
+        await callServer('addSlide', {
           presentationId: presentationId,
-          pageData: pageData
+          imageBase64: imageBase64
         });
         logOk('  スライド追加完了');
       }
@@ -691,16 +381,17 @@ async function processWithGemini() {
     }
   }
 
-  if (!presentationId) throw new Error('スライドを1ページも作成できませんでした。デバッグログを確認してください。');
+  if (!presentationId) throw new Error('スライドを1ページも作成できませんでした。');
 
   // 完了
+  updateProgress('完了', 100);
   hideProgress('createProgress');
   document.getElementById('createProgressBar').classList.add('hidden');
   var url = 'https://docs.google.com/presentation/d/' + presentationId + '/edit';
   showResult('createResult', 'success',
     '<strong>' + escHtml(title) + '</strong> を作成しました（' + pages.length + ' スライド）<br>' +
     '<a href="' + url + '" target="_blank">Google スライドを開く</a><br>' +
-    '<span style="font-size:12px;color:var(--text-sub)">元画像からテキストを消去し、編集可能なテキストボックスとして再配置しました。テキストを直接編集できます。</span>'
+    '<span style="font-size:12px;color:var(--text-sub)">スライド内の画像を編集するには: 画像を右クリック →「Gemini で編集」（Nano Banana）</span>'
   );
   logOk('=== 完了 ===');
   uploadedFiles = [];
@@ -708,23 +399,11 @@ async function processWithGemini() {
 }
 
 // ========================================================
-// ユーティリティ
-// ========================================================
-function sleep(ms) {
-  return new Promise(function(resolve) { setTimeout(resolve, ms); });
-}
-
-function updateProgress(text, percent) {
-  showProgress('createProgress', text);
-  if (percent !== undefined) document.getElementById('progressBar').style.width = Math.round(percent) + '%';
-}
-
-// ========================================================
-// 編集機能
+// 共有管理
 // ========================================================
 function loadPresentations() {
   google.script.run.withSuccessHandler(function(list) {
-    var sel = document.getElementById('editPresentationSelect');
+    var sel = document.getElementById('sharePresentationSelect');
     sel.innerHTML = '<option value="">-- 選択してください --</option>';
     list.forEach(function(p) {
       var date = new Date(p.lastUpdated).toLocaleDateString('ja-JP');
@@ -732,66 +411,10 @@ function loadPresentations() {
     });
   }).listMyPresentations();
 }
-function onPresentationSelected() {
-  var id = document.getElementById('editPresentationSelect').value;
-  if (id) { document.getElementById('editPresentationId').value = id; loadStructure(); }
+function onSharePresentationSelected() {
+  var id = document.getElementById('sharePresentationSelect').value;
+  if (id) { document.getElementById('sharePresentationId').value = id; loadSharingInfo(); }
 }
-function loadStructure() {
-  var id = getEditId(); if (!id) return;
-  showProgress('editProgress');
-  google.script.run
-    .withSuccessHandler(function(s) { hideProgress('editProgress'); document.getElementById('editPanel').classList.remove('hidden'); renderStructure(s); })
-    .withFailureHandler(function(e) { hideProgress('editProgress'); showResult('structureView', 'error', escHtml(e.message)); })
-    .getSlideStructure(id);
-}
-function renderStructure(structure) {
-  var html = '<table class="structure-table"><tr><th>#</th><th>種類</th><th>位置</th><th>サイズ</th><th>内容</th></tr>';
-  structure.forEach(function(s) {
-    html += '<tr class="slide-header"><td colspan="5">スライド ' + s.slideNumber + '</td></tr>';
-    s.elements.forEach(function(el) {
-      var content = '';
-      if (el.type === 'SHAPE' && el.text) content = escHtml(el.text.substring(0, 60));
-      else if (el.type === 'IMAGE') content = '[画像]';
-      html += '<tr><td>' + el.index + '</td><td>' + el.type + '</td><td>' + el.left + ', ' + el.top + '</td><td>' + el.width + ' x ' + el.height + '</td><td>' + content + '</td></tr>';
-    });
-  });
-  html += '</table>';
-  document.getElementById('structureView').innerHTML = html;
-}
-function doReplaceText() {
-  var id = getEditId(), s = document.getElementById('searchText').value, r = document.getElementById('replaceTextVal').value;
-  if (!id || !s) return;
-  google.script.run.withSuccessHandler(function(c) { showResult('replaceResult', 'success', c + ' 箇所を置換しました。'); loadStructure(); })
-    .withFailureHandler(function(e) { showResult('replaceResult', 'error', escHtml(e.message)); }).replaceText(id, s, r);
-}
-function doAddTextBox() {
-  var id = getEditId(); if (!id) return;
-  var sn = parseInt(document.getElementById('tbSlide').value)||1, txt = document.getElementById('tbText').value,
-      l = parseFloat(document.getElementById('tbLeft').value)||50, t = parseFloat(document.getElementById('tbTop').value)||50,
-      w = parseFloat(document.getElementById('tbWidth').value)||300, h = parseFloat(document.getElementById('tbHeight').value)||50,
-      fs = parseInt(document.getElementById('tbFontSize').value)||18;
-  google.script.run.withSuccessHandler(function() { showResult('tbResult', 'success', 'テキストボックスを追加しました。'); loadStructure(); })
-    .withFailureHandler(function(e) { showResult('tbResult', 'error', escHtml(e.message)); }).addTextBox(id, sn, txt, l, t, w, h, fs);
-}
-function doReplaceImage() {
-  var id = getEditId(); if (!id) return;
-  var sn = parseInt(document.getElementById('imgSlide').value)||1, idx = parseInt(document.getElementById('imgIndex').value)||1;
-  var url = document.getElementById('imgUrl').value.trim(), fi = document.getElementById('imgFile');
-  if (url) {
-    google.script.run.withSuccessHandler(function() { showResult('imgResult', 'success', '画像を差し替えました。'); loadStructure(); })
-      .withFailureHandler(function(e) { showResult('imgResult', 'error', escHtml(e.message)); }).replaceImage(id, sn, idx, {url:url});
-  } else if (fi.files.length > 0) {
-    var reader = new FileReader(); reader.onload = function() {
-      var d = {data: reader.result.split(',')[1], mimeType: fi.files[0].type, fileName: fi.files[0].name};
-      google.script.run.withSuccessHandler(function() { showResult('imgResult', 'success', '画像を差し替えました。'); loadStructure(); })
-        .withFailureHandler(function(e) { showResult('imgResult', 'error', escHtml(e.message)); }).replaceImage(id, sn, idx, d);
-    }; reader.readAsDataURL(fi.files[0]);
-  } else { showResult('imgResult', 'error', '画像ファイルまたは URL を指定してください。'); }
-}
-
-// ========================================================
-// 共有管理
-// ========================================================
 function loadSharingInfo() {
   var id = document.getElementById('sharePresentationId').value.trim(); if (!id) return;
   showProgress('shareProgress');
@@ -818,13 +441,16 @@ function doUpdateSharing() {
 // ========================================================
 // 共通ユーティリティ
 // ========================================================
-function getEditId() { return document.getElementById('editPresentationId').value.trim(); }
 function toggleEmailSection(prefix) {
   var mode = document.getElementById(prefix + (prefix === 'create' ? 'ShareMode' : 'Mode')).value;
   document.getElementById(prefix + 'EmailSection').classList.toggle('hidden', mode !== 'emails');
 }
 function showProgress(id, text) { var el = document.getElementById(id); el.classList.add('show'); if (text) { var s = el.querySelector('span'); if (s) s.textContent = text; } }
 function hideProgress(id) { document.getElementById(id).classList.remove('show'); }
+function updateProgress(text, percent) {
+  showProgress('createProgress', text);
+  if (percent !== undefined) document.getElementById('progressBar').style.width = Math.round(percent) + '%';
+}
 function showResult(cid, type, html) { document.getElementById(cid).innerHTML = '<div class="result '+type+'">'+html+'</div>'; }
 function escHtml(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
 </script>
