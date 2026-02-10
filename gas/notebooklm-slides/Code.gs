@@ -25,21 +25,32 @@ function analyzePageWithAI(imageBase64, mimeType, config) {
 
   var prompt = [
     'このプレゼンテーションスライド画像からテキスト要素を正確に検出してください。',
+    '目的: この画像をスライドの背景として使い、検出したテキストを編集可能なテキストボックスとして上に重ねます。',
+    'そのため、位置・サイズの精度が非常に重要です。',
     '',
     '返すJSON形式:',
     '{"backgroundColor":"#RRGGBB","elements":[{"type":"text","content":"テキスト内容","x":0.1,"y":0.05,"width":0.8,"height":0.1,"fontSize":24,"fontColor":"#333333","bold":false,"alignment":"left","bgColor":"#FFFFFF"}]}',
     '',
-    'ルール:',
+    '位置指定の重要なルール:',
+    '- x, y, width, height はスライド全体に対する割合（0.0〜1.0）',
+    '- x: テキストの左端の位置（スライド左端=0.0, 右端=1.0）',
+    '- y: テキストの上端の位置（スライド上端=0.0, 下端=1.0）',
+    '- width: テキスト領域の幅（テキストの実際の幅に合わせる）',
+    '- height: テキスト領域の高さ（テキストの実際の高さに合わせる。行数が多い場合は大きくなる）',
+    '- テキストボックスが元のテキスト位置に正確に重なるよう、余白なく指定すること',
+    '',
+    'その他のルール:',
     '- type は必ず "text"',
-    '- x, y, width, height はスライド全体に対する割合（0.0〜1.0）。正確な位置を指定すること。',
-    '- content: テキスト内容を正確に（改行は\\n）',
-    '- fontSize: ポイント単位の推定値',
+    '- content: テキスト内容を正確に（改行は\\nで表す。原文のまま忠実に）',
+    '- fontSize: ポイント単位の推定値（タイトル=24-36pt, 本文=12-18pt, 注釈=8-12pt）',
     '- fontColor: テキスト色（#RRGGBB）',
     '- bold: 太字なら true',
-    '- alignment: "left", "center", "right"',
-    '- bgColor: テキストの背後にある背景色（#RRGGBB）。テキストが吹き出しや色付きボックス内にある場合はその色。透明/画像上の場合は null。',
+    '- alignment: "left", "center", "right"（見た目から判断）',
+    '- bgColor: テキストの背後にある背景色（#RRGGBB）。テキストが色付きの矩形・吹き出し・ボックス内にある場合はその色を指定。',
+    '  スライド全体の背景色と同じか透明/画像上の場合は null。',
     '- backgroundColor: スライド全体の主要な背景色（#RRGGBB）',
-    '- すべての可視テキストを検出すること（タイトル、本文、ラベル、吹き出し内テキスト等）',
+    '- すべての可視テキストを検出すること（タイトル、本文、ラベル、吹き出し内テキスト、数字、ページ番号等）',
+    '- テキストが近接している場合でも、論理的に別ブロックなら個別の要素として検出すること',
     '- 画像・イラスト要素は検出不要（テキストのみ）',
     '- 有効なJSONのみ返すこと。説明文やマークダウン不要。'
   ].join('\n');
@@ -231,6 +242,14 @@ function buildSlide_(slide, pageData, slideWidth, slideHeight) {
       }
       textBox.getBorder().setTransparent();
 
+      // 上寄せ配置（テキストが上端に揃う）
+      try { textBox.setContentAlignment(SlidesApp.ContentAlignment.TOP); } catch (e) {}
+
+      // テキストのマージンを最小化（位置精度を上げる）
+      try {
+        textBox.getText().getTextStyle().setFontSize(fontSize);
+      } catch (e) {}
+
       // テキスト配置
       if (el.alignment) {
         var paragraphs = textRange.getParagraphs();
@@ -241,6 +260,15 @@ function buildSlide_(slide, pageData, slideWidth, slideHeight) {
           paragraphs[p].getRange().getParagraphStyle().setParagraphAlignment(align);
         }
       }
+
+      // 行間を詰める（デフォルトより少し狭くして位置精度を向上）
+      try {
+        var paras = textRange.getParagraphs();
+        for (var p = 0; p < paras.length; p++) {
+          paras[p].getRange().getParagraphStyle().setSpaceAbove(0);
+          paras[p].getRange().getParagraphStyle().setSpaceBelow(0);
+        }
+      } catch (e) {}
     } catch (e) {
       Logger.log('テキストボックス挿入エラー[' + i + ']: ' + e.message);
     }

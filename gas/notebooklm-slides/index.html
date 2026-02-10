@@ -136,7 +136,7 @@
       <label>AI プロバイダ</label>
       <select id="aiProvider" onchange="onProviderChange()">
         <option value="groq" selected>Groq（無料・推奨）</option>
-        <option value="openai">OpenAI GPT-4o（有料）</option>
+        <option value="openai">OpenAI GPT-4o（有料・高精度）</option>
         <option value="gemini">Google Gemini（無料枠あり）</option>
       </select>
       <label id="apiKeyLabel">Groq API キー</label>
@@ -401,15 +401,15 @@ function renderFileList() {
 // 解析用の低解像度 JPEG を生成
 // ========================================================
 function createAnalysisImage(highResCanvas) {
-  // 解析用は低解像度で十分（800px幅程度）
-  var ratio = 800 / highResCanvas.width;
+  // 解析用は1200px幅（精度向上のため十分な解像度を確保）
+  var ratio = 1200 / highResCanvas.width;
   if (ratio > 1) ratio = 1;
   var lo = document.createElement('canvas');
   lo.width = Math.round(highResCanvas.width * ratio);
   lo.height = Math.round(highResCanvas.height * ratio);
   var ctx = lo.getContext('2d');
   ctx.drawImage(highResCanvas, 0, 0, lo.width, lo.height);
-  var data = lo.toDataURL('image/jpeg', 0.7).split(',')[1];
+  var data = lo.toDataURL('image/jpeg', 0.8).split(',')[1];
   lo.width = 0;
   lo.height = 0;
   return data;
@@ -431,7 +431,7 @@ function callServer(funcName) {
 // ========================================================
 var AI_CONFIGS = {
   groq:   { baseUrl: 'https://api.groq.com/openai/v1', model: 'meta-llama/llama-4-scout-17b-16e-instruct' },
-  openai: { baseUrl: 'https://api.openai.com/v1', model: 'gpt-4o-mini' }
+  openai: { baseUrl: 'https://api.openai.com/v1', model: 'gpt-4o' }
 };
 
 async function callAnalysisApi(imageBase64, mimeType) {
@@ -459,7 +459,7 @@ async function callGeminiDirect(imageBase64, mimeType) {
   if (!apiKey) throw new Error('Gemini API キーが未設定です。');
 
   var models = ['gemini-2.0-flash-lite', 'gemini-2.0-flash'];
-  var prompt = 'このスライド画像のテキストを全て検出し、JSON で返してください。形式: {"backgroundColor":"#RRGGBB","elements":[{"type":"text","content":"テキスト","x":0.1,"y":0.05,"width":0.8,"height":0.1,"fontSize":24,"fontColor":"#333333","bold":false,"alignment":"left","bgColor":"#FFFFFF"}]}。x,y,width,height=0.0〜1.0の割合。全テキスト検出。bgColor=テキスト背後の背景色(吹き出し等)、透明ならnull。画像要素は不要。JSON のみ返すこと。';
+  var prompt = 'このスライド画像のテキストを全て検出し、JSON で返してください。目的: この画像を背景に使い、テキストボックスを重ねて編集可能にします。位置精度が重要です。形式: {"backgroundColor":"#RRGGBB","elements":[{"type":"text","content":"テキスト","x":0.1,"y":0.05,"width":0.8,"height":0.1,"fontSize":24,"fontColor":"#333333","bold":false,"alignment":"left","bgColor":"#FFFFFF"}]}。x=左端位置,y=上端位置,width=幅,height=高さ（全て0.0〜1.0の割合）。余白なく正確に。bgColor=テキスト背後の色付き矩形の色、スライド背景と同じか透明ならnull。全テキスト検出。画像要素不要。JSON のみ。';
   var payload = { contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: mimeType || 'image/jpeg', data: imageBase64 } }] }], generationConfig: { temperature: 0.1, maxOutputTokens: 8192, responseMimeType: 'application/json' } };
   var bodyStr = JSON.stringify(payload);
 
@@ -593,7 +593,7 @@ async function processWithGemini() {
 
     // ステップ2: 全ページ画像を JPEG で取得（背景用）
     log('  [3] 全ページ画像を生成中...');
-    var fullPageBase64 = pg.canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+    var fullPageBase64 = pg.canvas.toDataURL('image/jpeg', 0.92).split(',')[1];
     logInfo('  全ページ画像サイズ: ' + (fullPageBase64.length / 1024).toFixed(0) + ' KB');
 
     // キャンバスを解放
