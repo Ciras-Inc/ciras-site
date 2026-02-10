@@ -332,28 +332,21 @@ function switchTab(name) {
 }
 
 // ========================================================
-// Gemini API キー管理
+// Gemini API キー管理（ブラウザ localStorage に保存）
 // ========================================================
 function checkApiKey() {
-  google.script.run
-    .withSuccessHandler(function(has) {
-      var badge = document.getElementById('geminiStatus');
-      if (has) { badge.textContent = '設定済み'; badge.className = 'gemini-badge ok'; }
-      else { badge.textContent = '未設定'; badge.className = 'gemini-badge ng'; }
-    })
-    .hasGeminiApiKey();
+  var key = localStorage.getItem('geminiApiKey');
+  var badge = document.getElementById('geminiStatus');
+  if (key) { badge.textContent = '設定済み'; badge.className = 'gemini-badge ok'; }
+  else { badge.textContent = '未設定'; badge.className = 'gemini-badge ng'; }
 }
 function saveApiKey() {
   var key = document.getElementById('geminiApiKey').value.trim();
   if (!key) { showResult('apiKeyResult', 'error', 'API キーを入力してください。'); return; }
-  google.script.run
-    .withSuccessHandler(function() {
-      showResult('apiKeyResult', 'success', 'API キーを保存しました。');
-      document.getElementById('geminiApiKey').value = '';
-      checkApiKey();
-    })
-    .withFailureHandler(function(e) { showResult('apiKeyResult', 'error', escHtml(e.message)); })
-    .setGeminiApiKey(key);
+  localStorage.setItem('geminiApiKey', key);
+  showResult('apiKeyResult', 'success', 'API キーをブラウザに保存しました。');
+  document.getElementById('geminiApiKey').value = '';
+  checkApiKey();
 }
 checkApiKey();
 
@@ -432,6 +425,156 @@ function callServer(funcName) {
     var runner = google.script.run.withSuccessHandler(resolve).withFailureHandler(reject);
     runner[funcName].apply(runner, args);
   });
+}
+
+// ========================================================
+// Gemini Vision API をブラウザから直接呼び出し
+// GAS の UrlFetchApp を経由しないため権限・quota 問題を回避
+// ========================================================
+async function callGeminiApi(imageBase64, mimeType) {
+  var apiKey = localStorage.getItem('geminiApiKey');
+  if (!apiKey) throw new Error('Gemini API キーが設定されていません。設定画面で API キーを入力してください。');
+
+  var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey;
+
+  var prompt = [
+    'このプレゼンテーションスライド画像を正確に解析してください。',
+    '',
+    '以下のJSON形式で返してください:',
+    '{',
+    '  "backgroundColor": "#RRGGBB",',
+    '  "elements": [',
+    '    {',
+    '      "type": "text",',
+    '      "content": "テキスト内容",',
+    '      "x": 0.1,',
+    '      "y": 0.05,',
+    '      "width": 0.8,',
+    '      "height": 0.1,',
+    '      "fontSize": 24,',
+    '      "fontColor": "#333333",',
+    '      "bold": false,',
+    '      "alignment": "left"',
+    '    },',
+    '    {',
+    '      "type": "image",',
+    '      "description": "画像の説明",',
+    '      "x": 0.05,',
+    '      "y": 0.15,',
+    '      "width": 0.4,',
+    '      "height": 0.6',
+    '    }',
+    '  ]',
+    '}',
+    '',
+    '■ 重要なルール:',
+    '- x, y, width, height はスライド全体に対する割合（0.0〜1.0）で指定',
+    '- 座標は左上を原点とする',
+    '',
+    '■ テキスト要素 (type: "text"):',
+    '- すべてのテキストを検出（見出し、本文、キャプション、吹き出し内テキスト、ラベル等）',
+    '- content にテキスト内容を正確に含める（改行は \\n で）',
+    '- fontSize はポイント単位の推定値',
+    '- fontColor はテキスト色（#RRGGBB形式）',
+    '- bold: 太字なら true',
+    '- alignment: "left", "center", "right" のいずれか',
+    '- 論理的にまとまるテキストは1要素にグループ化（ただし離れた位置のテキストは別要素に）',
+    '',
+    '■ 画像要素 (type: "image"):',
+    '- イラスト、写真、アイコン、図表、装飾グラフィック（花、人物画、仏具等）の矩形領域',
+    '- テキストのみの領域は含めない',
+    '- 各画像領域はなるべく重複なく、正確な境界で切り出す',
+    '- description に画像内容の簡単な説明',
+    '',
+    '■ backgroundColor:',
+    '- スライド全体の主要な背景色（#RRGGBB形式）',
+    '',
+    '有効な JSON のみを返すこと。説明文やマークダウンは不要。'
+  ].join('\n');
+
+  var payload = {
+    contents: [{
+      parts: [
+        { text: prompt },
+        { inlineData: { mimeType: mimeType || 'image/jpeg', data: imageBase64 } }
+      ]
+    }],
+    generationConfig: {
+      temperature: 0.1,
+      maxOutputTokens: 8192,
+      responseMimeType: 'application/json'
+    }
+  };
+
+  // リトライ付きリクエスト（429対策: 最大3回、指数バックオフ）
+  var maxRetries = 3;
+  var waitMs = [5000, 15000, 30000];
+  var lastError = null;
+
+  for (var attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      var resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (resp.ok) {
+        var data = await resp.json();
+        if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
+          throw new Error('Gemini API: 有効な応答がありません。');
+        }
+
+        var text = data.candidates[0].content.parts[0].text;
+        // JSON抽出（マークダウンブロック内の場合）
+        var jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+        if (jsonMatch) text = jsonMatch[1];
+        text = text.trim();
+
+        var analysis = JSON.parse(text);
+        if (!analysis.elements || !Array.isArray(analysis.elements)) {
+          throw new Error('Gemini 応答に elements 配列がありません');
+        }
+
+        var textCount = 0, imageCount = 0;
+        for (var i = 0; i < analysis.elements.length; i++) {
+          if (analysis.elements[i].type === 'text') textCount++;
+          else if (analysis.elements[i].type === 'image') imageCount++;
+        }
+
+        return {
+          analysis: analysis,
+          stats: {
+            textElements: textCount,
+            imageElements: imageCount,
+            backgroundColor: analysis.backgroundColor || '#FFFFFF'
+          }
+        };
+      }
+
+      // エラーレスポンス
+      var errBody = await resp.text();
+      if (resp.status === 429 && attempt < maxRetries) {
+        logWarn('  Gemini API 429: ' + (waitMs[attempt] / 1000) + '秒待機後リトライ (' + (attempt + 1) + '/' + maxRetries + ')');
+        await sleep(waitMs[attempt]);
+        continue;
+      }
+      lastError = new Error('Gemini API エラー (HTTP ' + resp.status + '): ' + errBody.substring(0, 300));
+    } catch (e) {
+      if (e.message && e.message.indexOf('Gemini API') !== -1) {
+        lastError = e;
+      } else {
+        lastError = new Error('Gemini API 通信エラー: ' + e.message);
+      }
+      if (attempt < maxRetries) {
+        logWarn('  通信エラー、' + (waitMs[attempt] / 1000) + '秒後リトライ (' + (attempt + 1) + '/' + maxRetries + ')');
+        await sleep(waitMs[attempt]);
+        continue;
+      }
+    }
+  }
+
+  throw lastError || new Error('Gemini API: 原因不明のエラー');
 }
 
 // ========================================================
@@ -517,7 +660,7 @@ async function processWithGemini() {
 
     var geminiResult;
     try {
-      geminiResult = await callServer('analyzePageImage', analysisImage, 'image/jpeg');
+      geminiResult = await callGeminiApi(analysisImage, 'image/jpeg');
     } catch (e) {
       logErr('  Gemini 解析エラー: ' + e.message);
       logErr('  このページはスキップします');
