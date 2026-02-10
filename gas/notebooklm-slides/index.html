@@ -398,35 +398,6 @@ function renderFileList() {
 }
 
 // ========================================================
-// Canvas から領域を切り抜き（JPEG 高圧縮）
-// ========================================================
-function cropRegion(canvas, region, quality) {
-  var sx = Math.round(region.x * canvas.width);
-  var sy = Math.round(region.y * canvas.height);
-  var sw = Math.round(region.width * canvas.width);
-  var sh = Math.round(region.height * canvas.height);
-
-  // 範囲チェック
-  sx = Math.max(0, Math.min(sx, canvas.width - 1));
-  sy = Math.max(0, Math.min(sy, canvas.height - 1));
-  sw = Math.max(2, Math.min(sw, canvas.width - sx));
-  sh = Math.max(2, Math.min(sh, canvas.height - sy));
-
-  var crop = document.createElement('canvas');
-  crop.width = sw;
-  crop.height = sh;
-  var ctx = crop.getContext('2d');
-  ctx.drawImage(canvas, sx, sy, sw, sh, 0, 0, sw, sh);
-
-  // JPEG で高圧縮（quality: 0.0-1.0）
-  var dataUrl = crop.toDataURL('image/jpeg', quality || 0.6);
-  var base64 = dataUrl.split(',')[1];
-  crop.width = 0;
-  crop.height = 0;
-  return base64;
-}
-
-// ========================================================
 // 解析用の低解像度 JPEG を生成
 // ========================================================
 function createAnalysisImage(highResCanvas) {
@@ -488,7 +459,7 @@ async function callGeminiDirect(imageBase64, mimeType) {
   if (!apiKey) throw new Error('Gemini API キーが未設定です。');
 
   var models = ['gemini-2.0-flash-lite', 'gemini-2.0-flash'];
-  var prompt = 'このスライド画像を解析し、JSON で返してください。形式: {"backgroundColor":"#RRGGBB","elements":[{"type":"text","content":"テキスト","x":0.1,"y":0.05,"width":0.8,"height":0.1,"fontSize":24,"fontColor":"#333333","bold":false,"alignment":"left"},{"type":"image","description":"説明","x":0.05,"y":0.15,"width":0.4,"height":0.6}]}。x,y,width,height=0.0〜1.0の割合。テキスト全検出。画像=イラスト/写真/アイコン/図表。JSON のみ返すこと。';
+  var prompt = 'このスライド画像のテキストを全て検出し、JSON で返してください。形式: {"backgroundColor":"#RRGGBB","elements":[{"type":"text","content":"テキスト","x":0.1,"y":0.05,"width":0.8,"height":0.1,"fontSize":24,"fontColor":"#333333","bold":false,"alignment":"left","bgColor":"#FFFFFF"}]}。x,y,width,height=0.0〜1.0の割合。全テキスト検出。bgColor=テキスト背後の背景色(吹き出し等)、透明ならnull。画像要素は不要。JSON のみ返すこと。';
   var payload = { contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: mimeType || 'image/jpeg', data: imageBase64 } }] }], generationConfig: { temperature: 0.1, maxOutputTokens: 8192, responseMimeType: 'application/json' } };
   var bodyStr = JSON.stringify(payload);
 
@@ -609,46 +580,56 @@ async function processWithGemini() {
 
     var analysis = geminiResult.analysis;
     var stats = geminiResult.stats;
-    logOk('  [2] Gemini 解析完了: テキスト=' + stats.textElements + '個, 画像=' + stats.imageElements + '個, 背景色=' + stats.backgroundColor);
+    logOk('  [2] AI 解析完了: テキスト=' + stats.textElements + '個, 背景色=' + stats.backgroundColor);
 
-    // 要素の詳細をログ
+    // テキスト要素のログ
     for (var ei = 0; ei < analysis.elements.length; ei++) {
       var elem = analysis.elements[ei];
       if (elem.type === 'text') {
         var preview = (elem.content || '').substring(0, 50).replace(/\n/g, ' ');
         log('    text: "' + preview + '..." @ (' + (elem.x||0).toFixed(2) + ',' + (elem.y||0).toFixed(2) + ') ' + (elem.fontSize||14) + 'pt', 'log-info');
-      } else if (elem.type === 'image') {
-        log('    image: ' + (elem.description||'?') + ' @ (' + (elem.x||0).toFixed(2) + ',' + (elem.y||0).toFixed(2) + ') ' + Math.round((elem.width||0)*100) + '%x' + Math.round((elem.height||0)*100) + '%', 'log-warn');
       }
     }
 
-    // ステップ2: 画像領域をキャンバスから切り抜き
-    log('  [3] 画像領域を切り抜き中...');
-    var pageData = buildPageData(analysis, pg.canvas);
+    // ステップ2: 全ページ画像を JPEG で取得（背景用）
+    log('  [3] 全ページ画像を生成中...');
+    var fullPageBase64 = pg.canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+    logInfo('  全ページ画像サイズ: ' + (fullPageBase64.length / 1024).toFixed(0) + ' KB');
 
     // キャンバスを解放
     pg.canvas.width = 0;
     pg.canvas.height = 0;
 
-    logOk('  切り抜き完了: テキスト=' + pageData.texts.length + '個, 画像=' + pageData.images.length + '個');
+    // pageData 構築（全ページ画像 + テキストのみ）
+    var pageData = {
+      fullPageImage: fullPageBase64,
+      texts: []
+    };
+    for (var ei = 0; ei < analysis.elements.length; ei++) {
+      var el = analysis.elements[ei];
+      if (el.type === 'text') {
+        pageData.texts.push({
+          content: el.content || '',
+          x: el.x || 0,
+          y: el.y || 0,
+          width: el.width || 0.1,
+          height: el.height || 0.05,
+          fontSize: el.fontSize || 14,
+          fontColor: el.fontColor || '#333333',
+          bold: el.bold || false,
+          alignment: el.alignment || 'left',
+          bgColor: el.bgColor || null
+        });
+      }
+    }
 
-    // データサイズを確認
+    // データサイズを確認（9MB超なら圧縮）
     var dataSize = JSON.stringify(pageData).length;
     logInfo('  送信データサイズ: ' + (dataSize / 1024).toFixed(0) + ' KB');
-
     if (dataSize > 9 * 1024 * 1024) {
-      logWarn('  データが大きすぎます (9MB超)。画像品質を下げて再圧縮...');
-      // 画像を再圧縮
-      pageData = buildPageData(analysis, null, 0.3);
-      if (!pageData) {
-        logErr('  再圧縮に失敗。テキストのみで作成します。');
-        pageData = { backgroundColor: analysis.backgroundColor || '#FFFFFF', texts: [], images: [] };
-        for (var ei = 0; ei < analysis.elements.length; ei++) {
-          if (analysis.elements[ei].type === 'text') {
-            pageData.texts.push(analysis.elements[ei]);
-          }
-        }
-      }
+      logWarn('  データが大きすぎます。画像品質を下げて再圧縮...');
+      fullPageBase64 = pg.canvas ? pg.canvas.toDataURL('image/jpeg', 0.4).split(',')[1] : fullPageBase64;
+      pageData.fullPageImage = fullPageBase64;
     }
 
     // ステップ3: サーバーに送信してスライド作成
@@ -674,35 +655,6 @@ async function processWithGemini() {
       }
     } catch (e) {
       logErr('  スライド作成エラー: ' + e.message);
-
-      // 画像なしでリトライ
-      logWarn('  画像なしでリトライ...');
-      var textOnlyData = {
-        backgroundColor: pageData.backgroundColor,
-        texts: pageData.texts,
-        images: []
-      };
-      try {
-        if (presentationId === null) {
-          var result = await callServer('createSingleSlidePresentation', {
-            pageData: textOnlyData,
-            title: title,
-            shareMode: shareMode,
-            emails: emails,
-            permission: permission
-          });
-          presentationId = result.id;
-          logOk('  テキストのみでプレゼンテーション作成: ' + presentationId);
-        } else {
-          await callServer('addSingleSlide', {
-            presentationId: presentationId,
-            pageData: textOnlyData
-          });
-          logOk('  テキストのみでスライド追加完了');
-        }
-      } catch (e2) {
-        logErr('  リトライも失敗: ' + e2.message);
-      }
     }
   }
 
@@ -715,64 +667,11 @@ async function processWithGemini() {
   showResult('createResult', 'success',
     '<strong>' + escHtml(title) + '</strong> を作成しました（' + pages.length + ' スライド）<br>' +
     '<a href="' + url + '" target="_blank">Google スライドを開く</a><br>' +
-    '<span style="font-size:12px;color:var(--text-sub)">テキスト・画像・背景が個別の編集可能な要素として配置されています。</span>'
+    '<span style="font-size:12px;color:var(--text-sub)">全ページ画像の上にテキストボックスが配置されています。テキストを直接編集できます。</span>'
   );
   logOk('=== 完了 ===');
   uploadedFiles = [];
   renderFileList();
-}
-
-// ========================================================
-// Gemini 解析結果 + Canvas から pageData を構築
-// ========================================================
-function buildPageData(analysis, canvas, overrideQuality) {
-  var pageData = {
-    backgroundColor: analysis.backgroundColor || '#FFFFFF',
-    texts: [],
-    images: []
-  };
-
-  var elements = analysis.elements || [];
-
-  for (var i = 0; i < elements.length; i++) {
-    var el = elements[i];
-
-    if (el.type === 'text') {
-      pageData.texts.push({
-        content: el.content || '',
-        x: el.x || 0,
-        y: el.y || 0,
-        width: el.width || 0.1,
-        height: el.height || 0.05,
-        fontSize: el.fontSize || 14,
-        fontColor: el.fontColor || '#333333',
-        bold: el.bold || false,
-        alignment: el.alignment || 'left'
-      });
-    } else if (el.type === 'image' && canvas) {
-      // Canvas から画像領域を切り抜き
-      var quality = overrideQuality || 0.5;
-      var cropped = cropRegion(canvas, {
-        x: el.x || 0,
-        y: el.y || 0,
-        width: el.width || 0.1,
-        height: el.height || 0.1
-      }, quality);
-
-      if (cropped) {
-        pageData.images.push({
-          data: cropped,
-          mimeType: 'image/jpeg',
-          x: el.x || 0,
-          y: el.y || 0,
-          width: el.width || 0.1,
-          height: el.height || 0.1
-        });
-      }
-    }
-  }
-
-  return pageData;
 }
 
 // ========================================================

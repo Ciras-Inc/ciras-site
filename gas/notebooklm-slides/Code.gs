@@ -24,20 +24,23 @@ function analyzePageWithAI(imageBase64, mimeType, config) {
   var url = config.baseUrl + '/chat/completions';
 
   var prompt = [
-    'このプレゼンテーションスライド画像を正確に解析し、JSON で返してください。',
+    'このプレゼンテーションスライド画像からテキスト要素を正確に検出してください。',
     '',
     '返すJSON形式:',
-    '{"backgroundColor":"#RRGGBB","elements":[...]}',
-    '',
-    'elements の各要素:',
-    '- テキスト: {"type":"text","content":"テキスト内容","x":0.1,"y":0.05,"width":0.8,"height":0.1,"fontSize":24,"fontColor":"#333333","bold":false,"alignment":"left"}',
-    '- 画像: {"type":"image","description":"説明","x":0.05,"y":0.15,"width":0.4,"height":0.6}',
+    '{"backgroundColor":"#RRGGBB","elements":[{"type":"text","content":"テキスト内容","x":0.1,"y":0.05,"width":0.8,"height":0.1,"fontSize":24,"fontColor":"#333333","bold":false,"alignment":"left","bgColor":"#FFFFFF"}]}',
     '',
     'ルール:',
-    '- x, y, width, height はスライド全体に対する割合（0.0〜1.0）',
-    '- テキスト: 全テキストを検出。content に正確なテキスト（改行は\\n）。fontSize はpt推定。fontColor は#RRGGBB。',
-    '- 画像: イラスト・写真・アイコン・図表・装飾グラフィックの矩形領域。テキストのみの領域は含めない。',
+    '- type は必ず "text"',
+    '- x, y, width, height はスライド全体に対する割合（0.0〜1.0）。正確な位置を指定すること。',
+    '- content: テキスト内容を正確に（改行は\\n）',
+    '- fontSize: ポイント単位の推定値',
+    '- fontColor: テキスト色（#RRGGBB）',
+    '- bold: 太字なら true',
+    '- alignment: "left", "center", "right"',
+    '- bgColor: テキストの背後にある背景色（#RRGGBB）。テキストが吹き出しや色付きボックス内にある場合はその色。透明/画像上の場合は null。',
     '- backgroundColor: スライド全体の主要な背景色（#RRGGBB）',
+    '- すべての可視テキストを検出すること（タイトル、本文、ラベル、吹き出し内テキスト等）',
+    '- 画像・イラスト要素は検出不要（テキストのみ）',
     '- 有効なJSONのみ返すこと。説明文やマークダウン不要。'
   ].join('\n');
 
@@ -169,46 +172,29 @@ function addSingleSlide(config) {
 // =====================================================
 
 function buildSlide_(slide, pageData, slideWidth, slideHeight) {
-  // 1. 背景色を設定
-  if (pageData.backgroundColor) {
-    try {
-      slide.getBackground().setSolidFill(pageData.backgroundColor);
-    } catch (e) {
-      Logger.log('背景色設定エラー: ' + e.message);
-    }
-  }
-
-  // 2. 画像要素を挿入（イラスト・アイコン・装飾）
-  var images = pageData.images || [];
-  for (var i = 0; i < images.length; i++) {
-    var img = images[i];
-    if (!img.data) continue;
-
-    var x = Math.max(0, (img.x || 0)) * slideWidth;
-    var y = Math.max(0, (img.y || 0)) * slideHeight;
-    var w = Math.max((img.width || 0.1) * slideWidth, 10);
-    var h = Math.max((img.height || 0.1) * slideHeight, 10);
-
-    if (x + w > slideWidth) w = slideWidth - x;
-    if (y + h > slideHeight) h = slideHeight - y;
-
+  // 1. 全ページ画像を背景として挿入（スライド全体にフィット）
+  if (pageData.fullPageImage) {
     try {
       var blob = Utilities.newBlob(
-        Utilities.base64Decode(img.data),
-        img.mimeType || 'image/jpeg',
-        'image_' + i + '.jpg'
+        Utilities.base64Decode(pageData.fullPageImage),
+        'image/jpeg',
+        'page_bg.jpg'
       );
-      var image = slide.insertImage(blob);
-      image.setLeft(x);
-      image.setTop(y);
-      image.setWidth(w);
-      image.setHeight(h);
+      var bgImage = slide.insertImage(blob);
+      bgImage.setLeft(0);
+      bgImage.setTop(0);
+      bgImage.setWidth(slideWidth);
+      bgImage.setHeight(slideHeight);
     } catch (e) {
-      Logger.log('画像挿入エラー[' + i + ']: ' + e.message);
+      Logger.log('背景画像挿入エラー: ' + e.message);
+      // フォールバック: 背景色を設定
+      if (pageData.backgroundColor) {
+        try { slide.getBackground().setSolidFill(pageData.backgroundColor); } catch (e2) {}
+      }
     }
   }
 
-  // 3. テキストボックスを挿入（最前面に配置）
+  // 2. テキストボックスを最前面に挿入（背景画像の上にオーバーレイ）
   var texts = pageData.texts || [];
   for (var i = 0; i < texts.length; i++) {
     var el = texts[i];
@@ -237,8 +223,12 @@ function buildSlide_(slide, pageData, slideWidth, slideHeight) {
         try { style.setBold(true); } catch (e) {}
       }
 
-      // テキストボックスは透明背景
-      textBox.getFill().setTransparent();
+      // テキストボックスに背景色を設定（元画像のテキストを隠す）
+      if (el.bgColor) {
+        try { textBox.getFill().setSolidFill(el.bgColor); } catch (e) {}
+      } else {
+        textBox.getFill().setTransparent();
+      }
       textBox.getBorder().setTransparent();
 
       // テキスト配置
