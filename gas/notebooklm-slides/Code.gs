@@ -52,7 +52,7 @@ function analyzePageWithAI(imageBase64, mimeType, config) {
     '- すべての可視テキストを検出すること（タイトル、本文、ラベル、吹き出し内テキスト、数字、ページ番号等）',
     '- テキストが近接している場合でも、論理的に別ブロックなら個別の要素として検出すること',
     '- 画像・イラスト要素は検出不要（テキストのみ）',
-    '- 有効なJSONのみ返すこと。説明文やマークダウン不要。'
+    '- 有効なJSONオブジェクト（{...}で始まる）のみ返すこと。配列[]で囲まないこと。説明文やマークダウン不要。'
   ].join('\n');
 
   var dataUrl = 'data:' + (mimeType || 'image/jpeg') + ';base64,' + imageBase64;
@@ -67,8 +67,7 @@ function analyzePageWithAI(imageBase64, mimeType, config) {
       ]
     }],
     max_tokens: 8192,
-    temperature: 0.1,
-    response_format: { type: 'json_object' }
+    temperature: 0.1
   };
 
   var options = {
@@ -106,11 +105,29 @@ function analyzePageWithAI(imageBase64, mimeType, config) {
 
   var text = result.choices[0].message.content;
 
+  // マークダウンコードブロックを除去
   var jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (jsonMatch) text = jsonMatch[1];
   text = text.trim();
 
+  // JSON部分を抽出（前後の余分なテキストを除去）
+  var jsonStart = text.indexOf('{');
+  var jsonStartArr = text.indexOf('[');
+  if (jsonStart === -1 && jsonStartArr === -1) {
+    throw new Error('AI 応答にJSONが含まれていません: ' + text.substring(0, 200));
+  }
+  if (jsonStart === -1 || (jsonStartArr !== -1 && jsonStartArr < jsonStart)) {
+    jsonStart = jsonStartArr;
+  }
+  text = text.substring(jsonStart);
+
   var analysis = JSON.parse(text);
+
+  // 配列で返された場合は最初の要素を取得
+  if (Array.isArray(analysis)) {
+    analysis = analysis[0] || {};
+  }
+
   if (!analysis.elements || !Array.isArray(analysis.elements)) {
     throw new Error('AI 応答に elements 配列がありません');
   }
