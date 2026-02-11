@@ -124,6 +124,8 @@
           <button class="filter-btn active" data-filter="all">すべて</button>
           <button class="filter-btn" data-filter="pending">未送信</button>
           <button class="filter-btn" data-filter="sent">送信済</button>
+          <button class="filter-btn" data-filter="ai-check">AI診断</button>
+          <button class="filter-btn" data-filter="web-check">Web診断</button>
         </div>
       </div>
       <div id="diagnosis-list"></div>
@@ -222,6 +224,8 @@
       var filtered = allDiagnoses;
       if (currentFilter === 'pending') filtered = allDiagnoses.filter(function(d) { return d.status === 'pending'; });
       if (currentFilter === 'sent') filtered = allDiagnoses.filter(function(d) { return d.status === 'sent'; });
+      if (currentFilter === 'ai-check') filtered = allDiagnoses.filter(function(d) { return d.type === 'ai-check'; });
+      if (currentFilter === 'web-check') filtered = allDiagnoses.filter(function(d) { return d.type === 'web-check'; });
 
       if (filtered.length === 0) {
         list.innerHTML = '<div class="empty-state"><p>診断データがありません</p></div>';
@@ -271,35 +275,78 @@
         if (!data) { detail.innerHTML = '<p style="color:#C41E3A;padding:1rem">読み込みに失敗しました</p>'; return; }
         var a = data.answers;
         var r = data.result;
+        var html = '';
 
-        var html = '<div class="detail-section"><div class="detail-section-title">回答内容</div><div class="detail-grid">' +
-          '<div class="detail-item"><p class="detail-label">立場</p><p class="detail-value">' + escapeHTML(a.q1_position) + '</p></div>' +
-          '<div class="detail-item"><p class="detail-label">業種</p><p class="detail-value">' + escapeHTML(a.q2_industry) + '</p></div>' +
-          '<div class="detail-item"><p class="detail-label">従業員数</p><p class="detail-value">' + escapeHTML(a.q3_employees) + '</p></div>' +
-          '<div class="detail-item"><p class="detail-label">AI活用状況</p><p class="detail-value">' + escapeHTML(a.q6_ai_status) + '</p></div>' +
-          '<div class="detail-item detail-full"><p class="detail-label">興味分野</p><p class="detail-value">' + escapeHTML(a.q4_interests.join('、')) + '</p></div>';
-
-        if (a.q5_details) {
-          html += '<div class="detail-item detail-full"><p class="detail-label">詳細</p><p class="detail-value">' + escapeHTML(a.q5_details) + '</p></div>';
-        }
-        html += '</div></div>';
-
-        // Solutions
-        if (r && r.solutions) {
-          html += '<div class="detail-section"><div class="detail-section-title">AI提案</div><div class="detail-solutions">';
-          r.solutions.forEach(function(s, i) {
-            html += '<div class="detail-solution"><p class="detail-solution-title">' + (i + 1) + '. ' + escapeHTML(s.title) + '</p><p class="detail-solution-desc">' + escapeHTML(s.description) + '</p></div>';
-          });
+        if (data.type === 'web-check') {
+          // Web Check detail
+          html += '<div class="detail-section"><div class="detail-section-title">回答内容</div><div class="detail-grid">' +
+            '<div class="detail-item"><p class="detail-label">Webサイト</p><p class="detail-value">' + escapeHTML(a.q1_has_website) + '</p></div>' +
+            '<div class="detail-item"><p class="detail-label">URL</p><p class="detail-value">' + escapeHTML(a.q2_url || 'なし') + '</p></div>' +
+            '<div class="detail-item detail-full"><p class="detail-label">期待すること</p><p class="detail-value">' + escapeHTML(a.q3_expectation) + '</p></div>' +
+            '<div class="detail-item"><p class="detail-label">問い合わせ状況</p><p class="detail-value">' + escapeHTML(a.q4_current_response) + '</p></div>';
+          if (a.q5_concerns) {
+            html += '<div class="detail-item detail-full"><p class="detail-label">気になること</p><p class="detail-value">' + escapeHTML(a.q5_concerns) + '</p></div>';
+          }
           html += '</div></div>';
+
+          // Scores (if URL was provided)
+          if (data.scores) {
+            var s = data.scores;
+            html += '<div class="detail-section"><div class="detail-section-title">スコア: ' + s.totalScore + ' / 100</div><div class="detail-grid">' +
+              '<div class="detail-item"><p class="detail-label">A. AI検索対応</p><p class="detail-value">' + s.categories.a.total + ' / ' + s.categories.a.maxScore + '</p></div>' +
+              '<div class="detail-item"><p class="detail-label">B. SEO基礎</p><p class="detail-value">' + s.categories.b.total + ' / ' + s.categories.b.maxScore + '</p></div>' +
+              '<div class="detail-item"><p class="detail-label">C. 将来性</p><p class="detail-value">' + s.categories.c.total + ' / ' + s.categories.c.maxScore + '</p></div>' +
+            '</div></div>';
+          }
+
+          // Improvements or Recommendations
+          if (r && r.improvements) {
+            html += '<div class="detail-section"><div class="detail-section-title">改善ポイント</div><div class="detail-solutions">';
+            r.improvements.forEach(function(imp, i) {
+              html += '<div class="detail-solution"><p class="detail-solution-title">' + (i + 1) + '. ' + escapeHTML(imp.title) + '</p>' +
+                '<p class="detail-solution-desc" style="margin-bottom:.3rem"><span style="color:#2D5A27;font-weight:600">良い点:</span> ' + escapeHTML(imp.good) + '</p>' +
+                '<p class="detail-solution-desc" style="margin-bottom:.3rem"><span style="color:#B8860B;font-weight:600">リスク:</span> ' + escapeHTML(imp.risk) + '</p>' +
+                '<p class="detail-solution-desc"><span style="color:#C41E3A;font-weight:600">改善:</span> ' + escapeHTML(imp.action) + '</p></div>';
+            });
+            html += '</div></div>';
+          } else if (r && r.recommendations) {
+            html += '<div class="detail-section"><div class="detail-section-title">提案</div><div class="detail-solutions">';
+            r.recommendations.forEach(function(rec, i) {
+              html += '<div class="detail-solution"><p class="detail-solution-title">' + (i + 1) + '. ' + escapeHTML(rec.title) + '</p><p class="detail-solution-desc">' + escapeHTML(rec.description) + '</p></div>';
+            });
+            html += '</div></div>';
+          }
+        } else {
+          // AI Check detail (original)
+          html += '<div class="detail-section"><div class="detail-section-title">回答内容</div><div class="detail-grid">' +
+            '<div class="detail-item"><p class="detail-label">立場</p><p class="detail-value">' + escapeHTML(a.q1_position) + '</p></div>' +
+            '<div class="detail-item"><p class="detail-label">業種</p><p class="detail-value">' + escapeHTML(a.q2_industry) + '</p></div>' +
+            '<div class="detail-item"><p class="detail-label">従業員数</p><p class="detail-value">' + escapeHTML(a.q3_employees) + '</p></div>' +
+            '<div class="detail-item"><p class="detail-label">AI活用状況</p><p class="detail-value">' + escapeHTML(a.q6_ai_status) + '</p></div>' +
+            '<div class="detail-item detail-full"><p class="detail-label">興味分野</p><p class="detail-value">' + escapeHTML(a.q4_interests.join('、')) + '</p></div>';
+
+          if (a.q5_details) {
+            html += '<div class="detail-item detail-full"><p class="detail-label">詳細</p><p class="detail-value">' + escapeHTML(a.q5_details) + '</p></div>';
+          }
+          html += '</div></div>';
+
+          // Solutions
+          if (r && r.solutions) {
+            html += '<div class="detail-section"><div class="detail-section-title">AI提案</div><div class="detail-solutions">';
+            r.solutions.forEach(function(s, i) {
+              html += '<div class="detail-solution"><p class="detail-solution-title">' + (i + 1) + '. ' + escapeHTML(s.title) + '</p><p class="detail-solution-desc">' + escapeHTML(s.description) + '</p></div>';
+            });
+            html += '</div></div>';
+          }
         }
 
-        // Contact info
+        // Contact info (common)
         html += '<div class="detail-section"><div class="detail-section-title">連絡先</div><div class="detail-grid">' +
           '<div class="detail-item"><p class="detail-label">メール</p><p class="detail-value">' + escapeHTML(data.email || '未登録') + '</p></div>' +
           '<div class="detail-item"><p class="detail-label">ステータス</p><p class="detail-value">' + (data.status === 'sent' ? '送信済' : '未送信') + '</p></div>' +
         '</div></div>';
 
-        // Actions
+        // Actions (common)
         html += '<div class="detail-actions">' +
           '<a href="/report/' + id + '" target="_blank" class="btn btn-secondary btn-small">レポートページを開く</a>';
 

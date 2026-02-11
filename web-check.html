@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KLXZ6ND');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webサイト状況チェッカー｜無料診断｜Ciras（シラス）株式会社</title>
+  <meta name="description" content="あなたのWebサイトがAI検索時代に対応できているか、無料で診断します。URLを入力するだけで、100点満点のスコアと改善提案をAIがその場で作成。Ciras（シラス）株式会社の無料診断ツール。">
+  <link rel="canonical" href="https://www.ciras.jp/web-check">
+  <link rel="icon" href="images/favicon.ico" sizes="any">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <meta property="og:title" content="Webサイト状況チェッカー｜無料診断｜Ciras（シラス）株式会社">
+  <meta property="og:description" content="あなたのWebサイトがAI検索時代に対応できているか、無料で診断します。URLを入力するだけでスコアと改善提案を作成。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.ciras.jp/web-check">
+  <meta property="og:image" content="https://www.ciras.jp/images/ogp.png">
+  <meta property="og:site_name" content="Ciras（シラス）株式会社">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Webサイト状況チェッカー｜無料診断｜Ciras（シラス）株式会社">
+  <meta name="twitter:description" content="あなたのWebサイトがAI検索時代に対応できているか、無料で診断します。URLを入力するだけでスコアと改善提案を作成。">
+  <meta name="twitter:image" content="https://www.ciras.jp/images/ogp.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Webサイト状況チェッカー",
+    "description": "あなたのWebサイトがAI検索時代に対応できているか、無料で診断します。URLを入力するだけで、100点満点のスコアと改善提案をAIがその場で作成します。",
+    "url": "https://www.ciras.jp/web-check",
+    "applicationCategory": "BusinessApplication",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "provider": {
+      "@type": "Organization",
+      "name": "Ciras（シラス）株式会社",
+      "url": "https://ciras.jp"
+    }
+  }
+  </script>
+
+  <style>
+    :root{--green:#2D5A27;--green-light:#E8F0E6;--black:#1A1A1A;--gray-dark:#4A4A4A;--gray:#888;--gray-light:#E5E5E5;--white:#FFF;--bg:#FAFAFA}
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Noto Sans JP',sans-serif;font-weight:400;color:var(--black);line-height:1.9;background:var(--bg);font-size:15px;letter-spacing:.03em}
+    .mincho{font-family:'Shippori Mincho',serif}
+    a{color:inherit;text-decoration:none}
+
+    /* Header */
+    header{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--white);border-bottom:1px solid var(--gray-light);transition:box-shadow .3s}
+    header.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}
+    .header-inner{max-width:1200px;margin:0 auto;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+    .logo{display:flex;align-items:center}
+    .logo-img{height:32px;width:auto}
+    .header-nav{display:flex;align-items:center;gap:2rem}
+    .header-nav>a,.nav-dropdown-trigger{font-size:.85rem;font-weight:500;color:var(--black);transition:color .3s;cursor:pointer;background:none;border:none;font-family:inherit}
+    .header-nav>a:hover,.nav-dropdown-trigger:hover{color:var(--green)}
+    .header-nav>.header-contact{font-size:.8rem;color:var(--white)!important;background:var(--green);padding:.7rem 1.8rem;border-radius:4px;transition:all .3s;box-shadow:0 2px 8px rgba(45,90,39,.3);font-weight:600;letter-spacing:.05em}
+    .header-nav>.header-contact:hover{opacity:.9;box-shadow:0 4px 12px rgba(45,90,39,.4);transform:translateY(-1px)}
+    .nav-dropdown{position:relative}
+    .nav-dropdown-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%);background:var(--white);border:1px solid var(--gray-light);border-radius:4px;box-shadow:0 8px 24px rgba(0,0,0,.1);min-width:160px;padding:.5rem 0;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;z-index:1001;margin-top:.5rem}
+    .nav-dropdown:hover .nav-dropdown-menu{opacity:1;visibility:visible}
+    .nav-dropdown-menu a{display:block;padding:.6rem 1.2rem;font-size:.85rem;color:var(--black);transition:background .2s,color .2s;white-space:nowrap}
+    .nav-dropdown-menu a:hover{background:var(--green-light);color:var(--green)}
+    .hamburger{display:none;background:none;border:none;cursor:pointer;padding:.5rem;z-index:1002}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--black);margin:5px 0;transition:transform .3s,opacity .3s}
+    .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+    .hamburger.active span:nth-child(2){opacity:0}
+    .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+    .mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);padding:5rem 2rem 2rem;z-index:999;overflow-y:auto;flex-direction:column;gap:.5rem}
+    .mobile-nav.open{display:flex}
+    .mobile-nav a{display:block;padding:.8rem 0;font-size:1rem;font-weight:500;color:var(--black);border-bottom:1px solid var(--gray-light)}
+    .mobile-nav-group{padding:.5rem 0}
+    .mobile-nav-label{font-size:.75rem;font-weight:600;color:var(--green);letter-spacing:.1em;margin-bottom:.3rem}
+    .mobile-nav-group a{padding-left:1rem;font-size:.95rem}
+    .mobile-nav-cta{margin-top:1rem;background:var(--green);color:var(--white)!important;text-align:center;padding:1rem!important;border-radius:2px;border-bottom:none!important}
+
+    /* Hero */
+    .hero{padding:8rem 2rem 4rem;background:var(--white);text-align:center}
+    .hero-inner{max-width:700px;margin:0 auto;opacity:0;transform:translateY(30px);animation:heroIn .9s ease .2s forwards}
+    .hero-label{font-size:.75rem;letter-spacing:.2em;color:var(--green);margin-bottom:.5rem}
+    .hero-title{font-family:'Shippori Mincho',serif;font-size:clamp(1.8rem,4vw,2.2rem);font-weight:600;margin-bottom:1rem}
+    .hero-desc{font-size:.95rem;color:var(--gray-dark);line-height:2}
+    .hero-time{display:inline-block;margin-top:1rem;font-size:.85rem;color:var(--green);font-weight:500;background:var(--green-light);padding:.4rem 1.2rem;border-radius:2px}
+    @keyframes heroIn{to{opacity:1;transform:translateY(0)}}
+
+    /* Form */
+    .form-section{padding:3rem 2rem 5rem;background:var(--white)}
+    .form-inner{max-width:700px;margin:0 auto}
+    .question-block{margin-bottom:3rem}
+    .question-num{font-size:.75rem;font-weight:600;color:var(--green);letter-spacing:.1em;margin-bottom:.3rem}
+    .question-text{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
+    .question-note{font-size:.8rem;color:var(--gray);margin-bottom:1rem}
+    .question-required{color:#C41E3A;font-size:.75rem;font-weight:500;margin-left:.5rem}
+    .question-error{color:#C41E3A;font-size:.8rem;margin-top:.5rem;display:none}
+
+    /* Radio/Checkbox options */
+    .option-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem}
+    .option-grid-3{grid-template-columns:repeat(3,1fr)}
+    .option-grid-1{grid-template-columns:1fr}
+    .option-item{position:relative}
+    .option-item input{position:absolute;opacity:0;width:0;height:0}
+    .option-item label{display:block;padding:.8rem 1rem;background:var(--bg);border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;cursor:pointer;transition:all .2s;text-align:center}
+    .option-item input:checked+label{border-color:var(--green);background:var(--green-light);color:var(--green);font-weight:500}
+    .option-item label:hover{border-color:var(--green);background:rgba(232,240,230,.5)}
+
+    /* URL input */
+    .url-input-wrap{margin-top:1rem;display:none}
+    .url-input-wrap.visible{display:block}
+    .url-input{width:100%;padding:.8rem 1rem;border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit;transition:border-color .2s}
+    .url-input:focus{outline:none;border-color:var(--green)}
+    .url-hint{font-size:.8rem;color:var(--gray);margin-top:.3rem}
+
+    /* Other input */
+    .other-input{margin-top:.8rem;display:none}
+    .other-input.visible{display:block}
+    .other-input input{width:100%;padding:.8rem 1rem;border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit;transition:border-color .2s}
+    .other-input input:focus{outline:none;border-color:var(--green)}
+
+    /* Textarea */
+    .form-textarea{width:100%;padding:1rem;border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit;line-height:1.8;resize:vertical;min-height:120px;transition:border-color .2s}
+    .form-textarea:focus{outline:none;border-color:var(--green)}
+    .form-textarea::placeholder{color:var(--gray)}
+
+    /* Submit */
+    .submit-section{text-align:center;margin-top:2rem}
+    .btn{display:inline-block;font-size:.9rem;font-weight:500;padding:1rem 2rem;border-radius:2px;transition:all .3s;border:none;cursor:pointer;font-family:inherit}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--green);color:var(--white)}
+    .btn-primary:hover{opacity:.85;box-shadow:0 4px 12px rgba(45,90,39,.3)}
+    .btn-secondary{background:var(--white);color:var(--green);border:1px solid var(--green)}
+    .btn-secondary:hover{background:var(--green-light)}
+    .btn-large{padding:1.2rem 3rem;font-size:1rem;font-weight:600;letter-spacing:.05em}
+    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+    /* Loading Overlay */
+    .loading-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);z-index:2000;align-items:center;justify-content:center;flex-direction:column}
+    .loading-overlay.active{display:flex}
+    .loading-spinner{width:48px;height:48px;border:3px solid var(--gray-light);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:2rem}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-text{font-family:'Shippori Mincho',serif;font-size:1.1rem;color:var(--black);margin-bottom:.5rem;text-align:center}
+    .loading-sub{font-size:.85rem;color:var(--gray);text-align:center}
+    .loading-progress{width:200px;height:4px;background:var(--gray-light);border-radius:2px;margin-top:1.5rem;overflow:hidden}
+    .loading-progress-bar{height:100%;background:var(--green);border-radius:2px;width:0;transition:width .5s ease}
+
+    /* Results */
+    .results-section{display:none;padding:3rem 2rem 0;background:var(--white)}
+    .results-section.active{display:block}
+    .results-inner{max-width:800px;margin:0 auto}
+    .results-header{text-align:center;margin-bottom:3rem}
+    .results-label{font-size:.75rem;letter-spacing:.2em;color:var(--green);margin-bottom:.5rem}
+    .results-title{font-family:'Shippori Mincho',serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:600;margin-bottom:1rem}
+    .results-desc{font-size:.95rem;color:var(--gray-dark);line-height:2}
+
+    /* Score display */
+    .score-hero{text-align:center;padding:2.5rem;background:var(--bg);border-radius:4px;margin-bottom:2rem;border:1px solid var(--gray-light)}
+    .score-num{font-family:'Shippori Mincho',serif;font-size:4rem;font-weight:700;color:var(--green);line-height:1}
+    .score-max{font-size:1.2rem;color:var(--gray);font-weight:400}
+    .score-comment{font-size:.9rem;color:var(--gray-dark);margin-top:.8rem}
+    .score-category{margin-bottom:1.5rem}
+    .score-bar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
+    .score-bar-label{font-size:.9rem;font-weight:500}
+    .score-bar-value{font-size:.9rem;color:var(--green);font-weight:600}
+    .score-bar{height:8px;background:var(--gray-light);border-radius:4px;overflow:hidden}
+    .score-bar-fill{height:100%;background:var(--green);border-radius:4px;transition:width 1s ease}
+
+    /* Improvement cards (with URL) */
+    .improvement-card{background:var(--bg);padding:2rem;border-radius:4px;margin-bottom:1.5rem;border-left:4px solid var(--green)}
+    .improvement-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
+    .improvement-num{font-family:'Shippori Mincho',serif;font-size:.8rem;font-weight:600;color:var(--green);margin-bottom:.5rem;letter-spacing:.1em}
+    .improvement-title{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600;margin-bottom:1rem;line-height:1.6}
+    .improvement-section{margin-bottom:.8rem}
+    .improvement-label{font-size:.75rem;font-weight:600;margin-bottom:.2rem}
+    .improvement-label-good{color:var(--green)}
+    .improvement-label-risk{color:#B8860B}
+    .improvement-label-action{color:#C41E3A}
+    .improvement-text{font-size:.9rem;color:var(--gray-dark);line-height:1.9}
+
+    /* Recommendation cards (without URL) */
+    .rec-section-title{font-family:'Shippori Mincho',serif;font-size:1.2rem;font-weight:600;color:var(--green);margin-bottom:1.5rem;padding-bottom:.5rem;border-bottom:2px solid var(--green-light)}
+    .rec-reason{background:var(--bg);padding:1.5rem;border-radius:4px;margin-bottom:1rem;font-size:.9rem;color:var(--gray-dark);line-height:2;border-left:3px solid var(--green)}
+    .rec-card{background:var(--bg);padding:2rem;border-radius:4px;margin-bottom:1.5rem;border-left:4px solid var(--green);transition:box-shadow .3s}
+    .rec-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
+    .rec-card-num{font-family:'Shippori Mincho',serif;font-size:.8rem;font-weight:600;color:var(--green);margin-bottom:.5rem;letter-spacing:.1em}
+    .rec-card-title{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600;margin-bottom:.8rem;line-height:1.6}
+    .rec-card-desc{font-size:.9rem;color:var(--gray-dark);line-height:2;white-space:pre-line}
+
+    /* CTA after results */
+    .results-cta{background:var(--green-light);padding:4rem 2rem;text-align:center;margin-top:3rem}
+    .results-cta-inner{max-width:600px;margin:0 auto}
+    .results-cta-service{font-size:.85rem;color:var(--gray-dark);line-height:2;margin-bottom:1.5rem;text-align:left;background:var(--white);padding:1.5rem;border-radius:4px}
+    .results-cta-title{font-family:'Shippori Mincho',serif;font-size:1.3rem;font-weight:600;margin-bottom:1rem}
+    .results-cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+    .results-cta-note{font-size:.8rem;color:var(--gray)}
+
+    /* Email Modal */
+    .email-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:3000;align-items:center;justify-content:center;padding:2rem}
+    .email-modal.active{display:flex}
+    .email-modal-content{background:var(--white);border-radius:4px;padding:2.5rem;max-width:480px;width:100%}
+    .email-modal-title{font-family:'Shippori Mincho',serif;font-size:1.2rem;font-weight:600;margin-bottom:.5rem}
+    .email-modal-desc{font-size:.85rem;color:var(--gray-dark);line-height:2;margin-bottom:1.5rem}
+    .email-input{width:100%;padding:.8rem 1rem;border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit;margin-bottom:1rem}
+    .email-input:focus{outline:none;border-color:var(--green)}
+    .email-consent{display:flex;align-items:flex-start;gap:.5rem;margin-bottom:1.5rem;font-size:.8rem;color:var(--gray-dark);line-height:1.7}
+    .email-consent input[type="checkbox"]{margin-top:.3rem;flex-shrink:0;accent-color:var(--green)}
+    .email-consent a{color:var(--green);text-decoration:underline}
+    .email-modal-buttons{display:flex;gap:.8rem}
+    .email-modal-buttons .btn{flex:1;text-align:center}
+    .email-error{color:#C41E3A;font-size:.8rem;margin-bottom:.5rem;display:none}
+    .email-success{display:none;text-align:center;padding:2rem 0}
+    .email-success-icon{font-size:2rem;margin-bottom:1rem;color:var(--green)}
+    .email-success-text{font-size:.95rem;color:var(--gray-dark);line-height:2}
+
+    /* Footer */
+    footer{background:var(--black);color:var(--white);padding:4rem 2rem 2rem}
+    .footer-inner{max-width:1000px;margin:0 auto}
+    .footer-grid{display:grid;grid-template-columns:1.5fr 2fr;gap:4rem;margin-bottom:3rem}
+    .footer-brand{margin-bottom:1rem}
+    .footer-logo-img{height:28px;width:auto}
+    .footer-info{font-size:.8rem;color:rgba(255,255,255,.6);line-height:2;font-style:normal}
+    .footer-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+    .footer-nav-title{font-size:.7rem;font-weight:600;letter-spacing:.15em;color:rgba(255,255,255,.5);margin-bottom:1rem}
+    .footer-nav ul{list-style:none}
+    .footer-nav li{margin-bottom:.5rem}
+    .footer-nav a{font-size:.85rem;color:rgba(255,255,255,.8);transition:color .3s}
+    .footer-nav a:hover{color:var(--white)}
+    .footer-bottom{padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:.75rem;color:rgba(255,255,255,.5)}
+
+    /* Animations */
+    .fade-in{opacity:1;transform:translateY(0);transition:opacity .7s ease,transform .7s ease}
+    .fade-in.hidden{opacity:0;transform:translateY(24px)}
+    @media(prefers-reduced-motion:reduce){.fade-in,.hero-inner{opacity:1;transform:none;animation:none;transition:none}}
+
+    /* Responsive */
+    @media(max-width:900px){
+      .header-nav{display:none}
+      .hamburger{display:block}
+      .footer-grid{grid-template-columns:1fr}
+      .footer-nav{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:600px){
+      .option-grid{grid-template-columns:1fr}
+      .option-grid-3{grid-template-columns:1fr}
+      .results-cta-buttons{flex-direction:column}
+      .results-cta-buttons .btn{width:100%}
+      .email-modal-buttons{flex-direction:column}
+      .score-num{font-size:3rem}
+    }
+  </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLXZ6ND"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager -->
+
+  <header>
+    <div class="header-inner">
+      <a href="/" class="logo" aria-label="Ciras（シラス）株式会社 ホーム"><img src="images/logo-green.png" alt="Ciras（シラス）株式会社" class="logo-img"></a>
+      <nav class="header-nav">
+        <div class="nav-dropdown">
+          <a href="#" class="nav-dropdown-trigger">サービス</a>
+          <div class="nav-dropdown-menu">
+            <a href="/ai-komon.html">Ciras AI顧問</a>
+            <a href="/web.html">AI活用 Webサイト制作</a>
+            <a href="/kagemusha.html">影武者</a>
+          </div>
+        </div>
+        <a href="/seminar.html">セミナー</a>
+        <div class="nav-dropdown">
+          <a href="/company.html" class="nav-dropdown-trigger">会社概要</a>
+          <div class="nav-dropdown-menu">
+            <a href="/voice.html">お客様の声</a>
+            <a href="/faq.html">よくある質問</a>
+          </div>
+        </div>
+        <a href="/partner.html">採用・協業</a>
+        <a href="/contact.html" class="header-contact">お問い合わせ</a>
+      </nav>
+      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+    <div class="mobile-nav">
+      <div class="mobile-nav-group">
+        <p class="mobile-nav-label">サービス</p>
+        <a href="/ai-komon.html">Ciras AI顧問</a>
+        <a href="/web.html">AI活用 Webサイト制作</a>
+        <a href="/kagemusha.html">影武者</a>
+      </div>
+      <a href="/seminar.html">セミナー</a>
+      <div class="mobile-nav-group">
+        <p class="mobile-nav-label">会社概要</p>
+        <a href="/company.html">会社概要</a>
+        <a href="/voice.html">お客様の声</a>
+        <a href="/faq.html">よくある質問</a>
+      </div>
+      <a href="/partner.html">採用・協業</a>
+      <a href="/blog/">ブログ</a>
+      <a href="/contact.html" class="mobile-nav-cta">お問い合わせ</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-label">FREE DIAGNOSTIC</p>
+      <h1 class="hero-title">Webサイト状況チェッカー</h1>
+      <p class="hero-desc">
+        あなたのWebサイトがAI検索時代に対応できているか、<br>
+        5つの質問に答えるだけでAIがその場で診断します。
+      </p>
+      <p class="hero-time">所要時間：約1〜2分（URL入力で詳細スコア付き）</p>
+    </div>
+  </section>
+
+  <!-- Form -->
+  <section class="form-section fade-in" id="form-section">
+    <div class="form-inner">
+      <form id="diagnosis-form" novalidate>
+
+        <!-- Q1 -->
+        <div class="question-block" id="q1-block">
+          <p class="question-num">Q1</p>
+          <p class="question-text">Webサイト（ホームページ）はお持ちですか？<span class="question-required">必須</span></p>
+          <div class="option-grid option-grid-3">
+            <div class="option-item"><input type="radio" name="q1" id="q1-1" value="ある"><label for="q1-1">ある</label></div>
+            <div class="option-item"><input type="radio" name="q1" id="q1-2" value="あるが放置している"><label for="q1-2">あるが放置している</label></div>
+            <div class="option-item"><input type="radio" name="q1" id="q1-3" value="持っていない"><label for="q1-3">持っていない</label></div>
+          </div>
+          <p class="question-error" id="q1-error">選択してください</p>
+        </div>
+
+        <!-- Q2 (conditional) -->
+        <div class="question-block url-input-wrap" id="q2-block">
+          <p class="question-num">Q2</p>
+          <p class="question-text">WebサイトのURLを入力してください<span style="font-size:.8rem;color:var(--gray);margin-left:.5rem">任意</span></p>
+          <p class="question-note">入力するとサイトを自動分析し、100点満点のスコアと具体的な改善提案をお出しします。</p>
+          <input type="url" class="url-input" id="q2-url" placeholder="https://example.com" maxlength="200">
+          <p class="url-hint">※ トップページのURLを入力してください</p>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question-block" id="q3-block">
+          <p class="question-num">Q3</p>
+          <p class="question-text">Webサイトに期待することは？<span class="question-required">必須</span></p>
+          <div class="option-grid option-grid-1">
+            <div class="option-item"><input type="radio" name="q3" id="q3-1" value="新規のお客様からの問い合わせを増やしたい"><label for="q3-1">新規のお客様からの問い合わせを増やしたい</label></div>
+            <div class="option-item"><input type="radio" name="q3" id="q3-2" value="会社の信頼性・ブランドを高めたい"><label for="q3-2">会社の信頼性・ブランドを高めたい</label></div>
+            <div class="option-item"><input type="radio" name="q3" id="q3-3" value="採用・求人に役立てたい"><label for="q3-3">採用・求人に役立てたい</label></div>
+            <div class="option-item"><input type="radio" name="q3" id="q3-4" value="AI検索（ChatGPTなど）で正しく紹介されたい"><label for="q3-4">AI検索（ChatGPTなど）で正しく紹介されたい</label></div>
+            <div class="option-item"><input type="radio" name="q3" id="q3-5" value="今のサイトをリニューアルしたい"><label for="q3-5">今のサイトをリニューアルしたい</label></div>
+            <div class="option-item"><input type="radio" name="q3" id="q3-6" value="その他"><label for="q3-6">その他</label></div>
+          </div>
+          <div class="other-input" id="q3-other-wrap">
+            <input type="text" id="q3-other" placeholder="期待することを入力してください" maxlength="100">
+          </div>
+          <p class="question-error" id="q3-error">選択してください</p>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question-block" id="q4-block">
+          <p class="question-num">Q4</p>
+          <p class="question-text">現在、お客様からの問い合わせは主にどこから来ていますか？<span class="question-required">必須</span></p>
+          <div class="option-grid option-grid-1">
+            <div class="option-item"><input type="radio" name="q4" id="q4-1" value="紹介・口コミがほとんど"><label for="q4-1">紹介・口コミがほとんど</label></div>
+            <div class="option-item"><input type="radio" name="q4" id="q4-2" value="電話・FAXが多い"><label for="q4-2">電話・FAXが多い</label></div>
+            <div class="option-item"><input type="radio" name="q4" id="q4-3" value="Webサイト（ホームページ）から来る"><label for="q4-3">Webサイト（ホームページ）から来る</label></div>
+            <div class="option-item"><input type="radio" name="q4" id="q4-4" value="SNS（Instagram、Facebookなど）から来る"><label for="q4-4">SNS（Instagram、Facebookなど）から来る</label></div>
+            <div class="option-item"><input type="radio" name="q4" id="q4-5" value="ほとんどない・わからない"><label for="q4-5">ほとんどない・わからない</label></div>
+          </div>
+          <p class="question-error" id="q4-error">選択してください</p>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question-block" id="q5-block">
+          <p class="question-num">Q5</p>
+          <p class="question-text">Webサイトについて、気になっていることがあれば教えてください<span style="font-size:.8rem;color:var(--gray);margin-left:.5rem">任意</span></p>
+          <textarea class="form-textarea" id="q5" name="q5" placeholder="例）「検索しても自社サイトが出てこない」「デザインが古く恥ずかしい」「スマホで見づらい」など。書いていただけると、より具体的なご提案ができます。" maxlength="500"></textarea>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-section">
+          <button type="submit" class="btn btn-primary btn-large" id="submit-btn">診断する</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <p class="loading-text" id="loading-text">回答を分析しています...</p>
+    <p class="loading-sub" id="loading-sub">AIがあなたのWebサイトを診断中</p>
+    <div class="loading-progress">
+      <div class="loading-progress-bar" id="loading-bar"></div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <section class="results-section" id="results-section">
+    <div class="results-inner">
+      <div class="results-header">
+        <p class="results-label">RESULT</p>
+        <h2 class="results-title">診断結果</h2>
+        <p class="results-desc" id="results-desc"></p>
+      </div>
+      <div id="results-container"></div>
+    </div>
+  </section>
+
+  <!-- CTA after results -->
+  <section class="results-cta" id="results-cta" style="display:none">
+    <div class="results-cta-inner">
+      <p class="results-cta-service">
+        Ciras株式会社では、<strong>AI活用 Webサイト制作</strong>（220,000円〜・税込）として、AI検索に強いホームページを制作しています。会社情報が正しくまとまり、検索でもAIでも信頼される形に整えます。
+      </p>
+      <h2 class="results-cta-title mincho">次の一歩を踏み出しませんか？</h2>
+      <div class="results-cta-buttons">
+        <button class="btn btn-primary btn-large" id="open-email-modal">詳細レポートを受け取る</button>
+        <a href="/contact.html" class="btn btn-secondary btn-large">無料相談を予約する</a>
+      </div>
+      <p class="results-cta-note">詳細レポートは、後日メールまたはLINEでお届けします</p>
+    </div>
+  </section>
+
+  <!-- Email Modal -->
+  <div class="email-modal" id="email-modal">
+    <div class="email-modal-content">
+      <div id="email-form-view">
+        <h3 class="email-modal-title mincho">詳細レポートを受け取る</h3>
+        <p class="email-modal-desc">メールアドレスを入力してください。<br>後日、より詳細な分析レポートをお送りします。</p>
+        <p class="email-error" id="email-error"></p>
+        <input type="email" class="email-input" id="email-input" placeholder="example@company.co.jp">
+        <div class="email-consent">
+          <input type="checkbox" id="email-consent-check">
+          <label for="email-consent-check">入力いただいた情報は、診断結果の送付およびサービスのご案内に利用します。<a href="/privacy.html" target="_blank">プライバシーポリシー</a>に同意の上、送信してください。</label>
+        </div>
+        <div class="email-modal-buttons">
+          <button class="btn btn-primary" id="email-submit-btn">送信する</button>
+          <button class="btn btn-secondary" id="email-cancel-btn">閉じる</button>
+        </div>
+      </div>
+      <div class="email-success" id="email-success-view">
+        <p class="email-success-icon">&#10003;</p>
+        <p class="email-success-text">ありがとうございます。<br>詳細レポートは後日お送りいたします。</p>
+        <button class="btn btn-secondary" id="email-close-btn" style="margin-top:1.5rem">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand"><a href="/" aria-label="トップページへ"><img src="images/logo-white.png" alt="Ciras（シラス）株式会社" class="footer-logo-img"></a></p>
+          <address class="footer-info">
+            Ciras（シラス）株式会社<br>
+            〒790-0813 愛媛県松山市萱町3-2-3 9CROSS 501<br>
+            TEL: <a href="tel:050-3637-6324" style="color:inherit">050-3637-6324</a><br>
+            営業時間: 10:00〜17:30（土日祝休）
+          </address>
+        </div>
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <div>
+            <p class="footer-nav-title">SERVICE</p>
+            <ul>
+              <li><a href="/ai-komon.html">Ciras AI顧問</a></li>
+              <li><a href="/web.html">AI活用 Webサイト制作</a></li>
+              <li><a href="/kagemusha.html">影武者</a></li>
+              <li><a href="/seminar.html">セミナー</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-nav-title">COMPANY</p>
+            <ul>
+              <li><a href="/voice.html">お客様の声</a></li>
+              <li><a href="/faq.html">よくある質問</a></li>
+              <li><a href="/company.html">会社概要</a></li>
+              <li><a href="/blog/">ブログ</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-nav-title">CONTACT</p>
+            <ul>
+              <li><a href="/contact.html">お問い合わせ</a></li>
+              <li><a href="/partner.html">採用・協業</a></li>
+              <li><a href="https://lin.ee/s2u6VUw">LINE</a></li>
+              <li><a href="/privacy.html">プライバシーポリシー</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="footer-bottom">© 2026 Ciras Inc.（シラス株式会社）</div>
+    </div>
+  </footer>
+
+  <script>
+  (function() {
+    // ===== Common: Header scroll, hamburger, fade-in =====
+    var h = document.querySelector('header'), scrolled = false;
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 60 && !scrolled) { h.classList.add('scrolled'); scrolled = true; }
+      else if (window.scrollY <= 60 && scrolled) { h.classList.remove('scrolled'); scrolled = false; }
+    }, { passive: true });
+
+    var hbtn = document.querySelector('.hamburger'), mnav = document.querySelector('.mobile-nav');
+    if (hbtn && mnav) {
+      hbtn.addEventListener('click', function() {
+        hbtn.classList.toggle('active'); mnav.classList.toggle('open');
+        document.body.style.overflow = mnav.classList.contains('open') ? 'hidden' : '';
+      });
+      mnav.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() { hbtn.classList.remove('active'); mnav.classList.remove('open'); document.body.style.overflow = ''; });
+      });
+    }
+
+    var fadeEls = document.querySelectorAll('.fade-in');
+    fadeEls.forEach(function(e) { e.classList.add('hidden'); });
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(en) { if (en.isIntersecting) { en.target.classList.remove('hidden'); obs.unobserve(en.target); } });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      fadeEls.forEach(function(e) { obs.observe(e); });
+      setTimeout(function() { fadeEls.forEach(function(e) { e.classList.remove('hidden'); }); }, 2000);
+    } else {
+      fadeEls.forEach(function(e) { e.classList.remove('hidden'); });
+    }
+
+    // ===== Q1 → Q2 conditional visibility =====
+    var q1Radios = document.querySelectorAll('input[name="q1"]');
+    var q2Block = document.getElementById('q2-block');
+    q1Radios.forEach(function(r) {
+      r.addEventListener('change', function() {
+        var hasWebsite = this.value === 'ある' || this.value === 'あるが放置している';
+        q2Block.classList.toggle('visible', hasWebsite);
+        if (!hasWebsite) document.getElementById('q2-url').value = '';
+      });
+    });
+
+    // ===== Q3 "その他" toggle =====
+    var q3Radios = document.querySelectorAll('input[name="q3"]');
+    var q3OtherWrap = document.getElementById('q3-other-wrap');
+    q3Radios.forEach(function(r) {
+      r.addEventListener('change', function() {
+        q3OtherWrap.classList.toggle('visible', this.value === 'その他');
+      });
+    });
+
+    // ===== State =====
+    var diagnosisId = null;
+    var hasUrlMode = false;
+
+    // ===== Form submission =====
+    document.getElementById('diagnosis-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Clear previous errors
+      document.querySelectorAll('.question-error').forEach(function(el) { el.style.display = 'none'; });
+
+      // Validate
+      var valid = true;
+      var q1 = document.querySelector('input[name="q1"]:checked');
+      if (!q1) { document.getElementById('q1-error').style.display = 'block'; valid = false; }
+
+      var q3 = document.querySelector('input[name="q3"]:checked');
+      if (!q3) { document.getElementById('q3-error').style.display = 'block'; valid = false; }
+
+      var q4 = document.querySelector('input[name="q4"]:checked');
+      if (!q4) { document.getElementById('q4-error').style.display = 'block'; valid = false; }
+
+      if (!valid) {
+        var firstErr = document.querySelector('.question-error[style*="block"]');
+        if (firstErr) firstErr.closest('.question-block').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // Build payload
+      var q3Val = q3.value;
+      var q3Other = '';
+      if (q3.value === 'その他') {
+        q3Other = document.getElementById('q3-other').value.trim();
+        if (q3Other) q3Val = 'その他（' + q3Other + '）';
+      }
+
+      var urlVal = document.getElementById('q2-url').value.trim();
+      hasUrlMode = (q1.value === 'ある' || q1.value === 'あるが放置している') && urlVal;
+
+      var payload = {
+        q1_has_website: q1.value,
+        q2_url: urlVal || '',
+        q3_expectation: q3Val,
+        q3_expectation_other: q3Other,
+        q4_current_response: q4.value,
+        q5_concerns: document.getElementById('q5').value.trim()
+      };
+
+      // Show loading (longer for URL analysis)
+      showLoading(hasUrlMode);
+
+      // Submit
+      fetch('/api/web-check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.error) {
+          hideLoading();
+          alert(data.error);
+          return;
+        }
+        diagnosisId = data.id;
+        showResults(data);
+      })
+      .catch(function() {
+        hideLoading();
+        alert('ただいま診断が混み合っています。しばらくしてからお試しください。');
+      });
+    });
+
+    // ===== Loading =====
+    var loadingMessagesUrl = [
+      { text: 'Webサイトにアクセスしています...', sub: 'サイトの構造・内容を取得中', pct: 10 },
+      { text: 'サイトの内容を分析しています...', sub: 'AI検索への対応状況をチェック中', pct: 25 },
+      { text: 'スコアを計算しています...', sub: 'SEO・構造化データ・コンテンツを評価中', pct: 45 },
+      { text: 'AIが改善提案を作成中...', sub: '具体的な改善ポイントをまとめています', pct: 65 },
+      { text: '仕上げをしています...', sub: 'あと少しです', pct: 85 }
+    ];
+    var loadingMessagesNoUrl = [
+      { text: '回答を分析しています...', sub: 'あなたの状況に合った提案を検討中', pct: 15 },
+      { text: '最適なWebサイトの形を検討中...', sub: '業種・ニーズに合わせた提案を作成中', pct: 40 },
+      { text: 'AIが提案を作成中...', sub: '具体的なご提案をまとめています', pct: 65 },
+      { text: '仕上げをしています...', sub: 'あと少しです', pct: 85 }
+    ];
+    var loadingTimer = null;
+
+    function showLoading(isUrlMode) {
+      var overlay = document.getElementById('loading-overlay');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      var msgs = isUrlMode ? loadingMessagesUrl : loadingMessagesNoUrl;
+      var idx = 0;
+      updateLoadingMessage(msgs[0]);
+      loadingTimer = setInterval(function() {
+        idx++;
+        if (idx < msgs.length) updateLoadingMessage(msgs[idx]);
+      }, isUrlMode ? 5000 : 4000);
+    }
+
+    function updateLoadingMessage(msg) {
+      document.getElementById('loading-text').textContent = msg.text;
+      document.getElementById('loading-sub').textContent = msg.sub;
+      document.getElementById('loading-bar').style.width = msg.pct + '%';
+    }
+
+    function hideLoading() {
+      if (loadingTimer) clearInterval(loadingTimer);
+      document.getElementById('loading-bar').style.width = '100%';
+      setTimeout(function() {
+        document.getElementById('loading-overlay').classList.remove('active');
+        document.body.style.overflow = '';
+      }, 300);
+    }
+
+    // ===== Results =====
+    function showResults(data) {
+      hideLoading();
+
+      // Hide form
+      document.getElementById('form-section').style.display = 'none';
+
+      var container = document.getElementById('results-container');
+      container.innerHTML = '';
+
+      if (data.scores && data.result && data.result.improvements) {
+        // URL mode: show scores + improvements
+        document.getElementById('results-desc').textContent = 'あなたのWebサイトをAIが分析しました。100点満点で評価し、改善すべきポイントをご提案します。';
+
+        // Score hero
+        var scoreHTML = '<div class="score-hero">';
+        scoreHTML += '<p class="score-num">' + data.scores.totalScore + '<span class="score-max"> / 100</span></p>';
+        scoreHTML += '<p class="score-comment">' + getScoreComment(data.scores.totalScore) + '</p>';
+        scoreHTML += '</div>';
+
+        // Category bars
+        var cats = [data.scores.categories.a, data.scores.categories.b, data.scores.categories.c];
+        cats.forEach(function(cat) {
+          var pct = Math.round(cat.total / cat.maxScore * 100);
+          scoreHTML += '<div class="score-category"><div class="score-bar-header"><span class="score-bar-label">' + escapeHTML(cat.label) + '</span><span class="score-bar-value">' + cat.total + ' / ' + cat.maxScore + '</span></div><div class="score-bar"><div class="score-bar-fill" style="width:' + pct + '%"></div></div></div>';
+        });
+
+        container.innerHTML = scoreHTML;
+
+        // Improvement cards
+        if (data.result.improvements && data.result.improvements.length > 0) {
+          var impHTML = '<h3 style="font-family:\'Shippori Mincho\',serif;font-size:1.2rem;font-weight:600;color:var(--green);margin:2.5rem 0 1.5rem;padding-bottom:.5rem;border-bottom:2px solid var(--green-light)">改善すべきポイント</h3>';
+          data.result.improvements.forEach(function(imp, i) {
+            impHTML += '<div class="improvement-card">';
+            impHTML += '<div class="improvement-num">POINT ' + String(i + 1).padStart(2, '0') + '</div>';
+            impHTML += '<h4 class="improvement-title">' + escapeHTML(imp.title) + '</h4>';
+            impHTML += '<div class="improvement-section"><p class="improvement-label improvement-label-good">良いところ</p><p class="improvement-text">' + escapeHTML(imp.good) + '</p></div>';
+            impHTML += '<div class="improvement-section"><p class="improvement-label improvement-label-risk">起こり得るリスク</p><p class="improvement-text">' + escapeHTML(imp.risk) + '</p></div>';
+            impHTML += '<div class="improvement-section"><p class="improvement-label improvement-label-action">改善すべきこと</p><p class="improvement-text">' + escapeHTML(imp.action) + '</p></div>';
+            impHTML += '</div>';
+          });
+          container.innerHTML += impHTML;
+        }
+      } else {
+        // No-URL mode: show reasons + recommendations
+        document.getElementById('results-desc').textContent = 'AIがあなたの状況を分析し、最適なWebサイトの形をご提案します。';
+        var r = data.result;
+        var noUrlHTML = '';
+
+        if (r.reasons && r.reasons.length > 0) {
+          noUrlHTML += '<h3 class="rec-section-title">' + escapeHTML(r.reason_title || 'あなたのビジネスにWebサイトが必要な理由') + '</h3>';
+          r.reasons.forEach(function(reason) {
+            noUrlHTML += '<div class="rec-reason">' + escapeHTML(reason) + '</div>';
+          });
+        }
+
+        if (r.recommendations && r.recommendations.length > 0) {
+          noUrlHTML += '<h3 class="rec-section-title" style="margin-top:2.5rem">' + escapeHTML(r.site_title || 'あなたに最適なWebサイト') + '</h3>';
+          r.recommendations.forEach(function(rec, i) {
+            noUrlHTML += '<div class="rec-card">';
+            noUrlHTML += '<div class="rec-card-num">RECOMMENDATION ' + String(i + 1).padStart(2, '0') + '</div>';
+            noUrlHTML += '<h4 class="rec-card-title">' + escapeHTML(rec.title) + '</h4>';
+            noUrlHTML += '<p class="rec-card-desc">' + escapeHTML(rec.description) + '</p>';
+            noUrlHTML += '</div>';
+          });
+        }
+
+        container.innerHTML = noUrlHTML;
+      }
+
+      // Show results
+      document.getElementById('results-section').classList.add('active');
+      document.getElementById('results-cta').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function getScoreComment(score) {
+      if (score >= 80) return 'すばらしい！AI検索時代にもしっかり対応できています。';
+      if (score >= 60) return '良好です。いくつかの改善で更にスコアアップが期待できます。';
+      if (score >= 40) return '改善の余地があります。下記のポイントを参考にしてください。';
+      if (score >= 20) return '基本的な部分から見直しが必要です。ぜひご相談ください。';
+      return 'AI検索への対応が不十分です。早めの対策をおすすめします。';
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      var d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+
+    // ===== Email Modal =====
+    document.getElementById('open-email-modal').addEventListener('click', function() {
+      document.getElementById('email-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    document.getElementById('email-cancel-btn').addEventListener('click', closeEmailModal);
+    document.getElementById('email-close-btn').addEventListener('click', closeEmailModal);
+
+    document.getElementById('email-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeEmailModal();
+    });
+
+    function closeEmailModal() {
+      document.getElementById('email-modal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('email-submit-btn').addEventListener('click', function() {
+      var email = document.getElementById('email-input').value.trim();
+      var consent = document.getElementById('email-consent-check').checked;
+      var errorEl = document.getElementById('email-error');
+
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        errorEl.textContent = '有効なメールアドレスを入力してください';
+        errorEl.style.display = 'block';
+        return;
+      }
+      if (!consent) {
+        errorEl.textContent = 'プライバシーポリシーへの同意が必要です';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      errorEl.style.display = 'none';
+      this.disabled = true;
+      this.textContent = '送信中...';
+
+      fetch('/api/diagnoses/' + diagnosisId + '/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.error) {
+          errorEl.textContent = data.error;
+          errorEl.style.display = 'block';
+          document.getElementById('email-submit-btn').disabled = false;
+          document.getElementById('email-submit-btn').textContent = '送信する';
+          return;
+        }
+        document.getElementById('email-form-view').style.display = 'none';
+        document.getElementById('email-success-view').style.display = 'block';
+      })
+      .catch(function() {
+        errorEl.textContent = '送信に失敗しました。しばらくしてからお試しください。';
+        errorEl.style.display = 'block';
+        document.getElementById('email-submit-btn').disabled = false;
+        document.getElementById('email-submit-btn').textContent = '送信する';
+      });
+    });
+  })();
+  </script>
+
+</body>
+</html>

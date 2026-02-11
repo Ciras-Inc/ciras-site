@@ -79,6 +79,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.ciras.jp/web-check</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.ciras.jp/partner/</loc>
     <lastmod>2026-02-02</lastmod>
     <changefreq>monthly</changefreq>
