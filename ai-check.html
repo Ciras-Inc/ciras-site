@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KLXZ6ND');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI活用レベルチェッカー｜無料診断｜Ciras（シラス）株式会社</title>
+  <meta name="description" content="1〜2分の質問に答えるだけで、あなたのビジネスに合ったAI活用の提案を無料でお届けします。Ciras（シラス）株式会社の無料AI診断ツール。">
+  <link rel="canonical" href="https://www.ciras.jp/ai-check">
+  <link rel="icon" href="images/favicon.ico" sizes="any">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <meta property="og:title" content="AI活用レベルチェッカー｜無料診断｜Ciras（シラス）株式会社">
+  <meta property="og:description" content="1〜2分の質問に答えるだけで、あなたのビジネスに合ったAI活用の提案を無料でお届けします。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.ciras.jp/ai-check">
+  <meta property="og:image" content="https://www.ciras.jp/images/ogp.png">
+  <meta property="og:site_name" content="Ciras（シラス）株式会社">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI活用レベルチェッカー｜無料診断｜Ciras（シラス）株式会社">
+  <meta name="twitter:description" content="1〜2分の質問に答えるだけで、あなたのビジネスに合ったAI活用の提案を無料でお届けします。">
+  <meta name="twitter:image" content="https://www.ciras.jp/images/ogp.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "AI活用レベルチェッカー",
+    "description": "1〜2分の質問に答えるだけで、あなたのビジネスに合ったAI活用の提案を無料でお届けします。",
+    "url": "https://www.ciras.jp/ai-check",
+    "applicationCategory": "BusinessApplication",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "provider": {
+      "@type": "Organization",
+      "name": "Ciras（シラス）株式会社",
+      "url": "https://ciras.jp"
+    }
+  }
+  </script>
+
+  <style>
+    :root{--green:#2D5A27;--green-light:#E8F0E6;--black:#1A1A1A;--gray-dark:#4A4A4A;--gray:#888;--gray-light:#E5E5E5;--white:#FFF;--bg:#FAFAFA}
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Noto Sans JP',sans-serif;font-weight:400;color:var(--black);line-height:1.9;background:var(--bg);font-size:15px;letter-spacing:.03em}
+    .mincho{font-family:'Shippori Mincho',serif}
+    a{color:inherit;text-decoration:none}
+
+    /* Header */
+    header{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--white);border-bottom:1px solid var(--gray-light);transition:box-shadow .3s}
+    header.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}
+    .header-inner{max-width:1200px;margin:0 auto;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+    .logo{display:flex;align-items:center}
+    .logo-img{height:32px;width:auto}
+    .header-nav{display:flex;align-items:center;gap:2rem}
+    .header-nav>a,.nav-dropdown-trigger{font-size:.85rem;font-weight:500;color:var(--black);transition:color .3s;cursor:pointer;background:none;border:none;font-family:inherit}
+    .header-nav>a:hover,.nav-dropdown-trigger:hover{color:var(--green)}
+    .header-nav>.header-contact{font-size:.8rem;color:var(--white)!important;background:var(--green);padding:.7rem 1.8rem;border-radius:4px;transition:all .3s;box-shadow:0 2px 8px rgba(45,90,39,.3);font-weight:600;letter-spacing:.05em}
+    .header-nav>.header-contact:hover{opacity:.9;box-shadow:0 4px 12px rgba(45,90,39,.4);transform:translateY(-1px)}
+    .nav-dropdown{position:relative}
+    .nav-dropdown-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%);background:var(--white);border:1px solid var(--gray-light);border-radius:4px;box-shadow:0 8px 24px rgba(0,0,0,.1);min-width:160px;padding:.5rem 0;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;z-index:1001;margin-top:.5rem}
+    .nav-dropdown:hover .nav-dropdown-menu{opacity:1;visibility:visible}
+    .nav-dropdown-menu a{display:block;padding:.6rem 1.2rem;font-size:.85rem;color:var(--black);transition:background .2s,color .2s;white-space:nowrap}
+    .nav-dropdown-menu a:hover{background:var(--green-light);color:var(--green)}
+    .hamburger{display:none;background:none;border:none;cursor:pointer;padding:.5rem;z-index:1002}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--black);margin:5px 0;transition:transform .3s,opacity .3s}
+    .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+    .hamburger.active span:nth-child(2){opacity:0}
+    .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+    .mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);padding:5rem 2rem 2rem;z-index:999;overflow-y:auto;flex-direction:column;gap:.5rem}
+    .mobile-nav.open{display:flex}
+    .mobile-nav a{display:block;padding:.8rem 0;font-size:1rem;font-weight:500;color:var(--black);border-bottom:1px solid var(--gray-light)}
+    .mobile-nav-group{padding:.5rem 0}
+    .mobile-nav-label{font-size:.75rem;font-weight:600;color:var(--green);letter-spacing:.1em;margin-bottom:.3rem}
+    .mobile-nav-group a{padding-left:1rem;font-size:.95rem}
+    .mobile-nav-cta{margin-top:1rem;background:var(--green);color:var(--white)!important;text-align:center;padding:1rem!important;border-radius:2px;border-bottom:none!important}
+
+    /* Hero */
+    .hero{padding:8rem 2rem 4rem;background:var(--white);text-align:center}
+    .hero-inner{max-width:700px;margin:0 auto;opacity:0;transform:translateY(30px);animation:heroIn .9s ease .2s forwards}
+    .hero-label{font-size:.75rem;letter-spacing:.2em;color:var(--green);margin-bottom:.5rem}
+    .hero-title{font-family:'Shippori Mincho',serif;font-size:clamp(1.8rem,4vw,2.2rem);font-weight:600;margin-bottom:1rem}
+    .hero-desc{font-size:.95rem;color:var(--gray-dark);line-height:2}
+    .hero-time{display:inline-block;margin-top:1rem;font-size:.85rem;color:var(--green);font-weight:500;background:var(--green-light);padding:.4rem 1.2rem;border-radius:2px}
+    @keyframes heroIn{to{opacity:1;transform:translateY(0)}}
+
+    /* Form */
+    .form-section{padding:3rem 2rem 5rem;background:var(--white)}
+    .form-inner{max-width:700px;margin:0 auto}
+    .question-block{margin-bottom:3rem}
+    .question-num{font-size:.75rem;font-weight:600;color:var(--green);letter-spacing:.1em;margin-bottom:.3rem}
+    .question-text{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
+    .question-note{font-size:.8rem;color:var(--gray);margin-bottom:1rem}
+    .question-required{color:#C41E3A;font-size:.75rem;font-weight:500;margin-left:.5rem}
+    .question-error{color:#C41E3A;font-size:.8rem;margin-top:.5rem;display:none}
+
+    /* Radio/Checkbox options */
+    .option-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem}
+    .option-grid-3{grid-template-columns:repeat(3,1fr)}
+    .option-grid-1{grid-template-columns:1fr}
+    .option-item{position:relative}
+    .option-item input{position:absolute;opacity:0;width:0;height:0}
+    .option-item label{display:block;padding:.8rem 1rem;background:var(--bg);border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;cursor:pointer;transition:all .2s;text-align:center}
+    .option-item input:checked+label{border-color:var(--green);background:var(--green-light);color:var(--green);font-weight:500}
+    .option-item label:hover{border-color:var(--green);background:rgba(232,240,230,.5)}
+    .option-item input:disabled+label{opacity:.5;cursor:not-allowed}
+    .option-item input:disabled+label:hover{border-color:var(--gray-light);background:var(--bg)}
+
+    /* Other input */
+    .other-input{margin-top:.8rem;display:none}
+    .other-input.visible{display:block}
+    .other-input input{width:100%;padding:.8rem 1rem;border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit;transition:border-color .2s}
+    .other-input input:focus{outline:none;border-color:var(--green)}
+
+    /* Textarea */
+    .form-textarea{width:100%;padding:1rem;border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit;line-height:1.8;resize:vertical;min-height:120px;transition:border-color .2s}
+    .form-textarea:focus{outline:none;border-color:var(--green)}
+    .form-textarea::placeholder{color:var(--gray)}
+
+    /* Submit */
+    .submit-section{text-align:center;margin-top:2rem}
+    .btn{display:inline-block;font-size:.9rem;font-weight:500;padding:1rem 2rem;border-radius:2px;transition:all .3s;border:none;cursor:pointer;font-family:inherit}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--green);color:var(--white)}
+    .btn-primary:hover{opacity:.85;box-shadow:0 4px 12px rgba(45,90,39,.3)}
+    .btn-secondary{background:var(--white);color:var(--green);border:1px solid var(--green)}
+    .btn-secondary:hover{background:var(--green-light)}
+    .btn-large{padding:1.2rem 3rem;font-size:1rem;font-weight:600;letter-spacing:.05em}
+    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+    /* Loading Overlay */
+    .loading-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);z-index:2000;align-items:center;justify-content:center;flex-direction:column}
+    .loading-overlay.active{display:flex}
+    .loading-spinner{width:48px;height:48px;border:3px solid var(--gray-light);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:2rem}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-text{font-family:'Shippori Mincho',serif;font-size:1.1rem;color:var(--black);margin-bottom:.5rem;text-align:center}
+    .loading-sub{font-size:.85rem;color:var(--gray);text-align:center}
+    .loading-progress{width:200px;height:4px;background:var(--gray-light);border-radius:2px;margin-top:1.5rem;overflow:hidden}
+    .loading-progress-bar{height:100%;background:var(--green);border-radius:2px;width:0;transition:width .5s ease}
+
+    /* Results */
+    .results-section{display:none;padding:3rem 2rem 0;background:var(--white)}
+    .results-section.active{display:block}
+    .results-inner{max-width:800px;margin:0 auto}
+    .results-header{text-align:center;margin-bottom:3rem}
+    .results-label{font-size:.75rem;letter-spacing:.2em;color:var(--green);margin-bottom:.5rem}
+    .results-title{font-family:'Shippori Mincho',serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:600;margin-bottom:1rem}
+    .results-desc{font-size:.95rem;color:var(--gray-dark);line-height:2}
+    .solution-card{background:var(--bg);padding:2rem;border-radius:4px;margin-bottom:1.5rem;border-left:4px solid var(--green);transition:box-shadow .3s}
+    .solution-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
+    .solution-num{font-family:'Shippori Mincho',serif;font-size:.8rem;font-weight:600;color:var(--green);margin-bottom:.5rem;letter-spacing:.1em}
+    .solution-title{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600;margin-bottom:.8rem;line-height:1.6}
+    .solution-desc{font-size:.9rem;color:var(--gray-dark);line-height:2;white-space:pre-line}
+
+    /* CTA after results */
+    .results-cta{background:var(--green-light);padding:4rem 2rem;text-align:center;margin-top:3rem}
+    .results-cta-inner{max-width:600px;margin:0 auto}
+    .results-cta-service{font-size:.85rem;color:var(--gray-dark);line-height:2;margin-bottom:1.5rem;text-align:left;background:var(--white);padding:1.5rem;border-radius:4px}
+    .results-cta-title{font-family:'Shippori Mincho',serif;font-size:1.3rem;font-weight:600;margin-bottom:1rem}
+    .results-cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+    .results-cta-note{font-size:.8rem;color:var(--gray)}
+
+    /* Email Modal */
+    .email-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:3000;align-items:center;justify-content:center;padding:2rem}
+    .email-modal.active{display:flex}
+    .email-modal-content{background:var(--white);border-radius:4px;padding:2.5rem;max-width:480px;width:100%}
+    .email-modal-title{font-family:'Shippori Mincho',serif;font-size:1.2rem;font-weight:600;margin-bottom:.5rem}
+    .email-modal-desc{font-size:.85rem;color:var(--gray-dark);line-height:2;margin-bottom:1.5rem}
+    .email-input{width:100%;padding:.8rem 1rem;border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit;margin-bottom:1rem}
+    .email-input:focus{outline:none;border-color:var(--green)}
+    .email-consent{display:flex;align-items:flex-start;gap:.5rem;margin-bottom:1.5rem;font-size:.8rem;color:var(--gray-dark);line-height:1.7}
+    .email-consent input[type="checkbox"]{margin-top:.3rem;flex-shrink:0;accent-color:var(--green)}
+    .email-consent a{color:var(--green);text-decoration:underline}
+    .email-modal-buttons{display:flex;gap:.8rem}
+    .email-modal-buttons .btn{flex:1;text-align:center}
+    .email-error{color:#C41E3A;font-size:.8rem;margin-bottom:.5rem;display:none}
+    .email-success{display:none;text-align:center;padding:2rem 0}
+    .email-success-icon{font-size:2rem;margin-bottom:1rem;color:var(--green)}
+    .email-success-text{font-size:.95rem;color:var(--gray-dark);line-height:2}
+
+    /* Footer */
+    footer{background:var(--black);color:var(--white);padding:4rem 2rem 2rem}
+    .footer-inner{max-width:1000px;margin:0 auto}
+    .footer-grid{display:grid;grid-template-columns:1.5fr 2fr;gap:4rem;margin-bottom:3rem}
+    .footer-brand{margin-bottom:1rem}
+    .footer-logo-img{height:28px;width:auto}
+    .footer-info{font-size:.8rem;color:rgba(255,255,255,.6);line-height:2;font-style:normal}
+    .footer-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+    .footer-nav-title{font-size:.7rem;font-weight:600;letter-spacing:.15em;color:rgba(255,255,255,.5);margin-bottom:1rem}
+    .footer-nav ul{list-style:none}
+    .footer-nav li{margin-bottom:.5rem}
+    .footer-nav a{font-size:.85rem;color:rgba(255,255,255,.8);transition:color .3s}
+    .footer-nav a:hover{color:var(--white)}
+    .footer-bottom{padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:.75rem;color:rgba(255,255,255,.5)}
+
+    /* Animations */
+    .fade-in{opacity:1;transform:translateY(0);transition:opacity .7s ease,transform .7s ease}
+    .fade-in.hidden{opacity:0;transform:translateY(24px)}
+    @media(prefers-reduced-motion:reduce){.fade-in,.hero-inner{opacity:1;transform:none;animation:none;transition:none}}
+
+    /* Responsive */
+    @media(max-width:900px){
+      .header-nav{display:none}
+      .hamburger{display:block}
+      .footer-grid{grid-template-columns:1fr}
+      .footer-nav{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:600px){
+      .option-grid{grid-template-columns:1fr}
+      .option-grid-3{grid-template-columns:1fr}
+      .results-cta-buttons{flex-direction:column}
+      .results-cta-buttons .btn{width:100%}
+      .email-modal-buttons{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLXZ6ND"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager -->
+
+  <header>
+    <div class="header-inner">
+      <a href="/" class="logo" aria-label="Ciras（シラス）株式会社 ホーム"><img src="images/logo-green.png" alt="Ciras（シラス）株式会社" class="logo-img"></a>
+      <nav class="header-nav">
+        <div class="nav-dropdown">
+          <a href="#" class="nav-dropdown-trigger">サービス</a>
+          <div class="nav-dropdown-menu">
+            <a href="/ai-komon.html">Ciras AI顧問</a>
+            <a href="/web.html">AI活用 Webサイト制作</a>
+            <a href="/kagemusha.html">影武者</a>
+          </div>
+        </div>
+        <a href="/seminar.html">セミナー</a>
+        <div class="nav-dropdown">
+          <a href="/company.html" class="nav-dropdown-trigger">会社概要</a>
+          <div class="nav-dropdown-menu">
+            <a href="/voice.html">お客様の声</a>
+            <a href="/faq.html">よくある質問</a>
+          </div>
+        </div>
+        <a href="/partner.html">採用・協業</a>
+        <a href="/contact.html" class="header-contact">お問い合わせ</a>
+      </nav>
+      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+    <div class="mobile-nav">
+      <div class="mobile-nav-group">
+        <p class="mobile-nav-label">サービス</p>
+        <a href="/ai-komon.html">Ciras AI顧問</a>
+        <a href="/web.html">AI活用 Webサイト制作</a>
+        <a href="/kagemusha.html">影武者</a>
+      </div>
+      <a href="/seminar.html">セミナー</a>
+      <div class="mobile-nav-group">
+        <p class="mobile-nav-label">会社概要</p>
+        <a href="/company.html">会社概要</a>
+        <a href="/voice.html">お客様の声</a>
+        <a href="/faq.html">よくある質問</a>
+      </div>
+      <a href="/partner.html">採用・協業</a>
+      <a href="/blog/">ブログ</a>
+      <a href="/contact.html" class="mobile-nav-cta">お問い合わせ</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-label">FREE DIAGNOSTIC</p>
+      <h1 class="hero-title">AI活用レベルチェッカー</h1>
+      <p class="hero-desc">
+        6つの質問に答えるだけで、あなたのビジネスに合った<br>
+        AI活用の提案を、AIがその場で作成します。
+      </p>
+      <p class="hero-time">所要時間：約1〜2分</p>
+    </div>
+  </section>
+
+  <!-- Form -->
+  <section class="form-section fade-in" id="form-section">
+    <div class="form-inner">
+      <form id="diagnosis-form" novalidate>
+
+        <!-- Q1 -->
+        <div class="question-block" id="q1-block">
+          <p class="question-num">Q1</p>
+          <p class="question-text">あなたの立場は？<span class="question-required">必須</span></p>
+          <div class="option-grid">
+            <div class="option-item"><input type="radio" name="q1" id="q1-1" value="経営者・役員"><label for="q1-1">経営者・役員</label></div>
+            <div class="option-item"><input type="radio" name="q1" id="q1-2" value="管理職・マネージャー"><label for="q1-2">管理職・マネージャー</label></div>
+            <div class="option-item"><input type="radio" name="q1" id="q1-3" value="一般社員・スタッフ"><label for="q1-3">一般社員・スタッフ</label></div>
+            <div class="option-item"><input type="radio" name="q1" id="q1-4" value="個人事業主"><label for="q1-4">個人事業主</label></div>
+          </div>
+          <p class="question-error" id="q1-error">立場を選択してください</p>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question-block" id="q2-block">
+          <p class="question-num">Q2</p>
+          <p class="question-text">業種<span class="question-required">必須</span></p>
+          <div class="option-grid">
+            <div class="option-item"><input type="radio" name="q2" id="q2-1" value="製造業"><label for="q2-1">製造業</label></div>
+            <div class="option-item"><input type="radio" name="q2" id="q2-2" value="小売・飲食"><label for="q2-2">小売・飲食</label></div>
+            <div class="option-item"><input type="radio" name="q2" id="q2-3" value="サービス業"><label for="q2-3">サービス業</label></div>
+            <div class="option-item"><input type="radio" name="q2" id="q2-4" value="建設・不動産"><label for="q2-4">建設・不動産</label></div>
+            <div class="option-item"><input type="radio" name="q2" id="q2-5" value="医療・福祉・介護"><label for="q2-5">医療・福祉・介護</label></div>
+            <div class="option-item"><input type="radio" name="q2" id="q2-6" value="士業・コンサルティング"><label for="q2-6">士業・コンサルティング</label></div>
+            <div class="option-item"><input type="radio" name="q2" id="q2-7" value="IT・通信"><label for="q2-7">IT・通信</label></div>
+            <div class="option-item"><input type="radio" name="q2" id="q2-8" value="その他"><label for="q2-8">その他</label></div>
+          </div>
+          <div class="other-input" id="q2-other-wrap">
+            <input type="text" id="q2-other" placeholder="業種を入力してください" maxlength="50">
+          </div>
+          <p class="question-error" id="q2-error">業種を選択してください</p>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question-block" id="q3-block">
+          <p class="question-num">Q3</p>
+          <p class="question-text">従業員数<span class="question-required">必須</span></p>
+          <div class="option-grid">
+            <div class="option-item"><input type="radio" name="q3" id="q3-1" value="1〜5名"><label for="q3-1">1〜5名</label></div>
+            <div class="option-item"><input type="radio" name="q3" id="q3-2" value="6〜20名"><label for="q3-2">6〜20名</label></div>
+            <div class="option-item"><input type="radio" name="q3" id="q3-3" value="21〜50名"><label for="q3-3">21〜50名</label></div>
+            <div class="option-item"><input type="radio" name="q3" id="q3-4" value="51〜100名"><label for="q3-4">51〜100名</label></div>
+            <div class="option-item"><input type="radio" name="q3" id="q3-5" value="101名以上"><label for="q3-5">101名以上</label></div>
+          </div>
+          <p class="question-error" id="q3-error">従業員数を選択してください</p>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question-block" id="q4-block">
+          <p class="question-num">Q4</p>
+          <p class="question-text">AIで実現したいこと、興味があることは？<span class="question-required">必須</span></p>
+          <p class="question-note">最大2つまで選択できます</p>
+          <div class="option-grid option-grid-1">
+            <div class="option-item"><input type="checkbox" name="q4" id="q4-1" value="時間がかかっている作業を速く終わらせたい（業務効率化）"><label for="q4-1">時間がかかっている作業を速く終わらせたい（業務効率化）</label></div>
+            <div class="option-item"><input type="checkbox" name="q4" id="q4-2" value="売上や集客を伸ばすヒントがほしい（売上・集客）"><label for="q4-2">売上や集客を伸ばすヒントがほしい（売上・集客）</label></div>
+            <div class="option-item"><input type="checkbox" name="q4" id="q4-3" value="良い人材を採用したい・求人の反応を増やしたい（採用・求人）"><label for="q4-3">良い人材を採用したい・求人の反応を増やしたい（採用・求人）</label></div>
+            <div class="option-item"><input type="checkbox" name="q4" id="q4-4" value="人によってバラつく業務の質を安定させたい（品質・標準化）"><label for="q4-4">人によってバラつく業務の質を安定させたい（品質・標準化）</label></div>
+            <div class="option-item"><input type="checkbox" name="q4" id="q4-5" value="周りと差がつく強みをつくりたい（差別化）"><label for="q4-5">周りと差がつく強みをつくりたい（差別化）</label></div>
+            <div class="option-item"><input type="checkbox" name="q4" id="q4-6" value="見落としているリスクや課題を知りたい（リスク管理）"><label for="q4-6">見落としているリスクや課題を知りたい（リスク管理）</label></div>
+            <div class="option-item"><input type="checkbox" name="q4" id="q4-7" value="社内の情報共有やコミュニケーションを良くしたい（社内連携）"><label for="q4-7">社内の情報共有やコミュニケーションを良くしたい（社内連携）</label></div>
+            <div class="option-item"><input type="checkbox" name="q4" id="q4-8" value="SNSや発信のネタ・運用を楽にしたい（情報発信）"><label for="q4-8">SNSや発信のネタ・運用を楽にしたい（情報発信）</label></div>
+            <div class="option-item"><input type="checkbox" name="q4" id="q4-9" value="お客様対応の質やスピードを上げたい（顧客対応）"><label for="q4-9">お客様対応の質やスピードを上げたい（顧客対応）</label></div>
+            <div class="option-item"><input type="checkbox" name="q4" id="q4-10" value="新しい事業やサービスのアイデアがほしい（新規事業）"><label for="q4-10">新しい事業やサービスのアイデアがほしい（新規事業）</label></div>
+            <div class="option-item"><input type="checkbox" name="q4" id="q4-11" value="コストを抑える方法を見つけたい（コスト削減）"><label for="q4-11">コストを抑える方法を見つけたい（コスト削減）</label></div>
+            <div class="option-item"><input type="checkbox" name="q4" id="q4-12" value="まずAIで何ができるのか知りたい（情報収集）"><label for="q4-12">まずAIで何ができるのか知りたい（情報収集）</label></div>
+          </div>
+          <p class="question-error" id="q4-error">1つ以上選択してください（最大2つ）</p>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question-block" id="q5-block">
+          <p class="question-num">Q5</p>
+          <p class="question-text">もう少し詳しく教えてください<span style="font-size:.8rem;color:var(--gray);margin-left:.5rem">任意</span></p>
+          <textarea class="form-textarea" id="q5" name="q5" placeholder="例）「見積もり作成に毎日2時間かかっている」など。書いていただけると、より具体的なご提案ができます。" maxlength="500"></textarea>
+        </div>
+
+        <!-- Q6 -->
+        <div class="question-block" id="q6-block">
+          <p class="question-num">Q6</p>
+          <p class="question-text">今のAI活用状況は？<span class="question-required">必須</span></p>
+          <div class="option-grid">
+            <div class="option-item"><input type="radio" name="q6" id="q6-1" value="まだ使っていない"><label for="q6-1">まだ使っていない</label></div>
+            <div class="option-item"><input type="radio" name="q6" id="q6-2" value="個人的に試している程度"><label for="q6-2">個人的に試している程度</label></div>
+            <div class="option-item"><input type="radio" name="q6" id="q6-3" value="一部の業務で使っている"><label for="q6-3">一部の業務で使っている</label></div>
+            <div class="option-item"><input type="radio" name="q6" id="q6-4" value="組織的に活用している"><label for="q6-4">組織的に活用している</label></div>
+          </div>
+          <p class="question-error" id="q6-error">AI活用状況を選択してください</p>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-section">
+          <button type="submit" class="btn btn-primary btn-large" id="submit-btn">診断する</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <p class="loading-text" id="loading-text">回答を分析しています...</p>
+    <p class="loading-sub" id="loading-sub">AIがあなたのビジネスに合った提案を作成中</p>
+    <div class="loading-progress">
+      <div class="loading-progress-bar" id="loading-bar"></div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <section class="results-section" id="results-section">
+    <div class="results-inner">
+      <div class="results-header">
+        <p class="results-label">RESULT</p>
+        <h2 class="results-title">診断結果</h2>
+        <p class="results-desc">AIが分析した、あなたのビジネスに合った活用提案です。</p>
+      </div>
+      <div id="solutions-container"></div>
+    </div>
+  </section>
+
+  <!-- CTA after results -->
+  <section class="results-cta" id="results-cta" style="display:none">
+    <div class="results-cta-inner">
+      <p class="results-cta-service">
+        Ciras株式会社では、<strong>Ciras AI顧問</strong>（月額33,000円）として、このような課題に対してAI活用の伴走支援を行っています。月1回のレクチャーと日々のチャット相談で、AIを業務で使える形にします。
+      </p>
+      <h2 class="results-cta-title mincho">次の一歩を踏み出しませんか？</h2>
+      <div class="results-cta-buttons">
+        <button class="btn btn-primary btn-large" id="open-email-modal">詳細レポートを受け取る</button>
+        <a href="/contact.html" class="btn btn-secondary btn-large">無料相談を予約する</a>
+      </div>
+      <p class="results-cta-note">詳細レポートは、後日メールまたはLINEでお届けします</p>
+    </div>
+  </section>
+
+  <!-- Email Modal -->
+  <div class="email-modal" id="email-modal">
+    <div class="email-modal-content">
+      <div id="email-form-view">
+        <h3 class="email-modal-title mincho">詳細レポートを受け取る</h3>
+        <p class="email-modal-desc">メールアドレスを入力してください。<br>後日、より詳細な分析レポートをお送りします。</p>
+        <p class="email-error" id="email-error"></p>
+        <input type="email" class="email-input" id="email-input" placeholder="example@company.co.jp">
+        <div class="email-consent">
+          <input type="checkbox" id="email-consent-check">
+          <label for="email-consent-check">入力いただいた情報は、診断結果の送付およびサービスのご案内に利用します。<a href="/privacy.html" target="_blank">プライバシーポリシー</a>に同意の上、送信してください。</label>
+        </div>
+        <div class="email-modal-buttons">
+          <button class="btn btn-primary" id="email-submit-btn">送信する</button>
+          <button class="btn btn-secondary" id="email-cancel-btn">閉じる</button>
+        </div>
+      </div>
+      <div class="email-success" id="email-success-view">
+        <p class="email-success-icon">&#10003;</p>
+        <p class="email-success-text">ありがとうございます。<br>詳細レポートは後日お送りいたします。</p>
+        <button class="btn btn-secondary" id="email-close-btn" style="margin-top:1.5rem">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand"><a href="/" aria-label="トップページへ"><img src="images/logo-white.png" alt="Ciras（シラス）株式会社" class="footer-logo-img"></a></p>
+          <address class="footer-info">
+            Ciras（シラス）株式会社<br>
+            〒790-0813 愛媛県松山市萱町3-2-3 9CROSS 501<br>
+            TEL: <a href="tel:050-3637-6324" style="color:inherit">050-3637-6324</a><br>
+            営業時間: 10:00〜17:30（土日祝休）
+          </address>
+        </div>
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <div>
+            <p class="footer-nav-title">SERVICE</p>
+            <ul>
+              <li><a href="/ai-komon.html">Ciras AI顧問</a></li>
+              <li><a href="/web.html">AI活用 Webサイト制作</a></li>
+              <li><a href="/kagemusha.html">影武者</a></li>
+              <li><a href="/seminar.html">セミナー</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-nav-title">COMPANY</p>
+            <ul>
+              <li><a href="/voice.html">お客様の声</a></li>
+              <li><a href="/faq.html">よくある質問</a></li>
+              <li><a href="/company.html">会社概要</a></li>
+              <li><a href="/blog/">ブログ</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-nav-title">CONTACT</p>
+            <ul>
+              <li><a href="/contact.html">お問い合わせ</a></li>
+              <li><a href="/partner.html">採用・協業</a></li>
+              <li><a href="https://lin.ee/s2u6VUw">LINE</a></li>
+              <li><a href="/privacy.html">プライバシーポリシー</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="footer-bottom">© 2026 Ciras Inc.（シラス株式会社）</div>
+    </div>
+  </footer>
+
+  <script>
+  (function() {
+    // ===== Common: Header scroll, hamburger, fade-in =====
+    var h = document.querySelector('header'), scrolled = false;
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 60 && !scrolled) { h.classList.add('scrolled'); scrolled = true; }
+      else if (window.scrollY <= 60 && scrolled) { h.classList.remove('scrolled'); scrolled = false; }
+    }, { passive: true });
+
+    var hbtn = document.querySelector('.hamburger'), mnav = document.querySelector('.mobile-nav');
+    if (hbtn && mnav) {
+      hbtn.addEventListener('click', function() {
+        hbtn.classList.toggle('active'); mnav.classList.toggle('open');
+        document.body.style.overflow = mnav.classList.contains('open') ? 'hidden' : '';
+      });
+      mnav.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() { hbtn.classList.remove('active'); mnav.classList.remove('open'); document.body.style.overflow = ''; });
+      });
+    }
+
+    var fadeEls = document.querySelectorAll('.fade-in');
+    fadeEls.forEach(function(e) { e.classList.add('hidden'); });
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(en) { if (en.isIntersecting) { en.target.classList.remove('hidden'); obs.unobserve(en.target); } });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      fadeEls.forEach(function(e) { obs.observe(e); });
+      setTimeout(function() { fadeEls.forEach(function(e) { e.classList.remove('hidden'); }); }, 2000);
+    } else {
+      fadeEls.forEach(function(e) { e.classList.remove('hidden'); });
+    }
+
+    // ===== Q2 "その他" toggle =====
+    var q2Radios = document.querySelectorAll('input[name="q2"]');
+    var q2OtherWrap = document.getElementById('q2-other-wrap');
+    q2Radios.forEach(function(r) {
+      r.addEventListener('change', function() {
+        q2OtherWrap.classList.toggle('visible', this.value === 'その他');
+      });
+    });
+
+    // ===== Q4 max 2 checkboxes =====
+    var q4Checks = document.querySelectorAll('input[name="q4"]');
+    q4Checks.forEach(function(cb) {
+      cb.addEventListener('change', function() {
+        var checked = document.querySelectorAll('input[name="q4"]:checked');
+        q4Checks.forEach(function(c) {
+          if (!c.checked) c.disabled = checked.length >= 2;
+        });
+      });
+    });
+
+    // ===== State =====
+    var diagnosisId = null;
+
+    // ===== Form submission =====
+    document.getElementById('diagnosis-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Clear previous errors
+      document.querySelectorAll('.question-error').forEach(function(el) { el.style.display = 'none'; });
+
+      // Validate
+      var valid = true;
+      var q1 = document.querySelector('input[name="q1"]:checked');
+      if (!q1) { document.getElementById('q1-error').style.display = 'block'; valid = false; }
+
+      var q2 = document.querySelector('input[name="q2"]:checked');
+      if (!q2) { document.getElementById('q2-error').style.display = 'block'; valid = false; }
+
+      var q3 = document.querySelector('input[name="q3"]:checked');
+      if (!q3) { document.getElementById('q3-error').style.display = 'block'; valid = false; }
+
+      var q4 = document.querySelectorAll('input[name="q4"]:checked');
+      if (q4.length === 0) { document.getElementById('q4-error').style.display = 'block'; valid = false; }
+
+      var q6 = document.querySelector('input[name="q6"]:checked');
+      if (!q6) { document.getElementById('q6-error').style.display = 'block'; valid = false; }
+
+      if (!valid) {
+        // Scroll to first error
+        var firstErr = document.querySelector('.question-error[style*="block"]');
+        if (firstErr) firstErr.closest('.question-block').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // Build payload
+      var q2Industry = q2.value;
+      var q2Other = '';
+      if (q2.value === 'その他') {
+        q2Other = document.getElementById('q2-other').value.trim();
+        if (q2Other) q2Industry = 'その他（' + q2Other + '）';
+      }
+
+      var payload = {
+        q1_position: q1.value,
+        q2_industry: q2Industry,
+        q2_industry_other: q2Other,
+        q3_employees: q3.value,
+        q4_interests: Array.from(q4).map(function(c) { return c.value; }),
+        q5_details: document.getElementById('q5').value.trim(),
+        q6_ai_status: q6.value
+      };
+
+      // Show loading
+      showLoading();
+
+      // Submit
+      fetch('/api/ai-check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.error) {
+          hideLoading();
+          alert(data.error);
+          return;
+        }
+        diagnosisId = data.id;
+        showResults(data.result);
+      })
+      .catch(function() {
+        hideLoading();
+        alert('ただいま診断が混み合っています。しばらくしてからお試しください。');
+      });
+    });
+
+    // ===== Loading =====
+    var loadingMessages = [
+      { text: '回答を分析しています...', sub: 'AIがあなたのビジネスに合った提案を作成中', pct: 15 },
+      { text: '業種・規模に合わせて検討中...', sub: 'あなたの状況に最適な提案を選定しています', pct: 35 },
+      { text: 'AI活用の提案を作成中...', sub: '具体的な解決案をまとめています', pct: 60 },
+      { text: '仕上げをしています...', sub: 'あと少しです', pct: 85 }
+    ];
+    var loadingTimer = null;
+
+    function showLoading() {
+      var overlay = document.getElementById('loading-overlay');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      var idx = 0;
+      updateLoadingMessage(loadingMessages[0]);
+      loadingTimer = setInterval(function() {
+        idx++;
+        if (idx < loadingMessages.length) updateLoadingMessage(loadingMessages[idx]);
+      }, 4000);
+    }
+
+    function updateLoadingMessage(msg) {
+      document.getElementById('loading-text').textContent = msg.text;
+      document.getElementById('loading-sub').textContent = msg.sub;
+      document.getElementById('loading-bar').style.width = msg.pct + '%';
+    }
+
+    function hideLoading() {
+      if (loadingTimer) clearInterval(loadingTimer);
+      document.getElementById('loading-bar').style.width = '100%';
+      setTimeout(function() {
+        document.getElementById('loading-overlay').classList.remove('active');
+        document.body.style.overflow = '';
+      }, 300);
+    }
+
+    // ===== Results =====
+    function showResults(result) {
+      hideLoading();
+
+      // Hide form
+      document.getElementById('form-section').style.display = 'none';
+
+      // Build solutions HTML
+      var container = document.getElementById('solutions-container');
+      container.innerHTML = '';
+      if (result.solutions && result.solutions.length > 0) {
+        result.solutions.forEach(function(s, i) {
+          var card = document.createElement('div');
+          card.className = 'solution-card';
+          card.innerHTML = '<div class="solution-num">SOLUTION ' + String(i + 1).padStart(2, '0') + '</div>' +
+            '<h3 class="solution-title">' + escapeHTML(s.title) + '</h3>' +
+            '<p class="solution-desc">' + escapeHTML(s.description) + '</p>';
+          container.appendChild(card);
+        });
+      }
+
+      // Show results
+      document.getElementById('results-section').classList.add('active');
+      document.getElementById('results-cta').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      var d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+
+    // ===== Email Modal =====
+    document.getElementById('open-email-modal').addEventListener('click', function() {
+      document.getElementById('email-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    document.getElementById('email-cancel-btn').addEventListener('click', closeEmailModal);
+    document.getElementById('email-close-btn').addEventListener('click', closeEmailModal);
+
+    document.getElementById('email-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeEmailModal();
+    });
+
+    function closeEmailModal() {
+      document.getElementById('email-modal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('email-submit-btn').addEventListener('click', function() {
+      var email = document.getElementById('email-input').value.trim();
+      var consent = document.getElementById('email-consent-check').checked;
+      var errorEl = document.getElementById('email-error');
+
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        errorEl.textContent = '有効なメールアドレスを入力してください';
+        errorEl.style.display = 'block';
+        return;
+      }
+      if (!consent) {
+        errorEl.textContent = 'プライバシーポリシーへの同意が必要です';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      errorEl.style.display = 'none';
+      this.disabled = true;
+      this.textContent = '送信中...';
+
+      fetch('/api/diagnoses/' + diagnosisId + '/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.error) {
+          errorEl.textContent = data.error;
+          errorEl.style.display = 'block';
+          document.getElementById('email-submit-btn').disabled = false;
+          document.getElementById('email-submit-btn').textContent = '送信する';
+          return;
+        }
+        document.getElementById('email-form-view').style.display = 'none';
+        document.getElementById('email-success-view').style.display = 'block';
+      })
+      .catch(function() {
+        errorEl.textContent = '送信に失敗しました。しばらくしてからお試しください。';
+        errorEl.style.display = 'block';
+        document.getElementById('email-submit-btn').disabled = false;
+        document.getElementById('email-submit-btn').textContent = '送信する';
+      });
+    });
+  })();
+  </script>
+
+</body>
+</html>

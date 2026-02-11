@@ -1,7 +1,19 @@
 {
   "name": "ciras-site",
   "compatibility_date": "2026-02-01",
+  "main": "src/worker.js",
   "assets": {
     "directory": "./"
-  }
+  },
+  // KV namespace for storing diagnosis results
+  // Setup: wrangler kv namespace create DIAGNOSES
+  // Then replace the id below with the returned ID
+  // Also run: wrangler secret put ANTHROPIC_API_KEY
+  //           wrangler secret put ADMIN_PASSWORD
+  "kv_namespaces": [
+    {
+      "binding": "DIAGNOSES",
+      "id": "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+    }
+  ]
 }

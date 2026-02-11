@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理画面｜Ciras 診断ツール</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="images/favicon.ico" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--green:#2D5A27;--green-light:#E8F0E6;--black:#1A1A1A;--gray-dark:#4A4A4A;--gray:#888;--gray-light:#E5E5E5;--white:#FFF;--bg:#FAFAFA}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Noto Sans JP',sans-serif;font-weight:400;color:var(--black);line-height:1.9;background:var(--bg);font-size:15px;letter-spacing:.03em}
+    .mincho{font-family:'Shippori Mincho',serif}
+    a{color:inherit;text-decoration:none}
+
+    /* Login */
+    .login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
+    .login-box{background:var(--white);padding:3rem;border-radius:4px;max-width:400px;width:100%;text-align:center;border:1px solid var(--gray-light)}
+    .login-logo{height:28px;margin-bottom:2rem}
+    .login-title{font-family:'Shippori Mincho',serif;font-size:1.2rem;font-weight:600;margin-bottom:1.5rem}
+    .login-input{width:100%;padding:.8rem 1rem;border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit;margin-bottom:1rem}
+    .login-input:focus{outline:none;border-color:var(--green)}
+    .login-error{color:#C41E3A;font-size:.8rem;margin-bottom:1rem;display:none}
+    .btn{display:inline-block;font-size:.9rem;font-weight:500;padding:.8rem 2rem;border-radius:2px;transition:all .3s;border:none;cursor:pointer;font-family:inherit}
+    .btn-primary{background:var(--green);color:var(--white)}
+    .btn-primary:hover{opacity:.85}
+    .btn-secondary{background:var(--white);color:var(--green);border:1px solid var(--green)}
+    .btn-secondary:hover{background:var(--green-light)}
+    .btn-small{padding:.5rem 1rem;font-size:.8rem}
+    .btn-danger{background:#C41E3A;color:var(--white)}
+    .btn-danger:hover{opacity:.85}
+
+    /* Admin Layout */
+    .admin-screen{display:none}
+    .admin-header{background:var(--white);border-bottom:1px solid var(--gray-light);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+    .admin-header-left{display:flex;align-items:center;gap:1rem}
+    .admin-header-logo{height:24px}
+    .admin-header-title{font-size:.85rem;color:var(--gray)}
+    .admin-body{max-width:1000px;margin:0 auto;padding:2rem}
+
+    /* Stats */
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+    .stat-card{background:var(--white);padding:1.5rem;border-radius:4px;text-align:center;border:1px solid var(--gray-light)}
+    .stat-num{font-family:'Shippori Mincho',serif;font-size:2rem;font-weight:700;color:var(--green)}
+    .stat-label{font-size:.8rem;color:var(--gray)}
+
+    /* List */
+    .list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+    .list-title{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600}
+    .list-filter{display:flex;gap:.5rem}
+    .filter-btn{padding:.4rem .8rem;font-size:.75rem;border:1px solid var(--gray-light);border-radius:2px;background:var(--white);cursor:pointer;font-family:inherit;transition:all .2s}
+    .filter-btn.active{border-color:var(--green);background:var(--green-light);color:var(--green)}
+
+    .diagnosis-card{background:var(--white);border:1px solid var(--gray-light);border-radius:4px;margin-bottom:1rem;overflow:hidden}
+    .diagnosis-summary{padding:1.2rem 1.5rem;display:grid;grid-template-columns:auto 1fr auto auto;gap:1.5rem;align-items:center;cursor:pointer;transition:background .2s}
+    .diagnosis-summary:hover{background:rgba(232,240,230,.3)}
+    .diagnosis-type{font-size:.7rem;font-weight:600;letter-spacing:.1em;color:var(--green);background:var(--green-light);padding:.2rem .6rem;border-radius:2px;white-space:nowrap}
+    .diagnosis-info{min-width:0}
+    .diagnosis-info-main{font-size:.9rem;font-weight:500}
+    .diagnosis-info-sub{font-size:.8rem;color:var(--gray)}
+    .diagnosis-date{font-size:.8rem;color:var(--gray);white-space:nowrap}
+    .diagnosis-status{font-size:.75rem;font-weight:500;padding:.3rem .8rem;border-radius:2px;white-space:nowrap}
+    .status-pending{color:#B8860B;background:#FFF8DC}
+    .status-sent{color:var(--green);background:var(--green-light)}
+
+    .diagnosis-detail{display:none;padding:0 1.5rem 1.5rem;border-top:1px solid var(--gray-light)}
+    .diagnosis-detail.open{display:block}
+    .detail-section{margin-top:1rem}
+    .detail-section-title{font-size:.8rem;font-weight:600;color:var(--green);margin-bottom:.5rem;letter-spacing:.05em}
+    .detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem}
+    .detail-item{background:var(--bg);padding:.8rem;border-radius:4px}
+    .detail-label{font-size:.7rem;color:var(--gray);margin-bottom:.2rem}
+    .detail-value{font-size:.85rem}
+    .detail-full{grid-column:1/-1}
+    .detail-solutions{margin-top:.5rem}
+    .detail-solution{background:var(--bg);padding:1rem;border-radius:4px;margin-bottom:.8rem;border-left:3px solid var(--green)}
+    .detail-solution-title{font-size:.85rem;font-weight:600;margin-bottom:.3rem}
+    .detail-solution-desc{font-size:.8rem;color:var(--gray-dark);line-height:1.8;white-space:pre-line}
+    .detail-actions{margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap}
+    .empty-state{text-align:center;padding:4rem 2rem;color:var(--gray)}
+
+    @media(max-width:600px){
+      .stats-grid{grid-template-columns:1fr}
+      .diagnosis-summary{grid-template-columns:1fr;gap:.5rem}
+      .detail-grid{grid-template-columns:1fr}
+      .list-header{flex-direction:column;gap:.5rem;align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Screen -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-box">
+      <img src="images/logo-green.png" alt="Ciras株式会社" class="login-logo">
+      <h1 class="login-title">診断ツール管理画面</h1>
+      <p class="login-error" id="login-error">パスワードが正しくありません</p>
+      <input type="password" class="login-input" id="login-password" placeholder="パスワード" autofocus>
+      <button class="btn btn-primary" id="login-btn" style="width:100%">ログイン</button>
+    </div>
+  </div>
+
+  <!-- Admin Screen -->
+  <div class="admin-screen" id="admin-screen">
+    <header class="admin-header">
+      <div class="admin-header-left">
+        <img src="images/logo-green.png" alt="Ciras" class="admin-header-logo">
+        <span class="admin-header-title">診断ツール管理</span>
+      </div>
+      <button class="btn btn-secondary btn-small" id="logout-btn">ログアウト</button>
+    </header>
+    <div class="admin-body">
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card"><p class="stat-num" id="stat-total">-</p><p class="stat-label">総診断数</p></div>
+        <div class="stat-card"><p class="stat-num" id="stat-pending">-</p><p class="stat-label">未送信</p></div>
+        <div class="stat-card"><p class="stat-num" id="stat-with-email">-</p><p class="stat-label">メール登録済</p></div>
+      </div>
+      <div class="list-header">
+        <h2 class="list-title">診断一覧</h2>
+        <div class="list-filter">
+          <button class="filter-btn active" data-filter="all">すべて</button>
+          <button class="filter-btn" data-filter="pending">未送信</button>
+          <button class="filter-btn" data-filter="sent">送信済</button>
+        </div>
+      </div>
+      <div id="diagnosis-list"></div>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var password = '';
+    var allDiagnoses = [];
+    var currentFilter = 'all';
+
+    // ===== Login =====
+    document.getElementById('login-btn').addEventListener('click', tryLogin);
+    document.getElementById('login-password').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') tryLogin();
+    });
+
+    function tryLogin() {
+      password = document.getElementById('login-password').value;
+      if (!password) return;
+      document.getElementById('login-error').style.display = 'none';
+      loadDiagnoses().then(function(ok) {
+        if (ok) {
+          sessionStorage.setItem('admin_auth', password);
+          document.getElementById('login-screen').style.display = 'none';
+          document.getElementById('admin-screen').style.display = 'block';
+        } else {
+          document.getElementById('login-error').style.display = 'block';
+          document.getElementById('login-password').value = '';
+          document.getElementById('login-password').focus();
+        }
+      });
+    }
+
+    // Auto-login from session
+    var saved = sessionStorage.getItem('admin_auth');
+    if (saved) {
+      password = saved;
+      loadDiagnoses().then(function(ok) {
+        if (ok) {
+          document.getElementById('login-screen').style.display = 'none';
+          document.getElementById('admin-screen').style.display = 'block';
+        }
+      });
+    }
+
+    // Logout
+    document.getElementById('logout-btn').addEventListener('click', function() {
+      sessionStorage.removeItem('admin_auth');
+      password = '';
+      document.getElementById('admin-screen').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('login-password').value = '';
+    });
+
+    // ===== Filters =====
+    document.querySelectorAll('.filter-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        currentFilter = this.dataset.filter;
+        renderList();
+      });
+    });
+
+    // ===== API =====
+    function apiFetch(path, options) {
+      options = options || {};
+      options.headers = options.headers || {};
+      options.headers['Authorization'] = 'Bearer ' + password;
+      return fetch(path, options).then(function(res) {
+        if (res.status === 401) return null;
+        return res.json();
+      });
+    }
+
+    function loadDiagnoses() {
+      return apiFetch('/api/admin/diagnoses').then(function(data) {
+        if (!data) return false;
+        allDiagnoses = data.diagnoses || [];
+        updateStats();
+        renderList();
+        return true;
+      }).catch(function() { return false; });
+    }
+
+    function updateStats() {
+      document.getElementById('stat-total').textContent = allDiagnoses.length;
+      document.getElementById('stat-pending').textContent = allDiagnoses.filter(function(d) { return d.status === 'pending'; }).length;
+      document.getElementById('stat-with-email').textContent = allDiagnoses.filter(function(d) { return d.email; }).length;
+    }
+
+    function renderList() {
+      var list = document.getElementById('diagnosis-list');
+      var filtered = allDiagnoses;
+      if (currentFilter === 'pending') filtered = allDiagnoses.filter(function(d) { return d.status === 'pending'; });
+      if (currentFilter === 'sent') filtered = allDiagnoses.filter(function(d) { return d.status === 'sent'; });
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<div class="empty-state"><p>診断データがありません</p></div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(function(d) {
+        var date = new Date(d.created).toLocaleDateString('ja-JP', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        var typeLabel = d.type === 'ai-check' ? 'AI診断' : 'Web診断';
+        var statusClass = d.status === 'sent' ? 'status-sent' : 'status-pending';
+        var statusText = d.status === 'sent' ? '送信済' : '未送信';
+        var info = (d.position || '') + (d.industry ? ' / ' + d.industry : '');
+        var emailText = d.email || 'メール未登録';
+
+        return '<div class="diagnosis-card" data-id="' + d.id + '">' +
+          '<div class="diagnosis-summary">' +
+            '<span class="diagnosis-type">' + typeLabel + '</span>' +
+            '<div class="diagnosis-info"><p class="diagnosis-info-main">' + escapeHTML(info) + '</p><p class="diagnosis-info-sub">' + escapeHTML(emailText) + '</p></div>' +
+            '<span class="diagnosis-date">' + date + '</span>' +
+            '<span class="diagnosis-status ' + statusClass + '">' + statusText + '</span>' +
+          '</div>' +
+          '<div class="diagnosis-detail" id="detail-' + d.id + '"><p style="text-align:center;padding:2rem;color:var(--gray)">読み込み中...</p></div>' +
+        '</div>';
+      }).join('');
+
+      // Click to expand
+      list.querySelectorAll('.diagnosis-summary').forEach(function(el) {
+        el.addEventListener('click', function() {
+          var card = this.closest('.diagnosis-card');
+          var id = card.dataset.id;
+          var detail = document.getElementById('detail-' + id);
+          if (detail.classList.contains('open')) {
+            detail.classList.remove('open');
+            return;
+          }
+          // Close others
+          list.querySelectorAll('.diagnosis-detail.open').forEach(function(d) { d.classList.remove('open'); });
+          detail.classList.add('open');
+          loadDiagnosisDetail(id);
+        });
+      });
+    }
+
+    function loadDiagnosisDetail(id) {
+      var detail = document.getElementById('detail-' + id);
+      apiFetch('/api/admin/diagnoses/' + id).then(function(data) {
+        if (!data) { detail.innerHTML = '<p style="color:#C41E3A;padding:1rem">読み込みに失敗しました</p>'; return; }
+        var a = data.answers;
+        var r = data.result;
+
+        var html = '<div class="detail-section"><div class="detail-section-title">回答内容</div><div class="detail-grid">' +
+          '<div class="detail-item"><p class="detail-label">立場</p><p class="detail-value">' + escapeHTML(a.q1_position) + '</p></div>' +
+          '<div class="detail-item"><p class="detail-label">業種</p><p class="detail-value">' + escapeHTML(a.q2_industry) + '</p></div>' +
+          '<div class="detail-item"><p class="detail-label">従業員数</p><p class="detail-value">' + escapeHTML(a.q3_employees) + '</p></div>' +
+          '<div class="detail-item"><p class="detail-label">AI活用状況</p><p class="detail-value">' + escapeHTML(a.q6_ai_status) + '</p></div>' +
+          '<div class="detail-item detail-full"><p class="detail-label">興味分野</p><p class="detail-value">' + escapeHTML(a.q4_interests.join('、')) + '</p></div>';
+
+        if (a.q5_details) {
+          html += '<div class="detail-item detail-full"><p class="detail-label">詳細</p><p class="detail-value">' + escapeHTML(a.q5_details) + '</p></div>';
+        }
+        html += '</div></div>';
+
+        // Solutions
+        if (r && r.solutions) {
+          html += '<div class="detail-section"><div class="detail-section-title">AI提案</div><div class="detail-solutions">';
+          r.solutions.forEach(function(s, i) {
+            html += '<div class="detail-solution"><p class="detail-solution-title">' + (i + 1) + '. ' + escapeHTML(s.title) + '</p><p class="detail-solution-desc">' + escapeHTML(s.description) + '</p></div>';
+          });
+          html += '</div></div>';
+        }
+
+        // Contact info
+        html += '<div class="detail-section"><div class="detail-section-title">連絡先</div><div class="detail-grid">' +
+          '<div class="detail-item"><p class="detail-label">メール</p><p class="detail-value">' + escapeHTML(data.email || '未登録') + '</p></div>' +
+          '<div class="detail-item"><p class="detail-label">ステータス</p><p class="detail-value">' + (data.status === 'sent' ? '送信済' : '未送信') + '</p></div>' +
+        '</div></div>';
+
+        // Actions
+        html += '<div class="detail-actions">' +
+          '<a href="/report/' + id + '" target="_blank" class="btn btn-secondary btn-small">レポートページを開く</a>';
+
+        if (data.status === 'pending') {
+          html += '<button class="btn btn-primary btn-small" onclick="markAsSent(\'' + id + '\')">送信済みにする</button>';
+        } else {
+          html += '<button class="btn btn-secondary btn-small" onclick="markAsPending(\'' + id + '\')">未送信に戻す</button>';
+        }
+        html += '</div>';
+
+        detail.innerHTML = html;
+      });
+    }
+
+    // ===== Status Update (global functions for onclick) =====
+    window.markAsSent = function(id) {
+      apiFetch('/api/admin/diagnoses/' + id, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'sent' })
+      }).then(function() { loadDiagnoses(); });
+    };
+
+    window.markAsPending = function(id) {
+      apiFetch('/api/admin/diagnoses/' + id, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'pending' })
+      }).then(function() { loadDiagnoses(); });
+    };
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      var d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+  })();
+  </script>
+
+</body>
+</html>
