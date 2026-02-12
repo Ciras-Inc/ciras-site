@@ -1,7 +1,7 @@
 // Ciras Diagnostic Tool - Cloudflare Worker
 // Handles API routes for AI/Web diagnosis, admin, and report pages
 
-const CLAUDE_MODEL = 'claude-sonnet-4-5-20250929';
+const CLAUDE_MODEL = 'claude-sonnet-4-5-20250514';
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
 
 export default {
@@ -184,7 +184,7 @@ async function handleWebCheck(request, env) {
   }
 }
 
-// ========== Site Check Handler (URL-only) ==========
+// ========== Site Check Handler (URL-only, redesigned) ==========
 
 async function handleSiteCheck(request, env) {
   try {
@@ -198,26 +198,44 @@ async function handleSiteCheck(request, env) {
       return jsonResponse({ error: 'URLを入力してください' }, 400);
     }
 
-    // Crawl the website
-    const crawlResult = await crawlSite(body.url, env);
+    // Step 1: Crawl the website (max 5 pages with new priority system)
+    const crawlResult = await crawlSiteV2(body.url, env);
     if (!crawlResult.success) {
       return jsonResponse({ error: crawlResult.error || 'サイトにアクセスできませんでした。URLが正しいか確認してください。' }, 400);
     }
 
-    // Score the website
-    const scores = scoreSite(crawlResult);
+    // Step 2: Extract company name from crawl data
+    const companyName = extractCompanyName(crawlResult);
 
-    // Determine level from score
-    const level = scores.totalScore >= 80 ? 5 : scores.totalScore >= 60 ? 4 : scores.totalScore >= 40 ? 3 : scores.totalScore >= 20 ? 2 : 1;
+    // Step 3: Two API calls in parallel
+    // API Call 1: AI Recognition Test
+    const aiTestPrompt = `「${companyName}」について教えてください。所在地、事業内容、特徴を含めて回答してください。`;
+    const aiTestSystem = `あなたは一般的なAIアシスタントです。ユーザーの質問に、あなたが持っている知識のみで回答してください。知らない情報は「知りません」「情報がありません」と正直に回答してください。ウェブ検索は行わないでください。回答は日本語で、200文字以内で簡潔に答えてください。`;
 
-    // Build AI prompt based on crawl data, scores, and text content
-    const systemPrompt = buildSiteCheckSystemPrompt();
-    const userPrompt = buildSiteCheckPrompt(scores, crawlResult);
+    // API Call 2: Page Analysis (5 categories)
+    const analysisSystem = buildSiteCheckSystemPromptV2();
+    const analysisPrompt = buildSiteCheckPromptV2(crawlResult);
 
-    const result = await callClaudeAPI(env.ANTHROPIC_API_KEY, systemPrompt, userPrompt, 4096);
-    if (!result.success) {
-      return jsonResponse({ error: result.error || 'ただいま診断が混み合っています。しばらくしてからお試しください。' }, 503);
+    const [aiTestResult, analysisResult] = await Promise.all([
+      callClaudeAPI(env.ANTHROPIC_API_KEY, aiTestSystem, aiTestPrompt, 512),
+      callClaudeAPI(env.ANTHROPIC_API_KEY, analysisSystem, analysisPrompt, 4096)
+    ]);
+
+    // Process AI test result (plain text, not JSON)
+    let aiTestResponse = null;
+    if (aiTestResult.success) {
+      // For AI test, we get raw text, not JSON
+      aiTestResponse = aiTestResult.rawText || (aiTestResult.data ? JSON.stringify(aiTestResult.data) : null);
     }
+
+    if (!analysisResult.success) {
+      return jsonResponse({ error: analysisResult.error || '診断中にエラーが発生しました。時間をおいて再度お試しください。' }, 503);
+    }
+
+    const analysisData = analysisResult.data;
+
+    // Determine overall rating
+    const overallRating = analysisData.overall_rating || 'poor';
 
     const id = crypto.randomUUID();
     const diagnosis = {
@@ -227,7 +245,7 @@ async function handleSiteCheck(request, env) {
         url: crawlResult.finalUrl, pageSize: crawlResult.pageSize,
         title: crawlResult.title, description: crawlResult.metaDescription
       },
-      scores: scores, result: result.data,
+      result: { analysis: analysisData, aiTest: aiTestResponse, companyName },
       email: null, createdAt: new Date().toISOString(), status: 'pending'
     };
 
@@ -239,13 +257,16 @@ async function handleSiteCheck(request, env) {
     });
 
     return jsonResponse({
-      id, scores, level, result: result.data,
+      id,
+      result: analysisData,
+      aiTest: { question: aiTestPrompt, response: aiTestResponse, companyName },
       url: crawlResult.finalUrl,
-      totalPages: crawlResult.totalPages || 1
+      pages: crawlResult.pageStatuses,
+      overallRating
     });
   } catch (err) {
     console.error('handleSiteCheck error:', err);
-    return jsonResponse({ error: 'ただいま診断が混み合っています。しばらくしてからお試しください。' }, 503);
+    return jsonResponse({ error: '診断中にエラーが発生しました。時間をおいて再度お試しください。' }, 503);
   }
 }
 
@@ -421,6 +442,155 @@ async function crawlSite(inputUrl, env) {
       return { success: false, error: 'サイトが見つかりませんでした。URLが正しいか確認してください。' };
     }
     return { success: false, error: 'サイトにアクセスできませんでした。' };
+  }
+}
+
+// ========== New V2 Crawl (max 5 pages, priority-based) ==========
+
+async function crawlSiteV2(inputUrl, env) {
+  try {
+    let url = inputUrl.trim();
+    if (!url.startsWith('http')) url = 'https://' + url;
+
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(url);
+    } catch (e) {
+      return { success: false, error: 'URLの形式が正しくありません。例：https://example.com' };
+    }
+
+    // Step 1: Crawl homepage
+    const homepage = await crawlPage(url, env);
+    if (!homepage) {
+      return { success: false, error: 'サイトにアクセスできませんでした。URLが正しいか確認してください。' };
+    }
+
+    // Step 2: Extract links and prioritize by path patterns
+    const internalLinks = extractAllInternalLinks(homepage.html, homepage.url);
+    const priorityPatterns = [
+      { patterns: ['/about', '/company', '/corporate', '会社概要'], label: '会社概要' },
+      { patterns: ['/service', '/business', '/solution', 'サービス'], label: 'サービス紹介' },
+      { patterns: ['/faq', '/question', 'よくある質問'], label: 'FAQ' },
+      { patterns: ['/contact', '/access', 'お問い合わせ'], label: '所在地・連絡先' },
+      { patterns: ['/blog', '/news', '/column', 'お知らせ'], label: 'コンテンツ' }
+    ];
+
+    const selectedPages = [];
+    const usedUrls = new Set();
+
+    for (const priority of priorityPatterns) {
+      if (selectedPages.length >= 4) break;
+      for (const link of internalLinks) {
+        if (usedUrls.has(link)) continue;
+        const lowerLink = link.toLowerCase();
+        const matched = priority.patterns.some(p => lowerLink.includes(p));
+        if (matched) {
+          selectedPages.push({ url: link, label: priority.label });
+          usedUrls.add(link);
+          break;
+        }
+      }
+    }
+
+    // If not enough pages found, use nav links
+    if (selectedPages.length < 4) {
+      const navLinks = extractNavLinks(homepage.html, homepage.url);
+      for (const link of navLinks) {
+        if (selectedPages.length >= 4) break;
+        if (usedUrls.has(link)) continue;
+        selectedPages.push({ url: link, label: 'その他' });
+        usedUrls.add(link);
+      }
+    }
+
+    // Step 3: Crawl selected pages with individual timeout handling
+    const pageStatuses = [{ url: homepage.url, label: 'トップページ', status: 'success' }];
+    const subpageResults = await Promise.allSettled(
+      selectedPages.map(async (page) => {
+        const result = await crawlPage(page.url, env);
+        return { ...page, result };
+      })
+    );
+
+    const pages = [homepage];
+    for (const res of subpageResults) {
+      if (res.status === 'fulfilled' && res.value.result) {
+        pages.push(res.value.result);
+        pageStatuses.push({ url: res.value.url, label: res.value.label, status: 'success' });
+      } else {
+        const failedPage = res.status === 'fulfilled' ? res.value : { url: 'unknown', label: '不明' };
+        pageStatuses.push({ url: failedPage.url || 'unknown', label: failedPage.label || '不明', status: 'failed' });
+      }
+    }
+
+    // Classify pages
+    const classifiedPages = pages.map(p => ({
+      ...p,
+      type: classifyPage(p.url, p.title, p.textContent)
+    }));
+
+    const profile = buildSiteProfile(classifiedPages, homepage);
+    profile.pageStatuses = pageStatuses;
+    return profile;
+  } catch (err) {
+    console.error('crawlSiteV2 error:', err);
+    return { success: false, error: 'サイトにアクセスできませんでした。' };
+  }
+}
+
+function extractNavLinks(html, baseUrl) {
+  const links = [];
+  try {
+    const base = new URL(baseUrl);
+    // Try to find nav/header links first
+    const navMatch = html.match(/<nav[^>]*>([\s\S]*?)<\/nav>/i) || html.match(/<header[^>]*>([\s\S]*?)<\/header>/i);
+    const searchHtml = navMatch ? navMatch[1] : html.substring(0, Math.min(html.length, 50000));
+    const regex = /<a[^>]*href=["']([^"'#]*?)["']/gi;
+    let match;
+    while ((match = regex.exec(searchHtml)) !== null) {
+      try {
+        const linkUrl = new URL(match[1], baseUrl);
+        if (linkUrl.hostname === base.hostname && linkUrl.pathname !== base.pathname && linkUrl.pathname !== '/') {
+          const ext = linkUrl.pathname.split('.').pop().toLowerCase();
+          if (!ext || ext === 'html' || ext === 'htm' || ext === 'php' || !linkUrl.pathname.includes('.')) {
+            const full = linkUrl.origin + linkUrl.pathname;
+            if (!links.includes(full)) links.push(full);
+          }
+        }
+      } catch (e) {}
+    }
+  } catch (e) {}
+  return links;
+}
+
+function extractCompanyName(crawlData) {
+  // Try to extract from title, text content, or JSON-LD
+  const title = crawlData.title || '';
+  // Check if title has a company name pattern
+  const titleParts = title.split(/[|｜\-－—]/);
+  if (titleParts.length > 1) {
+    // Usually the company name is the last part
+    const candidate = titleParts[titleParts.length - 1].trim();
+    if (candidate.length > 1 && candidate.length < 50) return candidate;
+  }
+  // Try extracting from JSON-LD
+  if (crawlData.html) {
+    const ldMatch = crawlData.html.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/i);
+    if (ldMatch) {
+      try {
+        const ld = JSON.parse(ldMatch[1]);
+        if (ld.name) return ld.name;
+        if (ld.provider && ld.provider.name) return ld.provider.name;
+      } catch (e) {}
+    }
+  }
+  // Fallback: use title as-is
+  if (title) return title;
+  // Last resort: use domain
+  try {
+    return new URL(crawlData.finalUrl).hostname;
+  } catch (e) {
+    return '不明な会社';
   }
 }
 
@@ -903,11 +1073,11 @@ async function callClaudeAPI(apiKey, systemPrompt, userPrompt, maxTokens = 2048)
     const text = data.content[0].text;
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
-      console.error('Failed to parse Claude response:', text);
-      return { success: false, error: '診断結果の生成に失敗しました。再度お試しください。' };
+      // Return raw text if no JSON found (used for AI recognition test)
+      return { success: true, data: null, rawText: text };
     }
 
-    return { success: true, data: JSON.parse(jsonMatch[0]) };
+    return { success: true, data: JSON.parse(jsonMatch[0]), rawText: text };
   } catch (err) {
     console.error('Claude API call failed:', err);
     if (err.name === 'AbortError') {
@@ -1096,7 +1266,191 @@ function buildWebCheckPrompt(answers, scores, crawlData) {
   return prompt;
 }
 
-// ========== Site Check Prompts (URL-only) ==========
+// ========== Site Check V2 Prompts (5-category symbol rating) ==========
+
+function buildSiteCheckSystemPromptV2() {
+  return `あなたはCiras株式会社のAI検索コンサルタントです。
+以下のWebサイトのテキストと構造データを分析し、AI検索（ChatGPT、Gemini、Perplexity等）で引用されやすい状態かを診断してください。
+
+診断カテゴリは以下の5つです。重要度順（priority）に並べてください。
+
+1. AIが会社を認識できるか（エンティティ明確性）
+   - 社名の表記揺れがないか
+   - 代表者名の記載があるか
+   - 事業内容が具体的に書かれているか（抽象的な挨拶文ではないか）
+   - 「誰が・どこで・何を・どれくらい」が明確か
+
+2. AIが読み取るための機械向け情報があるか（構造化データ）
+   - JSON-LD（application/ld+json）の有無
+   - LocalBusiness、Service、FAQPage、BreadcrumbList等のスキーマ
+   - OGPタグはSNS用でありAI検索には寄与しない点を指摘すること
+
+3. AIが引用しやすい文章構造か
+   - FAQ形式（Q&A）のコンテンツがあるか
+   - 料金・費用・期間など具体的な数字があるか
+   - 実績の説明に情報量があるか（写真だけでなくテキスト説明）
+   - 抽象的な表現（「お客様に寄り添う」等）が多くないか
+
+4. 地域×専門性が伝わるか
+   - 地域名がトップページ本文中に自然に出現するか（フッターの住所だけでは不十分）
+   - 地域名×業種の組み合わせがあるか
+   - 施工対応エリア・サービスエリアの明示があるか
+
+5. 技術的にAIがページを読めるか
+   - SSR/静的HTMLか（JavaScript依存でないか）
+   - robots.txtでブロックされていないか
+   - ページタイトルがページごとに固有か
+   - meta descriptionが設定されているか
+
+各カテゴリの評価基準：
+- perfect（◎）: 対策がしっかりされている
+- good（○）: 基本はできているが改善余地あり
+- partial（△）: 一部はあるが不十分
+- poor（×）: ほぼできていない、または未対応
+- na（ー）: 情報不足で判定不能
+
+出力は必ず以下のJSON形式のみで出力すること。JSON以外のテキストは含めないこと。
+
+{
+  "overall_rating": "poor|partial|good|perfect|na",
+  "categories": [
+    {
+      "id": "entity",
+      "rating": "poor|partial|good|perfect|na",
+      "priority": 1,
+      "findings": ["具体的な検出事実1", "具体的な検出事実2"],
+      "business_impact": "経営への影響を平易な言葉で",
+      "technical_detail": "Web担当者向けの技術情報"
+    },
+    {
+      "id": "structured_data",
+      "rating": "poor|partial|good|perfect|na",
+      "priority": 2,
+      "findings": ["具体的な検出事実1", "具体的な検出事実2"],
+      "business_impact": "経営への影響を平易な言葉で",
+      "technical_detail": "Web担当者向けの技術情報"
+    },
+    {
+      "id": "content_structure",
+      "rating": "poor|partial|good|perfect|na",
+      "priority": 3,
+      "findings": ["具体的な検出事実1", "具体的な検出事実2"],
+      "business_impact": "経営への影響を平易な言葉で",
+      "technical_detail": "Web担当者向けの技術情報"
+    },
+    {
+      "id": "local_signal",
+      "rating": "poor|partial|good|perfect|na",
+      "priority": 4,
+      "findings": ["具体的な検出事実1", "具体的な検出事実2"],
+      "business_impact": "経営への影響を平易な言葉で",
+      "technical_detail": "Web担当者向けの技術情報"
+    },
+    {
+      "id": "technical",
+      "rating": "poor|partial|good|perfect|na",
+      "priority": 5,
+      "findings": ["具体的な検出事実1", "具体的な検出事実2"],
+      "business_impact": "経営への影響を平易な言葉で",
+      "technical_detail": "Web担当者向けの技術情報"
+    }
+  ],
+  "summary_actions": ["最も優先度の高い改善項目を1行で", "次の改善項目を1行で", "次の改善項目を1行で"],
+  "ai_test_judgment": "accurate|partial|unknown"
+}
+
+findings（検出した根拠）は必ず「御社のサイトで実際に確認した具体的事実」を記載すること。
+推測ではなく、提供されたテキストから読み取れる事実のみを書くこと。
+「〜の可能性があります」「〜と思われます」ではなく、「〜が確認されました」「〜の記載がありません」のように断定すること。
+
+business_impactは、50歳以上の経営者が読んで理解できる平易な言葉で書くこと。
+専門用語を使う場合は必ず直後に括弧で説明を入れること。
+比喩を使って説明すること（例：「名刺に仕事内容が書いていない状態」）。
+
+technical_detailは、Web担当者やエンジニアが読む前提で、技術的に正確な情報を書くこと。
+
+overall_ratingは5カテゴリの結果を総合して、最も多い記号または最も深刻な記号を採用すること。
+
+summary_actionsは、×または△だったカテゴリのbusiness_impactから要約して、優先度順に最大4つ生成すること。すべて○以上なら空配列にすること。
+
+ai_test_judgmentは、AIの認知度テストの結果を判定するためのヒントとして、サイト情報の充実度から推測すること。"accurate"=情報が十分にある、"partial"=一部情報がある、"unknown"=AIが知らない可能性が高い。`;
+}
+
+function buildSiteCheckPromptV2(crawlData) {
+  let prompt = `以下のWebサイト全体を分析し、AI検索で引用されやすい状態かを診断してください。
+
+【分析対象サイト】
+- URL: ${crawlData.finalUrl}
+- ページタイトル: ${crawlData.title || '（タイトルなし）'}
+- 紹介文: ${crawlData.metaDescription || '（紹介文なし）'}
+- 読み込みページ数: ${crawlData.totalPages || 1}ページ`;
+
+  if (crawlData.pages && crawlData.pages.length > 0) {
+    prompt += `\n\n【読み込んだページ一覧】`;
+    crawlData.pages.forEach((p, i) => {
+      prompt += `\n${i + 1}. [${p.type}] ${p.title || '（タイトルなし）'} - ${p.url}`;
+    });
+  }
+
+  prompt += `\n\n【トップページの見出し構成】`;
+  if (crawlData.headingsText && crawlData.headingsText.length > 0) {
+    crawlData.headingsText.forEach(h => {
+      prompt += `\n  ${h.level.toUpperCase()}: ${h.text}`;
+    });
+  } else {
+    prompt += '\n  （見出しが見つかりませんでした）';
+  }
+
+  // Extract JSON-LD content for structured data analysis
+  if (crawlData.html) {
+    const jsonLdBlocks = [];
+    const ldRegex = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+    let ldMatch;
+    while ((ldMatch = ldRegex.exec(crawlData.html)) !== null) {
+      jsonLdBlocks.push(ldMatch[1].trim());
+    }
+    if (jsonLdBlocks.length > 0) {
+      prompt += `\n\n【構造化データ（JSON-LD）】`;
+      jsonLdBlocks.forEach(block => {
+        prompt += `\n${block}`;
+      });
+    }
+  }
+
+  prompt += `\n\n【各ページのテキスト内容（抜粋）】`;
+  if (crawlData.pages && crawlData.pages.length > 0) {
+    crawlData.pages.forEach(p => {
+      prompt += `\n\n--- ${p.type}: ${p.title || p.url} ---`;
+      prompt += `\n${p.textContent || '（テキストなし）'}`;
+    });
+  } else {
+    prompt += `\n${crawlData.textContent || '（テキストを取得できませんでした）'}`;
+  }
+
+  const sp = crawlData.siteProfile || {};
+  prompt += `\n\n【技術情報】`;
+  prompt += `\n- HTTPS: ${crawlData.isHttps ? 'あり' : 'なし'}`;
+  prompt += `\n- スマホ対応(viewport): ${crawlData.hasViewport ? 'あり' : 'なし'}`;
+  prompt += `\n- JSON-LD: ${crawlData.hasJsonLd ? 'あり（' + crawlData.jsonLdTypes.join(', ') + '）' : 'なし'}`;
+  prompt += `\n- 見出し構成: H1=${crawlData.headingStructure.h1}, H2=${crawlData.headingStructure.h2}, H3=${crawlData.headingStructure.h3}`;
+  prompt += `\n- meta description: ${crawlData.metaDescription ? 'あり' : 'なし'}`;
+  prompt += `\n- canonical: ${crawlData.hasCanonical ? 'あり' : 'なし'}`;
+  prompt += `\n- 総テキスト量: 約${sp.totalContentLength || crawlData.contentLength}文字`;
+  prompt += `\n- FAQ: ${sp.hasFaq ? 'あり' : 'なし'}`;
+  prompt += `\n- 住所・所在地: ${sp.hasAddress ? 'あり' : 'なし'}`;
+  prompt += `\n- 電話番号: ${sp.hasPhone ? 'あり' : 'なし'}`;
+  prompt += `\n- 料金情報: ${sp.hasPricing ? 'あり' : 'なし'}`;
+
+  prompt += `\n\n【重要な注意】`;
+  prompt += `\n- サイト全体のテキストと構成を実際に読んで診断すること`;
+  prompt += `\n- findingsは推測ではなく、提供されたテキストから読み取れる事実のみを書くこと`;
+  prompt += `\n- business_impactは50歳以上の経営者向けに平易に書くこと`;
+  prompt += `\n- 評価は厳格に。perfectは本当に優れている場合のみ`;
+
+  return prompt;
+}
+
+// ========== Site Check Prompts (URL-only, legacy) ==========
 
 function buildSiteCheckSystemPrompt() {
   return `あなたはCiras株式会社のAI・Webコンサルタントです。クライアントのWebサイト全体（複数ページ）を詳しく読み取り、その会社の特徴を理解した上で、的確な診断と改善提案を行います。
