@@ -103,7 +103,7 @@ async function handleAiCheck(request, env) {
 
     const result = await callClaudeAPI(env.ANTHROPIC_API_KEY, buildAiCheckSystemPrompt(), buildAiCheckPrompt(body));
     if (!result.success) {
-      return jsonResponse({ error: 'ただいま診断が混み合っています。しばらくしてからお試しください。' }, 503);
+      return jsonResponse({ error: result.error || 'ただいま診断が混み合っています。しばらくしてからお試しください。' }, 503);
     }
 
     const id = crypto.randomUUID();
@@ -157,7 +157,7 @@ async function handleWebCheck(request, env) {
 
     const result = await callClaudeAPI(env.ANTHROPIC_API_KEY, systemPrompt, userPrompt);
     if (!result.success) {
-      return jsonResponse({ error: 'ただいま診断が混み合っています。しばらくしてからお試しください。' }, 503);
+      return jsonResponse({ error: result.error || 'ただいま診断が混み合っています。しばらくしてからお試しください。' }, 503);
     }
 
     const id = crypto.randomUUID();
@@ -557,7 +557,16 @@ async function callClaudeAPI(apiKey, systemPrompt, userPrompt) {
     if (!response.ok) {
       const errorBody = await response.text();
       console.error(`Claude API error: status=${response.status}, body=${errorBody}`);
-      return { success: false, error: `API returned ${response.status}` };
+      if (response.status === 401) {
+        return { success: false, error: 'APIキーが無効です。管理者にお問い合わせください。' };
+      }
+      if (response.status === 429) {
+        return { success: false, error: 'ただいまアクセスが集中しています。1分ほど待ってから再度お試しください。' };
+      }
+      if (response.status === 529 || response.status === 503) {
+        return { success: false, error: 'AIサービスが一時的に混み合っています。しばらくしてからお試しください。' };
+      }
+      return { success: false, error: `診断処理中にエラーが発生しました（${response.status}）。しばらくしてからお試しください。` };
     }
 
     const data = await response.json();
@@ -565,13 +574,13 @@ async function callClaudeAPI(apiKey, systemPrompt, userPrompt) {
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       console.error('Failed to parse Claude response:', text);
-      return { success: false };
+      return { success: false, error: '診断結果の生成に失敗しました。再度お試しください。' };
     }
 
     return { success: true, data: JSON.parse(jsonMatch[0]) };
   } catch (err) {
     console.error('Claude API call failed:', err);
-    return { success: false };
+    return { success: false, error: '診断処理中にエラーが発生しました。しばらくしてからお試しください。' };
   }
 }
 
@@ -646,21 +655,23 @@ function buildWebCheckSystemPrompt(hasScores) {
   if (hasScores) {
     return `あなたはCiras株式会社のWeb・AI検索コンサルタントです。クライアントのWebサイト診断結果に基づいて、改善提案を行います。
 
-ルール：
-1. 専門用語は使わず、経営者が直感的かつ理論的に理解しやすい表現にすること。
-2. 事実と推論を明確に分けること。
-3. 各改善ポイントは「良いところ」「起こり得るリスク」「改善すべきこと」の3つで構成すること。
-4. 改善すべきことは具体的で、すぐに着手できる内容にすること。
-5. 回答は必ず以下のJSON形式のみで出力すること。
+提案のルールを必ず守ってください：
+1. 回答者の「期待すること」「問い合わせ状況」「気になること」に合わせた、その人だけに刺さる提案にすること。ありきたりな一般論は禁止。
+2. 専門用語は絶対に使わないこと（例：「構造化データ」→「AIが読み取りやすい情報の整理」、「SEO」→「検索での見つかりやすさ」、「JSON-LD」→「会社情報の整理タグ」）。
+3. 「before」は回答者のサイトで実際に起きていそうな具体的な問題を書くこと（診断スコアの低い項目を根拠に）。
+4. 「after」はWebサイトを改善した後の変化を、具体的に書くこと（例：「お客様が検索したとき、御社の正しい情報が表示される」）。
+5. 「point」はこの改善の一番のメリットを1行で書くこと。
+6. できないことを「できる」と言わないこと。
+7. 回答は必ず以下のJSON形式のみで出力すること。JSON以外のテキストは含めないこと。
 
 出力形式：
 {
-  "improvements": [
+  "solutions": [
     {
-      "title": "改善ポイントのタイトル（1行）",
-      "good": "このサイトの良い点（1〜2行）",
-      "risk": "このままだと起こり得るリスク（1〜2行）",
-      "action": "具体的に改善すべきこと（2〜3行）"
+      "title": "改善ポイントのタイトル（1行、サイトの課題に直結する具体的な内容）",
+      "point": "この改善の一番のメリット（1行）",
+      "before": "今の状態（1〜2行。診断スコアの低い項目を根拠に、具体的な問題を描写）",
+      "after": "改善した後（1〜2行。具体的な変化を含めて）"
     }
   ]
 }
@@ -668,35 +679,36 @@ function buildWebCheckSystemPrompt(hasScores) {
 重要度の高い順に3つの改善ポイントを出力してください。`;
   }
 
-  return `あなたはCiras株式会社のWeb・AI検索コンサルタントです。Webサイトを持っていないクライアントに対して、なぜWebサイトが必要か、どんなサイトが最適かを提案します。
+  return `あなたはCiras株式会社のWeb・AI検索コンサルタントです。Webサイトを持っていない、または放置しているクライアントに対して、Webサイトの必要性と最適な形を提案します。
 
-ルール：
-1. 専門用語は使わず、経営者が直感的に理解しやすい表現にすること。
-2. 押し売りにならない、事実に基づいた提案にすること。
-3. 回答は必ず以下のJSON形式のみで出力すること。
+提案のルールを必ず守ってください：
+1. 回答者の「期待すること」「問い合わせ状況」に合わせた、その人だけに刺さる提案にすること。ありきたりな一般論は禁止。
+2. 専門用語は絶対に使わないこと。
+3. 「before」はWebサイトがない・放置している今の状態で起きている具体的な問題を書くこと。
+4. 「after」はWebサイトを作った・改善した後の具体的な変化を書くこと。
+5. 「point」はこの提案の一番のメリットを1行で書くこと。
+6. 押し売りにならない、事実に基づいた提案にすること。
+7. 回答は必ず以下のJSON形式のみで出力すること。JSON以外のテキストは含めないこと。
 
 出力形式：
 {
-  "reason_title": "あなたのビジネスにWebサイトが必要な理由（1行）",
-  "reasons": [
-    "理由1（1〜2行）",
-    "理由2（1〜2行）",
-    "理由3（1〜2行）"
-  ],
-  "site_title": "あなたに最適なWebサイトとは（1行）",
-  "recommendations": [
+  "solutions": [
     {
-      "title": "提案のタイトル（1行）",
-      "description": "説明（2〜3行）"
+      "title": "提案タイトル（1行、相手の状況に直結する具体的な内容）",
+      "point": "この提案の一番のメリット（1行）",
+      "before": "今の状態（1〜2行。Webサイトがないことで起きている具体的な問題を描写）",
+      "after": "Webサイトを作ると（1〜2行。具体的な変化を含めて）"
     }
   ]
 }
 
-reasonsは3つ、recommendationsは3つ出力してください。`;
+3つの提案を出力してください。`;
 }
 
 function buildWebCheckPrompt(answers, scores, crawlData) {
-  let prompt = `【回答内容】
+  let prompt = `以下のアンケート回答に基づいて、この方に合った具体的なWebサイト改善（または新規制作）の提案をしてください。
+
+【回答者の情報】
 - Webサイトの有無: ${answers.q1_has_website}`;
 
   if (answers.q2_url) {
@@ -706,6 +718,7 @@ function buildWebCheckPrompt(answers, scores, crawlData) {
   prompt += `\n- 現在の問い合わせ状況: ${answers.q4_current_response}`;
   if (answers.q5_concerns && answers.q5_concerns.trim()) {
     prompt += `\n- 気になっていること: ${answers.q5_concerns}`;
+    prompt += `\n\n※自由記述の内容を最優先で考慮し、この課題に直結する提案を中心にしてください。`;
   }
 
   if (scores) {
@@ -733,14 +746,22 @@ function buildWebCheckPrompt(answers, scores, crawlData) {
       prompt += `\n- viewport(モバイル対応): ${crawlData.hasViewport ? 'あり' : 'なし'}`;
     }
 
-    prompt += `\n\n上記のスコアと情報に基づいて、重要度の高い順に3つの改善ポイントを提案してください。`;
-    prompt += `\nクライアントが「${answers.q3_expectation}」を期待していることを踏まえた提案にしてください。`;
-    if (answers.q5_concerns && answers.q5_concerns.trim()) {
-      prompt += `\nまた「${answers.q5_concerns}」という点が特に気になっているようです。`;
-    }
+    prompt += `\n\n【重要な注意】`;
+    prompt += `\n- スコアが低い項目を優先的に改善提案すること`;
+    prompt += `\n- 「${answers.q3_expectation}」を期待していることを踏まえた提案にすること`;
+    prompt += `\n- 専門用語は絶対に使わず、誰でもわかる言葉で書くこと`;
+    prompt += `\n- 「before」にはスコアの低い項目を根拠に、今起きている具体的な問題を書くこと`;
+    prompt += `\n- 「after」には改善後の具体的な変化を書くこと`;
+    prompt += `\n\n重要度の高い順に3つの改善ポイントを出力してください。`;
   } else {
-    prompt += `\n\nこのクライアントはWebサイトを持っていません。`;
-    prompt += `\n「${answers.q3_expectation}」を期待していることを踏まえて、Webサイトが必要な理由と、どんなサイトが最適かを提案してください。`;
+    prompt += `\n\nこのクライアントはWebサイトを${answers.q1_has_website === '持っていない' ? '持っていません' : '持っていますが放置しています'}。`;
+    prompt += `\n\n【重要な注意】`;
+    prompt += `\n- 「${answers.q3_expectation}」を期待していることを踏まえた提案にすること`;
+    prompt += `\n- 問い合わせが「${answers.q4_current_response}」であることを考慮すること`;
+    prompt += `\n- 専門用語は絶対に使わず、誰でもわかる言葉で書くこと`;
+    prompt += `\n- 「before」にはWebサイトがない・放置していることで今起きている問題を具体的に書くこと`;
+    prompt += `\n- 「after」にはWebサイトを作った・改善した後の具体的な変化を書くこと`;
+    prompt += `\n\n3つの提案を出力してください。`;
   }
 
   return prompt;
@@ -884,33 +905,30 @@ function generateWebCheckReportHTML(diagnosis) {
       contentHTML += `<div class="score-bar-wrap"><div class="score-bar-label"><span>${escapeHTML(cat.label)}</span><span>${cat.total} / ${cat.maxScore}</span></div><div class="score-bar"><div class="score-bar-fill" style="width:${pct}%"></div></div></div>`;
     }
     contentHTML += `</section>`;
+  }
 
-    if (r.improvements) {
-      contentHTML += `<section class="report-section"><h2 class="report-section-title">改善すべきポイント</h2>`;
-      r.improvements.forEach((imp, i) => {
-        contentHTML += `<div class="improvement-card">
-          <h3 class="improvement-title">${i + 1}. ${escapeHTML(imp.title)}</h3>
-          <div class="improvement-section"><p class="improvement-label improvement-label-good">良いところ</p><p class="improvement-text">${escapeHTML(imp.good)}</p></div>
-          <div class="improvement-section"><p class="improvement-label improvement-label-risk">起こり得るリスク</p><p class="improvement-text">${escapeHTML(imp.risk)}</p></div>
-          <div class="improvement-section"><p class="improvement-label improvement-label-action">改善すべきこと</p><p class="improvement-text">${escapeHTML(imp.action)}</p></div>
+  // Solutions (both URL and no-URL mode now use solutions format)
+  if (r.solutions && r.solutions.length > 0) {
+    contentHTML += `<section class="report-section"><h2 class="report-section-title">${s ? 'AIが提案する改善ポイント' : 'AIが提案するWebサイトプラン'}</h2>`;
+    r.solutions.forEach((sol, i) => {
+      contentHTML += `
+        <div class="solution-card">
+          <div class="solution-num">${String(i + 1).padStart(2, '0')}</div>
+          <h3 class="solution-title">${escapeHTML(sol.title)}</h3>
+          ${sol.point ? `<p style="font-weight:600;color:#2D5A27;background:#E8F0E6;padding:.6rem 1rem;border-radius:4px;margin-bottom:1rem;font-size:.95rem">${escapeHTML(sol.point)}</p>` : ''}
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:6px;overflow:hidden;border:1px solid #E5E5E5">
+            <div style="background:#FFF5F5;padding:1.2rem 1.5rem;border-right:1px solid #E5E5E5">
+              <p style="font-size:.75rem;font-weight:700;color:#C41E3A;margin-bottom:.4rem">&#x2716; 今の状態</p>
+              <p style="font-size:.9rem;color:#4A4A4A;line-height:1.8">${escapeHTML(sol.before || '')}</p>
+            </div>
+            <div style="background:#F0FFF0;padding:1.2rem 1.5rem">
+              <p style="font-size:.75rem;font-weight:700;color:#2D5A27;margin-bottom:.4rem">&#x2714; 改善すると</p>
+              <p style="font-size:.9rem;color:#4A4A4A;line-height:1.8">${escapeHTML(sol.after || '')}</p>
+            </div>
+          </div>
         </div>`;
-      });
-      contentHTML += `</section>`;
-    }
-  } else {
-    // Without scores
-    if (r.reasons) {
-      contentHTML += `<section class="report-section"><h2 class="report-section-title">${escapeHTML(r.reason_title || 'Webサイトが必要な理由')}</h2>`;
-      r.reasons.forEach(reason => { contentHTML += `<div class="solution-card"><p class="solution-desc">${escapeHTML(reason)}</p></div>`; });
-      contentHTML += `</section>`;
-    }
-    if (r.recommendations) {
-      contentHTML += `<section class="report-section"><h2 class="report-section-title">${escapeHTML(r.site_title || 'あなたに最適なWebサイト')}</h2>`;
-      r.recommendations.forEach((rec, i) => {
-        contentHTML += `<div class="solution-card"><div class="solution-num">${String(i + 1).padStart(2, '0')}</div><h3 class="solution-title">${escapeHTML(rec.title)}</h3><p class="solution-desc">${escapeHTML(rec.description)}</p></div>`;
-      });
-      contentHTML += `</section>`;
-    }
+    });
+    contentHTML += `</section>`;
   }
 
   return `<!DOCTYPE html><html lang="ja"><head>
@@ -938,7 +956,7 @@ function generateWebCheckReportHTML(diagnosis) {
   </main>
   <section class="report-cta"><div class="report-cta-inner">
     <h2 class="report-cta-title mincho">この診断結果について、詳しく相談しませんか？</h2>
-    <p class="report-cta-text">Ciras株式会社では、AI検索に強いWebサイト制作を行っています。<br>御社に合ったサイト設計を一緒に考えます。</p>
+    <p class="report-cta-text">Ciras株式会社では、AI検索に強いWebサイト制作（220,000円〜・税込）を行っています。<br>御社に合ったサイト設計を一緒に考えます。</p>
     <a href="/contact.html" class="btn btn-primary">無料相談する</a>
     <a href="https://lin.ee/s2u6VUw" class="btn btn-secondary">LINEで相談</a>
   </div></section>
