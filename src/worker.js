@@ -207,11 +207,14 @@ async function handleSiteCheck(request, env) {
     // Score the website
     const scores = scoreWebsite(crawlResult);
 
-    // Build AI prompt based on crawl data and scores
+    // Determine level from score
+    const level = scores.totalScore >= 80 ? 5 : scores.totalScore >= 60 ? 4 : scores.totalScore >= 40 ? 3 : scores.totalScore >= 20 ? 2 : 1;
+
+    // Build AI prompt based on crawl data, scores, and text content
     const systemPrompt = buildSiteCheckSystemPrompt();
     const userPrompt = buildSiteCheckPrompt(scores, crawlResult);
 
-    const result = await callClaudeAPI(env.ANTHROPIC_API_KEY, systemPrompt, userPrompt);
+    const result = await callClaudeAPI(env.ANTHROPIC_API_KEY, systemPrompt, userPrompt, 4096);
     if (!result.success) {
       return jsonResponse({ error: result.error || 'ただいま診断が混み合っています。しばらくしてからお試しください。' }, 503);
     }
@@ -236,18 +239,8 @@ async function handleSiteCheck(request, env) {
     });
 
     return jsonResponse({
-      id, scores, result: result.data,
-      url: crawlResult.finalUrl,
-      siteInfo: {
-        isHttps: crawlResult.isHttps,
-        hasViewport: crawlResult.hasViewport,
-        hasJsonLd: crawlResult.hasJsonLd,
-        hasFaq: crawlResult.hasFaq,
-        hasCompanyInfo: crawlResult.hasCompanyInfo,
-        hasAddress: crawlResult.hasAddress,
-        hasPhone: crawlResult.hasPhone,
-        hasPrice: crawlResult.hasPrice
-      }
+      id, scores, level, result: result.data,
+      url: crawlResult.finalUrl
     });
   } catch (err) {
     console.error('handleSiteCheck error:', err);
@@ -308,7 +301,9 @@ async function crawlWebsite(inputUrl) {
       imageCount: (truncatedHtml.match(/<img/gi) || []).length,
       hasAltText: checkAltText(truncatedHtml),
       copyrightYear: extractCopyrightYear(truncatedHtml),
-      contentLength: extractTextContent(truncatedHtml).length
+      textContent: extractTextContent(truncatedHtml).substring(0, 5000),
+      contentLength: extractTextContent(truncatedHtml).length,
+      headingsText: extractHeadingsText(truncatedHtml)
     };
   } catch (err) {
     console.error('Crawl error:', err);
@@ -377,6 +372,17 @@ function checkAltText(html) {
 function extractCopyrightYear(html) {
   const match = html.match(/©\s*(\d{4})|copyright\s*(\d{4})/i);
   return match ? parseInt(match[1] || match[2]) : null;
+}
+
+function extractHeadingsText(html) {
+  const headings = [];
+  const regex = /<(h[1-3])[^>]*>([\s\S]*?)<\/\1>/gi;
+  let match;
+  while ((match = regex.exec(html)) !== null) {
+    const text = match[2].replace(/<[^>]+>/g, '').trim();
+    if (text) headings.push({ level: match[1].toLowerCase(), text: text.substring(0, 150) });
+  }
+  return headings.slice(0, 30);
 }
 
 function extractTextContent(html) {
@@ -614,7 +620,7 @@ async function handleReportPage(env, id) {
 
 // ========== Claude API ==========
 
-async function callClaudeAPI(apiKey, systemPrompt, userPrompt) {
+async function callClaudeAPI(apiKey, systemPrompt, userPrompt, maxTokens = 2048) {
   try {
     console.log('Calling Claude API with model:', CLAUDE_MODEL);
     const response = await fetch(CLAUDE_API_URL, {
@@ -623,7 +629,7 @@ async function callClaudeAPI(apiKey, systemPrompt, userPrompt) {
         'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json'
       },
       body: JSON.stringify({
-        model: CLAUDE_MODEL, max_tokens: 2048,
+        model: CLAUDE_MODEL, max_tokens: maxTokens,
         system: systemPrompt, messages: [{ role: 'user', content: userPrompt }]
       })
     });
@@ -844,73 +850,127 @@ function buildWebCheckPrompt(answers, scores, crawlData) {
 // ========== Site Check Prompts (URL-only) ==========
 
 function buildSiteCheckSystemPrompt() {
-  return `あなたはCiras株式会社のWeb・AI検索コンサルタントです。クライアントのWebサイトを自動分析した結果に基づいて、改善提案を行います。
+  return `あなたはCiras株式会社のAI・Webコンサルタントです。クライアントのWebサイトを詳しく読み取り、その会社の特徴を理解した上で、的確な診断と改善提案を行います。
 
-提案のルールを必ず守ってください：
-1. 診断スコアの低い項目を優先的に、具体的で実行可能な改善提案をすること。ありきたりな一般論は禁止。
-2. 専門用語は絶対に使わないこと（例：「構造化データ」→「AIが読み取りやすい情報の整理」、「SEO」→「検索での見つかりやすさ」、「JSON-LD」→「会社情報の整理タグ」、「viewport」→「スマホ表示の設定」）。
-3. 「before」はサイトで実際に起きている具体的な問題を書くこと（診断スコアの低い項目を根拠に）。
-4. 「after」はWebサイトを改善した後の変化を、具体的に書くこと（例：「お客様が検索したとき、御社の正しい情報が表示される」）。
-5. 「point」はこの改善の一番のメリットを1行で書くこと。
-6. できないことを「できる」と言わないこと。
-7. 回答は必ず以下のJSON形式のみで出力すること。JSON以外のテキストは含めないこと。
+あなたの役割：
+- URLから会社の事業内容・エリア・特徴をしっかり読み取る
+- 同業種・同エリアの競合を踏まえて、この会社がどういう立ち位置なのかを分析する
+- AI検索（ChatGPT・Perplexity等）でこの会社が検索されたとき、どう表示されるかを具体的に示す
+- 良い点はしっかり褒め、改善すべき点は「なぜ問題なのか」「どうすればいいのか」をわかりやすく伝える
+- Webサイト制作の押し売りは絶対にしない。あくまで「情報の伝え方」の改善を提案する
+
+絶対ルール：
+1. 専門用語・ツール名は絶対に使わないこと（例：「SEO」→「検索での見つかりやすさ」、「構造化データ」→「AIが読める形での情報整理」、「JSON-LD」→「検索エンジン向けの会社情報タグ」、「viewport」→「スマホ画面に合わせた表示設定」、「canonical」→「正式なページURL設定」、「meta description」→「検索結果に表示される紹介文」、「alt text」→「画像の説明文」）。
+2. どこの会社にも当てはまるような一般論は禁止。このサイトの内容を実際に読んだ上での具体的なコメントをすること。
+3. 回答は必ず以下のJSON形式のみで出力すること。JSON以外のテキストは含めないこと。
 
 出力形式：
 {
+  "companyProfile": {
+    "name": "サイトから読み取った会社名・屋号",
+    "area": "所在地・対応エリア（わかる範囲で）",
+    "business": "事業内容の要約（2〜3行）",
+    "positioning": "同業種・同エリアでの立ち位置の分析（2〜3行。「○○エリアで△△を提供する会社として」のように具体的に）"
+  },
+  "aiSearchPreview": "AI検索（ChatGPTやPerplexityなど）でこの会社について聞かれたとき、現在のサイト情報だけで生成される回答を100〜150文字で書いてください。情報が不足している部分は「情報が見つかりませんでした」と正直に書いてください。",
+  "checkpoints": [
+    {
+      "item": "チェック項目名（専門用語なし）",
+      "rating": "◎ or ○ or △ or ×",
+      "comment": "このサイト固有の具体的なコメント（1〜2行。良い点は「○○がしっかり書かれています」、悪い点は「○○が見つからないため、△△という問題が起きています」のように）"
+    }
+  ],
+  "goodPoints": [
+    "このサイトの良い点（具体的に。例：「代表者の顔写真と経歴が掲載されており、初めて訪れるお客様に安心感を与えています」）"
+  ],
   "solutions": [
     {
-      "title": "改善ポイントのタイトル（1行、サイトの課題に直結する具体的な内容）",
-      "point": "この改善の一番のメリット（1行）",
-      "before": "今の状態（1〜2行。診断スコアの低い項目を根拠に、具体的な問題を描写）",
-      "after": "改善した後（1〜2行。具体的な変化を含めて）"
+      "title": "改善提案のタイトル（このサイト固有の内容）",
+      "point": "この改善で得られるメリット（1行）",
+      "before": "今のサイトで実際に起きている問題（1〜2行。サイトの内容を根拠に具体的に）",
+      "after": "改善した後の具体的な変化（1〜2行）"
     }
   ]
 }
 
-重要度の高い順に3つの改善ポイントを出力してください。`;
+checkpointsは以下の10項目を必ず評価してください：
+1. 「会社の基本情報」- 会社名・住所・電話番号・代表者名などが揃っているか
+2. 「サービス内容の伝わりやすさ」- 何をしている会社か、初めての人にもすぐわかるか
+3. 「お客様の声・実績」- 信頼できる根拠（お客様の声、実績、事例など）があるか
+4. 「料金・費用のわかりやすさ」- 料金や費用感が明記されているか
+5. 「よくある質問（Q&A）」- お客様の不安を解消するQ&Aがあるか
+6. 「スマートフォンでの見やすさ」- スマホで見たときにちゃんと読めるか
+7. 「安全な接続」- 通信が暗号化されているか（https）
+8. 「AI検索への情報提供」- AIが会社情報を正しく読み取れる形になっているか
+9. 「ページの見出し構成」- 情報が整理されていて、読みやすい構成になっているか
+10. 「情報の新しさ」- 最近更新された形跡があるか、古いまま放置されていないか
+
+rating基準：
+- ◎：十分にできている（改善不要）
+- ○：基本はできているが、もう少し充実させると良い
+- △：不十分。改善すると効果が大きい
+- ×：対応できていない。早めの対応を推奨
+
+goodPointsは2〜3個。solutionsは3個。`;
 }
 
 function buildSiteCheckPrompt(scores, crawlData) {
-  let prompt = `以下のWebサイト自動分析結果に基づいて、具体的な改善提案をしてください。
+  let prompt = `以下のWebサイトを詳しく分析し、診断結果を出力してください。
 
 【分析対象サイト】
 - URL: ${crawlData.finalUrl}
-- ページタイトル: ${crawlData.title || 'なし'}
-- メタ説明文: ${crawlData.metaDescription || 'なし'}
+- ページタイトル: ${crawlData.title || '（タイトルなし）'}
+- 紹介文: ${crawlData.metaDescription || '（紹介文なし）'}
 
-【自動分析スコア】（100点満点中 ${scores.totalScore}点）
-A. AI検索対応: ${scores.categories.a.total}/${scores.categories.a.maxScore}点`;
+【サイトの見出し構成】`;
+  if (crawlData.headingsText && crawlData.headingsText.length > 0) {
+    crawlData.headingsText.forEach(h => {
+      prompt += `\n  ${h.level.toUpperCase()}: ${h.text}`;
+    });
+  } else {
+    prompt += '\n  （見出しが見つかりませんでした）';
+  }
+
+  prompt += `\n\n【サイトの本文テキスト（抜粋）】\n${crawlData.textContent || '（テキストを取得できませんでした）'}`;
+
+  prompt += `\n\n【自動スキャン結果】`;
+  prompt += `\n- 総合スコア: ${scores.totalScore}/100点`;
+  prompt += `\n- HTTPS（安全な接続）: ${crawlData.isHttps ? 'あり' : 'なし'}`;
+  prompt += `\n- スマホ対応: ${crawlData.hasViewport ? 'あり' : 'なし'}`;
+  prompt += `\n- AI向け情報整理タグ: ${crawlData.hasJsonLd ? 'あり（' + crawlData.jsonLdTypes.join(', ') + '）' : 'なし'}`;
+  prompt += `\n- FAQ・よくある質問: ${crawlData.hasFaq ? 'あり' : 'なし'}`;
+  prompt += `\n- 会社概要: ${crawlData.hasCompanyInfo ? 'あり' : 'なし'}`;
+  prompt += `\n- 住所・所在地: ${crawlData.hasAddress ? 'あり' : 'なし'}`;
+  prompt += `\n- 電話番号: ${crawlData.hasPhone ? 'あり' : 'なし'}`;
+  prompt += `\n- 料金情報: ${crawlData.hasPrice ? 'あり' : 'なし'}`;
+  prompt += `\n- 見出し数: H1=${crawlData.headingStructure.h1}, H2=${crawlData.headingStructure.h2}, H3=${crawlData.headingStructure.h3}`;
+  prompt += `\n- 画像数: ${crawlData.imageCount}（画像説明文の充実度: ${typeof crawlData.hasAltText === 'number' ? Math.round(crawlData.hasAltText * 100) + '%' : '不明'}）`;
+  prompt += `\n- 内部リンク数: ${crawlData.internalLinks}`;
+  prompt += `\n- テキスト量: 約${crawlData.contentLength}文字`;
+  prompt += `\n- ページサイズ: 約${Math.round(crawlData.pageSize / 1024)}KB`;
+  prompt += `\n- 著作権年: ${crawlData.copyrightYear || '不明'}`;
+
+  prompt += `\n\n【スコア詳細】`;
+  prompt += `\nA. AI検索対応: ${scores.categories.a.total}/${scores.categories.a.maxScore}`;
   for (const [, d] of Object.entries(scores.categories.a.details)) {
     prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
   }
-  prompt += `\nB. SEO基礎: ${scores.categories.b.total}/${scores.categories.b.maxScore}点`;
+  prompt += `\nB. 基本項目: ${scores.categories.b.total}/${scores.categories.b.maxScore}`;
   for (const [, d] of Object.entries(scores.categories.b.details)) {
     prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
   }
-  prompt += `\nC. 将来性: ${scores.categories.c.total}/${scores.categories.c.maxScore}点`;
+  prompt += `\nC. 将来性: ${scores.categories.c.total}/${scores.categories.c.maxScore}`;
   for (const [, d] of Object.entries(scores.categories.c.details)) {
     prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
   }
 
-  prompt += `\n\n【サイト情報】`;
-  prompt += `\n- HTTPS: ${crawlData.isHttps ? 'あり' : 'なし'}`;
-  prompt += `\n- スマホ対応(viewport): ${crawlData.hasViewport ? 'あり' : 'なし'}`;
-  prompt += `\n- 構造化データ(JSON-LD): ${crawlData.hasJsonLd ? 'あり（' + crawlData.jsonLdTypes.join(', ') + '）' : 'なし'}`;
-  prompt += `\n- FAQ: ${crawlData.hasFaq ? 'あり' : 'なし'}`;
-  prompt += `\n- 会社概要: ${crawlData.hasCompanyInfo ? 'あり' : 'なし'}`;
-  prompt += `\n- 住所: ${crawlData.hasAddress ? 'あり' : 'なし'}`;
-  prompt += `\n- 電話番号: ${crawlData.hasPhone ? 'あり' : 'なし'}`;
-  prompt += `\n- 料金情報: ${crawlData.hasPrice ? 'あり' : 'なし'}`;
-  prompt += `\n- 画像数: ${crawlData.imageCount}`;
-  prompt += `\n- 内部リンク数: ${crawlData.internalLinks}`;
-  prompt += `\n- テキスト量: 約${crawlData.contentLength}文字`;
-
   prompt += `\n\n【重要な注意】`;
-  prompt += `\n- スコアが低い項目を優先的に改善提案すること`;
-  prompt += `\n- 専門用語は絶対に使わず、誰でもわかる言葉で書くこと`;
-  prompt += `\n- 「before」にはスコアの低い項目を根拠に、今起きている具体的な問題を書くこと`;
-  prompt += `\n- 「after」には改善後の具体的な変化を書くこと`;
-  prompt += `\n\n重要度の高い順に3つの改善ポイントを出力してください。`;
+  prompt += `\n- サイトの本文テキストと見出しを実際に読んで、会社の事業内容・特徴を正確に把握すること`;
+  prompt += `\n- checkpointsのコメントは「このサイトの○○について」のように、具体的なサイト内容を引用すること`;
+  prompt += `\n- aiSearchPreviewは、実際にこのサイト情報だけから生成できる内容にすること。推測で補完しないこと`;
+  prompt += `\n- positioningは「○○エリアの△△業界で」のように、エリア・業種を特定した上で分析すること`;
+  prompt += `\n- solutionsのbeforeは、必ずこのサイトの実際の内容を根拠にすること（「一般的に〜」は禁止）`;
+  prompt += `\n- 専門用語は絶対に使わないこと`;
 
   return prompt;
 }
