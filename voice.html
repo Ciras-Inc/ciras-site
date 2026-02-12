@@ -173,6 +173,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .footer-nav a { font-size: 0.85rem; color: rgba(255,255,255,0.8); transition: color 0.3s; }
     .footer-nav a:hover { color: var(--white); }
     .footer-bottom { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+    .footer-tools { padding: 2.5rem 1.5rem; margin-bottom: 2rem; text-align: center; background: rgba(255,255,255,.06); border-radius: 12px; }
+    .footer-tools-title { font-size: 1.1rem; font-weight: 700; letter-spacing: .08em; color: #fff; margin-bottom: .4rem; }
+    .footer-tools-sub { font-size: .85rem; color: rgba(255,255,255,.5); margin-bottom: 1.5rem; }
+    .footer-tools-buttons { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+    .footer-tool-btn { display: inline-block; font-size: 1rem; font-weight: 700; color: var(--black); background: #fff; padding: 1rem 2.5rem; border-radius: 50px; transition: all .3s; box-shadow: 0 4px 15px rgba(0,0,0,.2); text-decoration: none; }
+    .footer-tool-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.3); background: #f5f5f5; }
 
     /* Animations */
     .fade-in { opacity: 1; transform: translateY(0); transition: opacity 0.7s ease, transform 0.7s ease; }
@@ -320,19 +326,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="fade-in cta">
-    <h2 class="cta-title mincho">まずは、状況を聞かせてください</h2>
-    <p class="cta-text">
-      「何を、どう進めるか」からで大丈夫です。<br>
-      状況を整理し、次の一手を一緒に決めます。
-    </p>
-    <div class="cta-buttons">
-      <a href="/contact.html" class="btn btn-primary">お問い合わせ</a>
-      <a href="https://lin.ee/s2u6VUw" class="btn btn-secondary">LINEで相談</a>
-    </div>
-  </section>
-
   <!-- Footer -->
   <footer>
     <div class="footer-inner">
@@ -376,6 +369,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </ul>
           </div>
         </nav>
+      </div>
+      <div class="footer-tools">
+        <p class="footer-tools-title">無料診断ツール</p>
+        <p class="footer-tools-sub">30秒でセルフチェック</p>
+        <div class="footer-tools-buttons">
+          <a href="https://ciras-site.solitary-rain-3867.workers.dev/ai-check" class="footer-tool-btn" target="_blank" rel="noopener">AI活用レベル診断</a>
+          <a href="https://ciras-site.solitary-rain-3867.workers.dev/web-check" class="footer-tool-btn" target="_blank" rel="noopener">Webサイト状況診断</a>
+        </div>
       </div>
       <div class="footer-bottom">© 2026 Ciras Inc.（シラス株式会社）</div>
     </div>

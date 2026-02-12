@@ -56,9 +56,15 @@
   </url>
   <url>
     <loc>https://www.ciras.jp/blog/</loc>
-    <lastmod>2026-02-08</lastmod>
+    <lastmod>2026-02-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.ciras.jp/blog/shindan-tool-release</loc>
+    <lastmod>2026-02-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.ciras.jp/blog/ai-katsuyou-3points</loc>
