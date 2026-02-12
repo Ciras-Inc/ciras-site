@@ -12,6 +12,7 @@
   // Setup: wrangler kv namespace create DIAGNOSES
   // Then replace the id below with the returned ID
   // Also run: wrangler secret put ANTHROPIC_API_KEY
+  //           wrangler secret put GEMINI_API_KEY
   //           wrangler secret put ADMIN_PASSWORD
   "kv_namespaces": [
     {

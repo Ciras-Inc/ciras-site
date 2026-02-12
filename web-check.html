@@ -161,14 +161,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .summary-msg-inner{max-width:800px;margin:0 auto;font-size:.95rem;line-height:2.2;color:var(--gray-dark)}
     .summary-msg-inner strong{color:var(--black)}
 
-    /* AI Test */
+    /* AI Test - Google AI Mode style */
     .ai-test-section{background:var(--white)}
-    .ai-test-q{background:var(--bg);border:1px solid var(--gray-light);border-radius:8px;padding:1.2rem 1.5rem;margin-bottom:1rem;font-size:.9rem;color:var(--gray-dark)}
-    .ai-test-q-label{font-size:.75rem;color:var(--gray);margin-bottom:.5rem;font-weight:500}
+    .ai-test-q{background:var(--bg);border:1px solid var(--gray-light);border-radius:8px;padding:1.2rem 1.5rem;margin-bottom:1rem;font-size:.9rem;color:var(--gray-dark);display:flex;align-items:center;gap:.8rem}
+    .ai-test-q-icon{width:24px;height:24px;flex-shrink:0}
+    .ai-test-q-label{font-size:.75rem;color:var(--gray);margin-bottom:.3rem;font-weight:500}
     .ai-test-response{background:var(--bg);border:1px solid var(--gray-light);border-radius:8px;padding:1.5rem;position:relative}
-    .ai-test-response-icon{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--gray);margin-bottom:1rem;font-weight:500}
-    .ai-test-response-icon::before{content:"";display:inline-block;width:20px;height:20px;background:var(--green);border-radius:50%;flex-shrink:0}
-    .ai-test-response-text{font-size:.9rem;line-height:2;color:var(--gray-dark)}
+    .ai-test-response-header{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--gray);margin-bottom:1rem;font-weight:500}
+    .ai-test-response-header img{width:20px;height:20px}
+    .ai-test-response-text{font-size:.9rem;line-height:2;color:var(--gray-dark);white-space:pre-wrap}
+    .ai-test-sources{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--gray-light)}
+    .ai-test-sources-label{font-size:.75rem;color:var(--gray);margin-bottom:.5rem;font-weight:500}
+    .ai-test-sources-list{display:flex;flex-wrap:wrap;gap:.5rem}
+    .ai-test-source-chip{display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--gray-dark);background:var(--white);border:1px solid var(--gray-light);border-radius:4px;padding:.3rem .6rem;text-decoration:none;transition:background .2s}
+    .ai-test-source-chip:hover{background:var(--green-light)}
     .ai-test-judgment{margin-top:1rem;padding:1rem 1.2rem;border-radius:8px;font-size:.9rem;line-height:1.8;font-weight:500}
     .ai-test-judgment.accurate{background:#E8F0E6;color:#2D5A27}
     .ai-test-judgment.partial{background:#FFF8E1;color:#B8860B}
@@ -327,7 +333,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
       <div class="features">
         <div class="feature-item"><p class="feature-icon">&#x1F50D;</p><p class="feature-title">5つの視点で診断</p><p class="feature-desc">AI検索で引用されるために必要な5つの視点で診断します</p></div>
-        <div class="feature-item"><p class="feature-icon">&#x1F916;</p><p class="feature-title">AIに御社のことを聞いてみます</p><p class="feature-desc">実際にAIに質問し、御社がどう認識されているか確認します</p></div>
+        <div class="feature-item"><p class="feature-icon">&#x1F916;</p><p class="feature-title">Google AI検索で御社を検索</p><p class="feature-desc">実際にGoogleのAI検索で御社を検索し、どう認識されているか確認します</p></div>
         <div class="feature-item"><p class="feature-icon">&#x26A1;</p><p class="feature-title">約30〜60秒で完了</p><p class="feature-desc">URLを入力するだけ。質問への回答は不要です</p></div>
       </div>
     </div>
@@ -374,15 +380,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- 4. AI Recognition Test -->
     <div class="result-section ai-test-section" id="ai-test-section" style="display:none">
       <div class="result-section-inner">
-        <h3 class="result-section-title">AIに御社のことを聞いてみました</h3>
+        <h3 class="result-section-title">GoogleのAI検索で、御社のことを聞いてみました</h3>
         <p class="result-section-sub" id="ai-test-sub"></p>
         <div class="ai-test-q">
-          <p class="ai-test-q-label">AIへの質問</p>
-          <p id="ai-test-question"></p>
+          <svg class="ai-test-q-icon" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          <div>
+            <p class="ai-test-q-label">Google AI検索</p>
+            <p id="ai-test-question"></p>
+          </div>
         </div>
         <div class="ai-test-response">
-          <p class="ai-test-response-icon">AIの回答</p>
+          <p class="ai-test-response-header"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#4285F4"/><path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> Google AIの回答</p>
           <p class="ai-test-response-text" id="ai-test-response"></p>
+          <div class="ai-test-sources" id="ai-test-sources" style="display:none">
+            <p class="ai-test-sources-label">参照元</p>
+            <div class="ai-test-sources-list" id="ai-test-sources-list"></div>
+          </div>
         </div>
         <div class="ai-test-judgment" id="ai-test-judgment"></div>
       </div>
@@ -526,7 +539,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       { text: '主要ページを読み込んでいます...', sub: 'トップページ内のリンクから、重要なページを自動で選んでいます', pct: 10 },
       { text: '主要ページを読み込んでいます...', sub: '会社概要・サービス・FAQなどのページを取得中です', pct: 25 },
       { text: '主要ページを読み込んでいます...', sub: '各ページの内容を読み取っています', pct: 40 },
-      { text: 'AIに御社のことを聞いています...', sub: 'AIが御社をどう認識しているか確認中です', pct: 55 },
+      { text: 'GoogleのAI検索で御社を検索中...', sub: 'Google AIが御社をどう認識しているか確認中です', pct: 55 },
       { text: 'AIが診断レポートを作成中...', sub: '5つの視点から分析しています', pct: 65 },
       { text: 'AIが診断レポートを作成中...', sub: '改善提案を整理しています', pct: 75 },
       { text: 'レポートを仕上げています...', sub: 'もうしばらくお待ちください', pct: 85 },
@@ -638,17 +651,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         summaryEl.innerHTML = '御社のホームページは、AI検索で引用されるための基本的な準備ができています。今の状態を維持しながら、さらに強化できるポイントをご案内します。';
       }
 
-      // 4. AI Recognition Test
-      if (data.aiTest) {
+      // 4. Google AI Recognition Test
+      if (data.aiTest && data.aiTest.response) {
         var at = data.aiTest;
-        document.getElementById('ai-test-sub').textContent = '実際にAI（Claude）に「' + esc(at.companyName) + 'という会社について教えて」と質問した結果です。';
-        document.getElementById('ai-test-question').textContent = at.question;
-        document.getElementById('ai-test-response').textContent = at.response || '（回答を取得できませんでした）';
+        document.getElementById('ai-test-sub').textContent = '実際にGoogleのAI検索（AIモード）で「' + esc(at.companyName) + 'について教えて」と検索した結果です。';
+        document.getElementById('ai-test-question').textContent = at.query || at.question || '';
+        document.getElementById('ai-test-response').textContent = at.response;
+
+        // Show sources if available
+        if (at.sources && at.sources.length > 0) {
+          var sourcesList = document.getElementById('ai-test-sources-list');
+          sourcesList.innerHTML = '';
+          at.sources.forEach(function(s) {
+            if (s.uri) {
+              var domain = '';
+              try { domain = new URL(s.uri).hostname; } catch(e) { domain = s.uri; }
+              sourcesList.innerHTML += '<a href="' + esc(s.uri) + '" target="_blank" rel="noopener" class="ai-test-source-chip">' + esc(s.title || domain) + '</a>';
+            }
+          });
+          document.getElementById('ai-test-sources').style.display = '';
+        }
 
         // Judgment (with frontend fallback check)
         var judgment = r.ai_test_judgment || 'unknown';
-        // Frontend safety: if AI response contains "don't know" patterns, override to unknown
-        var resp = (at.response || '').toLowerCase();
+        var resp = (at.response || '');
         var unknownPatterns = ['知りません', '情報がありません', '存じません', '見つかりません', '確認できません', '把握していません', '分かりません', 'わかりません'];
         if (judgment === 'accurate' && unknownPatterns.some(function(p) { return resp.includes(p); })) {
           judgment = 'unknown';
@@ -656,13 +682,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         var judgEl = document.getElementById('ai-test-judgment');
         if (judgment === 'accurate') {
           judgEl.className = 'ai-test-judgment accurate';
-          judgEl.innerHTML = '→ AIは御社のことを正しく認識しています。';
+          judgEl.innerHTML = '→ Google AI検索は御社のことを正しく認識しています。';
         } else if (judgment === 'partial') {
           judgEl.className = 'ai-test-judgment partial';
-          judgEl.innerHTML = '→ AIは御社の情報を一部誤って認識しています。正確に認識されているとは言えません。';
+          judgEl.innerHTML = '→ Google AI検索は御社の情報を一部しか認識できていません。正確に認識されているとは言えません。';
         } else {
           judgEl.className = 'ai-test-judgment unknown';
-          judgEl.innerHTML = '→ AIは御社のことを正しく認識していません。お客様がAIに「おすすめの会社は？」と聞いても、御社の名前は挙がらない可能性が高い状態です。';
+          judgEl.innerHTML = '→ Google AI検索は御社のことを正しく認識していません。お客様がAI検索で「おすすめの会社は？」と聞いても、御社の名前は挙がらない可能性が高い状態です。';
         }
         document.getElementById('ai-test-section').style.display = '';
       }
