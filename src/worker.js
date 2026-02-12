@@ -255,18 +255,44 @@ async function crawlWebsite(inputUrl) {
     let url = inputUrl.trim();
     if (!url.startsWith('http')) url = 'https://' + url;
 
+    // Detect self-referencing URLs (Cloudflare Workers cannot fetch their own domain)
+    try {
+      const parsedUrl = new URL(url);
+      const selfDomains = ['ciras.jp', 'www.ciras.jp'];
+      if (selfDomains.includes(parsedUrl.hostname.toLowerCase())) {
+        return { success: false, error: '自社サイト（ciras.jp）は本ツールでは診断できません。お客様のURLを入力してください。' };
+      }
+    } catch (e) {
+      return { success: false, error: 'URLの形式が正しくありません。例：https://example.com' };
+    }
+
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
+    const timeout = setTimeout(() => controller.abort(), 15000);
 
     const response = await fetch(url, {
-      headers: { 'User-Agent': 'CirasWebChecker/1.0 (+https://ciras.jp)' },
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; CirasWebChecker/1.0; +https://ciras.jp)',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'ja,en;q=0.9'
+      },
       redirect: 'follow',
       signal: controller.signal
     });
     clearTimeout(timeout);
 
     if (!response.ok) {
-      return { success: false, error: `HTTP ${response.status}` };
+      const statusMessages = {
+        403: 'このサイトはアクセスが制限されています。',
+        404: '指定されたページが見つかりませんでした。URLを確認してください。',
+        500: 'サイト側でサーバーエラーが発生しています。時間をおいて再度お試しください。',
+        502: 'サイトに一時的にアクセスできません。時間をおいて再度お試しください。',
+        503: 'サイトが一時的に利用できません。メンテナンス中の可能性があります。',
+        522: 'サイトへの接続がタイムアウトしました。サイトが正常に動作しているか確認してください。',
+        525: 'サイトとの安全な接続に失敗しました。',
+        530: 'サイトへのアクセスがブロックされました。'
+      };
+      const msg = statusMessages[response.status] || `サイトにアクセスできませんでした（エラー${response.status}）。`;
+      return { success: false, error: msg };
     }
 
     const contentType = response.headers.get('content-type') || '';
@@ -307,7 +333,13 @@ async function crawlWebsite(inputUrl) {
     };
   } catch (err) {
     console.error('Crawl error:', err);
-    return { success: false, error: err.message || 'クロールに失敗しました' };
+    if (err.name === 'AbortError') {
+      return { success: false, error: 'サイトの読み込みに時間がかかりすぎました。サイトが正常に表示されるか確認してください。' };
+    }
+    if (err.message && err.message.includes('DNS')) {
+      return { success: false, error: 'サイトが見つかりませんでした。URLが正しいか確認してください。' };
+    }
+    return { success: false, error: 'サイトにアクセスできませんでした。URLが正しいか、サイトが正常に動作しているか確認してください。' };
   }
 }
 
@@ -623,6 +655,8 @@ async function handleReportPage(env, id) {
 async function callClaudeAPI(apiKey, systemPrompt, userPrompt, maxTokens = 2048) {
   try {
     console.log('Calling Claude API with model:', CLAUDE_MODEL);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 55000); // 55s timeout for Claude API
     const response = await fetch(CLAUDE_API_URL, {
       method: 'POST',
       headers: {
@@ -631,8 +665,10 @@ async function callClaudeAPI(apiKey, systemPrompt, userPrompt, maxTokens = 2048)
       body: JSON.stringify({
         model: CLAUDE_MODEL, max_tokens: maxTokens,
         system: systemPrompt, messages: [{ role: 'user', content: userPrompt }]
-      })
+      }),
+      signal: controller.signal
     });
+    clearTimeout(timeout);
 
     if (!response.ok) {
       const errorBody = await response.text();
@@ -660,6 +696,9 @@ async function callClaudeAPI(apiKey, systemPrompt, userPrompt, maxTokens = 2048)
     return { success: true, data: JSON.parse(jsonMatch[0]) };
   } catch (err) {
     console.error('Claude API call failed:', err);
+    if (err.name === 'AbortError') {
+      return { success: false, error: 'AI分析に時間がかかりすぎました。しばらくしてから再度お試しください。' };
+    }
     return { success: false, error: '診断処理中にエラーが発生しました。しばらくしてからお試しください。' };
   }
 }

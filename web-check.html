@@ -507,10 +507,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       if (!url) { urlError.textContent = 'URLを入力してください'; urlError.style.display = 'block'; return; }
       if (!isValidUrl(url)) { urlError.textContent = '正しいURLを入力してください（例：https://example.com）'; urlError.style.display = 'block'; return; }
       showLoading();
-      fetch('/api/site-check', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: url }) })
-      .then(function(res) { if (!res.ok) { return res.json().then(function(d) { throw new Error(d.error || 'サーバーエラー'); }); } return res.json(); })
+      var ac = new AbortController();
+      var ft = setTimeout(function() { ac.abort(); }, 90000);
+      fetch('/api/site-check', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: url }), signal: ac.signal })
+      .then(function(res) { clearTimeout(ft); if (!res.ok) { return res.json().then(function(d) { throw new Error(d.error || 'サーバーエラー'); }); } return res.json(); })
       .then(function(data) { if (data.error) { hideLoading(); showError(data.error); return; } showResults(data); })
-      .catch(function(err) { hideLoading(); showError(err.message || 'ただいま診断が混み合っています。しばらくしてからお試しください。'); });
+      .catch(function(err) { clearTimeout(ft); hideLoading(); if (err.name === 'AbortError') { showError('診断に時間がかかりすぎました。<br>URLが正しいか確認のうえ、再度お試しください。'); } else { showError(err.message || 'ただいま診断が混み合っています。しばらくしてからお試しください。'); } });
     });
 
     // Loading
