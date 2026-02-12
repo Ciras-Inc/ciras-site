@@ -153,7 +153,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .level-bar-item{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.15);position:relative;overflow:hidden}
     .level-bar-item.active{background:rgba(255,255,255,.8)}
     .level-bar-item.active::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:levelShimmer 2s ease-in-out infinite}
-    .score-summary{max-width:500px;margin:1.5rem auto 0;display:flex;justify-content:center;gap:2rem;font-size:.85rem;opacity:.8}
+    .score-summary{max-width:600px;margin:1.5rem auto 0;display:flex;justify-content:center;gap:1.2rem;font-size:.85rem;opacity:.8}
     .score-summary-item{text-align:center}
     .score-summary-num{font-family:'Shippori Mincho',serif;font-size:1.5rem;font-weight:700}
     .score-summary-label{font-size:.7rem;opacity:.7;margin-top:.1rem}
@@ -517,13 +517,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     // Loading
     var loadingMsgs = [
-      { text: 'Webサイトにアクセスしています...', sub: 'サイトの構造・内容を取得中', pct: 10 },
-      { text: 'サイトの内容を読み取っています...', sub: '会社情報・サービス内容を分析中', pct: 20 },
-      { text: '競合・エリアを分析しています...', sub: 'あなたの会社の立ち位置を把握中', pct: 35 },
-      { text: 'AI検索での表示を確認中...', sub: 'ChatGPTなどでの紹介のされ方をチェック', pct: 50 },
-      { text: '10項目のチェックを実施中...', sub: '各項目を評価しています', pct: 65 },
-      { text: '改善提案を作成中...', sub: 'あなたのサイトに合った具体策をまとめています', pct: 80 },
-      { text: '仕上げをしています...', sub: 'あと少しです', pct: 90 }
+      { text: 'トップページを読み取っています...', sub: 'サイトの構造・リンクを解析中', pct: 5 },
+      { text: 'サイト全体を巡回しています...', sub: '会社概要・サービス・お客様の声など各ページをチェック中', pct: 15 },
+      { text: '各ページの内容を分析中...', sub: 'FAQ・プライバシーポリシー・ブログなどを確認中', pct: 30 },
+      { text: 'コンテンツの充実度を評価中...', sub: 'サービス説明・料金情報・更新頻度をチェック', pct: 40 },
+      { text: '信頼性・実績を確認しています...', sub: 'お客様の声・会社情報・法的ページを評価中', pct: 50 },
+      { text: 'AI検索への対応度を測定中...', sub: '構造化データ・FAQ・メタ情報をチェック', pct: 60 },
+      { text: '技術品質を評価しています...', sub: 'セキュリティ・モバイル対応・表示速度を確認', pct: 70 },
+      { text: '改善提案を作成中...', sub: 'AIが複数ページの分析結果から具体策をまとめています', pct: 85 },
+      { text: '仕上げをしています...', sub: 'あと少しです', pct: 95 }
     ];
     var loadingTimer = null;
     function showLoading() {
@@ -567,11 +569,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     // Level definitions
     var levelDefs = [
-      { min: 0, level: 1, name: '今すぐ改善が必要', desc: 'AI検索への対応がほとんどできていない状態です。でも、ここからが一番変われるタイミングです。下の改善ポイントから、まず1つ取り組んでみてください。' },
-      { min: 20, level: 2, name: '基礎固めから始めましょう', desc: '基本的な部分はありますが、まだ十分とは言えません。検索やAIで見つけてもらうための土台を整えることで、大きく変わります。' },
-      { min: 40, level: 3, name: '伸びしろたっぷり', desc: '基本はできていますが、改善できるポイントがいくつかあります。下記の提案を参考に、さらにスコアアップを目指しましょう。' },
-      { min: 60, level: 4, name: 'あと一歩で優秀サイト', desc: '良好な状態です。いくつかの改善で、AI検索時代にもしっかり対応できるサイトになります。' },
-      { min: 80, level: 5, name: 'AI検索時代の優等生', desc: 'すばらしい！AI検索時代にもしっかり対応できています。この状態を維持しつつ、さらなる強化を目指しましょう。' }
+      { min: 0, level: 1, name: '早急な改善が必要', desc: 'サイト全体を巡回した結果、コンテンツ・信頼性・技術面で大幅な改善が必要です。まずは下記の改善提案から取り組んでみてください。' },
+      { min: 20, level: 2, name: '基本的な整備が必要', desc: '最低限の要素はありますが、お客様の声や詳細なサービス情報など、信頼を得るためのコンテンツが不足しています。' },
+      { min: 40, level: 3, name: '改善の余地あり', desc: '基本は押さえていますが、プロの目で見ると改善点が複数あります。下記の提案を参考に、サイトの完成度を上げていきましょう。' },
+      { min: 60, level: 4, name: '良質なサイト', desc: 'しっかりとしたサイト構成です。いくつかの強化ポイントを押さえれば、AI検索時代にも万全の体制になります。' },
+      { min: 80, level: 5, name: 'プロ水準のサイト', desc: 'コンテンツ・信頼性・技術面ともに高い水準です。AI検索でも正しく引用される、理想的なサイト構成です。' }
     ];
 
     function getLevelDef(score) {
@@ -604,6 +606,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       document.getElementById('level-name').textContent = def.name;
       document.getElementById('level-desc').textContent = def.desc;
       if (data.url) document.getElementById('level-url').textContent = data.url;
+      if (data.totalPages) document.getElementById('level-url').textContent += '（' + data.totalPages + 'ページを巡回）';
 
       // Level bar (5 segments)
       var barHTML = '';
@@ -613,10 +616,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       // Score summary
       if (data.scores && data.scores.categories) {
         var cats = data.scores.categories;
-        document.getElementById('score-summary').innerHTML =
-          '<div class="score-summary-item"><p class="score-summary-num">' + cats.a.total + '<span style="font-size:.7rem;opacity:.6">/' + cats.a.maxScore + '</span></p><p class="score-summary-label">AI検索対応</p></div>' +
-          '<div class="score-summary-item"><p class="score-summary-num">' + cats.b.total + '<span style="font-size:.7rem;opacity:.6">/' + cats.b.maxScore + '</span></p><p class="score-summary-label">基本項目</p></div>' +
-          '<div class="score-summary-item"><p class="score-summary-num">' + cats.c.total + '<span style="font-size:.7rem;opacity:.6">/' + cats.c.maxScore + '</span></p><p class="score-summary-label">将来性</p></div>';
+        var catLabels = { a: 'コンテンツ', b: '信頼性', c: 'AI検索', d: '技術' };
+        var summaryHTML = '';
+        for (var k in cats) {
+          if (cats.hasOwnProperty(k)) {
+            summaryHTML += '<div class="score-summary-item"><p class="score-summary-num">' + cats[k].total + '<span style="font-size:.7rem;opacity:.6">/' + cats[k].maxScore + '</span></p><p class="score-summary-label">' + (catLabels[k] || cats[k].label) + '</p></div>';
+          }
+        }
+        document.getElementById('score-summary').innerHTML = summaryHTML;
       }
 
       // Company Profile

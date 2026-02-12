@@ -147,10 +147,10 @@ async function handleWebCheck(request, env) {
 
     if (hasUrl) {
       // Crawl and score the website
-      const crawlResult = await crawlWebsite(body.q2_url);
+      const crawlResult = await crawlSite(body.q2_url, env);
       if (crawlResult.success) {
         crawlData = crawlResult;
-        scores = scoreWebsite(crawlResult);
+        scores = scoreSite(crawlResult);
       }
     }
 
@@ -199,13 +199,13 @@ async function handleSiteCheck(request, env) {
     }
 
     // Crawl the website
-    const crawlResult = await crawlWebsite(body.url, env);
+    const crawlResult = await crawlSite(body.url, env);
     if (!crawlResult.success) {
       return jsonResponse({ error: crawlResult.error || 'サイトにアクセスできませんでした。URLが正しいか確認してください。' }, 400);
     }
 
     // Score the website
-    const scores = scoreWebsite(crawlResult);
+    const scores = scoreSite(crawlResult);
 
     // Determine level from score
     const level = scores.totalScore >= 80 ? 5 : scores.totalScore >= 60 ? 4 : scores.totalScore >= 40 ? 3 : scores.totalScore >= 20 ? 2 : 1;
@@ -240,7 +240,8 @@ async function handleSiteCheck(request, env) {
 
     return jsonResponse({
       id, scores, level, result: result.data,
-      url: crawlResult.finalUrl
+      url: crawlResult.finalUrl,
+      totalPages: crawlResult.totalPages || 1
     });
   } catch (err) {
     console.error('handleSiteCheck error:', err);
@@ -248,21 +249,11 @@ async function handleSiteCheck(request, env) {
   }
 }
 
-// ========== Website Crawling ==========
+// ========== Multi-Page Website Crawling ==========
 
-async function crawlWebsite(inputUrl, env) {
+async function crawlPage(url, env) {
   try {
-    let url = inputUrl.trim();
-    if (!url.startsWith('http')) url = 'https://' + url;
-
-    let parsedUrl;
-    try {
-      parsedUrl = new URL(url);
-    } catch (e) {
-      return { success: false, error: 'URLの形式が正しくありません。例：https://example.com' };
-    }
-
-    // For ciras.jp, use internal ASSETS fetch (Workers cannot fetch their own domain)
+    const parsedUrl = new URL(url);
     const selfDomains = ['ciras.jp', 'www.ciras.jp'];
     const isSelf = selfDomains.includes(parsedUrl.hostname.toLowerCase());
 
@@ -284,37 +275,18 @@ async function crawlWebsite(inputUrl, env) {
       clearTimeout(timeout);
     }
 
-    if (!response.ok) {
-      const statusMessages = {
-        403: 'このサイトはアクセスが制限されています。',
-        404: '指定されたページが見つかりませんでした。URLを確認してください。',
-        500: 'サイト側でサーバーエラーが発生しています。時間をおいて再度お試しください。',
-        502: 'サイトに一時的にアクセスできません。時間をおいて再度お試しください。',
-        503: 'サイトが一時的に利用できません。メンテナンス中の可能性があります。',
-        522: 'サイトへの接続がタイムアウトしました。サイトが正常に動作しているか確認してください。',
-        525: 'サイトとの安全な接続に失敗しました。',
-        530: 'サイトへのアクセスがブロックされました。'
-      };
-      const msg = statusMessages[response.status] || `サイトにアクセスできませんでした（エラー${response.status}）。`;
-      return { success: false, error: msg };
-    }
-
-    // For self-fetch, skip content-type check (ASSETS always returns HTML for .html)
+    if (!response.ok) return null;
     if (!isSelf) {
       const contentType = response.headers.get('content-type') || '';
-      if (!contentType.includes('text/html')) {
-        return { success: false, error: 'HTMLではないコンテンツです' };
-      }
+      if (!contentType.includes('text/html')) return null;
     }
 
     const html = await response.text();
-    const truncatedHtml = html.substring(0, 500000); // 500KB limit
+    const truncatedHtml = html.substring(0, 500000);
     const finalUrl = isSelf ? url : (response.url || url);
 
     return {
-      success: true,
-      finalUrl: finalUrl,
-      isHttps: finalUrl.startsWith('https://'),
+      url: finalUrl,
       html: truncatedHtml,
       pageSize: html.length,
       title: extractTag(truncatedHtml, 'title'),
@@ -330,6 +302,8 @@ async function crawlWebsite(inputUrl, env) {
       hasPrice: /円|料金|価格|price/i.test(truncatedHtml),
       hasPhone: /tel:|電話|TEL/i.test(truncatedHtml),
       hasCompanyInfo: /会社概要|代表|設立|about/i.test(truncatedHtml),
+      hasTestimonials: /お客様の声|実績|事例|voice|testimonial|case/i.test(truncatedHtml),
+      hasPrivacyPolicy: /プライバシー|個人情報|privacy/i.test(truncatedHtml),
       scriptCount: (truncatedHtml.match(/<script/gi) || []).length,
       stylesheetCount: (truncatedHtml.match(/<link[^>]*stylesheet/gi) || []).length,
       imageCount: (truncatedHtml.match(/<img/gi) || []).length,
@@ -337,18 +311,189 @@ async function crawlWebsite(inputUrl, env) {
       copyrightYear: extractCopyrightYear(truncatedHtml),
       textContent: extractTextContent(truncatedHtml).substring(0, 5000),
       contentLength: extractTextContent(truncatedHtml).length,
-      headingsText: extractHeadingsText(truncatedHtml)
+      headingsText: extractHeadingsText(truncatedHtml),
+      isHttps: finalUrl.startsWith('https://')
     };
   } catch (err) {
-    console.error('Crawl error:', err);
+    console.error('crawlPage error:', url, err.message);
+    return null;
+  }
+}
+
+function extractAllInternalLinks(html, baseUrl) {
+  const links = new Set();
+  try {
+    const base = new URL(baseUrl);
+    const regex = /<a[^>]*href=["']([^"'#]*?)["']/gi;
+    let match;
+    while ((match = regex.exec(html)) !== null) {
+      try {
+        const linkUrl = new URL(match[1], baseUrl);
+        if (linkUrl.hostname === base.hostname && linkUrl.pathname !== base.pathname) {
+          const ext = linkUrl.pathname.split('.').pop().toLowerCase();
+          if (!ext || ext === 'html' || ext === 'htm' || ext === 'php' || !linkUrl.pathname.includes('.')) {
+            links.add(linkUrl.origin + linkUrl.pathname);
+          }
+        }
+      } catch (e) {}
+    }
+  } catch (e) {}
+  return [...links];
+}
+
+function prioritizePages(links) {
+  const weights = {
+    company: 10, about: 10, voice: 10, testimonial: 10, case: 10,
+    faq: 9, privacy: 8, terms: 8,
+    service: 9, price: 9, pricing: 9, plan: 9,
+    contact: 7, blog: 6, news: 6, column: 6,
+    partner: 5, seminar: 5
+  };
+  return links.map(url => {
+    const path = url.toLowerCase();
+    let weight = 3;
+    for (const [keyword, w] of Object.entries(weights)) {
+      if (path.includes(keyword)) { weight = w; break; }
+    }
+    return { url, weight };
+  }).sort((a, b) => b.weight - a.weight).map(x => x.url);
+}
+
+function classifyPage(url, title, text) {
+  const u = url.toLowerCase();
+  const t = (title + ' ' + text.substring(0, 500)).toLowerCase();
+  if (u.includes('company') || u.includes('about') || t.includes('会社概要') || t.includes('代表挨拶')) return 'company';
+  if (u.includes('voice') || u.includes('testimonial') || u.includes('case') || t.includes('お客様の声') || t.includes('導入事例')) return 'testimonials';
+  if (u.includes('faq') || t.includes('よくある質問') || t.includes('q&a')) return 'faq';
+  if (u.includes('privacy') || t.includes('プライバシー') || t.includes('個人情報')) return 'privacy';
+  if (u.includes('terms') || t.includes('利用規約')) return 'terms';
+  if (u.includes('blog') || u.includes('news') || u.includes('column')) return 'blog';
+  if (u.includes('contact') || t.includes('お問い合わせ') || t.includes('お問合せ')) return 'contact';
+  if (u.includes('price') || u.includes('pricing') || u.includes('plan') || t.includes('料金') || t.includes('プラン')) return 'pricing';
+  if (u.includes('service') || t.includes('サービス内容') || t.includes('事業内容')) return 'service';
+  return 'other';
+}
+
+async function crawlSite(inputUrl, env) {
+  try {
+    let url = inputUrl.trim();
+    if (!url.startsWith('http')) url = 'https://' + url;
+
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(url);
+    } catch (e) {
+      return { success: false, error: 'URLの形式が正しくありません。例：https://example.com' };
+    }
+
+    const homepage = await crawlPage(url, env);
+    if (!homepage) {
+      return { success: false, error: 'サイトにアクセスできませんでした。URLが正しいか確認してください。' };
+    }
+
+    const internalLinks = extractAllInternalLinks(homepage.html, homepage.url);
+    const prioritized = prioritizePages(internalLinks);
+    const pagesToCrawl = prioritized.slice(0, 9);
+
+    const subpageResults = await Promise.allSettled(
+      pagesToCrawl.map(link => crawlPage(link, env))
+    );
+
+    const pages = [homepage];
+    for (const result of subpageResults) {
+      if (result.status === 'fulfilled' && result.value) {
+        pages.push(result.value);
+      }
+    }
+
+    const classifiedPages = pages.map(p => ({
+      ...p,
+      type: classifyPage(p.url, p.title, p.textContent)
+    }));
+
+    return buildSiteProfile(classifiedPages, homepage);
+  } catch (err) {
+    console.error('crawlSite error:', err);
     if (err.name === 'AbortError') {
-      return { success: false, error: 'サイトの読み込みに時間がかかりすぎました。サイトが正常に表示されるか確認してください。' };
+      return { success: false, error: 'サイトの読み込みに時間がかかりすぎました。' };
     }
     if (err.message && err.message.includes('DNS')) {
       return { success: false, error: 'サイトが見つかりませんでした。URLが正しいか確認してください。' };
     }
-    return { success: false, error: 'サイトにアクセスできませんでした。URLが正しいか、サイトが正常に動作しているか確認してください。' };
+    return { success: false, error: 'サイトにアクセスできませんでした。' };
   }
+}
+
+function buildSiteProfile(pages, homepage) {
+  const pageTypes = {};
+  for (const p of pages) {
+    if (!pageTypes[p.type]) pageTypes[p.type] = [];
+    pageTypes[p.type].push(p);
+  }
+
+  const hasTestimonials = pages.some(p => p.type === 'testimonials' || p.hasTestimonials);
+  const hasFaq = pages.some(p => p.type === 'faq' || p.hasFaq);
+  const hasCompanyInfo = pages.some(p => p.type === 'company' || p.hasCompanyInfo);
+  const hasPrivacyPolicy = pages.some(p => p.type === 'privacy' || p.hasPrivacyPolicy);
+  const hasPricing = pages.some(p => p.type === 'pricing' || p.hasPrice);
+  const hasContact = pages.some(p => p.type === 'contact');
+  const hasBlog = pages.some(p => p.type === 'blog');
+  const hasService = pages.some(p => p.type === 'service');
+  const hasAddress = pages.some(p => p.hasAddress);
+  const hasPhone = pages.some(p => p.hasPhone);
+
+  const totalContentLength = pages.reduce((sum, p) => sum + p.contentLength, 0);
+  const totalImages = pages.reduce((sum, p) => sum + p.imageCount, 0);
+  const allJsonLdTypes = [...new Set(pages.flatMap(p => p.jsonLdTypes || []))];
+  const hasJsonLd = pages.some(p => p.hasJsonLd);
+  const altTextScores = pages.filter(p => typeof p.hasAltText === 'number');
+  const avgAltText = altTextScores.length > 0 ? altTextScores.reduce((s, p) => s + p.hasAltText, 0) / altTextScores.length : 0;
+  const blogPages = pages.filter(p => p.type === 'blog');
+  const testimonialPages = pages.filter(p => p.type === 'testimonials');
+
+  return {
+    success: true,
+    finalUrl: homepage.url,
+    isHttps: homepage.isHttps,
+    html: homepage.html,
+    pageSize: homepage.pageSize,
+    title: homepage.title,
+    metaDescription: homepage.metaDescription,
+    hasViewport: homepage.hasViewport,
+    hasJsonLd,
+    jsonLdTypes: allJsonLdTypes,
+    headingStructure: homepage.headingStructure,
+    hasCanonical: homepage.hasCanonical,
+    internalLinks: homepage.internalLinks,
+    hasFaq,
+    hasAddress,
+    hasPrice: hasPricing,
+    hasPhone,
+    hasCompanyInfo,
+    scriptCount: homepage.scriptCount,
+    stylesheetCount: homepage.stylesheetCount,
+    imageCount: homepage.imageCount,
+    hasAltText: homepage.hasAltText,
+    copyrightYear: homepage.copyrightYear,
+    textContent: homepage.textContent,
+    contentLength: homepage.contentLength,
+    headingsText: homepage.headingsText,
+    totalPages: pages.length,
+    pages: pages.map(p => ({
+      url: p.url, type: p.type, title: p.title,
+      contentLength: p.contentLength,
+      headingsText: (p.headingsText || []).slice(0, 10),
+      textContent: p.textContent.substring(0, 2000)
+    })),
+    siteProfile: {
+      hasTestimonials, hasFaq, hasCompanyInfo, hasPrivacyPolicy,
+      hasPricing, hasContact, hasBlog, hasService, hasAddress, hasPhone,
+      totalContentLength, totalImages, avgAltText,
+      blogPostCount: blogPages.length,
+      testimonialPageCount: testimonialPages.length,
+      pageTypes: Object.keys(pageTypes)
+    }
+  };
 }
 
 // HTML parsing helpers
@@ -433,118 +578,179 @@ function extractTextContent(html) {
     .trim();
 }
 
-// ========== Website Scoring ==========
+// ========== Website Scoring (4 Categories, 25pts each) ==========
 
-function scoreWebsite(crawl) {
-  const a = scoreAISearch(crawl);
-  const b = scoreSEOBasics(crawl);
-  const c = scoreFuture(crawl);
-  const total = a.total + b.total + c.total;
-
-  return { totalScore: total, categories: { a, b, c } };
+function scoreSite(crawl) {
+  const sp = crawl.siteProfile || {};
+  const a = scoreContent(crawl, sp);
+  const b = scoreTrust(crawl, sp);
+  const c = scoreAIReady(crawl, sp);
+  const d = scoreTechnical(crawl, sp);
+  const total = a.total + b.total + c.total + d.total;
+  return { totalScore: total, categories: { a, b, c, d } };
 }
 
-function scoreAISearch(c) {
-  let clarity = 0; // max 12
-  if (c.hasAddress) clarity += 3;
-  if (c.hasPrice) clarity += 3;
-  if (c.hasPhone) clarity += 2;
-  if (c.headingStructure.h1 >= 1) clarity += 2;
-  if (c.headingStructure.h2 >= 2) clarity += 2;
+function scoreContent(crawl, sp) {
+  let serviceClarity = 0; // max 7
+  if (sp.hasService || crawl.hasPrice) serviceClarity += 3;
+  if (crawl.title && crawl.title.length >= 10) serviceClarity += 2;
+  if (crawl.metaDescription && crawl.metaDescription.length >= 50) serviceClarity += 2;
 
-  let expertise = 0; // max 10
-  if (c.contentLength > 3000) expertise += 4;
-  else if (c.contentLength > 1000) expertise += 2;
-  if (c.headingStructure.h2 >= 3) expertise += 3;
-  if (c.imageCount >= 3) expertise += 3;
+  let contentDepth = 0; // max 6
+  const totalLen = sp.totalContentLength || crawl.contentLength;
+  if (totalLen > 20000) contentDepth += 6;
+  else if (totalLen > 10000) contentDepth += 4;
+  else if (totalLen > 5000) contentDepth += 2;
+  else if (totalLen > 2000) contentDepth += 1;
 
-  let structured = 0; // max 10
-  if (c.hasJsonLd) {
-    structured += 5;
-    if (c.jsonLdTypes.includes('Organization') || c.jsonLdTypes.includes('LocalBusiness')) structured += 3;
-    if (c.jsonLdTypes.includes('FAQPage') || c.jsonLdTypes.includes('Service')) structured += 2;
-  }
+  let diversity = 0; // max 6
+  const pageTypeCount = (sp.pageTypes || []).length;
+  if (pageTypeCount >= 6) diversity += 6;
+  else if (pageTypeCount >= 4) diversity += 4;
+  else if (pageTypeCount >= 3) diversity += 3;
+  else if (pageTypeCount >= 2) diversity += 1;
 
-  let faq = 0; // max 8
-  if (c.hasFaq) faq += 8;
+  let faq = 0; // max 3
+  if (sp.hasFaq) faq += 3;
 
-  let credibility = 0; // max 10
-  if (c.hasCompanyInfo) credibility += 4;
-  if (c.hasAddress) credibility += 3;
-  if (c.hasPhone) credibility += 3;
+  let pricing = 0; // max 3
+  if (sp.hasPricing) pricing += 3;
 
-  const total = clarity + expertise + structured + faq + credibility;
+  const total = serviceClarity + contentDepth + diversity + faq + pricing;
   return {
-    total, maxScore: 50, label: 'AI検索に引用されるための要素',
+    total, maxScore: 25, label: 'コンテンツの充実度',
     details: {
-      clarity: { score: clarity, max: 12, label: '情報の明確さ' },
-      expertise: { score: expertise, max: 10, label: '専門性・独自性' },
-      structured: { score: structured, max: 10, label: '構造化データ' },
-      faq: { score: faq, max: 8, label: 'Q&A・FAQ形式' },
-      credibility: { score: credibility, max: 10, label: '信頼性の証明' }
+      serviceClarity: { score: serviceClarity, max: 7, label: 'サービス説明' },
+      contentDepth: { score: contentDepth, max: 6, label: '情報量' },
+      diversity: { score: diversity, max: 6, label: 'ページの多様性' },
+      faq: { score: faq, max: 3, label: 'FAQ・Q&A' },
+      pricing: { score: pricing, max: 3, label: '料金情報' }
     }
   };
 }
 
-function scoreSEOBasics(c) {
-  let mobile = 0; // max 10
-  if (c.hasViewport) mobile += 10;
-
-  let speed = 0; // max 10
-  if (c.pageSize < 200000) speed += 5;
-  else if (c.pageSize < 500000) speed += 3;
-  if (c.scriptCount <= 5) speed += 3;
-  else if (c.scriptCount <= 10) speed += 1;
-  if (c.imageCount <= 20) speed += 2;
-
-  let titleDesc = 0; // max 10
-  if (c.title) {
-    titleDesc += 3;
-    if (c.title.length >= 10 && c.title.length <= 60) titleDesc += 2;
-  }
-  if (c.metaDescription) {
-    titleDesc += 3;
-    if (c.metaDescription.length >= 50 && c.metaDescription.length <= 160) titleDesc += 2;
+function scoreTrust(crawl, sp) {
+  let testimonials = 0; // max 8
+  if (sp.hasTestimonials) {
+    testimonials += 5;
+    if ((sp.testimonialPageCount || 0) >= 2) testimonials += 3;
   }
 
+  let company = 0; // max 6
+  if (sp.hasCompanyInfo) {
+    company += 3;
+    if (sp.hasAddress) company += 2;
+    if (sp.hasPhone) company += 1;
+  }
+
+  let legal = 0; // max 4
+  if (sp.hasPrivacyPolicy) legal += 4;
+
+  let contact = 0; // max 4
+  if (sp.hasContact) contact += 4;
+
+  let freshContent = 0; // max 3
+  if (sp.hasBlog) {
+    freshContent += 2;
+    if ((sp.blogPostCount || 0) >= 3) freshContent += 1;
+  }
+
+  const total = testimonials + company + legal + contact + freshContent;
+  return {
+    total, maxScore: 25, label: '信頼性・実績',
+    details: {
+      testimonials: { score: testimonials, max: 8, label: 'お客様の声・実績' },
+      company: { score: company, max: 6, label: '会社概要' },
+      legal: { score: legal, max: 4, label: 'プライバシーポリシー' },
+      contact: { score: contact, max: 4, label: '問い合わせ窓口' },
+      freshContent: { score: freshContent, max: 3, label: '更新コンテンツ' }
+    }
+  };
+}
+
+function scoreAIReady(crawl, sp) {
+  let structured = 0; // max 8
+  if (crawl.hasJsonLd) {
+    structured += 3;
+    const types = crawl.jsonLdTypes || [];
+    if (types.includes('Organization') || types.includes('LocalBusiness')) structured += 2;
+    if (types.includes('FAQPage')) structured += 2;
+    if (types.includes('Service') || types.includes('Product')) structured += 1;
+  }
+
+  let headings = 0; // max 5
+  const hs = crawl.headingStructure;
+  if (hs.h1 >= 1) headings += 2;
+  if (hs.h2 >= 3) headings += 2;
+  else if (hs.h2 >= 1) headings += 1;
+  if (hs.h3 >= 2) headings += 1;
+
+  let clarity = 0; // max 5
+  if (sp.hasAddress) clarity += 2;
+  if (sp.hasPhone) clarity += 1;
+  if (sp.hasPricing) clarity += 2;
+
+  let linking = 0; // max 4
+  if (crawl.internalLinks >= 15) linking += 4;
+  else if (crawl.internalLinks >= 8) linking += 3;
+  else if (crawl.internalLinks >= 3) linking += 1;
+
+  let meta = 0; // max 3
+  if (crawl.hasCanonical) meta += 2;
+  if (crawl.metaDescription && crawl.metaDescription.length >= 30) meta += 1;
+
+  const total = structured + headings + clarity + linking + meta;
+  return {
+    total, maxScore: 25, label: 'AI検索最適化',
+    details: {
+      structured: { score: structured, max: 8, label: '構造化データ' },
+      headings: { score: headings, max: 5, label: '見出し構造' },
+      clarity: { score: clarity, max: 5, label: '情報の明確さ' },
+      linking: { score: linking, max: 4, label: '内部リンク' },
+      meta: { score: meta, max: 3, label: 'メタ情報' }
+    }
+  };
+}
+
+function scoreTechnical(crawl, sp) {
   let security = 0; // max 5
-  if (c.isHttps) security += 5;
+  if (crawl.isHttps) security += 5;
 
-  const total = mobile + speed + titleDesc + security;
-  return {
-    total, maxScore: 35, label: '従来SEOとして最低限必要な要素',
-    details: {
-      mobile: { score: mobile, max: 10, label: 'モバイル対応' },
-      speed: { score: speed, max: 10, label: '表示速度（推定）' },
-      titleDesc: { score: titleDesc, max: 10, label: 'タイトル・説明文' },
-      security: { score: security, max: 5, label: 'セキュリティ' }
-    }
-  };
-}
+  let mobile = 0; // max 5
+  if (crawl.hasViewport) mobile += 5;
 
-function scoreFuture(c) {
-  let freshness = 0; // max 8
+  let speed = 0; // max 5
+  if (crawl.pageSize < 150000) speed += 3;
+  else if (crawl.pageSize < 300000) speed += 2;
+  else if (crawl.pageSize < 500000) speed += 1;
+  if (crawl.scriptCount <= 5) speed += 1;
+  if (crawl.imageCount <= 15) speed += 1;
+
+  let accessibility = 0; // max 5
+  const altRatio = typeof crawl.hasAltText === 'number' ? crawl.hasAltText : 0;
+  if (altRatio >= 0.9) accessibility += 5;
+  else if (altRatio >= 0.7) accessibility += 3;
+  else if (altRatio >= 0.4) accessibility += 2;
+  else if (crawl.imageCount === 0) accessibility += 3;
+
+  let freshness = 0; // max 5
   const currentYear = new Date().getFullYear();
-  if (c.copyrightYear) {
-    if (c.copyrightYear >= currentYear) freshness += 5;
-    else if (c.copyrightYear >= currentYear - 1) freshness += 3;
-    else if (c.copyrightYear >= currentYear - 2) freshness += 1;
+  if (crawl.copyrightYear) {
+    if (crawl.copyrightYear >= currentYear) freshness += 3;
+    else if (crawl.copyrightYear >= currentYear - 1) freshness += 2;
+    else if (crawl.copyrightYear >= currentYear - 2) freshness += 1;
   }
-  if (c.hasCanonical) freshness += 3;
+  if (sp.hasBlog) freshness += 2;
 
-  let breadth = 0; // max 7
-  if (c.internalLinks >= 15) breadth += 4;
-  else if (c.internalLinks >= 8) breadth += 3;
-  else if (c.internalLinks >= 3) breadth += 1;
-  if (c.hasFaq) breadth += 2;
-  if (c.hasCompanyInfo) breadth += 1;
-
-  const total = freshness + breadth;
+  const total = security + mobile + speed + accessibility + freshness;
   return {
-    total, maxScore: 15, label: '将来を見据えた評価',
+    total, maxScore: 25, label: '技術品質',
     details: {
-      freshness: { score: freshness, max: 8, label: '更新性' },
-      breadth: { score: breadth, max: 7, label: 'コンテンツの網羅性' }
+      security: { score: security, max: 5, label: 'HTTPS' },
+      mobile: { score: mobile, max: 5, label: 'モバイル対応' },
+      speed: { score: speed, max: 5, label: '表示速度' },
+      accessibility: { score: accessibility, max: 5, label: '画像の説明文' },
+      freshness: { score: freshness, max: 5, label: '更新性' }
     }
   };
 }
@@ -850,18 +1056,14 @@ function buildWebCheckPrompt(answers, scores, crawlData) {
 
   if (scores) {
     prompt += `\n\n【自動分析スコア】（100点満点中 ${scores.totalScore}点）`;
-    prompt += `\nA. AI検索対応: ${scores.categories.a.total}/${scores.categories.a.maxScore}点`;
-    for (const [, d] of Object.entries(scores.categories.a.details)) {
-      prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
-    }
-    prompt += `\nB. SEO基礎: ${scores.categories.b.total}/${scores.categories.b.maxScore}点`;
-    for (const [, d] of Object.entries(scores.categories.b.details)) {
-      prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
-    }
-    prompt += `\nC. 将来性: ${scores.categories.c.total}/${scores.categories.c.maxScore}点`;
-    for (const [, d] of Object.entries(scores.categories.c.details)) {
-      prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
-    }
+    const catLettersW = ['A', 'B', 'C', 'D'];
+    Object.keys(scores.categories).forEach((key, i) => {
+      const cat = scores.categories[key];
+      prompt += `\n${catLettersW[i]}. ${cat.label}: ${cat.total}/${cat.maxScore}点`;
+      for (const [, d] of Object.entries(cat.details)) {
+        prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
+      }
+    });
 
     if (crawlData) {
       prompt += `\n\n【サイト情報】`;
@@ -897,14 +1099,16 @@ function buildWebCheckPrompt(answers, scores, crawlData) {
 // ========== Site Check Prompts (URL-only) ==========
 
 function buildSiteCheckSystemPrompt() {
-  return `あなたはCiras株式会社のAI・Webコンサルタントです。クライアントのWebサイトを詳しく読み取り、その会社の特徴を理解した上で、的確な診断と改善提案を行います。
+  return `あなたはCiras株式会社のAI・Webコンサルタントです。クライアントのWebサイト全体（複数ページ）を詳しく読み取り、その会社の特徴を理解した上で、的確な診断と改善提案を行います。
 
 あなたの役割：
+- サイト全体の構成（会社概要・サービス・実績・FAQ等のページの有無）を評価する
 - URLから会社の事業内容・エリア・特徴をしっかり読み取る
 - 同業種・同エリアの競合を踏まえて、この会社がどういう立ち位置なのかを分析する
 - AI検索（ChatGPT・Perplexity等）でこの会社が検索されたとき、どう表示されるかを具体的に示す
 - 良い点はしっかり褒め、改善すべき点は「なぜ問題なのか」「どうすればいいのか」をわかりやすく伝える
-- Webサイト制作の押し売りは絶対にしない。あくまで「情報の伝え方」の改善を提案する
+- プロとして第三者的な立場で、厳しくも公正な評価をすること
+- 高い評価は本当に優れたサイトにだけ与えること
 
 絶対ルール：
 1. 専門用語・ツール名は絶対に使わないこと（例：「SEO」→「検索での見つかりやすさ」、「構造化データ」→「AIが読める形での情報整理」、「JSON-LD」→「検索エンジン向けの会社情報タグ」、「viewport」→「スマホ画面に合わせた表示設定」、「canonical」→「正式なページURL設定」、「meta description」→「検索結果に表示される紹介文」、「alt text」→「画像の説明文」）。
@@ -924,11 +1128,11 @@ function buildSiteCheckSystemPrompt() {
     {
       "item": "チェック項目名（専門用語なし）",
       "rating": "◎ or ○ or △ or ×",
-      "comment": "このサイト固有の具体的なコメント（1〜2行。良い点は「○○がしっかり書かれています」、悪い点は「○○が見つからないため、△△という問題が起きています」のように）"
+      "comment": "このサイト固有の具体的なコメント（1〜2行）"
     }
   ],
   "goodPoints": [
-    "このサイトの良い点（具体的に。例：「代表者の顔写真と経歴が掲載されており、初めて訪れるお客様に安心感を与えています」）"
+    "このサイトの良い点（具体的に）"
   ],
   "solutions": [
     {
@@ -937,7 +1141,8 @@ function buildSiteCheckSystemPrompt() {
       "before": "今のサイトで実際に起きている問題（1〜2行。サイトの内容を根拠に具体的に）",
       "after": "改善した後の具体的な変化（1〜2行）"
     }
-  ]
+  ],
+  "cirasRecommendation": null
 }
 
 checkpointsは以下の10項目を必ず評価してください：
@@ -952,24 +1157,42 @@ checkpointsは以下の10項目を必ず評価してください：
 9. 「ページの見出し構成」- 情報が整理されていて、読みやすい構成になっているか
 10. 「情報の新しさ」- 最近更新された形跡があるか、古いまま放置されていないか
 
-rating基準：
-- ◎：十分にできている（改善不要）
-- ○：基本はできているが、もう少し充実させると良い
+rating基準（厳格に評価すること）：
+- ◎：業界水準を大きく上回っている（滅多に付けないこと）
+- ○：基本はできているが、改善の余地あり
 - △：不十分。改善すると効果が大きい
 - ×：対応できていない。早めの対応を推奨
 
-goodPointsは2〜3個。solutionsは3個。`;
+goodPointsは2〜3個。solutionsは3〜5個。
+
+【重要：スコアが59点以下（レベル3以下）の場合】
+cirasRecommendationに以下の形式で、Ciras株式会社でのWebサイト制作を根拠込みでおすすめしてください：
+{
+  "title": "プロによるWebサイトリニューアルのご提案",
+  "reason": "診断結果から見えた具体的な課題を2〜3個挙げ、なぜプロに依頼すべきかを説明（3〜4行）",
+  "benefits": ["Ciras株式会社に依頼するメリットを3つ"],
+  "cta": "まずは無料相談で、御社の課題をお聞かせください。"
+}
+スコアが60点以上の場合はcirasRecommendationはnullにしてください。`;
 }
 
 function buildSiteCheckPrompt(scores, crawlData) {
-  let prompt = `以下のWebサイトを詳しく分析し、診断結果を出力してください。
+  let prompt = `以下のWebサイト全体を分析し、診断結果を出力してください。
 
 【分析対象サイト】
 - URL: ${crawlData.finalUrl}
 - ページタイトル: ${crawlData.title || '（タイトルなし）'}
 - 紹介文: ${crawlData.metaDescription || '（紹介文なし）'}
+- 巡回ページ数: ${crawlData.totalPages || 1}ページ`;
 
-【サイトの見出し構成】`;
+  if (crawlData.pages && crawlData.pages.length > 0) {
+    prompt += `\n\n【巡回したページ一覧】`;
+    crawlData.pages.forEach((p, i) => {
+      prompt += `\n${i + 1}. [${p.type}] ${p.title || '（タイトルなし）'} - ${p.url}`;
+    });
+  }
+
+  prompt += `\n\n【トップページの見出し構成】`;
   if (crawlData.headingsText && crawlData.headingsText.length > 0) {
     crawlData.headingsText.forEach(h => {
       prompt += `\n  ${h.level.toUpperCase()}: ${h.text}`;
@@ -978,46 +1201,64 @@ function buildSiteCheckPrompt(scores, crawlData) {
     prompt += '\n  （見出しが見つかりませんでした）';
   }
 
-  prompt += `\n\n【サイトの本文テキスト（抜粋）】\n${crawlData.textContent || '（テキストを取得できませんでした）'}`;
+  prompt += `\n\n【各ページのテキスト内容（抜粋）】`;
+  if (crawlData.pages && crawlData.pages.length > 0) {
+    crawlData.pages.forEach(p => {
+      prompt += `\n\n--- ${p.type}: ${p.title || p.url} ---`;
+      prompt += `\n${p.textContent || '（テキストなし）'}`;
+    });
+  } else {
+    prompt += `\n${crawlData.textContent || '（テキストを取得できませんでした）'}`;
+  }
 
-  prompt += `\n\n【自動スキャン結果】`;
-  prompt += `\n- 総合スコア: ${scores.totalScore}/100点`;
-  prompt += `\n- HTTPS（安全な接続）: ${crawlData.isHttps ? 'あり' : 'なし'}`;
+  const sp = crawlData.siteProfile || {};
+  prompt += `\n\n【サイト構成の自動判定結果】`;
+  prompt += `\n- お客様の声・実績ページ: ${sp.hasTestimonials ? 'あり' : 'なし'}`;
+  prompt += `\n- FAQ・よくある質問ページ: ${sp.hasFaq ? 'あり' : 'なし'}`;
+  prompt += `\n- 会社概要ページ: ${sp.hasCompanyInfo ? 'あり' : 'なし'}`;
+  prompt += `\n- プライバシーポリシー: ${sp.hasPrivacyPolicy ? 'あり' : 'なし'}`;
+  prompt += `\n- 料金ページ: ${sp.hasPricing ? 'あり' : 'なし'}`;
+  prompt += `\n- 問い合わせページ: ${sp.hasContact ? 'あり' : 'なし'}`;
+  prompt += `\n- ブログ・コラム: ${sp.hasBlog ? 'あり（' + (sp.blogPostCount || 0) + '記事）' : 'なし'}`;
+  prompt += `\n- サービス紹介ページ: ${sp.hasService ? 'あり' : 'なし'}`;
+  prompt += `\n- 住所・所在地: ${sp.hasAddress ? 'あり' : 'なし'}`;
+  prompt += `\n- 電話番号: ${sp.hasPhone ? 'あり' : 'なし'}`;
+
+  prompt += `\n\n【技術情報】`;
+  prompt += `\n- HTTPS: ${crawlData.isHttps ? 'あり' : 'なし'}`;
   prompt += `\n- スマホ対応: ${crawlData.hasViewport ? 'あり' : 'なし'}`;
   prompt += `\n- AI向け情報整理タグ: ${crawlData.hasJsonLd ? 'あり（' + crawlData.jsonLdTypes.join(', ') + '）' : 'なし'}`;
-  prompt += `\n- FAQ・よくある質問: ${crawlData.hasFaq ? 'あり' : 'なし'}`;
-  prompt += `\n- 会社概要: ${crawlData.hasCompanyInfo ? 'あり' : 'なし'}`;
-  prompt += `\n- 住所・所在地: ${crawlData.hasAddress ? 'あり' : 'なし'}`;
-  prompt += `\n- 電話番号: ${crawlData.hasPhone ? 'あり' : 'なし'}`;
-  prompt += `\n- 料金情報: ${crawlData.hasPrice ? 'あり' : 'なし'}`;
   prompt += `\n- 見出し数: H1=${crawlData.headingStructure.h1}, H2=${crawlData.headingStructure.h2}, H3=${crawlData.headingStructure.h3}`;
   prompt += `\n- 画像数: ${crawlData.imageCount}（画像説明文の充実度: ${typeof crawlData.hasAltText === 'number' ? Math.round(crawlData.hasAltText * 100) + '%' : '不明'}）`;
   prompt += `\n- 内部リンク数: ${crawlData.internalLinks}`;
-  prompt += `\n- テキスト量: 約${crawlData.contentLength}文字`;
-  prompt += `\n- ページサイズ: 約${Math.round(crawlData.pageSize / 1024)}KB`;
+  prompt += `\n- 総テキスト量: 約${sp.totalContentLength || crawlData.contentLength}文字`;
+  prompt += `\n- トップページサイズ: 約${Math.round(crawlData.pageSize / 1024)}KB`;
   prompt += `\n- 著作権年: ${crawlData.copyrightYear || '不明'}`;
 
-  prompt += `\n\n【スコア詳細】`;
-  prompt += `\nA. AI検索対応: ${scores.categories.a.total}/${scores.categories.a.maxScore}`;
-  for (const [, d] of Object.entries(scores.categories.a.details)) {
-    prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
-  }
-  prompt += `\nB. 基本項目: ${scores.categories.b.total}/${scores.categories.b.maxScore}`;
-  for (const [, d] of Object.entries(scores.categories.b.details)) {
-    prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
-  }
-  prompt += `\nC. 将来性: ${scores.categories.c.total}/${scores.categories.c.maxScore}`;
-  for (const [, d] of Object.entries(scores.categories.c.details)) {
-    prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
+  prompt += `\n\n【スコア詳細】（100点満点中 ${scores.totalScore}点）`;
+  const catLetters = ['A', 'B', 'C', 'D'];
+  Object.keys(scores.categories).forEach((key, i) => {
+    const cat = scores.categories[key];
+    prompt += `\n${catLetters[i]}. ${cat.label}: ${cat.total}/${cat.maxScore}`;
+    for (const [, d] of Object.entries(cat.details)) {
+      prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
+    }
+  });
+
+  const level = scores.totalScore >= 80 ? 5 : scores.totalScore >= 60 ? 4 : scores.totalScore >= 40 ? 3 : scores.totalScore >= 20 ? 2 : 1;
+  prompt += `\n\nレベル判定: ${level}（${scores.totalScore}点）`;
+  if (level <= 3) {
+    prompt += `\n※ レベル3以下のため、cirasRecommendationを必ず出力してください。`;
   }
 
   prompt += `\n\n【重要な注意】`;
-  prompt += `\n- サイトの本文テキストと見出しを実際に読んで、会社の事業内容・特徴を正確に把握すること`;
+  prompt += `\n- サイト全体（複数ページ）のテキストと構成を実際に読んで、会社の事業内容・特徴を正確に把握すること`;
   prompt += `\n- checkpointsのコメントは「このサイトの○○について」のように、具体的なサイト内容を引用すること`;
   prompt += `\n- aiSearchPreviewは、実際にこのサイト情報だけから生成できる内容にすること。推測で補完しないこと`;
   prompt += `\n- positioningは「○○エリアの△△業界で」のように、エリア・業種を特定した上で分析すること`;
   prompt += `\n- solutionsのbeforeは、必ずこのサイトの実際の内容を根拠にすること（「一般的に〜」は禁止）`;
   prompt += `\n- 専門用語は絶対に使わないこと`;
+  prompt += `\n- 評価は厳格に。◎は本当に優れている場合のみ付けること`;
 
   return prompt;
 }
@@ -1155,7 +1396,7 @@ function generateWebCheckReportHTML(diagnosis) {
     contentHTML += `<section class="report-section">
       <h2 class="report-section-title">総合スコア</h2>
       <div class="score-hero"><p class="score-num">${s.totalScore}<span class="score-max"> / 100</span></p></div>`;
-    for (const cat of [s.categories.a, s.categories.b, s.categories.c]) {
+    for (const cat of Object.values(s.categories)) {
       const pct = Math.round(cat.total / cat.maxScore * 100);
       contentHTML += `<div class="score-bar-wrap"><div class="score-bar-label"><span>${escapeHTML(cat.label)}</span><span>${cat.total} / ${cat.maxScore}</span></div><div class="score-bar"><div class="score-bar-fill" style="width:${pct}%"></div></div></div>`;
     }
