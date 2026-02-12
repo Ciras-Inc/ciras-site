@@ -581,18 +581,22 @@ function buildAiCheckSystemPrompt() {
   return `あなたはCiras株式会社のAIコンサルタントです。中小企業の経営者や担当者に対して、AI活用の具体的な提案を行います。
 
 提案のルールを必ず守ってください：
-1. 事実と推論を明確に分けること。「〜という事例があります」「〜が広く使われています」は事実。「〜が期待できます」「〜につながる可能性があります」は推論。
-2. 専門用語は使わず、経営層に直感的かつ理論的に理解しやすい表現にすること。
-3. できないことを「できる」と言わないこと。AIの限界も正直に伝えること。
-4. 各提案は実際に今すぐ着手できる具体性のあるものにすること。
-5. 回答は必ず以下のJSON形式のみで出力すること。JSON以外のテキストは含めないこと。
+1. 回答者の「立場」「業種」「従業員数」に合わせた、その人だけに刺さる提案にすること。ありきたりな一般論は禁止。
+2. 専門用語・専門ツール名は絶対に使わないこと（例：「RPA」→「パソコン作業の自動化」、「ChatGPT」→「AIチャット」、「CRM」→「お客様管理」）。
+3. 「before」は回答者が実際に経験していそうな具体的な場面を書くこと（共感ではなく、本人の日常を描写する）。
+4. 「after」はAIを使った後の変化を、数字や時間で具体的に書くこと（例：「2時間→15分」「月末3日→半日」）。
+5. 「point」はこの提案の一番のメリットを1行で書くこと。
+6. できないことを「できる」と言わないこと。AIの限界も正直に伝えること。
+7. 回答は必ず以下のJSON形式のみで出力すること。JSON以外のテキストは含めないこと。
 
 出力形式：
 {
   "solutions": [
     {
-      "title": "提案タイトル（1行、具体的に）",
-      "description": "説明（3〜4行。なぜ有効か、どう始められるか、期待される効果を含む）"
+      "title": "提案タイトル（1行、その人の業務に直結する具体的な内容）",
+      "point": "この提案の一番のメリット（1行、数字を含めて）",
+      "before": "今の状態（1〜2行。回答者が「まさにそれ！」と思う日常の場面を描写）",
+      "after": "AIを使った後（1〜2行。具体的な数字・時間の変化を含めて）"
     }
   ]
 }`;
@@ -628,6 +632,10 @@ function buildAiCheckPrompt(answers) {
 
   prompt += `\n\n【提案の視点】\n${positionContext[answers.q1_position] || ''}`;
   prompt += `\n\n【提案のレベル】\n${aiLevelContext[answers.q6_ai_status] || ''}`;
+  prompt += `\n\n【重要な注意】`;
+  prompt += `\n- 「${answers.q2_industry}」の「${answers.q1_position}」が日常的に経験する具体的な場面をbeforeに書くこと`;
+  prompt += `\n- 「AIツール」「チャットボット」のような曖昧な表現ではなく、何をどう変えるか具体的に書くこと`;
+  prompt += `\n- 専門用語やツール名は絶対に使わず、誰でもわかる言葉で書くこと`;
   prompt += `\n\n興味分野（${answers.q4_interests.join('、')}）に直結する提案を5つ出力してください。`;
   return prompt;
 }
@@ -809,7 +817,17 @@ function generateAiCheckReportHTML(diagnosis) {
         <div class="solution-card">
           <div class="solution-num">${String(i + 1).padStart(2, '0')}</div>
           <h3 class="solution-title">${escapeHTML(s.title)}</h3>
-          <p class="solution-desc">${escapeHTML(s.description)}</p>
+          ${s.point ? `<p style="font-weight:600;color:#2D5A27;background:#E8F0E6;padding:.6rem 1rem;border-radius:4px;margin-bottom:1rem;font-size:.95rem">${escapeHTML(s.point)}</p>` : ''}
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:6px;overflow:hidden;border:1px solid #E5E5E5">
+            <div style="background:#FFF5F5;padding:1.2rem 1.5rem;border-right:1px solid #E5E5E5">
+              <p style="font-size:.75rem;font-weight:700;color:#C41E3A;margin-bottom:.4rem">&#x2716; 今の状態</p>
+              <p style="font-size:.9rem;color:#4A4A4A;line-height:1.8">${escapeHTML(s.before || s.description || '')}</p>
+            </div>
+            <div style="background:#F0FFF0;padding:1.2rem 1.5rem">
+              <p style="font-size:.75rem;font-weight:700;color:#2D5A27;margin-bottom:.4rem">&#x2714; AIを使うと</p>
+              <p style="font-size:.9rem;color:#4A4A4A;line-height:1.8">${escapeHTML(s.after || '')}</p>
+            </div>
+          </div>
         </div>`).join('');
 
   return `<!DOCTYPE html><html lang="ja"><head>

@@ -156,37 +156,45 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .results-label{font-size:.75rem;letter-spacing:.2em;color:var(--green);margin-bottom:.5rem}
     .results-title{font-family:'Shippori Mincho',serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:600;margin-bottom:1rem}
     .results-desc{font-size:.95rem;color:var(--gray-dark);line-height:2}
-    .solution-card{background:var(--bg);padding:2rem;border-radius:4px;margin-bottom:1.5rem;border-left:4px solid var(--green);transition:box-shadow .3s}
+    .solution-card{background:var(--bg);padding:2rem;border-radius:8px;margin-bottom:2rem;border-left:4px solid var(--green);transition:box-shadow .3s}
     .solution-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
     .solution-num{font-family:'Shippori Mincho',serif;font-size:.8rem;font-weight:600;color:var(--green);margin-bottom:.5rem;letter-spacing:.1em}
-    .solution-title{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600;margin-bottom:.8rem;line-height:1.6}
-    .solution-desc{font-size:.9rem;color:var(--gray-dark);line-height:2;white-space:pre-line}
+    .solution-title{font-family:'Shippori Mincho',serif;font-size:1.15rem;font-weight:600;margin-bottom:1rem;line-height:1.6}
+    .solution-point{font-size:.95rem;font-weight:600;color:var(--green);margin-bottom:1.2rem;padding:.6rem 1rem;background:var(--green-light);border-radius:4px;display:flex;align-items:center;gap:.5rem}
+    .solution-point::before{content:"";display:inline-block;width:20px;height:20px;background:var(--green);border-radius:50%;flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath d='M10 2a8 8 0 100 16 8 8 0 000-16zm3.7 6.3l-4 4a1 1 0 01-1.4 0l-2-2a1 1 0 111.4-1.4L9 10.2l3.3-3.3a1 1 0 011.4 1.4z'/%3E%3C/svg%3E");background-size:cover}
+    .solution-ba{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:6px;overflow:hidden;border:1px solid var(--gray-light)}
+    .solution-before,.solution-after{padding:1.2rem 1.5rem;font-size:.9rem;line-height:1.8}
+    .solution-before{background:#FFF5F5;border-right:1px solid var(--gray-light)}
+    .solution-after{background:#F0FFF0}
+    .solution-ba-label{font-size:.75rem;font-weight:700;letter-spacing:.1em;margin-bottom:.4rem;display:flex;align-items:center;gap:.3rem}
+    .solution-ba-label-before{color:#C41E3A}
+    .solution-ba-label-after{color:var(--green)}
+    .solution-ba-text{color:var(--gray-dark)}
+    .solution-arrow{display:none}
+    @media(max-width:600px){
+      .solution-ba{grid-template-columns:1fr}
+      .solution-before{border-right:none;border-bottom:1px solid var(--gray-light)}
+      .solution-arrow{display:flex;justify-content:center;padding:.3rem 0;background:var(--white);color:var(--green);font-size:1.2rem}
+    }
 
     /* CTA after results */
-    .results-cta{background:var(--green-light);padding:4rem 2rem;text-align:center;margin-top:3rem}
-    .results-cta-inner{max-width:600px;margin:0 auto}
-    .results-cta-service{font-size:.85rem;color:var(--gray-dark);line-height:2;margin-bottom:1.5rem;text-align:left;background:var(--white);padding:1.5rem;border-radius:4px}
-    .results-cta-title{font-family:'Shippori Mincho',serif;font-size:1.3rem;font-weight:600;margin-bottom:1rem}
+    .results-cta{background:linear-gradient(135deg, #2D5A27 0%, #3A7A32 100%);padding:4rem 2rem;text-align:center;margin-top:3rem;color:var(--white)}
+    .results-cta-inner{max-width:680px;margin:0 auto}
+    .results-cta-label{font-size:.75rem;letter-spacing:.2em;opacity:.8;margin-bottom:.5rem}
+    .results-cta-title{font-family:'Shippori Mincho',serif;font-size:clamp(1.3rem,3vw,1.6rem);font-weight:600;margin-bottom:1.5rem;line-height:1.7}
+    .results-cta-desc{font-size:.95rem;line-height:2;margin-bottom:2rem;opacity:.95}
+    .results-cta-service{background:rgba(255,255,255,.15);backdrop-filter:blur(4px);padding:1.5rem 2rem;border-radius:8px;margin-bottom:2rem;text-align:left;border:1px solid rgba(255,255,255,.2)}
+    .results-cta-service-title{font-size:.9rem;font-weight:600;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+    .results-cta-service-title::before{content:"";display:inline-block;width:6px;height:6px;background:var(--white);border-radius:50%}
+    .results-cta-service-list{list-style:none;font-size:.85rem;line-height:2.2;opacity:.95}
+    .results-cta-service-list li{padding-left:1.2rem;position:relative}
+    .results-cta-service-list li::before{content:"\2713";position:absolute;left:0;color:rgba(255,255,255,.8)}
     .results-cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
-    .results-cta-note{font-size:.8rem;color:var(--gray)}
-
-    /* Email Modal */
-    .email-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:3000;align-items:center;justify-content:center;padding:2rem}
-    .email-modal.active{display:flex}
-    .email-modal-content{background:var(--white);border-radius:4px;padding:2.5rem;max-width:480px;width:100%}
-    .email-modal-title{font-family:'Shippori Mincho',serif;font-size:1.2rem;font-weight:600;margin-bottom:.5rem}
-    .email-modal-desc{font-size:.85rem;color:var(--gray-dark);line-height:2;margin-bottom:1.5rem}
-    .email-input{width:100%;padding:.8rem 1rem;border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit;margin-bottom:1rem}
-    .email-input:focus{outline:none;border-color:var(--green)}
-    .email-consent{display:flex;align-items:flex-start;gap:.5rem;margin-bottom:1.5rem;font-size:.8rem;color:var(--gray-dark);line-height:1.7}
-    .email-consent input[type="checkbox"]{margin-top:.3rem;flex-shrink:0;accent-color:var(--green)}
-    .email-consent a{color:var(--green);text-decoration:underline}
-    .email-modal-buttons{display:flex;gap:.8rem}
-    .email-modal-buttons .btn{flex:1;text-align:center}
-    .email-error{color:#C41E3A;font-size:.8rem;margin-bottom:.5rem;display:none}
-    .email-success{display:none;text-align:center;padding:2rem 0}
-    .email-success-icon{font-size:2rem;margin-bottom:1rem;color:var(--green)}
-    .email-success-text{font-size:.95rem;color:var(--gray-dark);line-height:2}
+    .btn-cta-primary{background:var(--white);color:var(--green);font-size:1.05rem;font-weight:700;padding:1.2rem 2.5rem;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.2);letter-spacing:.05em;display:inline-flex;align-items:center;gap:.5rem;transition:all .3s;border:none;cursor:pointer;font-family:inherit}
+    .btn-cta-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.3)}
+    .btn-cta-secondary{background:transparent;color:var(--white);font-size:.95rem;font-weight:600;padding:1rem 2rem;border-radius:6px;border:2px solid rgba(255,255,255,.6);display:inline-flex;align-items:center;gap:.5rem;transition:all .3s;cursor:pointer;font-family:inherit;text-decoration:none}
+    .btn-cta-secondary:hover{background:rgba(255,255,255,.1);border-color:var(--white)}
+    .results-cta-note{font-size:.8rem;opacity:.7}
 
     /* Footer */
     footer{background:var(--black);color:var(--white);padding:4rem 2rem 2rem}
@@ -219,8 +227,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .option-grid{grid-template-columns:1fr}
       .option-grid-3{grid-template-columns:1fr}
       .results-cta-buttons{flex-direction:column}
-      .results-cta-buttons .btn{width:100%}
-      .email-modal-buttons{flex-direction:column}
+      .results-cta-buttons .btn-cta-primary,.results-cta-buttons .btn-cta-secondary{width:100%;justify-content:center}
     }
   </style>
 </head>
@@ -405,8 +412,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="results-inner">
       <div class="results-header">
         <p class="results-label">RESULT</p>
-        <h2 class="results-title">診断結果</h2>
-        <p class="results-desc">AIが分析した、あなたのビジネスに合った活用提案です。</p>
+        <h2 class="results-title">あなたの業務が、こう変わります</h2>
+        <p class="results-desc">回答内容をもとに、AIが具体的な改善案を作成しました。<br>それぞれ「今の状態」と「変わった後」を比べてご覧ください。</p>
       </div>
       <div id="solutions-container"></div>
     </div>
@@ -415,42 +422,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- CTA after results -->
   <section class="results-cta" id="results-cta" style="display:none">
     <div class="results-cta-inner">
-      <p class="results-cta-service">
-        Ciras株式会社では、<strong>Ciras AI顧問</strong>（月額33,000円）として、このような課題に対してAI活用の伴走支援を行っています。月1回のレクチャーと日々のチャット相談で、AIを業務で使える形にします。
-      </p>
-      <h2 class="results-cta-title mincho">次の一歩を踏み出しませんか？</h2>
-      <div class="results-cta-buttons">
-        <button class="btn btn-primary btn-large" id="open-email-modal">詳細レポートを受け取る</button>
-        <a href="/contact.html" class="btn btn-secondary btn-large">無料相談を予約する</a>
+      <p class="results-cta-label">NEXT STEP</p>
+      <h2 class="results-cta-title mincho">「面白そうだけど、どこから手をつければ？」<br>そんなときは、プロに相談してみませんか。</h2>
+      <p class="results-cta-desc">この診断結果をもとに、あなたの会社に合った<br>AI活用の進め方を、無料でご相談いただけます。</p>
+      <div class="results-cta-service">
+        <p class="results-cta-service-title">Ciras AI顧問なら、こんなサポートができます</p>
+        <ul class="results-cta-service-list">
+          <li>「何から始めればいいか」を一緒に整理</li>
+          <li>月1回のレクチャーで、使い方を丁寧にご説明</li>
+          <li>日々のチャットで「ちょっとした疑問」もすぐ解決</li>
+          <li>専門知識は不要。パソコンが使えればOK</li>
+        </ul>
       </div>
-      <p class="results-cta-note">詳細レポートは、後日メールまたはLINEでお届けします</p>
+      <div class="results-cta-buttons">
+        <a href="/contact.html" class="btn-cta-primary">まずは無料で相談する</a>
+        <a href="https://lin.ee/s2u6VUw" class="btn-cta-secondary">LINEでかんたん相談</a>
+      </div>
+      <p class="results-cta-note">相談は無料です。無理な営業は一切ありません。</p>
     </div>
   </section>
-
-  <!-- Email Modal -->
-  <div class="email-modal" id="email-modal">
-    <div class="email-modal-content">
-      <div id="email-form-view">
-        <h3 class="email-modal-title mincho">詳細レポートを受け取る</h3>
-        <p class="email-modal-desc">メールアドレスを入力してください。<br>後日、より詳細な分析レポートをお送りします。</p>
-        <p class="email-error" id="email-error"></p>
-        <input type="email" class="email-input" id="email-input" placeholder="example@company.co.jp">
-        <div class="email-consent">
-          <input type="checkbox" id="email-consent-check">
-          <label for="email-consent-check">入力いただいた情報は、診断結果の送付およびサービスのご案内に利用します。<a href="/privacy.html" target="_blank">プライバシーポリシー</a>に同意の上、送信してください。</label>
-        </div>
-        <div class="email-modal-buttons">
-          <button class="btn btn-primary" id="email-submit-btn">送信する</button>
-          <button class="btn btn-secondary" id="email-cancel-btn">閉じる</button>
-        </div>
-      </div>
-      <div class="email-success" id="email-success-view">
-        <p class="email-success-icon">&#10003;</p>
-        <p class="email-success-text">ありがとうございます。<br>詳細レポートは後日お送りいたします。</p>
-        <button class="btn btn-secondary" id="email-close-btn" style="margin-top:1.5rem">閉じる</button>
-      </div>
-    </div>
-  </div>
 
   <!-- Footer -->
   <footer>
@@ -678,9 +668,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         result.solutions.forEach(function(s, i) {
           var card = document.createElement('div');
           card.className = 'solution-card';
-          card.innerHTML = '<div class="solution-num">SOLUTION ' + String(i + 1).padStart(2, '0') + '</div>' +
-            '<h3 class="solution-title">' + escapeHTML(s.title) + '</h3>' +
-            '<p class="solution-desc">' + escapeHTML(s.description) + '</p>';
+          var html = '<div class="solution-num">SOLUTION ' + String(i + 1).padStart(2, '0') + '</div>' +
+            '<h3 class="solution-title">' + escapeHTML(s.title) + '</h3>';
+
+          if (s.point) {
+            html += '<p class="solution-point">' + escapeHTML(s.point) + '</p>';
+          }
+
+          html += '<div class="solution-ba">' +
+            '<div class="solution-before">' +
+              '<p class="solution-ba-label solution-ba-label-before">&#x2716; 今の状態</p>' +
+              '<p class="solution-ba-text">' + escapeHTML(s.before || s.description || '') + '</p>' +
+            '</div>' +
+            '<div class="solution-arrow">&#x25BC;</div>' +
+            '<div class="solution-after">' +
+              '<p class="solution-ba-label solution-ba-label-after">&#x2714; AIを使うと</p>' +
+              '<p class="solution-ba-text">' + escapeHTML(s.after || '') + '</p>' +
+            '</div>' +
+          '</div>';
+
+          card.innerHTML = html;
           container.appendChild(card);
         });
       }
@@ -697,69 +704,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       d.textContent = str;
       return d.innerHTML;
     }
-
-    // ===== Email Modal =====
-    document.getElementById('open-email-modal').addEventListener('click', function() {
-      document.getElementById('email-modal').classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-
-    document.getElementById('email-cancel-btn').addEventListener('click', closeEmailModal);
-    document.getElementById('email-close-btn').addEventListener('click', closeEmailModal);
-
-    document.getElementById('email-modal').addEventListener('click', function(e) {
-      if (e.target === this) closeEmailModal();
-    });
-
-    function closeEmailModal() {
-      document.getElementById('email-modal').classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    document.getElementById('email-submit-btn').addEventListener('click', function() {
-      var email = document.getElementById('email-input').value.trim();
-      var consent = document.getElementById('email-consent-check').checked;
-      var errorEl = document.getElementById('email-error');
-
-      if (!email || !email.includes('@') || !email.includes('.')) {
-        errorEl.textContent = '有効なメールアドレスを入力してください';
-        errorEl.style.display = 'block';
-        return;
-      }
-      if (!consent) {
-        errorEl.textContent = 'プライバシーポリシーへの同意が必要です';
-        errorEl.style.display = 'block';
-        return;
-      }
-
-      errorEl.style.display = 'none';
-      this.disabled = true;
-      this.textContent = '送信中...';
-
-      fetch('/api/diagnoses/' + diagnosisId + '/email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
-      })
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data.error) {
-          errorEl.textContent = data.error;
-          errorEl.style.display = 'block';
-          document.getElementById('email-submit-btn').disabled = false;
-          document.getElementById('email-submit-btn').textContent = '送信する';
-          return;
-        }
-        document.getElementById('email-form-view').style.display = 'none';
-        document.getElementById('email-success-view').style.display = 'block';
-      })
-      .catch(function() {
-        errorEl.textContent = '送信に失敗しました。しばらくしてからお試しください。';
-        errorEl.style.display = 'block';
-        document.getElementById('email-submit-btn').disabled = false;
-        document.getElementById('email-submit-btn').textContent = '送信する';
-      });
-    });
   })();
   </script>
 
