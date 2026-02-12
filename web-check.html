@@ -271,6 +271,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .btn-cta-secondary{background:transparent;color:var(--white);font-size:.95rem;font-weight:600;padding:1rem 2rem;border-radius:8px;border:2px solid rgba(255,255,255,.5);display:inline-flex;align-items:center;gap:.5rem;transition:all .3s;cursor:pointer;font-family:inherit;text-decoration:none}
     .btn-cta-secondary:hover{background:rgba(255,255,255,.1);border-color:var(--white)}
     .results-cta-note{font-size:.8rem;opacity:.6}
+    .diagnosis-disclaimer{padding:2rem;background:var(--bg);border-top:1px solid var(--gray-light)}
+    .diagnosis-disclaimer-inner{max-width:700px;margin:0 auto;font-size:.78rem;color:var(--gray);line-height:2;text-align:center}
 
     /* Footer */
     footer{background:var(--black);color:var(--white);padding:4rem 2rem 2rem}
@@ -461,6 +463,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
   </section>
 
+  <!-- Disclaimer -->
+  <div class="diagnosis-disclaimer" id="diagnosis-disclaimer" style="display:none">
+    <div class="diagnosis-disclaimer-inner">
+      ※ 本診断は、Webサイトに掲載されている情報（テキスト・構成・技術仕様など）をもとにAIが自動で分析した結果です。<br>
+      実際のユーザー体験（購買のしやすさ・閲覧のしやすさ・デザインの印象など）や、サイト運営の成果（売上・問い合わせ数など）を評価するものではありません。<br>
+      診断結果はあくまで参考情報としてご活用ください。
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer>
     <div class="footer-inner">
@@ -568,6 +579,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     document.getElementById('retry-btn').addEventListener('click', function() {
       document.getElementById('results-section').classList.remove('active');
       document.getElementById('results-cta').style.display = 'none';
+      document.getElementById('diagnosis-disclaimer').style.display = 'none';
       document.getElementById('hero-section').style.display = '';
       document.getElementById('form-section').style.display = '';
       document.getElementById('url-input').value = '';
@@ -690,6 +702,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
       document.getElementById('results-section').classList.add('active');
       document.getElementById('results-cta').style.display = 'block';
+      document.getElementById('diagnosis-disclaimer').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
