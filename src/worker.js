@@ -27,6 +27,9 @@ export default {
     if (path === '/api/web-check' && request.method === 'POST') {
       return handleWebCheck(request, env);
     }
+    if (path === '/api/site-check' && request.method === 'POST') {
+      return handleSiteCheck(request, env);
+    }
     if (path.match(/^\/api\/diagnoses\/[\w-]+\/email$/) && request.method === 'POST') {
       const id = path.split('/')[3];
       return handleAddEmail(request, env, id);
@@ -177,6 +180,77 @@ async function handleWebCheck(request, env) {
     return jsonResponse({ id, scores, result: result.data });
   } catch (err) {
     console.error('handleWebCheck error:', err);
+    return jsonResponse({ error: 'ただいま診断が混み合っています。しばらくしてからお試しください。' }, 503);
+  }
+}
+
+// ========== Site Check Handler (URL-only) ==========
+
+async function handleSiteCheck(request, env) {
+  try {
+    if (!env.ANTHROPIC_API_KEY) {
+      console.error('ANTHROPIC_API_KEY is not configured');
+      return jsonResponse({ error: 'システム設定エラーです。管理者にお問い合わせください。' }, 500);
+    }
+
+    const body = await request.json();
+    if (!body.url || !body.url.trim()) {
+      return jsonResponse({ error: 'URLを入力してください' }, 400);
+    }
+
+    // Crawl the website
+    const crawlResult = await crawlWebsite(body.url);
+    if (!crawlResult.success) {
+      return jsonResponse({ error: crawlResult.error || 'サイトにアクセスできませんでした。URLが正しいか確認してください。' }, 400);
+    }
+
+    // Score the website
+    const scores = scoreWebsite(crawlResult);
+
+    // Build AI prompt based on crawl data and scores
+    const systemPrompt = buildSiteCheckSystemPrompt();
+    const userPrompt = buildSiteCheckPrompt(scores, crawlResult);
+
+    const result = await callClaudeAPI(env.ANTHROPIC_API_KEY, systemPrompt, userPrompt);
+    if (!result.success) {
+      return jsonResponse({ error: result.error || 'ただいま診断が混み合っています。しばらくしてからお試しください。' }, 503);
+    }
+
+    const id = crypto.randomUUID();
+    const diagnosis = {
+      id, type: 'site-check',
+      answers: { url: body.url },
+      crawlData: {
+        url: crawlResult.finalUrl, pageSize: crawlResult.pageSize,
+        title: crawlResult.title, description: crawlResult.metaDescription
+      },
+      scores: scores, result: result.data,
+      email: null, createdAt: new Date().toISOString(), status: 'pending'
+    };
+
+    await env.DIAGNOSES.put(`diag:${id}`, JSON.stringify(diagnosis), {
+      metadata: {
+        type: 'site-check', created: diagnosis.createdAt, status: 'pending',
+        position: 'URL診断', industry: body.url
+      }
+    });
+
+    return jsonResponse({
+      id, scores, result: result.data,
+      url: crawlResult.finalUrl,
+      siteInfo: {
+        isHttps: crawlResult.isHttps,
+        hasViewport: crawlResult.hasViewport,
+        hasJsonLd: crawlResult.hasJsonLd,
+        hasFaq: crawlResult.hasFaq,
+        hasCompanyInfo: crawlResult.hasCompanyInfo,
+        hasAddress: crawlResult.hasAddress,
+        hasPhone: crawlResult.hasPhone,
+        hasPrice: crawlResult.hasPrice
+      }
+    });
+  } catch (err) {
+    console.error('handleSiteCheck error:', err);
     return jsonResponse({ error: 'ただいま診断が混み合っています。しばらくしてからお試しください。' }, 503);
   }
 }
@@ -530,7 +604,7 @@ async function handleReportPage(env, id) {
       return new Response(generateNotFoundHTML(), { status: 404, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
     }
     const diagnosis = JSON.parse(raw);
-    const html = diagnosis.type === 'web-check' ? generateWebCheckReportHTML(diagnosis) : generateAiCheckReportHTML(diagnosis);
+    const html = (diagnosis.type === 'web-check' || diagnosis.type === 'site-check') ? generateWebCheckReportHTML(diagnosis) : generateAiCheckReportHTML(diagnosis);
     return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
   } catch (err) {
     console.error('handleReportPage error:', err);
@@ -763,6 +837,80 @@ function buildWebCheckPrompt(answers, scores, crawlData) {
     prompt += `\n- 「after」にはWebサイトを作った・改善した後の具体的な変化を書くこと`;
     prompt += `\n\n3つの提案を出力してください。`;
   }
+
+  return prompt;
+}
+
+// ========== Site Check Prompts (URL-only) ==========
+
+function buildSiteCheckSystemPrompt() {
+  return `あなたはCiras株式会社のWeb・AI検索コンサルタントです。クライアントのWebサイトを自動分析した結果に基づいて、改善提案を行います。
+
+提案のルールを必ず守ってください：
+1. 診断スコアの低い項目を優先的に、具体的で実行可能な改善提案をすること。ありきたりな一般論は禁止。
+2. 専門用語は絶対に使わないこと（例：「構造化データ」→「AIが読み取りやすい情報の整理」、「SEO」→「検索での見つかりやすさ」、「JSON-LD」→「会社情報の整理タグ」、「viewport」→「スマホ表示の設定」）。
+3. 「before」はサイトで実際に起きている具体的な問題を書くこと（診断スコアの低い項目を根拠に）。
+4. 「after」はWebサイトを改善した後の変化を、具体的に書くこと（例：「お客様が検索したとき、御社の正しい情報が表示される」）。
+5. 「point」はこの改善の一番のメリットを1行で書くこと。
+6. できないことを「できる」と言わないこと。
+7. 回答は必ず以下のJSON形式のみで出力すること。JSON以外のテキストは含めないこと。
+
+出力形式：
+{
+  "solutions": [
+    {
+      "title": "改善ポイントのタイトル（1行、サイトの課題に直結する具体的な内容）",
+      "point": "この改善の一番のメリット（1行）",
+      "before": "今の状態（1〜2行。診断スコアの低い項目を根拠に、具体的な問題を描写）",
+      "after": "改善した後（1〜2行。具体的な変化を含めて）"
+    }
+  ]
+}
+
+重要度の高い順に3つの改善ポイントを出力してください。`;
+}
+
+function buildSiteCheckPrompt(scores, crawlData) {
+  let prompt = `以下のWebサイト自動分析結果に基づいて、具体的な改善提案をしてください。
+
+【分析対象サイト】
+- URL: ${crawlData.finalUrl}
+- ページタイトル: ${crawlData.title || 'なし'}
+- メタ説明文: ${crawlData.metaDescription || 'なし'}
+
+【自動分析スコア】（100点満点中 ${scores.totalScore}点）
+A. AI検索対応: ${scores.categories.a.total}/${scores.categories.a.maxScore}点`;
+  for (const [, d] of Object.entries(scores.categories.a.details)) {
+    prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
+  }
+  prompt += `\nB. SEO基礎: ${scores.categories.b.total}/${scores.categories.b.maxScore}点`;
+  for (const [, d] of Object.entries(scores.categories.b.details)) {
+    prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
+  }
+  prompt += `\nC. 将来性: ${scores.categories.c.total}/${scores.categories.c.maxScore}点`;
+  for (const [, d] of Object.entries(scores.categories.c.details)) {
+    prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
+  }
+
+  prompt += `\n\n【サイト情報】`;
+  prompt += `\n- HTTPS: ${crawlData.isHttps ? 'あり' : 'なし'}`;
+  prompt += `\n- スマホ対応(viewport): ${crawlData.hasViewport ? 'あり' : 'なし'}`;
+  prompt += `\n- 構造化データ(JSON-LD): ${crawlData.hasJsonLd ? 'あり（' + crawlData.jsonLdTypes.join(', ') + '）' : 'なし'}`;
+  prompt += `\n- FAQ: ${crawlData.hasFaq ? 'あり' : 'なし'}`;
+  prompt += `\n- 会社概要: ${crawlData.hasCompanyInfo ? 'あり' : 'なし'}`;
+  prompt += `\n- 住所: ${crawlData.hasAddress ? 'あり' : 'なし'}`;
+  prompt += `\n- 電話番号: ${crawlData.hasPhone ? 'あり' : 'なし'}`;
+  prompt += `\n- 料金情報: ${crawlData.hasPrice ? 'あり' : 'なし'}`;
+  prompt += `\n- 画像数: ${crawlData.imageCount}`;
+  prompt += `\n- 内部リンク数: ${crawlData.internalLinks}`;
+  prompt += `\n- テキスト量: 約${crawlData.contentLength}文字`;
+
+  prompt += `\n\n【重要な注意】`;
+  prompt += `\n- スコアが低い項目を優先的に改善提案すること`;
+  prompt += `\n- 専門用語は絶対に使わず、誰でもわかる言葉で書くこと`;
+  prompt += `\n- 「before」にはスコアの低い項目を根拠に、今起きている具体的な問題を書くこと`;
+  prompt += `\n- 「after」には改善後の具体的な変化を書くこと`;
+  prompt += `\n\n重要度の高い順に3つの改善ポイントを出力してください。`;
 
   return prompt;
 }

@@ -94,54 +94,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .hero-time{display:inline-block;margin-top:1rem;font-size:.85rem;color:var(--green);font-weight:500;background:var(--green-light);padding:.4rem 1.2rem;border-radius:2px}
     @keyframes heroIn{to{opacity:1;transform:translateY(0)}}
 
-    /* Form */
-    .form-section{padding:3rem 2rem 5rem;background:var(--white)}
-    .form-inner{max-width:700px;margin:0 auto}
-    .question-block{margin-bottom:3rem}
-    .question-num{font-size:.75rem;font-weight:600;color:var(--green);letter-spacing:.1em;margin-bottom:.3rem}
-    .question-text{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
-    .question-note{font-size:.8rem;color:var(--gray);margin-bottom:1rem}
-    .question-required{color:#C41E3A;font-size:.75rem;font-weight:500;margin-left:.5rem}
-    .question-error{color:#C41E3A;font-size:.8rem;margin-top:.5rem;display:none}
-
-    /* Radio/Checkbox options */
-    .option-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem}
-    .option-grid-3{grid-template-columns:repeat(3,1fr)}
-    .option-grid-1{grid-template-columns:1fr}
-    .option-item{position:relative}
-    .option-item input{position:absolute;opacity:0;width:0;height:0}
-    .option-item label{display:block;padding:.8rem 1rem;background:var(--bg);border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;cursor:pointer;transition:all .2s;text-align:center}
-    .option-item input:checked+label{border-color:var(--green);background:var(--green-light);color:var(--green);font-weight:500}
-    .option-item label:hover{border-color:var(--green);background:rgba(232,240,230,.5)}
-
-    /* URL input */
-    .url-input-wrap{margin-top:1rem;display:none}
-    .url-input-wrap.visible{display:block}
-    .url-input{width:100%;padding:.8rem 1rem;border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit;transition:border-color .2s}
+    /* URL Form Section */
+    .url-form-section{padding:2rem 2rem 5rem;background:var(--white)}
+    .url-form-inner{max-width:700px;margin:0 auto}
+    .url-form-box{background:var(--bg);border:2px solid var(--gray-light);border-radius:12px;padding:2.5rem 2rem;text-align:center;transition:border-color .3s}
+    .url-form-box:focus-within{border-color:var(--green)}
+    .url-form-label{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
+    .url-form-note{font-size:.85rem;color:var(--gray);margin-bottom:1.5rem}
+    .url-input-group{display:flex;gap:.8rem;margin-bottom:.8rem}
+    .url-input{flex:1;padding:.9rem 1.2rem;border:2px solid var(--gray-light);border-radius:6px;font-size:1rem;font-family:inherit;transition:border-color .2s;background:var(--white)}
     .url-input:focus{outline:none;border-color:var(--green)}
-    .url-hint{font-size:.8rem;color:var(--gray);margin-top:.3rem}
-
-    /* Other input */
-    .other-input{margin-top:.8rem;display:none}
-    .other-input.visible{display:block}
-    .other-input input{width:100%;padding:.8rem 1rem;border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit;transition:border-color .2s}
-    .other-input input:focus{outline:none;border-color:var(--green)}
-
-    /* Textarea */
-    .form-textarea{width:100%;padding:1rem;border:2px solid var(--gray-light);border-radius:4px;font-size:.9rem;font-family:inherit;line-height:1.8;resize:vertical;min-height:120px;transition:border-color .2s}
-    .form-textarea:focus{outline:none;border-color:var(--green)}
-    .form-textarea::placeholder{color:var(--gray)}
-
-    /* Submit */
-    .submit-section{text-align:center;margin-top:2rem}
-    .btn{display:inline-block;font-size:.9rem;font-weight:500;padding:1rem 2rem;border-radius:2px;transition:all .3s;border:none;cursor:pointer;font-family:inherit}
+    .url-input::placeholder{color:var(--gray)}
+    .btn{display:inline-block;font-size:.9rem;font-weight:500;padding:1rem 2rem;border-radius:6px;transition:all .3s;border:none;cursor:pointer;font-family:inherit}
     .btn:hover{transform:translateY(-2px)}
     .btn-primary{background:var(--green);color:var(--white)}
     .btn-primary:hover{opacity:.85;box-shadow:0 4px 12px rgba(45,90,39,.3)}
-    .btn-secondary{background:var(--white);color:var(--green);border:1px solid var(--green)}
-    .btn-secondary:hover{background:var(--green-light)}
-    .btn-large{padding:1.2rem 3rem;font-size:1rem;font-weight:600;letter-spacing:.05em}
+    .btn-large{padding:1rem 2.5rem;font-size:1rem;font-weight:600;letter-spacing:.05em}
     .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .url-hint{font-size:.8rem;color:var(--gray)}
+    .url-error{color:#C41E3A;font-size:.85rem;margin-top:.5rem;display:none}
+
+    /* Features */
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+    .feature-item{text-align:center;padding:1.2rem .8rem}
+    .feature-icon{font-size:1.5rem;margin-bottom:.5rem}
+    .feature-title{font-size:.85rem;font-weight:600;margin-bottom:.3rem}
+    .feature-desc{font-size:.75rem;color:var(--gray-dark);line-height:1.7}
 
     /* Loading Overlay */
     .loading-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);z-index:2000;align-items:center;justify-content:center;flex-direction:column}
@@ -158,7 +136,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .results-section.active{display:block}
     .results-inner{max-width:800px;margin:0 auto;padding:0 2rem}
 
-    /* Score Hero (URL mode) */
+    /* Score Hero */
     .score-hero-section{background:linear-gradient(160deg,#1a3a17 0%,#2D5A27 40%,#3d7a35 100%);padding:5rem 2rem 4rem;text-align:center;color:var(--white);position:relative;overflow:hidden}
     .score-hero-section::before{content:"";position:absolute;top:-50%;right:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);border-radius:50%}
     .score-hero-section::after{content:"";position:absolute;bottom:-30%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);border-radius:50%}
@@ -170,6 +148,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .score-num-label{font-size:.65rem;letter-spacing:.15em;opacity:.7;margin-top:.2rem}
     .score-name{font-family:'Shippori Mincho',serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:600;margin-bottom:.8rem;line-height:1.5}
     .score-desc{font-size:.9rem;line-height:2;opacity:.85;max-width:500px;margin:0 auto}
+    .score-url{font-size:.8rem;opacity:.6;margin-top:1rem;word-break:break-all}
     .score-bars-wrap{max-width:500px;margin:2rem auto 0}
     .score-bar-item{margin-bottom:1rem}
     .score-bar-header{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.4rem;opacity:.9}
@@ -178,11 +157,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     @keyframes scorePulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.1)}50%{box-shadow:0 0 0 20px rgba(255,255,255,0)}}
     @keyframes scoreRing{to{transform:rotate(360deg)}}
 
-    /* No-URL Hero */
-    .nourl-hero-section{background:linear-gradient(160deg,#1a3a17 0%,#2D5A27 40%,#3d7a35 100%);padding:5rem 2rem 4rem;text-align:center;color:var(--white);position:relative;overflow:hidden}
-    .nourl-hero-section::before{content:"";position:absolute;top:-50%;right:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);border-radius:50%}
-    .nourl-hero-section::after{content:"";position:absolute;bottom:-30%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);border-radius:50%}
-    .nourl-hero-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
+    /* Detail Scores Section */
+    .detail-scores{padding:3rem 2rem;background:var(--white)}
+    .detail-scores-inner{max-width:800px;margin:0 auto}
+    .detail-scores-title{font-family:'Shippori Mincho',serif;font-size:1.2rem;font-weight:600;color:var(--green);margin-bottom:2rem;text-align:center}
+    .detail-category{margin-bottom:2.5rem}
+    .detail-category-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--green-light)}
+    .detail-category-name{font-family:'Shippori Mincho',serif;font-size:1rem;font-weight:600;color:var(--green)}
+    .detail-category-score{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:700;color:var(--green)}
+    .detail-items{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    .detail-item{background:var(--bg);padding:1rem 1.2rem;border-radius:8px;border:1px solid var(--gray-light)}
+    .detail-item-label{font-size:.8rem;color:var(--gray);margin-bottom:.3rem}
+    .detail-item-score{font-size:.95rem;font-weight:600}
+    .detail-item-bar{height:4px;background:var(--gray-light);border-radius:2px;margin-top:.5rem;overflow:hidden}
+    .detail-item-bar-fill{height:100%;border-radius:2px;transition:width .8s ease}
+    .detail-item-bar-fill.high{background:var(--green)}
+    .detail-item-bar-fill.mid{background:#DAA520}
+    .detail-item-bar-fill.low{background:#C41E3A}
+
+    /* Site Info Section */
+    .site-info{padding:0 2rem 3rem;background:var(--white)}
+    .site-info-inner{max-width:800px;margin:0 auto}
+    .site-info-title{font-family:'Shippori Mincho',serif;font-size:1.2rem;font-weight:600;color:var(--green);margin-bottom:1.5rem;text-align:center}
+    .site-info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    .site-info-item{background:var(--bg);padding:1rem 1.2rem;border-radius:8px;border:1px solid var(--gray-light);display:flex;align-items:center;gap:.8rem}
+    .site-info-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+    .site-info-icon.ok{background:#E8F0E6;color:var(--green)}
+    .site-info-icon.ng{background:#FFF0F0;color:#C41E3A}
+    .site-info-text{font-size:.85rem;font-weight:500}
 
     /* Solutions Section */
     .solutions-section{padding:4rem 2rem}
@@ -198,15 +200,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .solution-card:nth-child(1){animation-delay:.1s}
     .solution-card:nth-child(2){animation-delay:.2s}
     .solution-card:nth-child(3){animation-delay:.3s}
-    .solution-card:nth-child(4){animation-delay:.4s}
-    .solution-card:nth-child(5){animation-delay:.5s}
     @keyframes cardIn{to{opacity:1;transform:translateY(0)}}
     .solution-card-header{display:flex;align-items:flex-start;gap:1.2rem;padding:2rem 2rem 0}
     .solution-num-badge{width:48px;height:48px;border-radius:50%;background:var(--green);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:700;flex-shrink:0;box-shadow:0 3px 12px rgba(45,90,39,.25)}
     .solution-card:nth-child(2) .solution-num-badge{background:linear-gradient(135deg,#2D5A27,#4a8a42)}
     .solution-card:nth-child(3) .solution-num-badge{background:linear-gradient(135deg,#3d6a35,#2D5A27)}
-    .solution-card:nth-child(4) .solution-num-badge{background:linear-gradient(135deg,#1a4a17,#2D5A27)}
-    .solution-card:nth-child(5) .solution-num-badge{background:linear-gradient(135deg,#2D5A27,#1a3a17)}
     .solution-title-wrap{flex:1}
     .solution-num{font-size:.7rem;font-weight:600;color:var(--green);letter-spacing:.15em;margin-bottom:.3rem;text-transform:uppercase}
     .solution-title{font-family:'Shippori Mincho',serif;font-size:1.15rem;font-weight:600;line-height:1.6;color:var(--black)}
@@ -242,6 +240,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .solution-ba{margin:0 1.5rem 1.5rem}
     }
 
+    /* Retry button */
+    .retry-section{text-align:center;padding:2rem 2rem 0}
+    .btn-retry{background:var(--white);color:var(--green);border:2px solid var(--green);padding:.8rem 2rem;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .3s}
+    .btn-retry:hover{background:var(--green-light)}
+
     /* CTA after results */
     .results-cta{background:linear-gradient(160deg, #1a3a17 0%, #2D5A27 40%, #3d7a35 100%);padding:5rem 2rem;text-align:center;color:var(--white);position:relative;overflow:hidden;display:none}
     .results-cta::before{content:"";position:absolute;top:-30%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.05) 0%,transparent 70%);border-radius:50%}
@@ -262,6 +265,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .btn-cta-secondary:hover{background:rgba(255,255,255,.1);border-color:var(--white)}
     .results-cta-note{font-size:.8rem;opacity:.6}
 
+    /* Error state */
+    .error-section{display:none;padding:8rem 2rem 5rem;background:var(--white);text-align:center}
+    .error-section.active{display:block}
+    .error-icon{font-size:3rem;margin-bottom:1rem}
+    .error-title{font-family:'Shippori Mincho',serif;font-size:1.3rem;font-weight:600;margin-bottom:.8rem;color:var(--black)}
+    .error-desc{font-size:.9rem;color:var(--gray-dark);margin-bottom:2rem;line-height:2}
+    .btn-back{background:var(--green);color:var(--white);padding:.8rem 2rem;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;border:none;transition:all .3s}
+    .btn-back:hover{opacity:.85}
+
     /* Footer */
     footer{background:var(--black);color:var(--white);padding:4rem 2rem 2rem}
     .footer-inner{max-width:1000px;margin:0 auto}
@@ -277,11 +289,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .footer-nav a:hover{color:var(--white)}
     .footer-bottom{padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:.75rem;color:rgba(255,255,255,.5)}
 
-    /* Animations */
-    .fade-in{opacity:1;transform:translateY(0);transition:opacity .7s ease,transform .7s ease}
-    .fade-in.hidden{opacity:0;transform:translateY(24px)}
-    @media(prefers-reduced-motion:reduce){.fade-in,.hero-inner{opacity:1;transform:none;animation:none;transition:none}}
-
     /* Responsive */
     @media(max-width:900px){
       .header-nav{display:none}
@@ -290,11 +297,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .footer-nav{grid-template-columns:repeat(2,1fr)}
     }
     @media(max-width:600px){
-      .option-grid{grid-template-columns:1fr}
-      .option-grid-3{grid-template-columns:1fr}
-      .score-hero-section,.nourl-hero-section{padding:4rem 1.5rem 3rem}
+      .url-input-group{flex-direction:column}
+      .url-input-group .btn{width:100%}
+      .features{grid-template-columns:1fr}
+      .score-hero-section{padding:4rem 1.5rem 3rem}
       .score-circle{width:130px;height:130px}
       .score-num{font-size:2.8rem}
+      .detail-items{grid-template-columns:1fr}
+      .site-info-grid{grid-template-columns:1fr}
       .solutions-section{padding:3rem 1rem}
       .solution-num-badge{width:40px;height:40px;font-size:1rem}
       .results-cta-buttons{flex-direction:column}
@@ -354,112 +364,91 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </header>
 
   <!-- Hero -->
-  <section class="hero">
+  <section class="hero" id="hero-section">
     <div class="hero-inner">
       <p class="hero-label">FREE DIAGNOSTIC</p>
       <h1 class="hero-title">Webサイト状況チェッカー</h1>
       <p class="hero-desc">
-        あなたのWebサイトがAI検索時代に対応できているか、<br>
-        5つの質問に答えるだけでAIがその場で診断します。
+        URLを入力するだけで、あなたのWebサイトを<br>
+        AIがその場で診断します。
       </p>
-      <p class="hero-time">所要時間：約1〜2分（URL入力で詳細スコア付き）</p>
+      <p class="hero-time">所要時間：約30秒</p>
     </div>
   </section>
 
-  <!-- Form -->
-  <section class="form-section fade-in" id="form-section">
-    <div class="form-inner">
-      <form id="diagnosis-form" novalidate>
-
-        <!-- Q1 -->
-        <div class="question-block" id="q1-block">
-          <p class="question-num">Q1</p>
-          <p class="question-text">Webサイト（ホームページ）はお持ちですか？<span class="question-required">必須</span></p>
-          <div class="option-grid option-grid-3">
-            <div class="option-item"><input type="radio" name="q1" id="q1-1" value="ある"><label for="q1-1">ある</label></div>
-            <div class="option-item"><input type="radio" name="q1" id="q1-2" value="あるが放置している"><label for="q1-2">あるが放置している</label></div>
-            <div class="option-item"><input type="radio" name="q1" id="q1-3" value="持っていない"><label for="q1-3">持っていない</label></div>
+  <!-- URL Form -->
+  <section class="url-form-section" id="form-section">
+    <div class="url-form-inner">
+      <div class="url-form-box">
+        <p class="url-form-label">診断したいWebサイトのURLを入力</p>
+        <p class="url-form-note">トップページのURLを入力してください</p>
+        <form id="diagnosis-form" novalidate>
+          <div class="url-input-group">
+            <input type="url" class="url-input" id="url-input" placeholder="https://example.com" maxlength="200" required>
+            <button type="submit" class="btn btn-primary btn-large" id="submit-btn">診断する</button>
           </div>
-          <p class="question-error" id="q1-error">選択してください</p>
-        </div>
+          <p class="url-error" id="url-error"></p>
+          <p class="url-hint">※ 無料・登録不要でご利用いただけます</p>
+        </form>
+      </div>
 
-        <!-- Q2 (conditional) -->
-        <div class="question-block url-input-wrap" id="q2-block">
-          <p class="question-num">Q2</p>
-          <p class="question-text">WebサイトのURLを入力してください<span style="font-size:.8rem;color:var(--gray);margin-left:.5rem">任意</span></p>
-          <p class="question-note">入力するとサイトを自動分析し、100点満点のスコアと具体的な改善提案をお出しします。</p>
-          <input type="url" class="url-input" id="q2-url" placeholder="https://example.com" maxlength="200">
-          <p class="url-hint">※ トップページのURLを入力してください</p>
+      <div class="features">
+        <div class="feature-item">
+          <p class="feature-icon">&#x1F50D;</p>
+          <p class="feature-title">100点満点で採点</p>
+          <p class="feature-desc">AI検索対応・SEO基礎・将来性の3カテゴリで評価</p>
         </div>
-
-        <!-- Q3 -->
-        <div class="question-block" id="q3-block">
-          <p class="question-num">Q3</p>
-          <p class="question-text">Webサイトに期待することは？<span class="question-required">必須</span></p>
-          <div class="option-grid option-grid-1">
-            <div class="option-item"><input type="radio" name="q3" id="q3-1" value="新規のお客様からの問い合わせを増やしたい"><label for="q3-1">新規のお客様からの問い合わせを増やしたい</label></div>
-            <div class="option-item"><input type="radio" name="q3" id="q3-2" value="会社の信頼性・ブランドを高めたい"><label for="q3-2">会社の信頼性・ブランドを高めたい</label></div>
-            <div class="option-item"><input type="radio" name="q3" id="q3-3" value="採用・求人に役立てたい"><label for="q3-3">採用・求人に役立てたい</label></div>
-            <div class="option-item"><input type="radio" name="q3" id="q3-4" value="AI検索（ChatGPTなど）で正しく紹介されたい"><label for="q3-4">AI検索（ChatGPTなど）で正しく紹介されたい</label></div>
-            <div class="option-item"><input type="radio" name="q3" id="q3-5" value="今のサイトをリニューアルしたい"><label for="q3-5">今のサイトをリニューアルしたい</label></div>
-            <div class="option-item"><input type="radio" name="q3" id="q3-6" value="その他"><label for="q3-6">その他</label></div>
-          </div>
-          <div class="other-input" id="q3-other-wrap">
-            <input type="text" id="q3-other" placeholder="期待することを入力してください" maxlength="100">
-          </div>
-          <p class="question-error" id="q3-error">選択してください</p>
+        <div class="feature-item">
+          <p class="feature-icon">&#x1F916;</p>
+          <p class="feature-title">AIが改善提案</p>
+          <p class="feature-desc">スコアの低い項目を優先に具体的な改善策を提示</p>
         </div>
-
-        <!-- Q4 -->
-        <div class="question-block" id="q4-block">
-          <p class="question-num">Q4</p>
-          <p class="question-text">現在、お客様からの問い合わせは主にどこから来ていますか？<span class="question-required">必須</span></p>
-          <div class="option-grid option-grid-1">
-            <div class="option-item"><input type="radio" name="q4" id="q4-1" value="紹介・口コミがほとんど"><label for="q4-1">紹介・口コミがほとんど</label></div>
-            <div class="option-item"><input type="radio" name="q4" id="q4-2" value="電話・FAXが多い"><label for="q4-2">電話・FAXが多い</label></div>
-            <div class="option-item"><input type="radio" name="q4" id="q4-3" value="Webサイト（ホームページ）から来る"><label for="q4-3">Webサイト（ホームページ）から来る</label></div>
-            <div class="option-item"><input type="radio" name="q4" id="q4-4" value="SNS（Instagram、Facebookなど）から来る"><label for="q4-4">SNS（Instagram、Facebookなど）から来る</label></div>
-            <div class="option-item"><input type="radio" name="q4" id="q4-5" value="ほとんどない・わからない"><label for="q4-5">ほとんどない・わからない</label></div>
-          </div>
-          <p class="question-error" id="q4-error">選択してください</p>
+        <div class="feature-item">
+          <p class="feature-icon">&#x26A1;</p>
+          <p class="feature-title">約30秒で完了</p>
+          <p class="feature-desc">URLを入力するだけ。質問への回答は不要です</p>
         </div>
-
-        <!-- Q5 -->
-        <div class="question-block" id="q5-block">
-          <p class="question-num">Q5</p>
-          <p class="question-text">Webサイトについて、気になっていることがあれば教えてください<span style="font-size:.8rem;color:var(--gray);margin-left:.5rem">任意</span></p>
-          <textarea class="form-textarea" id="q5" name="q5" placeholder="例）「検索しても自社サイトが出てこない」「デザインが古く恥ずかしい」「スマホで見づらい」など。書いていただけると、より具体的なご提案ができます。" maxlength="500"></textarea>
-        </div>
-
-        <!-- Submit -->
-        <div class="submit-section">
-          <button type="submit" class="btn btn-primary btn-large" id="submit-btn">診断する</button>
-        </div>
-      </form>
+      </div>
     </div>
   </section>
 
   <!-- Loading Overlay -->
   <div class="loading-overlay" id="loading-overlay">
     <div class="loading-spinner"></div>
-    <p class="loading-text" id="loading-text">回答を分析しています...</p>
-    <p class="loading-sub" id="loading-sub">AIがあなたのWebサイトを診断中</p>
+    <p class="loading-text" id="loading-text">Webサイトにアクセスしています...</p>
+    <p class="loading-sub" id="loading-sub">サイトの構造・内容を取得中</p>
     <div class="loading-progress">
       <div class="loading-progress-bar" id="loading-bar"></div>
     </div>
   </div>
 
+  <!-- Error Section -->
+  <section class="error-section" id="error-section">
+    <p class="error-icon">&#x26A0;</p>
+    <h2 class="error-title" id="error-title">サイトにアクセスできませんでした</h2>
+    <p class="error-desc" id="error-desc">入力されたURLにアクセスできませんでした。<br>URLが正しいか確認のうえ、再度お試しください。</p>
+    <button class="btn-back" id="error-back-btn">もう一度試す</button>
+  </section>
+
   <!-- Results -->
   <section class="results-section" id="results-section">
-    <!-- Score/Level Hero (dynamically populated) -->
+    <!-- Score Hero -->
     <div id="results-hero"></div>
+    <!-- Detail Scores -->
+    <div id="detail-scores-container"></div>
+    <!-- Site Info -->
+    <div id="site-info-container"></div>
+    <!-- Retry -->
+    <div class="retry-section">
+      <button class="btn-retry" id="retry-btn">別のURLを診断する</button>
+    </div>
     <!-- Solutions -->
     <div class="solutions-section">
       <div class="solutions-section-inner">
         <div class="solutions-header" id="solutions-header">
           <p class="solutions-header-label">Improvements</p>
-          <h3 class="solutions-header-title">あなたのWebサイトが、こう変わります</h3>
-          <p class="solutions-header-desc">回答内容をもとに、AIが具体的な改善案を作成しました。<br>「今の状態」と「改善後」を比べてご覧ください。</p>
+          <h3 class="solutions-header-title">AIが提案する改善ポイント</h3>
+          <p class="solutions-header-desc">サイト分析の結果をもとに、AIが具体的な改善案を作成しました。<br>「今の状態」と「改善後」を比べてご覧ください。</p>
         </div>
         <div id="solutions-container"></div>
       </div>
@@ -532,13 +521,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </nav>
       </div>
-      <div class="footer-bottom">© 2026 Ciras Inc.（シラス株式会社）</div>
+      <div class="footer-bottom">&copy; 2026 Ciras Inc.（シラス株式会社）</div>
     </div>
   </footer>
 
   <script>
   (function() {
-    // ===== Common: Header scroll, hamburger, fade-in =====
+    // ===== Common: Header scroll, hamburger =====
     var h = document.querySelector('header'), scrolled = false;
     window.addEventListener('scroll', function() {
       if (window.scrollY > 60 && !scrolled) { h.classList.add('scrolled'); scrolled = true; }
@@ -556,94 +545,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       });
     }
 
-    var fadeEls = document.querySelectorAll('.fade-in');
-    fadeEls.forEach(function(e) { e.classList.add('hidden'); });
-    if ('IntersectionObserver' in window) {
-      var obs = new IntersectionObserver(function(entries) {
-        entries.forEach(function(en) { if (en.isIntersecting) { en.target.classList.remove('hidden'); obs.unobserve(en.target); } });
-      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-      fadeEls.forEach(function(e) { obs.observe(e); });
-      setTimeout(function() { fadeEls.forEach(function(e) { e.classList.remove('hidden'); }); }, 2000);
-    } else {
-      fadeEls.forEach(function(e) { e.classList.remove('hidden'); });
-    }
-
-    // ===== Q1 → Q2 conditional visibility =====
-    var q1Radios = document.querySelectorAll('input[name="q1"]');
-    var q2Block = document.getElementById('q2-block');
-    q1Radios.forEach(function(r) {
-      r.addEventListener('change', function() {
-        var hasWebsite = this.value === 'ある' || this.value === 'あるが放置している';
-        q2Block.classList.toggle('visible', hasWebsite);
-        if (!hasWebsite) document.getElementById('q2-url').value = '';
-      });
-    });
-
-    // ===== Q3 "その他" toggle =====
-    var q3Radios = document.querySelectorAll('input[name="q3"]');
-    var q3OtherWrap = document.getElementById('q3-other-wrap');
-    q3Radios.forEach(function(r) {
-      r.addEventListener('change', function() {
-        q3OtherWrap.classList.toggle('visible', this.value === 'その他');
-      });
-    });
-
     // ===== State =====
     var diagnosisId = null;
-    var hasUrlMode = false;
+
+    // ===== URL validation =====
+    function isValidUrl(str) {
+      try {
+        var u = str.trim();
+        if (!u.startsWith('http')) u = 'https://' + u;
+        var url = new URL(u);
+        return url.hostname.includes('.');
+      } catch (e) { return false; }
+    }
 
     // ===== Form submission =====
     document.getElementById('diagnosis-form').addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // Clear previous errors
-      document.querySelectorAll('.question-error').forEach(function(el) { el.style.display = 'none'; });
+      var urlInput = document.getElementById('url-input');
+      var urlError = document.getElementById('url-error');
+      var url = urlInput.value.trim();
+
+      // Clear error
+      urlError.style.display = 'none';
 
       // Validate
-      var valid = true;
-      var q1 = document.querySelector('input[name="q1"]:checked');
-      if (!q1) { document.getElementById('q1-error').style.display = 'block'; valid = false; }
-
-      var q3 = document.querySelector('input[name="q3"]:checked');
-      if (!q3) { document.getElementById('q3-error').style.display = 'block'; valid = false; }
-
-      var q4 = document.querySelector('input[name="q4"]:checked');
-      if (!q4) { document.getElementById('q4-error').style.display = 'block'; valid = false; }
-
-      if (!valid) {
-        var firstErr = document.querySelector('.question-error[style*="block"]');
-        if (firstErr) firstErr.closest('.question-block').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (!url) {
+        urlError.textContent = 'URLを入力してください';
+        urlError.style.display = 'block';
+        return;
+      }
+      if (!isValidUrl(url)) {
+        urlError.textContent = '正しいURLを入力してください（例：https://example.com）';
+        urlError.style.display = 'block';
         return;
       }
 
-      // Build payload
-      var q3Val = q3.value;
-      var q3Other = '';
-      if (q3.value === 'その他') {
-        q3Other = document.getElementById('q3-other').value.trim();
-        if (q3Other) q3Val = 'その他（' + q3Other + '）';
-      }
-
-      var urlVal = document.getElementById('q2-url').value.trim();
-      hasUrlMode = (q1.value === 'ある' || q1.value === 'あるが放置している') && urlVal;
-
-      var payload = {
-        q1_has_website: q1.value,
-        q2_url: urlVal || '',
-        q3_expectation: q3Val,
-        q3_expectation_other: q3Other,
-        q4_current_response: q4.value,
-        q5_concerns: document.getElementById('q5').value.trim()
-      };
-
-      // Show loading (longer for URL analysis)
-      showLoading(hasUrlMode);
+      // Show loading
+      showLoading();
 
       // Submit
-      fetch('/api/web-check', {
+      fetch('/api/site-check', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ url: url })
       })
       .then(function(res) {
         if (!res.ok) {
@@ -656,7 +601,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       .then(function(data) {
         if (data.error) {
           hideLoading();
-          alert(data.error);
+          showError(data.error);
           return;
         }
         diagnosisId = data.id;
@@ -664,37 +609,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       })
       .catch(function(err) {
         hideLoading();
-        alert(err.message || 'ただいま診断が混み合っています。しばらくしてからお試しください。');
+        showError(err.message || 'ただいま診断が混み合っています。しばらくしてからお試しください。');
       });
     });
 
     // ===== Loading =====
-    var loadingMessagesUrl = [
+    var loadingMessages = [
       { text: 'Webサイトにアクセスしています...', sub: 'サイトの構造・内容を取得中', pct: 10 },
       { text: 'サイトの内容を分析しています...', sub: 'AI検索への対応状況をチェック中', pct: 25 },
       { text: 'スコアを計算しています...', sub: 'SEO・構造化データ・コンテンツを評価中', pct: 45 },
       { text: 'AIが改善提案を作成中...', sub: '具体的な改善ポイントをまとめています', pct: 65 },
       { text: '仕上げをしています...', sub: 'あと少しです', pct: 85 }
     ];
-    var loadingMessagesNoUrl = [
-      { text: '回答を分析しています...', sub: 'あなたの状況に合った提案を検討中', pct: 15 },
-      { text: '最適なWebサイトの形を検討中...', sub: '業種・ニーズに合わせた提案を作成中', pct: 40 },
-      { text: 'AIが提案を作成中...', sub: '具体的なご提案をまとめています', pct: 65 },
-      { text: '仕上げをしています...', sub: 'あと少しです', pct: 85 }
-    ];
     var loadingTimer = null;
 
-    function showLoading(isUrlMode) {
+    function showLoading() {
       var overlay = document.getElementById('loading-overlay');
       overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
-      var msgs = isUrlMode ? loadingMessagesUrl : loadingMessagesNoUrl;
       var idx = 0;
-      updateLoadingMessage(msgs[0]);
+      updateLoadingMessage(loadingMessages[0]);
       loadingTimer = setInterval(function() {
         idx++;
-        if (idx < msgs.length) updateLoadingMessage(msgs[idx]);
-      }, isUrlMode ? 5000 : 4000);
+        if (idx < loadingMessages.length) updateLoadingMessage(loadingMessages[idx]);
+      }, 5000);
     }
 
     function updateLoadingMessage(msg) {
@@ -712,7 +650,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }, 300);
     }
 
-    // ===== Score comment =====
+    // ===== Error =====
+    function showError(message) {
+      document.getElementById('hero-section').style.display = 'none';
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('error-desc').innerHTML = message;
+      document.getElementById('error-section').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('error-back-btn').addEventListener('click', function() {
+      document.getElementById('error-section').classList.remove('active');
+      document.getElementById('hero-section').style.display = '';
+      document.getElementById('form-section').style.display = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ===== Retry =====
+    document.getElementById('retry-btn').addEventListener('click', function() {
+      document.getElementById('results-section').classList.remove('active');
+      document.getElementById('results-cta').style.display = 'none';
+      document.getElementById('hero-section').style.display = '';
+      document.getElementById('form-section').style.display = '';
+      document.getElementById('url-input').value = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ===== Score helpers =====
     function getScoreComment(score) {
       if (score >= 80) return 'すばらしい！AI検索時代にもしっかり対応できています。';
       if (score >= 60) return '良好です。いくつかの改善で更にスコアアップが期待できます。';
@@ -729,29 +693,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       return '今すぐ改善が必要';
     }
 
+    function getBarClass(score, max) {
+      var pct = max > 0 ? (score / max * 100) : 0;
+      if (pct >= 70) return 'high';
+      if (pct >= 40) return 'mid';
+      return 'low';
+    }
+
     // ===== Results =====
     function showResults(data) {
       hideLoading();
 
       // Hide form and hero
-      document.querySelector('.hero').style.display = 'none';
+      document.getElementById('hero-section').style.display = 'none';
       document.getElementById('form-section').style.display = 'none';
 
       var heroContainer = document.getElementById('results-hero');
-      var solutionsHeader = document.getElementById('solutions-header');
+      var detailContainer = document.getElementById('detail-scores-container');
+      var siteInfoContainer = document.getElementById('site-info-container');
       var container = document.getElementById('solutions-container');
       container.innerHTML = '';
+      detailContainer.innerHTML = '';
+      siteInfoContainer.innerHTML = '';
 
       if (data.scores && data.result && data.result.solutions) {
-        // === URL mode: Score Hero + Solution Cards ===
         var score = data.scores.totalScore;
         var cats = [data.scores.categories.a, data.scores.categories.b, data.scores.categories.c];
 
+        // === Score Hero ===
         var heroHTML = '<div class="score-hero-section"><div class="score-hero-inner">';
         heroHTML += '<p class="score-label">Diagnostic Result</p>';
         heroHTML += '<div class="score-circle"><span class="score-num">' + score + '</span><span class="score-num-label">/ 100</span></div>';
         heroHTML += '<h2 class="score-name">' + getScoreLevel(score) + '</h2>';
         heroHTML += '<p class="score-desc">' + getScoreComment(score) + '</p>';
+        if (data.url) heroHTML += '<p class="score-url">' + escapeHTML(data.url) + '</p>';
         heroHTML += '<div class="score-bars-wrap">';
         cats.forEach(function(cat) {
           var pct = Math.round(cat.total / cat.maxScore * 100);
@@ -760,27 +735,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         heroHTML += '</div></div></div>';
         heroContainer.innerHTML = heroHTML;
 
-        // Solutions header
-        solutionsHeader.innerHTML = '<p class="solutions-header-label">Improvements</p><h3 class="solutions-header-title">あなたのWebサイトが、こう変わります</h3><p class="solutions-header-desc">サイト分析の結果をもとに、AIが具体的な改善案を作成しました。<br>「今の状態」と「改善後」を比べてご覧ください。</p>';
-
-        // Solution cards
-        data.result.solutions.forEach(function(s, i) {
-          container.innerHTML += buildSolutionCard(s, i);
+        // === Detail Scores ===
+        var detailHTML = '<div class="detail-scores"><div class="detail-scores-inner">';
+        detailHTML += '<h3 class="detail-scores-title">スコア詳細</h3>';
+        var catLabels = ['A', 'B', 'C'];
+        cats.forEach(function(cat, ci) {
+          detailHTML += '<div class="detail-category">';
+          detailHTML += '<div class="detail-category-header"><span class="detail-category-name">' + catLabels[ci] + '. ' + escapeHTML(cat.label) + '</span><span class="detail-category-score">' + cat.total + ' / ' + cat.maxScore + '</span></div>';
+          detailHTML += '<div class="detail-items">';
+          for (var key in cat.details) {
+            var d = cat.details[key];
+            var pct = d.max > 0 ? Math.round(d.score / d.max * 100) : 0;
+            var barClass = getBarClass(d.score, d.max);
+            detailHTML += '<div class="detail-item">';
+            detailHTML += '<p class="detail-item-label">' + escapeHTML(d.label) + '</p>';
+            detailHTML += '<p class="detail-item-score">' + d.score + ' / ' + d.max + '</p>';
+            detailHTML += '<div class="detail-item-bar"><div class="detail-item-bar-fill ' + barClass + '" style="width:' + pct + '%"></div></div>';
+            detailHTML += '</div>';
+          }
+          detailHTML += '</div></div>';
         });
+        detailHTML += '</div></div>';
+        detailContainer.innerHTML = detailHTML;
 
-      } else if (data.result && data.result.solutions) {
-        // === No-URL mode: Simple Hero + Solution Cards ===
-        var noUrlHeroHTML = '<div class="nourl-hero-section"><div class="nourl-hero-inner">';
-        noUrlHeroHTML += '<p class="score-label">Diagnostic Result</p>';
-        noUrlHeroHTML += '<h2 class="score-name">あなたに最適なWebサイトのご提案</h2>';
-        noUrlHeroHTML += '<p class="score-desc">AIがあなたの状況を分析し、最適なWebサイトの形をご提案します。</p>';
-        noUrlHeroHTML += '</div></div>';
-        heroContainer.innerHTML = noUrlHeroHTML;
+        // === Site Info ===
+        if (data.siteInfo) {
+          var info = data.siteInfo;
+          var infoHTML = '<div class="site-info"><div class="site-info-inner">';
+          infoHTML += '<h3 class="site-info-title">サイト基本情報</h3>';
+          infoHTML += '<div class="site-info-grid">';
 
-        // Solutions header
-        solutionsHeader.innerHTML = '<p class="solutions-header-label">Recommendations</p><h3 class="solutions-header-title">あなたのビジネスが、こう変わります</h3><p class="solutions-header-desc">回答内容をもとに、AIが具体的な提案を作成しました。<br>「今の状態」と「Webサイトを作ると」を比べてご覧ください。</p>';
+          var items = [
+            { label: 'HTTPS（SSL）', ok: info.isHttps },
+            { label: 'スマホ対応（viewport）', ok: info.hasViewport },
+            { label: '構造化データ（JSON-LD）', ok: info.hasJsonLd },
+            { label: 'FAQ・よくある質問', ok: info.hasFaq },
+            { label: '会社概要・代表者情報', ok: info.hasCompanyInfo },
+            { label: '住所・所在地', ok: info.hasAddress },
+            { label: '電話番号', ok: info.hasPhone },
+            { label: '料金・価格情報', ok: info.hasPrice }
+          ];
 
-        // Solution cards
+          items.forEach(function(item) {
+            infoHTML += '<div class="site-info-item">';
+            infoHTML += '<span class="site-info-icon ' + (item.ok ? 'ok' : 'ng') + '">' + (item.ok ? '&#x2713;' : '&#x2717;') + '</span>';
+            infoHTML += '<span class="site-info-text">' + escapeHTML(item.label) + '</span>';
+            infoHTML += '</div>';
+          });
+
+          infoHTML += '</div></div></div>';
+          siteInfoContainer.innerHTML = infoHTML;
+        }
+
+        // === Solution cards ===
         data.result.solutions.forEach(function(s, i) {
           container.innerHTML += buildSolutionCard(s, i);
         });
@@ -828,9 +835,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       d.textContent = str;
       return d.innerHTML;
     }
-
-    // ===== Results =====
-    document.getElementById('results-section').classList.remove('active');
   })();
   </script>
 
