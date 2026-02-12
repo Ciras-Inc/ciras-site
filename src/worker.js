@@ -207,26 +207,25 @@ async function handleSiteCheck(request, env) {
     // Step 2: Extract company name from crawl data
     const companyName = extractCompanyName(crawlResult);
 
-    // Step 3: Two API calls in parallel
-    // API Call 1: AI Recognition Test
+    // Step 3: API calls (sequential to avoid timeout)
     const aiTestPrompt = `「${companyName}」について教えてください。所在地、事業内容、特徴を含めて回答してください。`;
     const aiTestSystem = `あなたは一般的なAIアシスタントです。ユーザーの質問に、あなたが持っている知識のみで回答してください。知らない情報は「知りません」「情報がありません」と正直に回答してください。ウェブ検索は行わないでください。回答は日本語で、200文字以内で簡潔に答えてください。`;
 
-    // API Call 2: Page Analysis (5 categories)
+    // API Call 1: AI Recognition Test (short timeout, failure is OK)
+    let aiTestResponse = null;
+    try {
+      const aiTestResult = await callClaudeAPI(env.ANTHROPIC_API_KEY, aiTestSystem, aiTestPrompt, 512, 30000);
+      if (aiTestResult.success) {
+        aiTestResponse = aiTestResult.rawText || (aiTestResult.data ? JSON.stringify(aiTestResult.data) : null);
+      }
+    } catch (e) {
+      console.error('AI test failed, continuing:', e.message);
+    }
+
+    // API Call 2: Page Analysis (longer timeout, this is the main result)
     const analysisSystem = buildSiteCheckSystemPromptV2();
     const analysisPrompt = buildSiteCheckPromptV2(crawlResult);
-
-    const [aiTestResult, analysisResult] = await Promise.all([
-      callClaudeAPI(env.ANTHROPIC_API_KEY, aiTestSystem, aiTestPrompt, 512),
-      callClaudeAPI(env.ANTHROPIC_API_KEY, analysisSystem, analysisPrompt, 4096)
-    ]);
-
-    // Process AI test result (plain text, not JSON)
-    let aiTestResponse = null;
-    if (aiTestResult.success) {
-      // For AI test, we get raw text, not JSON
-      aiTestResponse = aiTestResult.rawText || (aiTestResult.data ? JSON.stringify(aiTestResult.data) : null);
-    }
+    const analysisResult = await callClaudeAPI(env.ANTHROPIC_API_KEY, analysisSystem, analysisPrompt, 4096, 90000);
 
     if (!analysisResult.success) {
       return jsonResponse({ error: analysisResult.error || '診断中にエラーが発生しました。時間をおいて再度お試しください。' }, 503);
@@ -1036,11 +1035,11 @@ async function handleReportPage(env, id) {
 
 // ========== Claude API ==========
 
-async function callClaudeAPI(apiKey, systemPrompt, userPrompt, maxTokens = 2048) {
+async function callClaudeAPI(apiKey, systemPrompt, userPrompt, maxTokens = 2048, timeoutMs = 55000) {
   try {
-    console.log('Calling Claude API with model:', CLAUDE_MODEL);
+    console.log('Calling Claude API with model:', CLAUDE_MODEL, 'timeout:', timeoutMs);
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 55000); // 55s timeout for Claude API
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
     const response = await fetch(CLAUDE_API_URL, {
       method: 'POST',
       headers: {
