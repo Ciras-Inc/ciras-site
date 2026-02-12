@@ -390,6 +390,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
     </div>
 
+    <!-- Disclaimer -->
+    <div class="diagnosis-disclaimer" id="diagnosis-disclaimer">
+      <div class="diagnosis-disclaimer-inner">
+        <p class="diagnosis-disclaimer-title">本診断についてのご注意</p>
+        <p>本診断は、<strong>Webサイトに掲載されている情報（テキスト・構成・技術仕様など）をAIが読み込み、自動で分析した結果</strong>です。</p>
+        <p style="margin-top:.8rem;margin-bottom:.5rem">以下の項目は<strong>本診断の対象外</strong>です：</p>
+        <ul>
+          <li>実際の購買のしやすさ・閲覧のしやすさなどの<strong>ユーザー体験</strong></li>
+          <li>売上・問い合わせ数などの<strong>サイト運営の成果</strong></li>
+          <li>デザインの印象や<strong>ブランドイメージの評価</strong></li>
+        </ul>
+        <p style="color:#b8860b;font-weight:600">診断結果はあくまで参考情報としてご活用ください。</p>
+      </div>
+    </div>
+
     <!-- Company Profile -->
     <div class="result-section" id="company-section" style="display:none">
       <div class="result-section-inner">
@@ -467,21 +482,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <p class="results-cta-note">相談は無料です。無理な営業は一切ありません。</p>
     </div>
   </section>
-
-  <!-- Disclaimer -->
-  <div class="diagnosis-disclaimer" id="diagnosis-disclaimer" style="display:none">
-    <div class="diagnosis-disclaimer-inner">
-      <p class="diagnosis-disclaimer-title">本診断についてのご注意</p>
-      <p>本診断は、<strong>Webサイトに掲載されている情報（テキスト・構成・技術仕様など）をAIが読み込み、自動で分析した結果</strong>です。</p>
-      <p style="margin-top:.8rem;margin-bottom:.5rem">以下の項目は<strong>本診断の対象外</strong>です：</p>
-      <ul>
-        <li>実際の購買のしやすさ・閲覧のしやすさなどの<strong>ユーザー体験</strong></li>
-        <li>売上・問い合わせ数などの<strong>サイト運営の成果</strong></li>
-        <li>デザインの印象や<strong>ブランドイメージの評価</strong></li>
-      </ul>
-      <p style="color:#b8860b;font-weight:600">診断結果はあくまで参考情報としてご活用ください。</p>
-    </div>
-  </div>
 
   <!-- Footer -->
   <footer>
@@ -590,7 +590,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     document.getElementById('retry-btn').addEventListener('click', function() {
       document.getElementById('results-section').classList.remove('active');
       document.getElementById('results-cta').style.display = 'none';
-      document.getElementById('diagnosis-disclaimer').style.display = 'none';
       document.getElementById('hero-section').style.display = '';
       document.getElementById('form-section').style.display = '';
       document.getElementById('url-input').value = '';
@@ -713,7 +712,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
       document.getElementById('results-section').classList.add('active');
       document.getElementById('results-cta').style.display = 'block';
-      document.getElementById('diagnosis-disclaimer').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
