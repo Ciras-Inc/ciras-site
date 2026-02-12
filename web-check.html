@@ -645,8 +645,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         document.getElementById('ai-test-question').textContent = at.question;
         document.getElementById('ai-test-response').textContent = at.response || '（回答を取得できませんでした）';
 
-        // Judgment
+        // Judgment (with frontend fallback check)
         var judgment = r.ai_test_judgment || 'unknown';
+        // Frontend safety: if AI response contains "don't know" patterns, override to unknown
+        var resp = (at.response || '').toLowerCase();
+        var unknownPatterns = ['知りません', '情報がありません', '存じません', '見つかりません', '確認できません', '把握していません', '分かりません', 'わかりません'];
+        if (judgment === 'accurate' && unknownPatterns.some(function(p) { return resp.includes(p); })) {
+          judgment = 'unknown';
+        }
         var judgEl = document.getElementById('ai-test-judgment');
         if (judgment === 'accurate') {
           judgEl.className = 'ai-test-judgment accurate';

@@ -224,7 +224,7 @@ async function handleSiteCheck(request, env) {
 
     // API Call 2: Page Analysis (longer timeout, this is the main result)
     const analysisSystem = buildSiteCheckSystemPromptV2();
-    const analysisPrompt = buildSiteCheckPromptV2(crawlResult);
+    const analysisPrompt = buildSiteCheckPromptV2(crawlResult, companyName, aiTestResponse);
     const analysisResult = await callClaudeAPI(env.ANTHROPIC_API_KEY, analysisSystem, analysisPrompt, 4096, 90000);
 
     if (!analysisResult.success) {
@@ -563,26 +563,52 @@ function extractNavLinks(html, baseUrl) {
 }
 
 function extractCompanyName(crawlData) {
-  // Try to extract from title, text content, or JSON-LD
-  const title = crawlData.title || '';
-  // Check if title has a company name pattern
-  const titleParts = title.split(/[|｜\-－—]/);
-  if (titleParts.length > 1) {
-    // Usually the company name is the last part
-    const candidate = titleParts[titleParts.length - 1].trim();
-    if (candidate.length > 1 && candidate.length < 50) return candidate;
-  }
-  // Try extracting from JSON-LD
+  // Priority 1: Extract from JSON-LD (most reliable)
   if (crawlData.html) {
-    const ldMatch = crawlData.html.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/i);
-    if (ldMatch) {
+    const ldRegex = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+    let ldMatch;
+    while ((ldMatch = ldRegex.exec(crawlData.html)) !== null) {
       try {
         const ld = JSON.parse(ldMatch[1]);
-        if (ld.name) return ld.name;
+        // Check Organization, LocalBusiness, etc.
+        if (ld['@type'] && (ld['@type'].includes('Organization') || ld['@type'].includes('LocalBusiness') || ld['@type'] === 'Corporation') && ld.name) return ld.name;
         if (ld.provider && ld.provider.name) return ld.provider.name;
+        if (ld.author && ld.author.name) return ld.author.name;
+      } catch (e) {}
+    }
+    // Second pass: any JSON-LD with a name
+    ldRegex.lastIndex = 0;
+    while ((ldMatch = ldRegex.exec(crawlData.html)) !== null) {
+      try {
+        const ld = JSON.parse(ldMatch[1]);
+        if (ld.name && ld.name.length < 50) return ld.name;
       } catch (e) {}
     }
   }
+
+  // Priority 2: Look for company name pattern in title parts
+  const title = crawlData.title || '';
+  const titleParts = title.split(/[|｜\-－—]/);
+  if (titleParts.length > 1) {
+    // Look for a part containing company keywords
+    const companyKeywords = ['株式会社', '（株）', '(株)', '有限会社', '合同会社', 'Inc', 'Corp', 'Co.', 'LLC'];
+    for (const part of titleParts) {
+      const trimmed = part.trim();
+      if (companyKeywords.some(kw => trimmed.includes(kw)) && trimmed.length > 1 && trimmed.length < 50) {
+        return trimmed;
+      }
+    }
+    // Fallback: last part of title
+    const candidate = titleParts[titleParts.length - 1].trim();
+    if (candidate.length > 1 && candidate.length < 50) return candidate;
+  }
+
+  // Priority 3: Look for company name in page text
+  if (crawlData.textContent) {
+    const textMatch = crawlData.textContent.match(/([\u3000-\u9FFF\w]+株式会社|株式会社[\u3000-\u9FFF\w]+)/);
+    if (textMatch) return textMatch[1];
+  }
+
   // Fallback: use title as-is
   if (title) return title;
   // Last resort: use domain
@@ -1366,11 +1392,21 @@ overall_scoreは5カテゴリのスコアの加重平均として算出するこ
 
 summary_actionsは、79点以下だったカテゴリのbusiness_impactから要約して、優先度順に最大4つ生成すること。すべて80点以上なら空配列にすること。
 
-ai_test_judgmentは、AIの認知度テストの結果を判定するためのヒントとして、サイト情報の充実度から推測すること。"accurate"=情報が十分にある、"partial"=一部情報がある、"unknown"=AIが知らない可能性が高い。`;
+ai_test_judgmentは、下記に提供される「AI認識テストの結果」を読んで判定すること。AIの回答が、サイトに書かれている会社情報と合致しているかで判断する。
+- "accurate" = AIの回答が会社の事業内容や所在地を正しく説明できている
+- "partial" = AIの回答に一部正しい情報があるが、不正確な部分もある
+- "unknown" = AIが「知りません」「情報がありません」と回答した、または会社とは無関係な内容（地名の説明など）を回答した
+重要：AIが会社名を地名や一般的な単語として解釈して回答した場合は、必ず"unknown"と判定すること。`;
 }
 
-function buildSiteCheckPromptV2(crawlData) {
+function buildSiteCheckPromptV2(crawlData, companyName, aiTestResponse) {
   let prompt = `以下のWebサイト全体を分析し、AI検索で引用されやすい状態かを診断してください。
+
+【AI認識テストの結果】
+会社名: ${companyName || '（不明）'}
+AIへの質問: 「${companyName || '（不明）'}という会社について教えてください」
+AIの回答: ${aiTestResponse || '（取得できませんでした）'}
+※ 上記の回答内容をもとに ai_test_judgment を判定してください。
 
 【分析対象サイト】
 - URL: ${crawlData.finalUrl}
