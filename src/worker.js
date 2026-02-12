@@ -2,7 +2,6 @@
 // Handles API routes for AI/Web diagnosis, admin, and report pages
 
 const CLAUDE_MODEL = 'claude-sonnet-4-5-20250929';
-const CLAUDE_HAIKU_MODEL = 'claude-haiku-4-5-20251001';
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
 
 export default {
@@ -215,7 +214,7 @@ async function handleSiteCheck(request, env) {
     const systemPrompt = buildSiteCheckSystemPrompt();
     const userPrompt = buildSiteCheckPrompt(scores, crawlResult);
 
-    const result = await callClaudeAPI(env.ANTHROPIC_API_KEY, systemPrompt, userPrompt, 2000, CLAUDE_HAIKU_MODEL);
+    const result = await callClaudeAPI(env.ANTHROPIC_API_KEY, systemPrompt, userPrompt, 4096);
     if (!result.success) {
       return jsonResponse({ error: result.error || 'ただいま診断が混み合っています。しばらくしてからお試しください。' }, 503);
     }
@@ -263,7 +262,7 @@ async function crawlPage(url, env) {
       response = await env.ASSETS.fetch(new Request(url, { headers: { 'Accept': 'text/html' } }));
     } else {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 8000);
+      const timeout = setTimeout(() => controller.abort(), 15000);
       response = await fetch(url, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (compatible; CirasWebChecker/1.0; +https://ciras.jp)',
@@ -283,7 +282,7 @@ async function crawlPage(url, env) {
     }
 
     const html = await response.text();
-    const truncatedHtml = html.substring(0, 200000);
+    const truncatedHtml = html.substring(0, 500000);
     const finalUrl = isSelf ? url : (response.url || url);
 
     return {
@@ -310,7 +309,7 @@ async function crawlPage(url, env) {
       imageCount: (truncatedHtml.match(/<img/gi) || []).length,
       hasAltText: checkAltText(truncatedHtml),
       copyrightYear: extractCopyrightYear(truncatedHtml),
-      textContent: extractTextContent(truncatedHtml).substring(0, 1500),
+      textContent: extractTextContent(truncatedHtml).substring(0, 5000),
       contentLength: extractTextContent(truncatedHtml).length,
       headingsText: extractHeadingsText(truncatedHtml),
       isHttps: finalUrl.startsWith('https://')
@@ -394,7 +393,7 @@ async function crawlSite(inputUrl, env) {
 
     const internalLinks = extractAllInternalLinks(homepage.html, homepage.url);
     const prioritized = prioritizePages(internalLinks);
-    const pagesToCrawl = prioritized.slice(0, 2);
+    const pagesToCrawl = prioritized.slice(0, 9);
 
     const subpageResults = await Promise.allSettled(
       pagesToCrawl.map(link => crawlPage(link, env))
@@ -484,7 +483,7 @@ function buildSiteProfile(pages, homepage) {
       url: p.url, type: p.type, title: p.title,
       contentLength: p.contentLength,
       headingsText: (p.headingsText || []).slice(0, 10),
-      textContent: p.textContent.substring(0, 500)
+      textContent: p.textContent.substring(0, 2000)
     })),
     siteProfile: {
       hasTestimonials, hasFaq, hasCompanyInfo, hasPrivacyPolicy,
@@ -867,18 +866,18 @@ async function handleReportPage(env, id) {
 
 // ========== Claude API ==========
 
-async function callClaudeAPI(apiKey, systemPrompt, userPrompt, maxTokens = 2048, model = CLAUDE_MODEL) {
+async function callClaudeAPI(apiKey, systemPrompt, userPrompt, maxTokens = 2048) {
   try {
-    console.log('Calling Claude API with model:', model);
+    console.log('Calling Claude API with model:', CLAUDE_MODEL);
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 90000); // 90s timeout for Claude API
+    const timeout = setTimeout(() => controller.abort(), 55000); // 55s timeout for Claude API
     const response = await fetch(CLAUDE_API_URL, {
       method: 'POST',
       headers: {
         'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json'
       },
       body: JSON.stringify({
-        model: model, max_tokens: maxTokens,
+        model: CLAUDE_MODEL, max_tokens: maxTokens,
         system: systemPrompt, messages: [{ role: 'user', content: userPrompt }]
       }),
       signal: controller.signal
@@ -1100,48 +1099,166 @@ function buildWebCheckPrompt(answers, scores, crawlData) {
 // ========== Site Check Prompts (URL-only) ==========
 
 function buildSiteCheckSystemPrompt() {
-  return `Ciras株式会社のWebコンサルタントとして、サイトを診断してください。
-専門用語禁止（SEO→検索での見つかりやすさ、構造化データ→AIが読める情報整理、meta description→検索結果の紹介文、alt text→画像の説明文）。一般論禁止、サイト固有の具体的コメントのみ。回答はJSON形式のみ。
+  return `あなたはCiras株式会社のAI・Webコンサルタントです。クライアントのWebサイト全体（複数ページ）を詳しく読み取り、その会社の特徴を理解した上で、的確な診断と改善提案を行います。
+
+あなたの役割：
+- サイト全体の構成（会社概要・サービス・実績・FAQ等のページの有無）を評価する
+- URLから会社の事業内容・エリア・特徴をしっかり読み取る
+- 同業種・同エリアの競合を踏まえて、この会社がどういう立ち位置なのかを分析する
+- AI検索（ChatGPT・Perplexity等）でこの会社が検索されたとき、どう表示されるかを具体的に示す
+- 良い点はしっかり褒め、改善すべき点は「なぜ問題なのか」「どうすればいいのか」をわかりやすく伝える
+- プロとして第三者的な立場で、厳しくも公正な評価をすること
+- 高い評価は本当に優れたサイトにだけ与えること
+
+絶対ルール：
+1. 専門用語・ツール名は絶対に使わないこと（例：「SEO」→「検索での見つかりやすさ」、「構造化データ」→「AIが読める形での情報整理」、「JSON-LD」→「検索エンジン向けの会社情報タグ」、「viewport」→「スマホ画面に合わせた表示設定」、「canonical」→「正式なページURL設定」、「meta description」→「検索結果に表示される紹介文」、「alt text」→「画像の説明文」）。
+2. どこの会社にも当てはまるような一般論は禁止。このサイトの内容を実際に読んだ上での具体的なコメントをすること。
+3. 回答は必ず以下のJSON形式のみで出力すること。JSON以外のテキストは含めないこと。
 
 出力形式：
-{"companyProfile":{"name":"会社名","area":"所在地","business":"事業内容2行","positioning":"同業種での立ち位置2行"},"aiSearchPreview":"AI検索でこの会社を聞かれた時の回答100〜150字。不足部分は正直に書く","checkpoints":[{"item":"項目名","rating":"◎/○/△/×","comment":"具体的コメント1行"}],"goodPoints":["良い点"],"solutions":[{"title":"改善タイトル","point":"メリット1行","before":"現状の問題1行","after":"改善後1行"}],"cirasRecommendation":null}
+{
+  "companyProfile": {
+    "name": "サイトから読み取った会社名・屋号",
+    "area": "所在地・対応エリア（わかる範囲で）",
+    "business": "事業内容の要約（2〜3行）",
+    "positioning": "同業種・同エリアでの立ち位置の分析（2〜3行。「○○エリアで△△を提供する会社として」のように具体的に）"
+  },
+  "aiSearchPreview": "AI検索（ChatGPTやPerplexityなど）でこの会社について聞かれたとき、現在のサイト情報だけで生成される回答を100〜150文字で書いてください。情報が不足している部分は「情報が見つかりませんでした」と正直に書いてください。",
+  "checkpoints": [
+    {
+      "item": "チェック項目名（専門用語なし）",
+      "rating": "◎ or ○ or △ or ×",
+      "comment": "このサイト固有の具体的なコメント（1〜2行）"
+    }
+  ],
+  "goodPoints": [
+    "このサイトの良い点（具体的に）"
+  ],
+  "solutions": [
+    {
+      "title": "改善提案のタイトル（このサイト固有の内容）",
+      "point": "この改善で得られるメリット（1行）",
+      "before": "今のサイトで実際に起きている問題（1〜2行。サイトの内容を根拠に具体的に）",
+      "after": "改善した後の具体的な変化（1〜2行）"
+    }
+  ],
+  "cirasRecommendation": null
+}
 
-checkpoints10項目：1.会社の基本情報 2.サービス内容の伝わりやすさ 3.お客様の声・実績 4.料金のわかりやすさ 5.よくある質問 6.スマホでの見やすさ 7.安全な接続(https) 8.AI検索への情報提供 9.見出し構成 10.情報の新しさ
-rating：◎=業界水準を大きく上回る(滅多に付けない) ○=基本OK △=不十分 ×=未対応
-goodPoints2〜3個、solutions3〜5個。
+checkpointsは以下の10項目を必ず評価してください：
+1. 「会社の基本情報」- 会社名・住所・電話番号・代表者名などが揃っているか
+2. 「サービス内容の伝わりやすさ」- 何をしている会社か、初めての人にもすぐわかるか
+3. 「お客様の声・実績」- 信頼できる根拠（お客様の声、実績、事例など）があるか
+4. 「料金・費用のわかりやすさ」- 料金や費用感が明記されているか
+5. 「よくある質問（Q&A）」- お客様の不安を解消するQ&Aがあるか
+6. 「スマートフォンでの見やすさ」- スマホで見たときにちゃんと読めるか
+7. 「安全な接続」- 通信が暗号化されているか（https）
+8. 「AI検索への情報提供」- AIが会社情報を正しく読み取れる形になっているか
+9. 「ページの見出し構成」- 情報が整理されていて、読みやすい構成になっているか
+10. 「情報の新しさ」- 最近更新された形跡があるか、古いまま放置されていないか
 
-スコア59点以下の場合のみcirasRecommendationを出力：{"title":"プロによるWebサイトリニューアルのご提案","reason":"課題2〜3個と依頼すべき理由3行","benefits":["メリット3つ"],"cta":"まずは無料相談で、御社の課題をお聞かせください。"}
-60点以上はnull。`;
+rating基準（厳格に評価すること）：
+- ◎：業界水準を大きく上回っている（滅多に付けないこと）
+- ○：基本はできているが、改善の余地あり
+- △：不十分。改善すると効果が大きい
+- ×：対応できていない。早めの対応を推奨
+
+goodPointsは2〜3個。solutionsは3〜5個。
+
+【重要：スコアが59点以下（レベル3以下）の場合】
+cirasRecommendationに以下の形式で、Ciras株式会社でのWebサイト制作を根拠込みでおすすめしてください：
+{
+  "title": "プロによるWebサイトリニューアルのご提案",
+  "reason": "診断結果から見えた具体的な課題を2〜3個挙げ、なぜプロに依頼すべきかを説明（3〜4行）",
+  "benefits": ["Ciras株式会社に依頼するメリットを3つ"],
+  "cta": "まずは無料相談で、御社の課題をお聞かせください。"
+}
+スコアが60点以上の場合はcirasRecommendationはnullにしてください。`;
 }
 
 function buildSiteCheckPrompt(scores, crawlData) {
-  const sp = crawlData.siteProfile || {};
-  let prompt = `以下のWebサイトを診断してJSON出力してください。
+  let prompt = `以下のWebサイト全体を分析し、診断結果を出力してください。
 
-URL: ${crawlData.finalUrl}
-タイトル: ${crawlData.title || 'なし'}
-紹介文: ${crawlData.metaDescription || 'なし'}
-巡回${crawlData.totalPages || 1}ページ`;
+【分析対象サイト】
+- URL: ${crawlData.finalUrl}
+- ページタイトル: ${crawlData.title || '（タイトルなし）'}
+- 紹介文: ${crawlData.metaDescription || '（紹介文なし）'}
+- 巡回ページ数: ${crawlData.totalPages || 1}ページ`;
 
   if (crawlData.pages && crawlData.pages.length > 0) {
+    prompt += `\n\n【巡回したページ一覧】`;
     crawlData.pages.forEach((p, i) => {
-      prompt += `\n\n[${p.type}] ${p.title || p.url}\n${(p.textContent || '').substring(0, 400)}`;
+      prompt += `\n${i + 1}. [${p.type}] ${p.title || '（タイトルなし）'} - ${p.url}`;
     });
   }
 
-  prompt += `\n\nサイト構成: 実績${sp.hasTestimonials ? '有' : '無'} FAQ${sp.hasFaq ? '有' : '無'} 会社概要${sp.hasCompanyInfo ? '有' : '無'} 料金${sp.hasPricing ? '有' : '無'} ブログ${sp.hasBlog ? '有' : '無'} 問合せ${sp.hasContact ? '有' : '無'} 住所${sp.hasAddress ? '有' : '無'} 電話${sp.hasPhone ? '有' : '無'}`;
-  prompt += `\n技術: HTTPS${crawlData.isHttps ? '有' : '無'} スマホ${crawlData.hasViewport ? '有' : '無'} AI情報整理${crawlData.hasJsonLd ? '有(' + crawlData.jsonLdTypes.join(',') + ')' : '無'} 見出しH1=${crawlData.headingStructure.h1}/H2=${crawlData.headingStructure.h2}/H3=${crawlData.headingStructure.h3} 画像${crawlData.imageCount}枚 著作権年${crawlData.copyrightYear || '不明'}`;
+  prompt += `\n\n【トップページの見出し構成】`;
+  if (crawlData.headingsText && crawlData.headingsText.length > 0) {
+    crawlData.headingsText.forEach(h => {
+      prompt += `\n  ${h.level.toUpperCase()}: ${h.text}`;
+    });
+  } else {
+    prompt += '\n  （見出しが見つかりませんでした）';
+  }
 
-  prompt += `\n\nスコア: ${scores.totalScore}/100点`;
-  Object.keys(scores.categories).forEach(key => {
+  prompt += `\n\n【各ページのテキスト内容（抜粋）】`;
+  if (crawlData.pages && crawlData.pages.length > 0) {
+    crawlData.pages.forEach(p => {
+      prompt += `\n\n--- ${p.type}: ${p.title || p.url} ---`;
+      prompt += `\n${p.textContent || '（テキストなし）'}`;
+    });
+  } else {
+    prompt += `\n${crawlData.textContent || '（テキストを取得できませんでした）'}`;
+  }
+
+  const sp = crawlData.siteProfile || {};
+  prompt += `\n\n【サイト構成の自動判定結果】`;
+  prompt += `\n- お客様の声・実績ページ: ${sp.hasTestimonials ? 'あり' : 'なし'}`;
+  prompt += `\n- FAQ・よくある質問ページ: ${sp.hasFaq ? 'あり' : 'なし'}`;
+  prompt += `\n- 会社概要ページ: ${sp.hasCompanyInfo ? 'あり' : 'なし'}`;
+  prompt += `\n- プライバシーポリシー: ${sp.hasPrivacyPolicy ? 'あり' : 'なし'}`;
+  prompt += `\n- 料金ページ: ${sp.hasPricing ? 'あり' : 'なし'}`;
+  prompt += `\n- 問い合わせページ: ${sp.hasContact ? 'あり' : 'なし'}`;
+  prompt += `\n- ブログ・コラム: ${sp.hasBlog ? 'あり（' + (sp.blogPostCount || 0) + '記事）' : 'なし'}`;
+  prompt += `\n- サービス紹介ページ: ${sp.hasService ? 'あり' : 'なし'}`;
+  prompt += `\n- 住所・所在地: ${sp.hasAddress ? 'あり' : 'なし'}`;
+  prompt += `\n- 電話番号: ${sp.hasPhone ? 'あり' : 'なし'}`;
+
+  prompt += `\n\n【技術情報】`;
+  prompt += `\n- HTTPS: ${crawlData.isHttps ? 'あり' : 'なし'}`;
+  prompt += `\n- スマホ対応: ${crawlData.hasViewport ? 'あり' : 'なし'}`;
+  prompt += `\n- AI向け情報整理タグ: ${crawlData.hasJsonLd ? 'あり（' + crawlData.jsonLdTypes.join(', ') + '）' : 'なし'}`;
+  prompt += `\n- 見出し数: H1=${crawlData.headingStructure.h1}, H2=${crawlData.headingStructure.h2}, H3=${crawlData.headingStructure.h3}`;
+  prompt += `\n- 画像数: ${crawlData.imageCount}（画像説明文の充実度: ${typeof crawlData.hasAltText === 'number' ? Math.round(crawlData.hasAltText * 100) + '%' : '不明'}）`;
+  prompt += `\n- 内部リンク数: ${crawlData.internalLinks}`;
+  prompt += `\n- 総テキスト量: 約${sp.totalContentLength || crawlData.contentLength}文字`;
+  prompt += `\n- トップページサイズ: 約${Math.round(crawlData.pageSize / 1024)}KB`;
+  prompt += `\n- 著作権年: ${crawlData.copyrightYear || '不明'}`;
+
+  prompt += `\n\n【スコア詳細】（100点満点中 ${scores.totalScore}点）`;
+  const catLetters = ['A', 'B', 'C', 'D'];
+  Object.keys(scores.categories).forEach((key, i) => {
     const cat = scores.categories[key];
-    prompt += ` ${cat.label}${cat.total}/${cat.maxScore}`;
+    prompt += `\n${catLetters[i]}. ${cat.label}: ${cat.total}/${cat.maxScore}`;
+    for (const [, d] of Object.entries(cat.details)) {
+      prompt += `\n  - ${d.label}: ${d.score}/${d.max}`;
+    }
   });
 
   const level = scores.totalScore >= 80 ? 5 : scores.totalScore >= 60 ? 4 : scores.totalScore >= 40 ? 3 : scores.totalScore >= 20 ? 2 : 1;
+  prompt += `\n\nレベル判定: ${level}（${scores.totalScore}点）`;
   if (level <= 3) {
-    prompt += `\nレベル${level}（59点以下）→cirasRecommendation必須`;
+    prompt += `\n※ レベル3以下のため、cirasRecommendationを必ず出力してください。`;
   }
+
+  prompt += `\n\n【重要な注意】`;
+  prompt += `\n- サイト全体（複数ページ）のテキストと構成を実際に読んで、会社の事業内容・特徴を正確に把握すること`;
+  prompt += `\n- checkpointsのコメントは「このサイトの○○について」のように、具体的なサイト内容を引用すること`;
+  prompt += `\n- aiSearchPreviewは、実際にこのサイト情報だけから生成できる内容にすること。推測で補完しないこと`;
+  prompt += `\n- positioningは「○○エリアの△△業界で」のように、エリア・業種を特定した上で分析すること`;
+  prompt += `\n- solutionsのbeforeは、必ずこのサイトの実際の内容を根拠にすること（「一般的に〜」は禁止）`;
+  prompt += `\n- 専門用語は絶対に使わないこと`;
+  prompt += `\n- 評価は厳格に。◎は本当に優れている場合のみ付けること`;
 
   return prompt;
 }
