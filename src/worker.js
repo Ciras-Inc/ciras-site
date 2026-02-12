@@ -43,6 +43,18 @@ export default {
       return withAuth(request, env, () => handleUpdateDiagnosis(request, env, id));
     }
 
+    // Health check endpoint (admin only)
+    if (path === '/api/health' && request.method === 'GET') {
+      return withAuth(request, env, () => jsonResponse({
+        status: 'ok',
+        config: {
+          anthropic_api_key: env.ANTHROPIC_API_KEY ? 'configured' : 'MISSING',
+          admin_password: env.ADMIN_PASSWORD ? 'configured' : 'MISSING',
+          kv_diagnoses: env.DIAGNOSES ? 'configured' : 'MISSING'
+        }
+      }));
+    }
+
     // Report page (dynamically generated)
     if (path.match(/^\/report\/[\w-]+$/)) {
       const id = path.split('/').pop();
@@ -73,6 +85,11 @@ async function withAuth(request, env, handler) {
 
 async function handleAiCheck(request, env) {
   try {
+    if (!env.ANTHROPIC_API_KEY) {
+      console.error('ANTHROPIC_API_KEY is not configured');
+      return jsonResponse({ error: 'システム設定エラーです。管理者にお問い合わせください。' }, 500);
+    }
+
     const body = await request.json();
     const required = ['q1_position', 'q2_industry', 'q3_employees', 'q4_interests', 'q6_ai_status'];
     for (const field of required) {
@@ -111,6 +128,11 @@ async function handleAiCheck(request, env) {
 
 async function handleWebCheck(request, env) {
   try {
+    if (!env.ANTHROPIC_API_KEY) {
+      console.error('ANTHROPIC_API_KEY is not configured');
+      return jsonResponse({ error: 'システム設定エラーです。管理者にお問い合わせください。' }, 500);
+    }
+
     const body = await request.json();
     if (!body.q1_has_website || !body.q3_expectation || !body.q4_current_response) {
       return jsonResponse({ error: '必須項目が入力されていません' }, 400);
@@ -520,6 +542,7 @@ async function handleReportPage(env, id) {
 
 async function callClaudeAPI(apiKey, systemPrompt, userPrompt) {
   try {
+    console.log('Calling Claude API with model:', CLAUDE_MODEL);
     const response = await fetch(CLAUDE_API_URL, {
       method: 'POST',
       headers: {
@@ -532,8 +555,9 @@ async function callClaudeAPI(apiKey, systemPrompt, userPrompt) {
     });
 
     if (!response.ok) {
-      console.error('Claude API error:', response.status, await response.text());
-      return { success: false };
+      const errorBody = await response.text();
+      console.error(`Claude API error: status=${response.status}, body=${errorBody}`);
+      return { success: false, error: `API returned ${response.status}` };
     }
 
     const data = await response.json();
