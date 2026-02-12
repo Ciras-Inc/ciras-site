@@ -173,6 +173,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .footer-nav a { font-size: 0.85rem; color: rgba(255,255,255,0.8); transition: color 0.3s; }
     .footer-nav a:hover { color: var(--white); }
     .footer-bottom { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+    .footer-tools { padding: 2rem 0; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,.1); text-align: center; }
+    .footer-tools-title { font-size: .75rem; font-weight: 600; letter-spacing: .15em; color: rgba(255,255,255,.6); margin-bottom: 1rem; }
+    .footer-tools-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .footer-tool-btn { display: inline-block; font-size: .85rem; font-weight: 600; color: var(--black); background: var(--white); padding: .8rem 2rem; border-radius: 4px; transition: all .3s; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+    .footer-tool-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.3); }
 
     /* Animations */
     .fade-in { opacity: 1; transform: translateY(0); transition: opacity 0.7s ease, transform 0.7s ease; }
@@ -376,6 +381,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </ul>
           </div>
         </nav>
+      </div>
+      <div class="footer-tools">
+        <p class="footer-tools-title">無料診断ツール</p>
+        <div class="footer-tools-buttons">
+          <a href="https://ciras-site.solitary-rain-3867.workers.dev/ai-check" class="footer-tool-btn" target="_blank" rel="noopener">AI活用レベル診断</a>
+          <a href="https://ciras-site.solitary-rain-3867.workers.dev/web-check" class="footer-tool-btn" target="_blank" rel="noopener">Webサイト状況診断</a>
+        </div>
       </div>
       <div class="footer-bottom">© 2026 Ciras Inc.（シラス株式会社）</div>
     </div>
