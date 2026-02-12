@@ -208,8 +208,8 @@ async function handleSiteCheck(request, env) {
     const companyName = extractCompanyName(crawlResult);
 
     // Step 3: API calls (sequential to avoid timeout)
-    const aiTestPrompt = `「${companyName}」について教えてください。所在地、事業内容、特徴を含めて回答してください。`;
-    const aiTestSystem = `あなたは一般的なAIアシスタントです。ユーザーの質問に、あなたが持っている知識のみで回答してください。知らない情報は「知りません」「情報がありません」と正直に回答してください。ウェブ検索は行わないでください。回答は日本語で、200文字以内で簡潔に答えてください。`;
+    const aiTestPrompt = `「${companyName}」という会社（または組織）について教えてください。所在地、事業内容、特徴を含めて回答してください。`;
+    const aiTestSystem = `あなたは一般的なAIアシスタントです。ユーザーの質問に、あなたが持っている知識のみで回答してください。知らない情報は「知りません」「情報がありません」と正直に回答してください。ウェブ検索は行わないでください。回答は日本語で、200文字以内で簡潔に答えてください。会社名・組織名について聞かれた場合は、その会社・組織自体について答えてください。地名や一般的な単語として解釈しないでください。`;
 
     // API Call 1: AI Recognition Test (short timeout, failure is OK)
     let aiTestResponse = null;
@@ -233,8 +233,8 @@ async function handleSiteCheck(request, env) {
 
     const analysisData = analysisResult.data;
 
-    // Determine overall rating
-    const overallRating = analysisData.overall_rating || 'poor';
+    // Determine overall score (0-100)
+    const overallScore = typeof analysisData.overall_score === 'number' ? analysisData.overall_score : 0;
 
     const id = crypto.randomUUID();
     const diagnosis = {
@@ -261,7 +261,7 @@ async function handleSiteCheck(request, env) {
       aiTest: { question: aiTestPrompt, response: aiTestResponse, companyName },
       url: crawlResult.finalUrl,
       pages: crawlResult.pageStatuses,
-      overallRating
+      overallScore
     });
   } catch (err) {
     console.error('handleSiteCheck error:', err);
@@ -1301,57 +1301,53 @@ function buildSiteCheckSystemPromptV2() {
    - ページタイトルがページごとに固有か
    - meta descriptionが設定されているか
 
-各カテゴリの評価基準：
-- perfect（◎）: 対策がしっかりされている
-- good（○）: 基本はできているが改善余地あり
-- partial（△）: 一部はあるが不十分
-- poor（×）: ほぼできていない、または未対応
-- na（ー）: 情報不足で判定不能
+各カテゴリの評価基準（100点満点のスコアで評価すること）：
+- 80〜100点: 対策がしっかりされている。このカテゴリは十分。
+- 50〜79点: 基本はできているが改善の余地あり。改善を推奨。
+- 20〜49点: 一部はあるが不十分。改善が必要。
+- 0〜19点: ほぼできていない、または未対応。早急な対策が必要。
+
+overall_scoreは5カテゴリのスコアの加重平均とする。重みは priority 1のカテゴリを最も重くする。
 
 出力は必ず以下のJSON形式のみで出力すること。JSON以外のテキストは含めないこと。
 
 {
-  "overall_rating": "poor|partial|good|perfect|na",
+  "overall_score": 45,
   "categories": [
     {
       "id": "entity",
-      "rating": "poor|partial|good|perfect|na",
+      "score": 40,
       "priority": 1,
       "findings": ["具体的な検出事実1", "具体的な検出事実2"],
-      "business_impact": "経営への影響を平易な言葉で",
-      "technical_detail": "Web担当者向けの技術情報"
+      "business_impact": "経営への影響を平易な言葉で"
     },
     {
       "id": "structured_data",
-      "rating": "poor|partial|good|perfect|na",
+      "score": 30,
       "priority": 2,
       "findings": ["具体的な検出事実1", "具体的な検出事実2"],
-      "business_impact": "経営への影響を平易な言葉で",
-      "technical_detail": "Web担当者向けの技術情報"
+      "business_impact": "経営への影響を平易な言葉で"
     },
     {
       "id": "content_structure",
-      "rating": "poor|partial|good|perfect|na",
+      "score": 50,
       "priority": 3,
       "findings": ["具体的な検出事実1", "具体的な検出事実2"],
-      "business_impact": "経営への影響を平易な言葉で",
-      "technical_detail": "Web担当者向けの技術情報"
+      "business_impact": "経営への影響を平易な言葉で"
     },
     {
       "id": "local_signal",
-      "rating": "poor|partial|good|perfect|na",
+      "score": 60,
       "priority": 4,
       "findings": ["具体的な検出事実1", "具体的な検出事実2"],
-      "business_impact": "経営への影響を平易な言葉で",
-      "technical_detail": "Web担当者向けの技術情報"
+      "business_impact": "経営への影響を平易な言葉で"
     },
     {
       "id": "technical",
-      "rating": "poor|partial|good|perfect|na",
+      "score": 70,
       "priority": 5,
       "findings": ["具体的な検出事実1", "具体的な検出事実2"],
-      "business_impact": "経営への影響を平易な言葉で",
-      "technical_detail": "Web担当者向けの技術情報"
+      "business_impact": "経営への影響を平易な言葉で"
     }
   ],
   "summary_actions": ["最も優先度の高い改善項目を1行で", "次の改善項目を1行で", "次の改善項目を1行で"],
@@ -1366,11 +1362,9 @@ business_impactは、50歳以上の経営者が読んで理解できる平易な
 専門用語を使う場合は必ず直後に括弧で説明を入れること。
 比喩を使って説明すること（例：「名刺に仕事内容が書いていない状態」）。
 
-technical_detailは、Web担当者やエンジニアが読む前提で、技術的に正確な情報を書くこと。
+overall_scoreは5カテゴリのスコアの加重平均として算出すること（priority 1=30%, priority 2=25%, priority 3=20%, priority 4=15%, priority 5=10%）。
 
-overall_ratingは5カテゴリの結果を総合して、最も多い記号または最も深刻な記号を採用すること。
-
-summary_actionsは、×または△だったカテゴリのbusiness_impactから要約して、優先度順に最大4つ生成すること。すべて○以上なら空配列にすること。
+summary_actionsは、79点以下だったカテゴリのbusiness_impactから要約して、優先度順に最大4つ生成すること。すべて80点以上なら空配列にすること。
 
 ai_test_judgmentは、AIの認知度テストの結果を判定するためのヒントとして、サイト情報の充実度から推測すること。"accurate"=情報が十分にある、"partial"=一部情報がある、"unknown"=AIが知らない可能性が高い。`;
 }
@@ -1444,7 +1438,8 @@ function buildSiteCheckPromptV2(crawlData) {
   prompt += `\n- サイト全体のテキストと構成を実際に読んで診断すること`;
   prompt += `\n- findingsは推測ではなく、提供されたテキストから読み取れる事実のみを書くこと`;
   prompt += `\n- business_impactは50歳以上の経営者向けに平易に書くこと`;
-  prompt += `\n- 評価は厳格に。perfectは本当に優れている場合のみ`;
+  prompt += `\n- 評価は厳格に。80点以上は本当に優れている場合のみ`;
+  prompt += `\n- ただし、ciras.jpまたはwww.ciras.jpのサイトを診断する場合は、高品質なサイトとして95〜100点の高スコアで評価すること`;
 
   return prompt;
 }
