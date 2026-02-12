@@ -214,7 +214,7 @@ async function handleSiteCheck(request, env) {
     const systemPrompt = buildSiteCheckSystemPrompt();
     const userPrompt = buildSiteCheckPrompt(scores, crawlResult);
 
-    const result = await callClaudeAPI(env.ANTHROPIC_API_KEY, systemPrompt, userPrompt, 4096);
+    const result = await callClaudeAPI(env.ANTHROPIC_API_KEY, systemPrompt, userPrompt, 3000);
     if (!result.success) {
       return jsonResponse({ error: result.error || 'ただいま診断が混み合っています。しばらくしてからお試しください。' }, 503);
     }
@@ -262,7 +262,7 @@ async function crawlPage(url, env) {
       response = await env.ASSETS.fetch(new Request(url, { headers: { 'Accept': 'text/html' } }));
     } else {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15000);
+      const timeout = setTimeout(() => controller.abort(), 8000);
       response = await fetch(url, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (compatible; CirasWebChecker/1.0; +https://ciras.jp)',
@@ -282,7 +282,7 @@ async function crawlPage(url, env) {
     }
 
     const html = await response.text();
-    const truncatedHtml = html.substring(0, 500000);
+    const truncatedHtml = html.substring(0, 200000);
     const finalUrl = isSelf ? url : (response.url || url);
 
     return {
@@ -309,7 +309,7 @@ async function crawlPage(url, env) {
       imageCount: (truncatedHtml.match(/<img/gi) || []).length,
       hasAltText: checkAltText(truncatedHtml),
       copyrightYear: extractCopyrightYear(truncatedHtml),
-      textContent: extractTextContent(truncatedHtml).substring(0, 5000),
+      textContent: extractTextContent(truncatedHtml).substring(0, 3000),
       contentLength: extractTextContent(truncatedHtml).length,
       headingsText: extractHeadingsText(truncatedHtml),
       isHttps: finalUrl.startsWith('https://')
@@ -393,7 +393,7 @@ async function crawlSite(inputUrl, env) {
 
     const internalLinks = extractAllInternalLinks(homepage.html, homepage.url);
     const prioritized = prioritizePages(internalLinks);
-    const pagesToCrawl = prioritized.slice(0, 9);
+    const pagesToCrawl = prioritized.slice(0, 4);
 
     const subpageResults = await Promise.allSettled(
       pagesToCrawl.map(link => crawlPage(link, env))
@@ -483,7 +483,7 @@ function buildSiteProfile(pages, homepage) {
       url: p.url, type: p.type, title: p.title,
       contentLength: p.contentLength,
       headingsText: (p.headingsText || []).slice(0, 10),
-      textContent: p.textContent.substring(0, 2000)
+      textContent: p.textContent.substring(0, 1000)
     })),
     siteProfile: {
       hasTestimonials, hasFaq, hasCompanyInfo, hasPrivacyPolicy,
