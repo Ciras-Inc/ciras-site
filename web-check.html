@@ -139,6 +139,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     /* Level Hero (matching AI check) */
     .level-hero{background:linear-gradient(160deg,#1a3a17 0%,#2D5A27 40%,#3d7a35 100%);padding:5rem 2rem 4rem;text-align:center;color:var(--white);position:relative;overflow:hidden}
     .level-hero::before{content:"";position:absolute;top:-50%;right:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);border-radius:50%}
+    .level-disclaimer{margin-top:2rem;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:1.2rem 1.5rem;font-size:.82rem;line-height:1.9;color:rgba(255,255,255,.9);text-align:center;max-width:600px;margin-left:auto;margin-right:auto}
     .level-hero::after{content:"";position:absolute;bottom:-30%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);border-radius:50%}
     .level-hero-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
     .level-label{font-size:.7rem;letter-spacing:.3em;opacity:.7;margin-bottom:1.5rem;text-transform:uppercase}
@@ -271,6 +272,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .btn-cta-secondary{background:transparent;color:var(--white);font-size:.95rem;font-weight:600;padding:1rem 2rem;border-radius:8px;border:2px solid rgba(255,255,255,.5);display:inline-flex;align-items:center;gap:.5rem;transition:all .3s;cursor:pointer;font-family:inherit;text-decoration:none}
     .btn-cta-secondary:hover{background:rgba(255,255,255,.1);border-color:var(--white)}
     .results-cta-note{font-size:.8rem;opacity:.6}
+    .diagnosis-disclaimer{padding:3rem 2rem;background:#fffbf0;border-top:2px solid #e8c85a;border-bottom:2px solid #e8c85a}
+    .diagnosis-disclaimer-inner{max-width:720px;margin:0 auto;background:#fff;border:1px solid #e8c85a;border-radius:12px;padding:2rem 2.5rem;font-size:.85rem;color:#555;line-height:2;text-align:left}
+    .diagnosis-disclaimer-title{font-size:.95rem;font-weight:700;color:#b8860b;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+    .diagnosis-disclaimer-title::before{content:"\26A0";font-size:1.3rem}
+    .diagnosis-disclaimer-inner ul{list-style:none;padding:0;margin:0 0 1rem 0}
+    .diagnosis-disclaimer-inner li{padding-left:1.2rem;position:relative;margin-bottom:.3rem}
+    .diagnosis-disclaimer-inner li::before{content:"\2022";position:absolute;left:0;color:#b8860b;font-weight:700}
 
     /* Footer */
     footer{background:var(--black);color:var(--white);padding:4rem 2rem 2rem}
@@ -360,7 +368,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <!-- Error -->
   <section class="error-section" id="error-section">
     <p class="error-icon">&#x26A0;</p>
-    <h2 class="error-title">サイトにアクセスできませんでした</h2>
+    <h2 class="error-title" id="error-title">診断できませんでした</h2>
     <p class="error-desc" id="error-desc">入力されたURLにアクセスできませんでした。<br>URLが正しいか確認のうえ、再度お試しください。</p>
     <button class="btn-back" id="error-back-btn">もう一度試す</button>
   </section>
@@ -380,6 +388,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <p class="level-url" id="level-url"></p>
         <div class="level-bar-wrap" id="level-bar"></div>
         <div class="score-summary" id="score-summary"></div>
+        <div class="level-disclaimer">
+          <p>&#x26A0; 本診断はWebサイトに掲載されている情報をAIが読み込み分析した結果です。<br>実際の購買のしやすさ・閲覧体験・デザインの印象・売上等は評価対象外です。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="diagnosis-disclaimer" id="diagnosis-disclaimer">
+      <div class="diagnosis-disclaimer-inner">
+        <p class="diagnosis-disclaimer-title">本診断についてのご注意</p>
+        <p>本診断は、<strong>Webサイトに掲載されている情報（テキスト・構成・技術仕様など）をAIが読み込み、自動で分析した結果</strong>です。</p>
+        <p style="margin-top:.8rem;margin-bottom:.5rem">以下の項目は<strong>本診断の対象外</strong>です：</p>
+        <ul>
+          <li>実際の購買のしやすさ・閲覧のしやすさなどの<strong>ユーザー体験</strong></li>
+          <li>売上・問い合わせ数などの<strong>サイト運営の成果</strong></li>
+          <li>デザインの印象や<strong>ブランドイメージの評価</strong></li>
+        </ul>
+        <p style="color:#b8860b;font-weight:600">診断結果はあくまで参考情報としてご活用ください。</p>
       </div>
     </div>
 
@@ -508,7 +534,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       if (!isValidUrl(url)) { urlError.textContent = '正しいURLを入力してください（例：https://example.com）'; urlError.style.display = 'block'; return; }
       showLoading();
       var ac = new AbortController();
-      var ft = setTimeout(function() { ac.abort(); }, 90000);
+      var ft = setTimeout(function() { ac.abort(); }, 120000);
       fetch('/api/site-check', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: url }), signal: ac.signal })
       .then(function(res) { clearTimeout(ft); if (!res.ok) { return res.json().then(function(d) { throw new Error(d.error || 'サーバーエラー'); }); } return res.json(); })
       .then(function(data) { if (data.error) { hideLoading(); showError(data.error); return; } showResults(data); })
@@ -518,14 +544,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     // Loading
     var loadingMsgs = [
       { text: 'トップページを読み取っています...', sub: 'サイトの構造・リンクを解析中', pct: 5 },
-      { text: 'サイト全体を巡回しています...', sub: '会社概要・サービス・お客様の声など各ページをチェック中', pct: 15 },
-      { text: '各ページの内容を分析中...', sub: 'FAQ・プライバシーポリシー・ブログなどを確認中', pct: 30 },
-      { text: 'コンテンツの充実度を評価中...', sub: 'サービス説明・料金情報・更新頻度をチェック', pct: 40 },
-      { text: '信頼性・実績を確認しています...', sub: 'お客様の声・会社情報・法的ページを評価中', pct: 50 },
-      { text: 'AI検索への対応度を測定中...', sub: '構造化データ・FAQ・メタ情報をチェック', pct: 60 },
-      { text: '技術品質を評価しています...', sub: 'セキュリティ・モバイル対応・表示速度を確認', pct: 70 },
-      { text: '改善提案を作成中...', sub: 'AIが複数ページの分析結果から具体策をまとめています', pct: 85 },
-      { text: '仕上げをしています...', sub: 'あと少しです', pct: 95 }
+      { text: 'サイト全体を巡回しています...', sub: '会社概要・サービスなど各ページをチェック中', pct: 12 },
+      { text: '各ページの内容を分析中...', sub: 'FAQ・プライバシーポリシー・ブログなどを確認中', pct: 20 },
+      { text: 'コンテンツの充実度を評価中...', sub: 'サービス説明・料金情報・更新頻度をチェック', pct: 30 },
+      { text: '信頼性・実績を確認しています...', sub: 'お客様の声・会社情報・法的ページを評価中', pct: 40 },
+      { text: 'AI検索への対応度を測定中...', sub: 'AIが読み取れる情報の整理状況をチェック', pct: 50 },
+      { text: '技術品質を評価しています...', sub: 'セキュリティ・モバイル対応・表示速度を確認', pct: 58 },
+      { text: 'AIが診断レポートを作成中...', sub: 'サイトの内容を読み込んで具体的な提案をまとめています', pct: 65 },
+      { text: '改善提案を整理しています...', sub: '御社のサイトに合った具体策を検討中', pct: 72 },
+      { text: 'レポートを仕上げています...', sub: 'もうしばらくお待ちください', pct: 80 },
+      { text: '最終チェック中...', sub: 'あと少しで完了です', pct: 90 },
+      { text: 'まもなく完了します...', sub: 'お待ちいただきありがとうございます', pct: 95 }
     ];
     var loadingTimer = null;
     function showLoading() {
@@ -533,7 +562,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       document.body.style.overflow = 'hidden';
       var idx = 0;
       setMsg(loadingMsgs[0]);
-      loadingTimer = setInterval(function() { idx++; if (idx < loadingMsgs.length) setMsg(loadingMsgs[idx]); }, 4000);
+      loadingTimer = setInterval(function() { idx++; if (idx < loadingMsgs.length) setMsg(loadingMsgs[idx]); }, 8000);
     }
     function setMsg(m) { document.getElementById('loading-text').textContent = m.text; document.getElementById('loading-sub').textContent = m.sub; document.getElementById('loading-bar').style.width = m.pct + '%'; }
     function hideLoading() {
@@ -546,6 +575,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     function showError(msg) {
       document.getElementById('hero-section').style.display = 'none';
       document.getElementById('form-section').style.display = 'none';
+      var title = '診断できませんでした';
+      if (msg.indexOf('時間がかかりすぎ') >= 0 || msg.indexOf('混み合') >= 0) title = '診断がタイムアウトしました';
+      else if (msg.indexOf('アクセスできません') >= 0 || msg.indexOf('見つかりません') >= 0) title = 'サイトにアクセスできませんでした';
+      document.getElementById('error-title').textContent = title;
       document.getElementById('error-desc').innerHTML = msg;
       document.getElementById('error-section').classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
