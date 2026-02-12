@@ -142,7 +142,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .rating-hero::after{content:"";position:absolute;bottom:-30%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);border-radius:50%}
     .rating-hero-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
     .rating-label{font-size:.7rem;letter-spacing:.3em;opacity:.7;margin-bottom:1.5rem;text-transform:uppercase}
-    .rating-symbol{font-family:'Shippori Mincho',serif;font-size:5rem;font-weight:700;line-height:1;margin-bottom:1rem;display:block}
+    .rating-symbol{font-family:'Shippori Mincho',serif;font-size:4rem;font-weight:700;line-height:1;margin-bottom:1rem;display:block}
+    .rating-score-num{font-size:5rem}
+    .rating-score-unit{font-size:1.5rem;opacity:.7;margin-left:.2rem}
     .rating-message{font-family:'Shippori Mincho',serif;font-size:clamp(1.3rem,3vw,1.8rem);font-weight:600;margin-bottom:.8rem;line-height:1.6}
     .rating-url{font-size:.8rem;opacity:.5;margin-top:1rem;word-break:break-all}
     .rating-legend{margin-top:2rem;display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;font-size:.75rem;opacity:.7}
@@ -185,11 +187,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .category-card-header{display:flex;align-items:flex-start;gap:1rem;padding:1.5rem 2rem;border-bottom:1px solid var(--gray-light)}
     .category-priority{font-size:.7rem;font-weight:700;color:var(--green);letter-spacing:.1em;white-space:nowrap;margin-top:.2rem}
     .category-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .8rem;border-radius:4px;font-size:.8rem;font-weight:700;white-space:nowrap;flex-shrink:0}
-    .category-badge.r-perfect{background:#E8F0E6;color:#2D5A27}
-    .category-badge.r-good{background:#E8F5FF;color:#1a6ab5}
-    .category-badge.r-partial{background:#FFF8E1;color:#B8860B}
-    .category-badge.r-poor{background:#FFF0F0;color:#C41E3A}
-    .category-badge.r-na{background:var(--bg);color:var(--gray)}
+    .category-badge.r-high{background:#E8F0E6;color:#2D5A27}
+    .category-badge.r-mid{background:#FFF8E1;color:#B8860B}
+    .category-badge.r-low{background:#FFF0F0;color:#C41E3A}
     .category-title-wrap{flex:1}
     .category-title{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600;line-height:1.5;margin-bottom:.2rem}
     .category-subtitle{font-size:.85rem;color:var(--gray-dark);line-height:1.7}
@@ -202,10 +202,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .category-findings li::before{content:"\2022";position:absolute;left:0;color:var(--green);font-weight:700;font-size:1.1rem}
     .category-impact{margin-bottom:1.5rem}
     .category-impact-text{font-size:.9rem;line-height:2;color:var(--gray-dark);padding:1rem 1.2rem;background:var(--bg);border-radius:8px}
-    .category-tech-toggle{width:100%;background:none;border:1px solid var(--gray-light);border-radius:6px;padding:.8rem 1rem;cursor:pointer;font-size:.85rem;font-weight:500;color:var(--gray-dark);font-family:inherit;text-align:left;transition:background .2s}
-    .category-tech-toggle:hover{background:var(--bg)}
-    .category-tech-content{display:none;padding:1rem 1.2rem;font-size:.85rem;line-height:2;color:var(--gray-dark);border:1px solid var(--gray-light);border-top:none;border-radius:0 0 6px 6px;margin-top:-1px}
-    .category-tech-content.open{display:block}
 
     /* Summary section */
     .summary-section{background:var(--green-light)}
@@ -359,15 +355,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="rating-hero">
       <div class="rating-hero-inner">
         <p class="rating-label">Diagnostic Result</p>
-        <span class="rating-symbol" id="rating-symbol">-</span>
+        <span class="rating-symbol" id="rating-symbol"><span class="rating-score-num">-</span><span class="rating-score-unit">点</span></span>
         <h2 class="rating-message" id="rating-message">診断中...</h2>
         <p class="rating-url" id="rating-url"></p>
         <div class="rating-legend">
-          <span class="rating-legend-item">◎ 十分</span>
-          <span class="rating-legend-item">○ おおむね良い</span>
-          <span class="rating-legend-item">△ 改善の余地あり</span>
-          <span class="rating-legend-item">× 対策が必要</span>
-          <span class="rating-legend-item">ー 計測できず</span>
+          <span class="rating-legend-item">80〜100点：十分</span>
+          <span class="rating-legend-item">50〜79点：改善推奨</span>
+          <span class="rating-legend-item">0〜49点：対策が必要</span>
         </div>
       </div>
     </div>
@@ -380,7 +374,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- 4. AI Recognition Test -->
     <div class="result-section ai-test-section" id="ai-test-section" style="display:none">
       <div class="result-section-inner">
-        <h3 class="result-section-title">試しに、AIに御社のことを聞いてみました</h3>
+        <h3 class="result-section-title">AIに御社のことを聞いてみました</h3>
         <p class="result-section-sub" id="ai-test-sub"></p>
         <div class="ai-test-q">
           <p class="ai-test-q-label">AIへの質問</p>
@@ -585,51 +579,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       document.getElementById('glossary-content').classList.toggle('open');
     });
 
-    // Rating mapping
-    var ratingMap = {
-      'perfect': { symbol: '◎', label: '十分できている', message: 'AI検索での引用準備が整っています', cssClass: 'r-perfect' },
-      'good': { symbol: '○', label: 'おおむね良い', message: '基盤はできています。さらに整えましょう', cssClass: 'r-good' },
-      'partial': { symbol: '△', label: '改善の余地あり', message: '改善すればAI検索で見つかりやすくなります', cssClass: 'r-partial' },
-      'poor': { symbol: '×', label: '対策が必要', message: 'AI検索で、御社はほぼ"見えない"状態です', cssClass: 'r-poor' },
-      'na': { symbol: 'ー', label: '計測できず', message: '診断に必要な情報を十分に取得できませんでした', cssClass: 'r-na' }
-    };
+    // Score-based rating helper
+    function getScoreInfo(score) {
+      if (score >= 80) return { label: '十分', message: 'AI検索での引用準備が整っています', cssClass: 'r-high' };
+      if (score >= 50) return { label: '改善推奨', message: '改善すればAI検索で見つかりやすくなります', cssClass: 'r-mid' };
+      return { label: '対策が必要', message: 'AI検索で、御社はほぼ"見えない"状態です', cssClass: 'r-low' };
+    }
 
-    // Category title/subtitle definitions
+    // Category title/subtitle definitions (score-based: high>=80, low<50)
     var categoryDefs = {
       entity: {
-        poor: { title: 'AIが御社を「知らない」', sub: 'AIに聞いても、御社の情報が出てこない状態です' },
-        partial: { title: 'AIが御社を「知らない」', sub: 'AIに聞いても、御社の情報が出てこない状態です' },
-        good: { title: 'AIが御社を正しく認識できる状態です', sub: '会社情報が明確に記載されています' },
-        perfect: { title: 'AIが御社を正しく認識できる状態です', sub: '会社情報が明確に記載されています' },
-        na: { title: 'AIが御社を「知らない」', sub: '判定に必要な情報を取得できませんでした' }
+        high: { title: 'AIが御社を正しく認識できる状態です', sub: '会社情報が明確に記載されています' },
+        low: { title: 'AIが御社を「知らない」', sub: 'AIに聞いても、御社の情報が出てこない状態です' }
       },
       structured_data: {
-        poor: { title: 'AIが読み取るための「裏の名刺」がない', sub: 'ホームページの裏側に、AI向けの会社情報が設定されていません' },
-        partial: { title: 'AIが読み取るための「裏の名刺」がない', sub: 'ホームページの裏側に、AI向けの会社情報が設定されていません' },
-        good: { title: 'AIが読み取るための「裏の名刺」が整っています', sub: 'AI向けの情報カードがきちんと設定されています' },
-        perfect: { title: 'AIが読み取るための「裏の名刺」が整っています', sub: 'AI向けの情報カードがきちんと設定されています' },
-        na: { title: 'AIが読み取るための「裏の名刺」がない', sub: '判定に必要な情報を取得できませんでした' }
+        high: { title: 'AIが読み取るための「裏の名刺」が整っています', sub: 'AI向けの情報カードがきちんと設定されています' },
+        low: { title: 'AIが読み取るための「裏の名刺」がない', sub: 'ホームページの裏側に、AI向けの会社情報が設定されていません' }
       },
       content_structure: {
-        poor: { title: '「よくある質問」がない', sub: 'お客様がAIに聞きそうな質問への答えが、サイトに用意されていません' },
-        partial: { title: '「よくある質問」がない', sub: 'お客様がAIに聞きそうな質問への答えが、サイトに用意されていません' },
-        good: { title: 'AIが引用しやすい情報が揃っています', sub: 'よくある質問や具体的な情報が充実しています' },
-        perfect: { title: 'AIが引用しやすい情報が揃っています', sub: 'よくある質問や具体的な情報が充実しています' },
-        na: { title: '「よくある質問」がない', sub: '判定に必要な情報を取得できませんでした' }
+        high: { title: 'AIが引用しやすい情報が揃っています', sub: 'よくある質問や具体的な情報が充実しています' },
+        low: { title: '「よくある質問」がない', sub: 'お客様がAIに聞きそうな質問への答えが、サイトに用意されていません' }
       },
       local_signal: {
-        poor: { title: '「どこで営業しているか」が伝わりにくい', sub: 'AIから見て、御社がどの地域で仕事をしているかが曖昧です' },
-        partial: { title: '「どこで営業しているか」が伝わりにくい', sub: 'AIから見て、御社がどの地域で仕事をしているかが曖昧です' },
-        good: { title: '地域での存在感がしっかり伝わります', sub: 'AIがどの地域で営業しているかを認識できる状態です' },
-        perfect: { title: '地域での存在感がしっかり伝わります', sub: 'AIがどの地域で営業しているかを認識できる状態です' },
-        na: { title: '「どこで営業しているか」が伝わりにくい', sub: '判定に必要な情報を取得できませんでした' }
+        high: { title: '地域での存在感がしっかり伝わります', sub: 'AIがどの地域で営業しているかを認識できる状態です' },
+        low: { title: '「どこで営業しているか」が伝わりにくい', sub: 'AIから見て、御社がどの地域で仕事をしているかが曖昧です' }
       },
       technical: {
-        poor: { title: 'ホームページの基本的な作りに問題あり', sub: 'AIがページを正しく読み込めない状態です' },
-        partial: { title: 'ホームページの基本的な作りに問題あり', sub: 'AIがページを正しく読み込めない状態です' },
-        good: { title: 'ホームページの基本的な作りは問題なし', sub: 'AIがページを読み込める状態にあります' },
-        perfect: { title: 'ホームページの基本的な作りは問題なし', sub: 'AIがページを読み込める状態にあります' },
-        na: { title: 'ホームページの基本的な作りは問題なし', sub: '判定に必要な情報を取得できませんでした' }
+        high: { title: 'ホームページの基本的な作りは問題なし', sub: 'AIがページを読み込める状態にあります' },
+        low: { title: 'ホームページの基本的な作りに問題あり', sub: 'AIがページを正しく読み込めない状態です' }
       }
     };
 
@@ -643,19 +620,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       document.getElementById('form-section').style.display = 'none';
 
       var r = data.result;
-      var overallRating = data.overallRating || r.overall_rating || 'poor';
-      var rInfo = ratingMap[overallRating] || ratingMap['poor'];
+      var overallScore = typeof data.overallScore === 'number' ? data.overallScore : (typeof r.overall_score === 'number' ? r.overall_score : 0);
+      var rInfo = getScoreInfo(overallScore);
 
       // 2. Rating Hero
-      document.getElementById('rating-symbol').textContent = rInfo.symbol;
+      document.getElementById('rating-symbol').innerHTML = '<span class="rating-score-num">' + overallScore + '</span><span class="rating-score-unit">点</span>';
       document.getElementById('rating-message').textContent = rInfo.message;
       if (data.url) document.getElementById('rating-url').textContent = data.url;
 
       // 3. Summary message
       var summaryEl = document.getElementById('summary-msg-text');
-      if (overallRating === 'poor') {
+      if (overallScore < 50) {
         summaryEl.innerHTML = '最近、お客様が「ChatGPTに聞いて」情報を調べることが増えています。このとき、<strong>AIが参照するのは御社のホームページに書かれた情報</strong>です。しかし現在の御社サイトは、AIが情報を正しく読み取れない状態にあります。つまり、<strong>「AIに聞いても御社が出てこない」</strong>ということです。';
-      } else if (overallRating === 'partial') {
+      } else if (overallScore < 80) {
         summaryEl.innerHTML = '御社のホームページには基本的な情報は掲載されています。ただし、ChatGPTやGeminiなどの<strong>AI検索が情報を正しく読み取り、お客様に紹介できる状態</strong>にはなりきっていません。いくつかの改善で、AI検索での見つかりやすさが大きく変わります。';
       } else {
         summaryEl.innerHTML = '御社のホームページは、AI検索で引用されるための基本的な準備ができています。今の状態を維持しながら、さらに強化できるポイントをご案内します。';
@@ -664,7 +641,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       // 4. AI Recognition Test
       if (data.aiTest) {
         var at = data.aiTest;
-        document.getElementById('ai-test-sub').textContent = '実際にAI（Claude）に「' + esc(at.companyName) + 'について教えて」と質問した結果です。';
+        document.getElementById('ai-test-sub').textContent = '実際にAI（Claude）に「' + esc(at.companyName) + 'という会社について教えて」と質問した結果です。';
         document.getElementById('ai-test-question').textContent = at.question;
         document.getElementById('ai-test-response').textContent = at.response || '（回答を取得できませんでした）';
 
@@ -676,10 +653,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           judgEl.innerHTML = '→ AIは御社のことを正しく認識しています。';
         } else if (judgment === 'partial') {
           judgEl.className = 'ai-test-judgment partial';
-          judgEl.innerHTML = '→ AIは御社の情報を一部誤って認識しています。';
+          judgEl.innerHTML = '→ AIは御社の情報を一部誤って認識しています。正確に認識されているとは言えません。';
         } else {
           judgEl.className = 'ai-test-judgment unknown';
-          judgEl.innerHTML = '→ AIは御社のことを知りません。お客様がAIに「おすすめの会社は？」と聞いても、御社の名前は挙がらない可能性が高い状態です。';
+          judgEl.innerHTML = '→ AIは御社のことを正しく認識していません。お客様がAIに「おすすめの会社は？」と聞いても、御社の名前は挙がらない可能性が高い状態です。';
         }
         document.getElementById('ai-test-section').style.display = '';
       }
@@ -708,15 +685,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         // Sort by priority
         var sortedCats = r.categories.slice().sort(function(a, b) { return (a.priority || 0) - (b.priority || 0); });
         sortedCats.forEach(function(cat) {
-          var catRating = cat.rating || 'poor';
-          var catInfo = ratingMap[catRating] || ratingMap['poor'];
+          var catScore = typeof cat.score === 'number' ? cat.score : 0;
+          var catInfo = getScoreInfo(catScore);
           var defs = categoryDefs[cat.id];
-          var titleDef = defs ? (defs[catRating] || defs['poor']) : { title: cat.id, sub: '' };
+          var titleDef = defs ? (catScore >= 80 ? defs['high'] : defs['low']) : { title: cat.id, sub: '' };
 
           var html = '<div class="category-card">';
           html += '<div class="category-card-header">';
           html += '<span class="category-priority">優先度 ' + (cat.priority || '-') + '位</span>';
-          html += '<span class="category-badge ' + catInfo.cssClass + '">' + catInfo.symbol + ' ' + catInfo.label + '</span>';
+          html += '<span class="category-badge ' + catInfo.cssClass + '">' + catScore + '点 ' + catInfo.label + '</span>';
           html += '<div class="category-title-wrap"><p class="category-title">' + esc(titleDef.title) + '</p><p class="category-subtitle">' + esc(titleDef.sub) + '</p></div>';
           html += '</div>';
           html += '<div class="category-card-body">';
@@ -733,14 +710,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           if (cat.business_impact) {
             html += '<p class="category-section-label">&#x1F4A1; これが経営にどう影響するか</p>';
             html += '<div class="category-impact"><div class="category-impact-text">' + esc(cat.business_impact) + '</div></div>';
-          }
-
-          // Technical detail (collapsible)
-          if (cat.technical_detail) {
-            var toggleId = 'tech-toggle-' + cat.id;
-            var contentId = 'tech-content-' + cat.id;
-            html += '<button class="category-tech-toggle" onclick="var c=document.getElementById(\'' + contentId + '\');c.classList.toggle(\'open\');this.textContent=c.classList.contains(\'open\')?\'&#x25B2; 閉じる\':\'&#x25B6; 詳しい技術情報を見る（Web担当者向け）\'">&#x25B6; 詳しい技術情報を見る（Web担当者向け）</button>';
-            html += '<div class="category-tech-content" id="' + contentId + '">' + esc(cat.technical_detail) + '</div>';
           }
 
           html += '</div></div>';
@@ -763,16 +732,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       document.getElementById('why-now-section').style.display = '';
       document.getElementById('glossary-section').style.display = '';
 
-      // 10. CTA (dynamic based on rating)
+      // 10. CTA (dynamic based on score)
       var ctaGroup = document.getElementById('cta-btn-group');
       ctaGroup.innerHTML = '';
-      if (overallRating === 'poor') {
+      if (overallScore < 50) {
+        // 0-49点: Web制作を前面に
         ctaGroup.innerHTML = '<div class="cta-card primary"><p class="cta-card-label">対策をまるごとお任せしたい方</p><a href="/contact.html" class="cta-card-btn btn-white">まずは無料で相談する</a><p class="cta-card-note">AI検索対応のホームページ制作・リニューアル ｜ 220,000円〜（税込）</p></div>' +
           '<div class="cta-card"><p class="cta-card-label">まずは話を聞いてみたい・自社で改善を進めたい方</p><a href="https://lin.ee/s2u6VUw" class="cta-card-btn btn-outline">LINEでかんたん相談</a><p class="cta-card-note">月額のAI顧問サービスもあります ｜ 月額 33,000円（税込）</p></div>';
-      } else if (overallRating === 'partial') {
-        ctaGroup.innerHTML = '<div class="cta-card primary"><p class="cta-card-label">改善策を相談したい方</p><a href="/contact.html" class="cta-card-btn btn-white">まずは無料で相談する</a><p class="cta-card-note">リニューアル・部分改修、どちらにも対応できます</p></div>' +
-          '<div class="cta-card"><p class="cta-card-label">自社で改善を進めたい方</p><a href="/ai-komon.html" class="cta-card-btn btn-outline">Ciras AI顧問で伴走サポート</a><p class="cta-card-note">月額 33,000円（税込）</p></div>';
+      } else if (overallScore <= 80) {
+        // 50-80点: AI顧問 + Web制作の両方をおすすめ
+        ctaGroup.innerHTML = '<div class="cta-card primary"><p class="cta-card-label">AIを活用した改善を相談したい方</p><a href="/ai-komon.html" class="cta-card-btn btn-white">Ciras AI顧問のご案内</a><p class="cta-card-note">月額 33,000円（税込）でAI活用を伴走サポート</p></div>' +
+          '<div class="cta-card primary"><p class="cta-card-label">ホームページの改修・リニューアルをお考えの方</p><a href="/contact.html" class="cta-card-btn btn-white">AI活用Webサイト制作のご案内</a><p class="cta-card-note">AI検索対応のホームページ制作・リニューアル ｜ 220,000円〜（税込）</p></div>';
       } else {
+        // 81-100点: 維持・強化
         ctaGroup.innerHTML = '<div class="cta-card primary"><p class="cta-card-label">今の良い状態を維持・強化したい方</p><a href="/ai-komon.html" class="cta-card-btn btn-white">Ciras AI顧問で定期アドバイス</a><p class="cta-card-note">月額 33,000円（税込）</p></div>' +
           '<div class="cta-card"><p class="cta-card-label">さらに強化するためのリニューアルをお考えの方</p><a href="/contact.html" class="cta-card-btn btn-outline">まずは無料で相談する</a><p class="cta-card-note"></p></div>';
       }
