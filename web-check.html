@@ -360,7 +360,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <!-- Error -->
   <section class="error-section" id="error-section">
     <p class="error-icon">&#x26A0;</p>
-    <h2 class="error-title">サイトにアクセスできませんでした</h2>
+    <h2 class="error-title" id="error-title">診断できませんでした</h2>
     <p class="error-desc" id="error-desc">入力されたURLにアクセスできませんでした。<br>URLが正しいか確認のうえ、再度お試しください。</p>
     <button class="btn-back" id="error-back-btn">もう一度試す</button>
   </section>
@@ -546,6 +546,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     function showError(msg) {
       document.getElementById('hero-section').style.display = 'none';
       document.getElementById('form-section').style.display = 'none';
+      var title = '診断できませんでした';
+      if (msg.indexOf('時間がかかりすぎ') >= 0 || msg.indexOf('混み合') >= 0) title = '診断がタイムアウトしました';
+      else if (msg.indexOf('アクセスできません') >= 0 || msg.indexOf('見つかりません') >= 0) title = 'サイトにアクセスできませんでした';
+      document.getElementById('error-title').textContent = title;
       document.getElementById('error-desc').innerHTML = msg;
       document.getElementById('error-section').classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
