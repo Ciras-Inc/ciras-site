@@ -816,7 +816,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     /* ===== FOOTER ===== */
     footer {
-      background: var(--black);
+      background: var(--green);
       color: var(--white);
       padding: 4rem 2rem 2rem;
     }
@@ -888,12 +888,72 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       color: rgba(255,255,255,0.5);
     }
 
-    .footer-tools { padding: 2.5rem 1.5rem; margin-bottom: 2rem; text-align: center; background: rgba(255,255,255,.06); border-radius: 12px; }
-    .footer-tools-title { font-size: 1.1rem; font-weight: 700; letter-spacing: .08em; color: #fff; margin-bottom: .4rem; }
-    .footer-tools-sub { font-size: .85rem; color: rgba(255,255,255,.5); margin-bottom: 1.5rem; }
-    .footer-tools-buttons { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
-    .footer-tool-btn { display: inline-block; font-size: 1rem; font-weight: 700; color: var(--black); background: #fff; padding: 1rem 2.5rem; border-radius: 50px; transition: all .3s; box-shadow: 0 4px 15px rgba(0,0,0,.2); text-decoration: none; }
-    .footer-tool-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.3); background: #f5f5f5; }
+    /* ===== TOOLS BANNER ===== */
+    .tools-banner {
+      background: var(--green-light);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .tools-banner-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .tools-banner-label {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      color: var(--green);
+      margin-bottom: 1rem;
+    }
+    .tools-banner-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--black);
+    }
+    .tools-banner-text {
+      color: var(--gray-dark);
+      margin-bottom: 2rem;
+      font-size: .95rem;
+    }
+    .tools-banner-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .tools-banner-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--white);
+      border: 2px solid var(--green);
+      border-radius: 12px;
+      padding: 1.5rem 2.5rem;
+      transition: all .3s;
+      text-decoration: none;
+      min-width: 240px;
+    }
+    .tools-banner-btn:hover {
+      background: var(--green);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(45,90,39,.2);
+    }
+    .tools-banner-btn-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: .3rem;
+    }
+    .tools-banner-btn:hover .tools-banner-btn-name {
+      color: var(--white);
+    }
+    .tools-banner-btn-desc {
+      font-size: .8rem;
+      color: var(--gray);
+    }
+    .tools-banner-btn:hover .tools-banner-btn-desc {
+      color: rgba(255,255,255,.8);
+    }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
@@ -1141,6 +1201,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
         <a href="/partner.html">採用・協業</a>
+        <div class="nav-dropdown">
+          <a href="#" class="nav-dropdown-trigger">無料診断</a>
+          <div class="nav-dropdown-menu">
+            <a href="https://ciras-site.solitary-rain-3867.workers.dev/ai-check" target="_blank" rel="noopener">AI活用レベル診断</a>
+            <a href="https://ciras-site.solitary-rain-3867.workers.dev/web-check" target="_blank" rel="noopener">Webサイト状況診断</a>
+          </div>
+        </div>
         <a href="/contact.html" class="header-contact">お問い合わせ</a>
       </nav>
       <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
@@ -1160,6 +1227,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="/faq.html">よくある質問</a>
       </div>
       <a href="/partner.html">採用・協業</a>
+      <div class="mobile-nav-group">
+        <p class="mobile-nav-label">無料診断</p>
+        <a href="https://ciras-site.solitary-rain-3867.workers.dev/ai-check" target="_blank" rel="noopener">AI活用レベル診断</a>
+        <a href="https://ciras-site.solitary-rain-3867.workers.dev/web-check" target="_blank" rel="noopener">Webサイト状況診断</a>
+      </div>
       <a href="/blog/">ブログ</a>
       <a href="/contact.html" class="mobile-nav-cta">お問い合わせ</a>
     </div>
@@ -1394,6 +1466,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
+  <!-- Tools Banner -->
+  <section class="tools-banner fade-in">
+    <div class="tools-banner-inner">
+      <p class="tools-banner-label">FREE DIAGNOSTIC</p>
+      <h2 class="tools-banner-title mincho">まずは、現状を知ることから。</h2>
+      <p class="tools-banner-text">AIの活用度やWebサイトの状態を、30秒でセルフチェックできます。</p>
+      <div class="tools-banner-buttons">
+        <a href="https://ciras-site.solitary-rain-3867.workers.dev/ai-check" class="tools-banner-btn" target="_blank" rel="noopener">
+          <span class="tools-banner-btn-name">AI活用レベル診断</span>
+          <span class="tools-banner-btn-desc">自社のAI活用度をチェック</span>
+        </a>
+        <a href="https://ciras-site.solitary-rain-3867.workers.dev/web-check" class="tools-banner-btn" target="_blank" rel="noopener">
+          <span class="tools-banner-btn-name">Webサイト状況診断</span>
+          <span class="tools-banner-btn-desc">AI検索への対応度をチェック</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer>
     <div class="footer-inner">
@@ -1436,14 +1527,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <li><a href="/privacy.html">プライバシーポリシー</a></li>
             </ul>
           </div>
-        </div>
-      </div>
-      <div class="footer-tools">
-        <p class="footer-tools-title">無料診断ツール</p>
-        <p class="footer-tools-sub">30秒でセルフチェック</p>
-        <div class="footer-tools-buttons">
-          <a href="https://ciras-site.solitary-rain-3867.workers.dev/ai-check" class="footer-tool-btn" target="_blank" rel="noopener">AI活用レベル診断</a>
-          <a href="https://ciras-site.solitary-rain-3867.workers.dev/web-check" class="footer-tool-btn" target="_blank" rel="noopener">Webサイト状況診断</a>
         </div>
       </div>
       <div class="footer-bottom">
