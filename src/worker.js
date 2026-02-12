@@ -199,7 +199,7 @@ async function handleSiteCheck(request, env) {
     }
 
     // Crawl the website
-    const crawlResult = await crawlWebsite(body.url);
+    const crawlResult = await crawlWebsite(body.url, env);
     if (!crawlResult.success) {
       return jsonResponse({ error: crawlResult.error || 'サイトにアクセスできませんでした。URLが正しいか確認してください。' }, 400);
     }
@@ -250,35 +250,39 @@ async function handleSiteCheck(request, env) {
 
 // ========== Website Crawling ==========
 
-async function crawlWebsite(inputUrl) {
+async function crawlWebsite(inputUrl, env) {
   try {
     let url = inputUrl.trim();
     if (!url.startsWith('http')) url = 'https://' + url;
 
-    // Detect self-referencing URLs (Cloudflare Workers cannot fetch their own domain)
+    let parsedUrl;
     try {
-      const parsedUrl = new URL(url);
-      const selfDomains = ['ciras.jp', 'www.ciras.jp'];
-      if (selfDomains.includes(parsedUrl.hostname.toLowerCase())) {
-        return { success: false, error: '自社サイト（ciras.jp）は本ツールでは診断できません。お客様のURLを入力してください。' };
-      }
+      parsedUrl = new URL(url);
     } catch (e) {
       return { success: false, error: 'URLの形式が正しくありません。例：https://example.com' };
     }
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    // For ciras.jp, use internal ASSETS fetch (Workers cannot fetch their own domain)
+    const selfDomains = ['ciras.jp', 'www.ciras.jp'];
+    const isSelf = selfDomains.includes(parsedUrl.hostname.toLowerCase());
 
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; CirasWebChecker/1.0; +https://ciras.jp)',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'ja,en;q=0.9'
-      },
-      redirect: 'follow',
-      signal: controller.signal
-    });
-    clearTimeout(timeout);
+    let response;
+    if (isSelf && env && env.ASSETS) {
+      response = await env.ASSETS.fetch(new Request(url, { headers: { 'Accept': 'text/html' } }));
+    } else {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
+      response = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; CirasWebChecker/1.0; +https://ciras.jp)',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Language': 'ja,en;q=0.9'
+        },
+        redirect: 'follow',
+        signal: controller.signal
+      });
+      clearTimeout(timeout);
+    }
 
     if (!response.ok) {
       const statusMessages = {
@@ -295,18 +299,22 @@ async function crawlWebsite(inputUrl) {
       return { success: false, error: msg };
     }
 
-    const contentType = response.headers.get('content-type') || '';
-    if (!contentType.includes('text/html')) {
-      return { success: false, error: 'HTMLではないコンテンツです' };
+    // For self-fetch, skip content-type check (ASSETS always returns HTML for .html)
+    if (!isSelf) {
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('text/html')) {
+        return { success: false, error: 'HTMLではないコンテンツです' };
+      }
     }
 
     const html = await response.text();
     const truncatedHtml = html.substring(0, 500000); // 500KB limit
+    const finalUrl = isSelf ? url : (response.url || url);
 
     return {
       success: true,
-      finalUrl: response.url,
-      isHttps: response.url.startsWith('https://'),
+      finalUrl: finalUrl,
+      isHttps: finalUrl.startsWith('https://'),
       html: truncatedHtml,
       pageSize: html.length,
       title: extractTag(truncatedHtml, 'title'),
@@ -316,7 +324,7 @@ async function crawlWebsite(inputUrl) {
       jsonLdTypes: extractJsonLdTypes(truncatedHtml),
       headingStructure: extractHeadings(truncatedHtml),
       hasCanonical: /link[^>]*rel=["']canonical["']/i.test(truncatedHtml),
-      internalLinks: countInternalLinks(truncatedHtml, response.url),
+      internalLinks: countInternalLinks(truncatedHtml, finalUrl),
       hasFaq: /faq|よくある質問|Q&A|Q＆A/i.test(truncatedHtml),
       hasAddress: /〒|住所|所在地|address/i.test(truncatedHtml),
       hasPrice: /円|料金|価格|price/i.test(truncatedHtml),
