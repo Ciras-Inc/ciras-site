@@ -324,7 +324,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <p class="url-form-note">トップページのURLを入力してください</p>
         <form id="diagnosis-form" novalidate>
           <div class="url-input-group">
-            <input type="url" class="url-input" id="url-input" placeholder="https://example.com" maxlength="200" required>
+            <input type="text" class="url-input" id="url-input" placeholder="example.com" maxlength="200" required>
             <button type="submit" class="btn btn-primary btn-large" id="submit-btn">診断する</button>
           </div>
           <p class="url-error" id="url-error"></p>
@@ -524,7 +524,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       var url = document.getElementById('url-input').value.trim();
       urlError.style.display = 'none';
       if (!url) { urlError.textContent = 'URLを入力してください'; urlError.style.display = 'block'; return; }
-      if (!isValidUrl(url)) { urlError.textContent = '正しいURLを入力してください（例：https://example.com）'; urlError.style.display = 'block'; return; }
+      if (!isValidUrl(url)) { urlError.textContent = '正しいURLを入力してください（例：example.com）'; urlError.style.display = 'block'; return; }
+      if (!url.startsWith('http')) url = 'https://' + url;
       showLoading();
       var ac = new AbortController();
       var ft = setTimeout(function() { ac.abort(); }, 180000);
