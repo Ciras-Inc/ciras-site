@@ -91,6 +91,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   </script>
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Ciras AI顧問",
+    "description": "中小企業向けAI活用コンサルティング。月額33,000円で、AI導入から活用定着まで伴走支援します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "Ciras（シラス）株式会社"
+    },
+    "areaServed": {
+      "@type": "State",
+      "name": "愛媛県"
+    },
+    "serviceType": "AIコンサルティング"
+  }
+  </script>
+
   <style>
     :root {
       --green: #2D5A27;
@@ -780,6 +798,76 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .about-services li { padding: 0.8rem 0; border-bottom: 1px solid var(--gray-light); font-size: 0.9rem; line-height: 1.9; }
     .about-services li:last-child { border-bottom: none; }
 
+    /* ===== FREE TOOLS ===== */
+    .free-tools {
+      padding: 6rem 2rem;
+      background: var(--white);
+    }
+
+    .free-tools-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .free-tools-lead {
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--gray-dark);
+      line-height: 2;
+      margin-bottom: 2.5rem;
+    }
+
+    .free-tools-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .free-tool-card {
+      display: block;
+      padding: 2rem;
+      background: var(--green-light);
+      border-radius: 4px;
+      transition: box-shadow 0.3s, transform 0.2s;
+      border: 2px solid transparent;
+    }
+
+    .free-tool-card:hover {
+      box-shadow: 0 8px 24px rgba(45, 90, 39, 0.15);
+      transform: translateY(-4px);
+      border-color: var(--green);
+    }
+
+    .free-tool-label {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .free-tool-name {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.8rem;
+    }
+
+    .free-tool-desc {
+      font-size: 0.85rem;
+      color: var(--gray-dark);
+      line-height: 1.9;
+      margin-bottom: 1rem;
+    }
+
+    .free-tool-link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--green);
+    }
+
     /* ===== CTA ===== */
     .cta {
       padding: 6rem 2rem;
@@ -816,7 +904,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     /* ===== FOOTER ===== */
     footer {
-      background: var(--green);
+      background: var(--black);
       color: var(--white);
       padding: 4rem 2rem 2rem;
     }
@@ -888,73 +976,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       color: rgba(255,255,255,0.5);
     }
 
-    /* ===== TOOLS BANNER ===== */
-    .tools-banner {
-      background: var(--green-light);
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-    .tools-banner-inner {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .tools-banner-label {
-      font-size: .7rem;
-      font-weight: 600;
-      letter-spacing: .2em;
-      color: var(--green);
-      margin-bottom: 1rem;
-    }
-    .tools-banner-title {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--black);
-    }
-    .tools-banner-text {
-      color: var(--gray-dark);
-      margin-bottom: 2rem;
-      font-size: .95rem;
-    }
-    .tools-banner-buttons {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .tools-banner-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: var(--white);
-      border: 2px solid var(--green);
-      border-radius: 12px;
-      padding: 1.5rem 2.5rem;
-      transition: all .3s;
-      text-decoration: none;
-      min-width: 240px;
-    }
-    .tools-banner-btn:hover {
-      background: var(--green);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(45,90,39,.2);
-    }
-    .tools-banner-btn-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--green);
-      margin-bottom: .3rem;
-    }
-    .tools-banner-btn:hover .tools-banner-btn-name {
-      color: var(--white);
-    }
-    .tools-banner-btn-desc {
-      font-size: .8rem;
-      color: var(--gray);
-    }
-    .tools-banner-btn:hover .tools-banner-btn-desc {
-      color: rgba(255,255,255,.8);
-    }
-
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
       .hero-inner {
@@ -1004,6 +1025,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
       .footer-nav {
         grid-template-columns: repeat(2, 1fr);
+      }
+
+      .free-tools-grid {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -1466,21 +1491,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <!-- Tools Banner -->
-  <section class="tools-banner fade-in">
-    <div class="tools-banner-inner">
-      <p class="tools-banner-label">FREE DIAGNOSTIC</p>
-      <h2 class="tools-banner-title mincho">まずは、現状を知ることから。</h2>
-      <p class="tools-banner-text">AIの活用度やWebサイトの状態を、30秒でセルフチェックできます。</p>
-      <div class="tools-banner-buttons">
-        <a href="https://ciras-site.solitary-rain-3867.workers.dev/ai-check" class="tools-banner-btn" target="_blank" rel="noopener">
-          <span class="tools-banner-btn-name">AI活用レベル診断</span>
-          <span class="tools-banner-btn-desc">自社のAI活用度をチェック</span>
+  <!-- Free Tools -->
+  <section class="free-tools fade-in" id="free-tools">
+    <div class="free-tools-inner">
+      <div class="section-header">
+        <p class="section-label">FREE TOOLS</p>
+        <h2 class="section-title mincho">無料診断ツール</h2>
+      </div>
+      <p class="free-tools-lead">1〜2分の質問に答えるだけ。AIがその場で分析し、あなたのビジネスに合った提案をお届けします。</p>
+      <div class="free-tools-grid">
+        <a href="/ai-check" class="free-tool-card">
+          <p class="free-tool-label">DIAGNOSTIC 01</p>
+          <h3 class="free-tool-name">AI活用レベルチェッカー</h3>
+          <p class="free-tool-desc">6つの質問に答えるだけで、あなたのビジネスに合ったAI活用の提案をAIがその場で作成します。</p>
+          <span class="free-tool-link">無料で診断する →</span>
         </a>
-        <a href="https://ciras-site.solitary-rain-3867.workers.dev/web-check" class="tools-banner-btn" target="_blank" rel="noopener">
-          <span class="tools-banner-btn-name">Webサイト状況診断</span>
-          <span class="tools-banner-btn-desc">AI検索への対応度をチェック</span>
+        <a href="/web-check" class="free-tool-card">
+          <p class="free-tool-label">DIAGNOSTIC 02</p>
+          <h3 class="free-tool-name">Webサイト状況チェッカー</h3>
+          <p class="free-tool-desc">あなたのWebサイトがAI検索時代に対応できているか診断。URLを入力すると100点満点でスコア評価します。</p>
+          <span class="free-tool-link">無料で診断する →</span>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta fade-in">
+    <div class="cta-inner">
+      <h2 class="cta-title mincho">まずは、お気軽にご相談ください</h2>
+      <p class="cta-text">
+        「何を、どう使えばいいか」からで大丈夫です。<br>
+        状況を整理し、次の一手を一緒に決めます。<br>
+        ご相談は、フォーム／LINEからどうぞ。
+      </p>
+      <div class="cta-buttons">
+        <a href="/contact.html" class="btn btn-primary">お問い合わせ</a>
+        <a href="https://lin.ee/s2u6VUw" class="btn btn-secondary">LINEで相談</a>
       </div>
     </div>
   </section>

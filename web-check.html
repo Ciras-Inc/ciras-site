@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KLXZ6ND');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI検索で見つかるか無料診断｜Ciras（シラス）株式会社</title>
+  <meta name="description" content="あなたのホームページがChatGPTなどのAI検索で見つかる状態かを無料で診断します。URLを入力するだけで、5つの視点からAIがその場で診断。Ciras（シラス）株式会社の無料診断ツール。">
+  <link rel="canonical" href="https://www.ciras.jp/web-check">
+  <link rel="icon" href="images/favicon.ico" sizes="any">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <meta property="og:title" content="AI検索で見つかるか無料診断｜Ciras（シラス）株式会社">
+  <meta property="og:description" content="あなたのホームページがChatGPTなどのAI検索で見つかる状態かを無料で診断します。URLを入力するだけ。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.ciras.jp/web-check">
+  <meta property="og:image" content="https://www.ciras.jp/images/ogp.png">
+  <meta property="og:site_name" content="Ciras（シラス）株式会社">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI検索で見つかるか無料診断｜Ciras（シラス）株式会社">
+  <meta name="twitter:description" content="あなたのホームページがChatGPTなどのAI検索で見つかる状態かを無料で診断します。URLを入力するだけ。">
+  <meta name="twitter:image" content="https://www.ciras.jp/images/ogp.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "AI検索で見つかるか無料診断",
+    "description": "あなたのホームページがChatGPTなどのAI検索で見つかる状態かを診断します。URLを入力するだけで、5つの視点からAIがその場で診断します。",
+    "url": "https://www.ciras.jp/web-check",
+    "applicationCategory": "BusinessApplication",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "provider": { "@type": "Organization", "name": "Ciras（シラス）株式会社", "url": "https://ciras.jp" }
+  }
+  </script>
+  <style>
+    :root{--green:#2D5A27;--green-light:#E8F0E6;--black:#1A1A1A;--gray-dark:#4A4A4A;--gray:#888;--gray-light:#E5E5E5;--white:#FFF;--bg:#FAFAFA}
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Noto Sans JP',sans-serif;font-weight:400;color:var(--black);line-height:1.9;background:var(--bg);font-size:15px;letter-spacing:.03em}
+    .mincho{font-family:'Shippori Mincho',serif}
+    a{color:inherit;text-decoration:none}
+
+    /* Header */
+    header{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--white);border-bottom:1px solid var(--gray-light);transition:box-shadow .3s}
+    header.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}
+    .header-inner{max-width:1200px;margin:0 auto;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+    .logo{display:flex;align-items:center}
+    .logo-img{height:32px;width:auto}
+    .header-nav{display:flex;align-items:center;gap:2rem}
+    .header-nav>a,.nav-dropdown-trigger{font-size:.85rem;font-weight:500;color:var(--black);transition:color .3s;cursor:pointer;background:none;border:none;font-family:inherit}
+    .header-nav>a:hover,.nav-dropdown-trigger:hover{color:var(--green)}
+    .header-nav>.header-contact{font-size:.8rem;color:var(--white)!important;background:var(--green);padding:.7rem 1.8rem;border-radius:4px;transition:all .3s;box-shadow:0 2px 8px rgba(45,90,39,.3);font-weight:600;letter-spacing:.05em}
+    .header-nav>.header-contact:hover{opacity:.9;box-shadow:0 4px 12px rgba(45,90,39,.4);transform:translateY(-1px)}
+    .nav-dropdown{position:relative}
+    .nav-dropdown-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%);background:var(--white);border:1px solid var(--gray-light);border-radius:4px;box-shadow:0 8px 24px rgba(0,0,0,.1);min-width:160px;padding:.5rem 0;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;z-index:1001;margin-top:.5rem}
+    .nav-dropdown:hover .nav-dropdown-menu{opacity:1;visibility:visible}
+    .nav-dropdown-menu a{display:block;padding:.6rem 1.2rem;font-size:.85rem;color:var(--black);transition:background .2s,color .2s;white-space:nowrap}
+    .nav-dropdown-menu a:hover{background:var(--green-light);color:var(--green)}
+    .hamburger{display:none;background:none;border:none;cursor:pointer;padding:.5rem;z-index:1002}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--black);margin:5px 0;transition:transform .3s,opacity .3s}
+    .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+    .hamburger.active span:nth-child(2){opacity:0}
+    .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+    .mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);padding:5rem 2rem 2rem;z-index:999;overflow-y:auto;flex-direction:column;gap:.5rem}
+    .mobile-nav.open{display:flex}
+    .mobile-nav a{display:block;padding:.8rem 0;font-size:1rem;font-weight:500;color:var(--black);border-bottom:1px solid var(--gray-light)}
+    .mobile-nav-group{padding:.5rem 0}
+    .mobile-nav-label{font-size:.75rem;font-weight:600;color:var(--green);letter-spacing:.1em;margin-bottom:.3rem}
+    .mobile-nav-group a{padding-left:1rem;font-size:.95rem}
+    .mobile-nav-cta{margin-top:1rem;background:var(--green);color:var(--white)!important;text-align:center;padding:1rem!important;border-radius:2px;border-bottom:none!important}
+
+    /* Hero */
+    .hero{padding:8rem 2rem 4rem;background:var(--white);text-align:center}
+    .hero-inner{max-width:700px;margin:0 auto;opacity:0;transform:translateY(30px);animation:heroIn .9s ease .2s forwards}
+    .hero-label{font-size:.75rem;letter-spacing:.2em;color:var(--green);margin-bottom:.5rem}
+    .hero-title{font-family:'Shippori Mincho',serif;font-size:clamp(1.8rem,4vw,2.2rem);font-weight:600;margin-bottom:1rem}
+    .hero-desc{font-size:.95rem;color:var(--gray-dark);line-height:2}
+    .hero-time{display:inline-block;margin-top:1rem;font-size:.85rem;color:var(--green);font-weight:500;background:var(--green-light);padding:.4rem 1.2rem;border-radius:2px}
+    @keyframes heroIn{to{opacity:1;transform:translateY(0)}}
+
+    /* URL Form */
+    .url-form-section{padding:2rem 2rem 5rem;background:var(--white)}
+    .url-form-inner{max-width:700px;margin:0 auto}
+    .url-form-box{background:var(--bg);border:2px solid var(--gray-light);border-radius:12px;padding:2.5rem 2rem;text-align:center;transition:border-color .3s}
+    .url-form-box:focus-within{border-color:var(--green)}
+    .url-form-label{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
+    .url-form-note{font-size:.85rem;color:var(--gray);margin-bottom:1.5rem}
+    .url-input-group{display:flex;gap:.8rem;margin-bottom:.8rem}
+    .url-input{flex:1;padding:.9rem 1.2rem;border:2px solid var(--gray-light);border-radius:6px;font-size:1rem;font-family:inherit;transition:border-color .2s;background:var(--white)}
+    .url-input:focus{outline:none;border-color:var(--green)}
+    .url-input::placeholder{color:var(--gray)}
+    .btn{display:inline-block;font-size:.9rem;font-weight:500;padding:1rem 2rem;border-radius:6px;transition:all .3s;border:none;cursor:pointer;font-family:inherit}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--green);color:var(--white)}
+    .btn-primary:hover{opacity:.85;box-shadow:0 4px 12px rgba(45,90,39,.3)}
+    .btn-large{padding:1rem 2.5rem;font-size:1rem;font-weight:600;letter-spacing:.05em}
+    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .url-hint{font-size:.8rem;color:var(--gray)}
+    .url-error{color:#C41E3A;font-size:.85rem;margin-top:.5rem;display:none}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+    .feature-item{text-align:center;padding:1.2rem .8rem}
+    .feature-icon{font-size:1.5rem;margin-bottom:.5rem}
+    .feature-title{font-size:.85rem;font-weight:600;margin-bottom:.3rem}
+    .feature-desc{font-size:.75rem;color:var(--gray-dark);line-height:1.7}
+
+    /* Loading */
+    .loading-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);z-index:2000;align-items:center;justify-content:center;flex-direction:column}
+    .loading-overlay.active{display:flex}
+    .loading-spinner{width:48px;height:48px;border:3px solid var(--gray-light);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:2rem}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-text{font-family:'Shippori Mincho',serif;font-size:1.1rem;color:var(--black);margin-bottom:.5rem;text-align:center}
+    .loading-sub{font-size:.85rem;color:var(--gray);text-align:center}
+    .loading-progress{width:200px;height:4px;background:var(--gray-light);border-radius:2px;margin-top:1.5rem;overflow:hidden}
+    .loading-progress-bar{height:100%;background:var(--green);border-radius:2px;width:0;transition:width .5s ease}
+
+    /* Error */
+    .error-section{display:none;padding:8rem 2rem 5rem;background:var(--white);text-align:center}
+    .error-section.active{display:block}
+    .error-icon{font-size:3rem;margin-bottom:1rem}
+    .error-title{font-family:'Shippori Mincho',serif;font-size:1.3rem;font-weight:600;margin-bottom:.8rem}
+    .error-desc{font-size:.9rem;color:var(--gray-dark);margin-bottom:2rem;line-height:2}
+    .btn-back{background:var(--green);color:var(--white);padding:.8rem 2rem;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;border:none;transition:all .3s}
+    .btn-back:hover{opacity:.85}
+
+    /* Results */
+    .results-section{display:none;background:var(--white)}
+    .results-section.active{display:block}
+
+    /* Rating Hero */
+    .rating-hero{background:linear-gradient(160deg,#1a3a17 0%,#2D5A27 40%,#3d7a35 100%);padding:5rem 2rem 4rem;text-align:center;color:var(--white);position:relative;overflow:hidden}
+    .rating-hero::before{content:"";position:absolute;top:-50%;right:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);border-radius:50%}
+    .rating-hero::after{content:"";position:absolute;bottom:-30%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);border-radius:50%}
+    .rating-hero-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
+    .rating-label{font-size:.7rem;letter-spacing:.3em;opacity:.7;margin-bottom:1.5rem;text-transform:uppercase}
+    .rating-symbol{font-family:'Shippori Mincho',serif;font-size:4rem;font-weight:700;line-height:1;margin-bottom:1rem;display:block}
+    .rating-score-num{font-size:5rem}
+    .rating-score-unit{font-size:1.5rem;opacity:.7;margin-left:.2rem}
+    .rating-message{font-family:'Shippori Mincho',serif;font-size:clamp(1.3rem,3vw,1.8rem);font-weight:600;margin-bottom:.8rem;line-height:1.6}
+    .rating-url{font-size:.8rem;opacity:.5;margin-top:1rem;word-break:break-all}
+    .rating-legend{margin-top:2rem;display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;font-size:.75rem;opacity:.7}
+    .rating-legend-item{display:flex;align-items:center;gap:.3rem}
+
+    /* Result sections shared */
+    .result-section{padding:3rem 2rem}
+    .result-section-inner{max-width:800px;margin:0 auto}
+    .result-section-title{font-family:'Shippori Mincho',serif;font-size:clamp(1.3rem,3vw,1.6rem);font-weight:600;margin-bottom:.8rem}
+    .result-section-sub{font-size:.9rem;color:var(--gray-dark);margin-bottom:1.5rem;line-height:2}
+
+    /* Summary message */
+    .summary-msg{padding:2.5rem 2rem;background:var(--bg);border-left:4px solid var(--green)}
+    .summary-msg-inner{max-width:800px;margin:0 auto;font-size:.95rem;line-height:2.2;color:var(--gray-dark)}
+    .summary-msg-inner strong{color:var(--black)}
+
+    /* AI Test - Google AI Mode style */
+    .ai-test-section{background:var(--white)}
+    .ai-test-q{background:var(--bg);border:1px solid var(--gray-light);border-radius:8px;padding:1.2rem 1.5rem;margin-bottom:1rem;font-size:.9rem;color:var(--gray-dark);display:flex;align-items:center;gap:.8rem}
+    .ai-test-q-icon{width:24px;height:24px;flex-shrink:0}
+    .ai-test-q-label{font-size:.75rem;color:var(--gray);margin-bottom:.3rem;font-weight:500}
+    .ai-test-response{background:var(--bg);border:1px solid var(--gray-light);border-radius:8px;padding:1.5rem;position:relative}
+    .ai-test-response-header{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--gray);margin-bottom:1rem;font-weight:500}
+    .ai-test-response-header img{width:20px;height:20px}
+    .ai-test-response-text{font-size:.9rem;line-height:2;color:var(--gray-dark);white-space:pre-wrap}
+    .ai-test-sources{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--gray-light)}
+    .ai-test-sources-label{font-size:.75rem;color:var(--gray);margin-bottom:.5rem;font-weight:500}
+    .ai-test-sources-list{display:flex;flex-wrap:wrap;gap:.5rem}
+    .ai-test-source-chip{display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--gray-dark);background:var(--white);border:1px solid var(--gray-light);border-radius:4px;padding:.3rem .6rem;text-decoration:none;transition:background .2s}
+    .ai-test-source-chip:hover{background:var(--green-light)}
+    .ai-test-judgment{margin-top:1rem;padding:1rem 1.2rem;border-radius:8px;font-size:.9rem;line-height:1.8;font-weight:500}
+    .ai-test-judgment.accurate{background:#E8F0E6;color:#2D5A27}
+    .ai-test-judgment.partial{background:#FFF8E1;color:#B8860B}
+    .ai-test-judgment.unknown{background:#FFF0F0;color:#C41E3A}
+
+    /* Page status */
+    .page-status-list{display:flex;flex-direction:column;gap:.5rem}
+    .page-status-item{display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;background:var(--bg);border-radius:6px;font-size:.85rem}
+    .page-status-icon{font-size:1rem;flex-shrink:0}
+    .page-status-label{font-weight:500}
+    .page-status-url{color:var(--gray);font-size:.75rem;word-break:break-all}
+    .page-status-warning{margin-top:1rem;padding:1rem 1.2rem;background:#FFF8E1;border:1px solid #e8c85a;border-radius:8px;font-size:.85rem;line-height:1.9;color:#B8860B}
+
+    /* Category cards */
+    .category-card{background:var(--white);border:1px solid var(--gray-light);border-radius:12px;margin-bottom:2rem;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+    .category-card-header{display:flex;align-items:flex-start;gap:1rem;padding:1.5rem 2rem;border-bottom:1px solid var(--gray-light)}
+    .category-priority{font-size:.7rem;font-weight:700;color:var(--green);letter-spacing:.1em;white-space:nowrap;margin-top:.2rem}
+    .category-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .8rem;border-radius:4px;font-size:.8rem;font-weight:700;white-space:nowrap;flex-shrink:0}
+    .category-badge.r-high{background:#E8F0E6;color:#2D5A27}
+    .category-badge.r-mid{background:#FFF8E1;color:#B8860B}
+    .category-badge.r-low{background:#FFF0F0;color:#C41E3A}
+    .category-title-wrap{flex:1}
+    .category-title{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600;line-height:1.5;margin-bottom:.2rem}
+    .category-subtitle{font-size:.85rem;color:var(--gray-dark);line-height:1.7}
+    .category-card-body{padding:1.5rem 2rem}
+    .category-section-label{font-size:.8rem;font-weight:700;color:var(--gray);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+    .category-section-label::before,.category-section-label::after{content:"";flex:1;height:1px;background:var(--gray-light)}
+    .category-findings{margin-bottom:1.5rem}
+    .category-findings ul{list-style:none;padding:0}
+    .category-findings li{padding:.4rem 0 .4rem 1.5rem;position:relative;font-size:.9rem;line-height:1.8;color:var(--gray-dark)}
+    .category-findings li::before{content:"\2022";position:absolute;left:0;color:var(--green);font-weight:700;font-size:1.1rem}
+    .category-impact{margin-bottom:1.5rem}
+    .category-impact-text{font-size:.9rem;line-height:2;color:var(--gray-dark);padding:1rem 1.2rem;background:var(--bg);border-radius:8px}
+
+    /* Summary section */
+    .summary-section{background:var(--green-light)}
+    .summary-actions{list-style:none;padding:0;margin-bottom:1.5rem}
+    .summary-actions li{padding:.8rem 0 .8rem .5rem;font-size:.95rem;line-height:1.8;font-weight:500;display:flex;align-items:flex-start;gap:.8rem}
+    .summary-actions-num{font-family:'Shippori Mincho',serif;font-size:1.2rem;font-weight:700;color:var(--green);flex-shrink:0}
+    .summary-note{font-size:.9rem;line-height:2.2;color:var(--gray-dark);padding:1.5rem;background:var(--white);border-radius:8px}
+    .summary-note strong{color:var(--black)}
+
+    /* Why now section */
+    .why-now-section{background:var(--white);border-top:1px solid var(--gray-light)}
+    .why-now-text{font-size:.95rem;line-height:2.2;color:var(--gray-dark)}
+    .why-now-text strong{color:var(--black)}
+
+    /* Glossary */
+    .glossary-section{background:var(--bg);border-top:1px solid var(--gray-light)}
+    .glossary-toggle{width:100%;background:var(--white);border:1px solid var(--gray-light);border-radius:8px;padding:1rem 1.5rem;cursor:pointer;font-family:'Shippori Mincho',serif;font-size:1rem;font-weight:600;color:var(--black);text-align:left;display:flex;justify-content:space-between;align-items:center}
+    .glossary-toggle::after{content:"\25BC";font-size:.7rem;transition:transform .3s}
+    .glossary-toggle.open::after{transform:rotate(180deg)}
+    .glossary-content{display:none;margin-top:1rem}
+    .glossary-content.open{display:block}
+    .glossary-item{padding:1rem 1.5rem;background:var(--white);border:1px solid var(--gray-light);border-radius:6px;margin-bottom:.8rem}
+    .glossary-term{font-size:.9rem;font-weight:600;margin-bottom:.3rem;color:var(--green)}
+    .glossary-def{font-size:.85rem;color:var(--gray-dark);line-height:1.9}
+
+    /* CTA */
+    .results-cta{background:linear-gradient(160deg,#1a3a17 0%,#2D5A27 40%,#3d7a35 100%);padding:5rem 2rem;text-align:center;color:var(--white);position:relative;overflow:hidden;display:none}
+    .results-cta::before{content:"";position:absolute;top:-30%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.05) 0%,transparent 70%);border-radius:50%}
+    .results-cta-inner{max-width:680px;margin:0 auto;position:relative;z-index:1}
+    .results-cta-title{font-family:'Shippori Mincho',serif;font-size:clamp(1.2rem,3vw,1.5rem);font-weight:600;margin-bottom:1.5rem;line-height:1.8}
+    .results-cta-desc{font-size:.9rem;line-height:2;margin-bottom:2rem;opacity:.9}
+    .results-cta-merits{background:rgba(255,255,255,.1);backdrop-filter:blur(4px);padding:2rem;border-radius:12px;margin-bottom:2.5rem;text-align:left;border:1px solid rgba(255,255,255,.15)}
+    .results-cta-merits-title{font-size:.9rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+    .results-cta-merits-list{list-style:none;font-size:.85rem;line-height:2.4;opacity:.95}
+    .results-cta-merits-list li{padding-left:1.5rem;position:relative}
+    .results-cta-merits-list li::before{content:"\2713";position:absolute;left:0;color:rgba(255,255,255,.7)}
+    .cta-btn-group{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+    .cta-card{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:1.5rem 2rem;text-align:center;flex:1;min-width:250px;max-width:320px;transition:all .3s}
+    .cta-card:hover{background:rgba(255,255,255,.18);transform:translateY(-2px)}
+    .cta-card.primary{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4)}
+    .cta-card-label{font-size:.8rem;opacity:.8;margin-bottom:.8rem;line-height:1.6}
+    .cta-card-btn{display:inline-block;padding:.8rem 2rem;border-radius:6px;font-size:.95rem;font-weight:700;transition:all .3s;cursor:pointer;font-family:inherit;border:none;width:100%;margin-bottom:.5rem}
+    .cta-card-btn.btn-white{background:var(--white);color:var(--green);box-shadow:0 4px 16px rgba(0,0,0,.15)}
+    .cta-card-btn.btn-white:hover{box-shadow:0 6px 24px rgba(0,0,0,.25);transform:translateY(-1px)}
+    .cta-card-btn.btn-outline{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.5)}
+    .cta-card-btn.btn-outline:hover{border-color:var(--white);background:rgba(255,255,255,.1)}
+    .cta-card-note{font-size:.75rem;opacity:.7;line-height:1.6}
+    .results-cta-disclaimer{margin-top:2rem;font-size:.8rem;opacity:.6;line-height:1.8}
+
+    /* Retry */
+    .retry-section{text-align:center;padding:2rem 2rem 0}
+    .btn-retry{background:var(--white);color:var(--green);border:2px solid var(--green);padding:.8rem 2rem;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .3s}
+    .btn-retry:hover{background:var(--green-light)}
+
+    /* Footer */
+    footer{background:var(--black);color:var(--white);padding:4rem 2rem 2rem}
+    .footer-inner{max-width:1000px;margin:0 auto}
+    .footer-grid{display:grid;grid-template-columns:1.5fr 2fr;gap:4rem;margin-bottom:3rem}
+    .footer-brand{margin-bottom:1rem}
+    .footer-logo-img{height:28px;width:auto}
+    .footer-info{font-size:.8rem;color:rgba(255,255,255,.6);line-height:2;font-style:normal}
+    .footer-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+    .footer-nav-title{font-size:.7rem;font-weight:600;letter-spacing:.15em;color:rgba(255,255,255,.5);margin-bottom:1rem}
+    .footer-nav ul{list-style:none}
+    .footer-nav li{margin-bottom:.5rem}
+    .footer-nav a{font-size:.85rem;color:rgba(255,255,255,.8);transition:color .3s}
+    .footer-nav a:hover{color:var(--white)}
+    .footer-bottom{padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:.75rem;color:rgba(255,255,255,.5)}
+
+    @media(max-width:900px){.header-nav{display:none}.hamburger{display:block}.footer-grid{grid-template-columns:1fr}.footer-nav{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.url-input-group{flex-direction:column}.url-input-group .btn{width:100%}.features{grid-template-columns:1fr}.rating-hero{padding:4rem 1.5rem 3rem}.rating-symbol{font-size:4rem}.category-card-header{padding:1.2rem 1.5rem;flex-wrap:wrap}.category-card-body{padding:1.2rem 1.5rem}.cta-btn-group{flex-direction:column;align-items:center}.cta-card{max-width:100%}.results-cta-buttons{flex-direction:column}}
+  </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLXZ6ND" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <header>
+    <div class="header-inner">
+      <a href="/" class="logo" aria-label="Ciras（シラス）株式会社 ホーム"><img src="images/logo-green.png" alt="Ciras（シラス）株式会社" class="logo-img"></a>
+      <nav class="header-nav">
+        <div class="nav-dropdown"><a href="#" class="nav-dropdown-trigger">サービス</a><div class="nav-dropdown-menu"><a href="/ai-komon.html">Ciras AI顧問</a><a href="/web.html">AI活用 Webサイト制作</a><a href="/kagemusha.html">影武者</a></div></div>
+        <a href="/seminar.html">セミナー</a>
+        <div class="nav-dropdown"><a href="/company.html" class="nav-dropdown-trigger">会社概要</a><div class="nav-dropdown-menu"><a href="/voice.html">お客様の声</a><a href="/faq.html">よくある質問</a></div></div>
+        <a href="/partner.html">採用・協業</a>
+        <a href="/contact.html" class="header-contact">お問い合わせ</a>
+      </nav>
+      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+    <div class="mobile-nav">
+      <div class="mobile-nav-group"><p class="mobile-nav-label">サービス</p><a href="/ai-komon.html">Ciras AI顧問</a><a href="/web.html">AI活用 Webサイト制作</a><a href="/kagemusha.html">影武者</a></div>
+      <a href="/seminar.html">セミナー</a>
+      <div class="mobile-nav-group"><p class="mobile-nav-label">会社概要</p><a href="/company.html">会社概要</a><a href="/voice.html">お客様の声</a><a href="/faq.html">よくある質問</a></div>
+      <a href="/partner.html">採用・協業</a><a href="/blog/">ブログ</a>
+      <a href="/contact.html" class="mobile-nav-cta">お問い合わせ</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="hero-section">
+    <div class="hero-inner">
+      <p class="hero-label">FREE DIAGNOSTIC</p>
+      <h1 class="hero-title">AI検索で見つかるか、無料診断</h1>
+      <p class="hero-desc">URLを入力するだけで、あなたのホームページが<br>ChatGPTなどのAI検索で見つかる状態かを診断します。</p>
+      <p class="hero-time">所要時間：約30〜60秒</p>
+    </div>
+  </section>
+
+  <!-- URL Form -->
+  <section class="url-form-section" id="form-section">
+    <div class="url-form-inner">
+      <div class="url-form-box">
+        <p class="url-form-label">診断したいWebサイトのURLを入力</p>
+        <p class="url-form-note">トップページのURLを入力してください</p>
+        <form id="diagnosis-form" novalidate>
+          <div class="url-input-group">
+            <input type="url" class="url-input" id="url-input" placeholder="https://example.com" maxlength="200" required>
+            <button type="submit" class="btn btn-primary btn-large" id="submit-btn">診断する</button>
+          </div>
+          <p class="url-error" id="url-error"></p>
+          <p class="url-hint">※ 無料・登録不要でご利用いただけます</p>
+        </form>
+      </div>
+      <div class="features">
+        <div class="feature-item"><p class="feature-icon">&#x1F50D;</p><p class="feature-title">5つの視点で診断</p><p class="feature-desc">AI検索で引用されるために必要な5つの視点で診断します</p></div>
+        <div class="feature-item"><p class="feature-icon">&#x1F916;</p><p class="feature-title">Google AI検索で御社を検索</p><p class="feature-desc">実際にGoogleのAI検索で御社を検索し、どう認識されているか確認します</p></div>
+        <div class="feature-item"><p class="feature-icon">&#x26A1;</p><p class="feature-title">約30〜60秒で完了</p><p class="feature-desc">URLを入力するだけ。質問への回答は不要です</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Loading -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <p class="loading-text" id="loading-text">主要ページを読み込んでいます...</p>
+    <p class="loading-sub" id="loading-sub">トップページ内のリンクから、重要なページを自動で選んでいます</p>
+    <div class="loading-progress"><div class="loading-progress-bar" id="loading-bar"></div></div>
+  </div>
+
+  <!-- Error -->
+  <section class="error-section" id="error-section">
+    <p class="error-icon">&#x26A0;</p>
+    <h2 class="error-title" id="error-title">診断できませんでした</h2>
+    <p class="error-desc" id="error-desc">診断中にエラーが発生しました。時間をおいて再度お試しください。</p>
+    <button class="btn-back" id="error-back-btn">再度診断する</button>
+  </section>
+
+  <!-- Results -->
+  <section class="results-section" id="results-section">
+    <!-- 2. Rating Hero -->
+    <div class="rating-hero">
+      <div class="rating-hero-inner">
+        <p class="rating-label">Diagnostic Result</p>
+        <span class="rating-symbol" id="rating-symbol"><span class="rating-score-num">-</span><span class="rating-score-unit">点</span></span>
+        <h2 class="rating-message" id="rating-message">診断中...</h2>
+        <p class="rating-url" id="rating-url"></p>
+        <div class="rating-legend">
+          <span class="rating-legend-item">80〜100点：十分</span>
+          <span class="rating-legend-item">50〜79点：改善推奨</span>
+          <span class="rating-legend-item">0〜49点：対策が必要</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Summary message -->
+    <div class="summary-msg" id="summary-msg">
+      <div class="summary-msg-inner" id="summary-msg-text"></div>
+    </div>
+
+    <!-- 4. AI Recognition Test -->
+    <div class="result-section ai-test-section" id="ai-test-section" style="display:none">
+      <div class="result-section-inner">
+        <h3 class="result-section-title">GoogleのAI検索で、御社のことを聞いてみました</h3>
+        <p class="result-section-sub" id="ai-test-sub"></p>
+        <div class="ai-test-q">
+          <svg class="ai-test-q-icon" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          <div>
+            <p class="ai-test-q-label">Google AI検索</p>
+            <p id="ai-test-question"></p>
+          </div>
+        </div>
+        <div class="ai-test-response">
+          <p class="ai-test-response-header"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#4285F4"/><path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> Google AIの回答</p>
+          <p class="ai-test-response-text" id="ai-test-response"></p>
+          <div class="ai-test-sources" id="ai-test-sources" style="display:none">
+            <p class="ai-test-sources-label">参照元</p>
+            <div class="ai-test-sources-list" id="ai-test-sources-list"></div>
+          </div>
+        </div>
+        <div class="ai-test-judgment" id="ai-test-judgment"></div>
+      </div>
+    </div>
+
+    <!-- 5. Page Status -->
+    <div class="result-section" id="page-status-section" style="display:none;background:var(--bg)">
+      <div class="result-section-inner">
+        <h3 class="result-section-title">読み込んだページ</h3>
+        <div class="page-status-list" id="page-status-list"></div>
+        <div id="page-status-warnings"></div>
+      </div>
+    </div>
+
+    <!-- 6. Category Details -->
+    <div class="result-section" id="categories-section" style="display:none">
+      <div class="result-section-inner">
+        <h3 class="result-section-title">診断結果の詳細</h3>
+        <p class="result-section-sub">改善効果の大きい順に並べています。上から順に対応すると効率的です。</p>
+        <div id="categories-container"></div>
+      </div>
+    </div>
+
+    <!-- Retry -->
+    <div class="retry-section"><button class="btn-retry" id="retry-btn">別のURLを診断する</button></div>
+
+    <!-- 7. Summary Actions -->
+    <div class="result-section summary-section" id="summary-section" style="display:none">
+      <div class="result-section-inner">
+        <h3 class="result-section-title">まとめ：御社に必要な対策</h3>
+        <ul class="summary-actions" id="summary-actions"></ul>
+        <div class="summary-note">
+          これらの対策は、ホームページの見た目を変えるものではありません。<strong>今のデザインを活かしたまま、AIに正しく読まれるための「中身の整備」</strong>です。部分的な修正でも効果はありますが、技術作業を含めて一括で対応するのが最も効率的です。
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. Why Now -->
+    <div class="result-section why-now-section" id="why-now-section" style="display:none">
+      <div class="result-section-inner">
+        <h3 class="result-section-title">なぜ「今」対策が必要なのか</h3>
+        <div class="why-now-text">
+          <p>すでにGoogleの検索結果の一番上に、AIが要約した回答が表示されるようになっています。ChatGPTやGeminiを使って調べ物をする人も急増しています。</p>
+          <p style="margin-top:1rem"><strong>「ホームページを見に来てもらう」時代から、「AIに正しく紹介してもらう」時代</strong>に変わりつつあります。この流れは今後さらに加速します。</p>
+          <p style="margin-top:1rem">今のうちにホームページの情報を整えておけば、AI検索が主流になったとき、<strong>御社は「AIが紹介してくれる会社」になれます。</strong>逆に、何もしなければ、AIは御社を紹介できません。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. Glossary -->
+    <div class="result-section glossary-section" id="glossary-section" style="display:none">
+      <div class="result-section-inner">
+        <button class="glossary-toggle" id="glossary-toggle">この診断で使われている用語の説明</button>
+        <div class="glossary-content" id="glossary-content">
+          <div class="glossary-item"><p class="glossary-term">AI検索</p><p class="glossary-def">ChatGPT、Gemini、Perplexityなど、AIに質問して答えをもらう新しい検索の形。Googleの検索結果の上にAIの要約が出るのもこれにあたります。</p></div>
+          <div class="glossary-item"><p class="glossary-term">構造化データ（JSON-LD）</p><p class="glossary-def">ホームページの裏側に埋め込む「AIや検索エンジン向けの情報カード」のこと。人間には見えませんが、AIはこれを読んで会社の情報を正確に把握します。専門的な技術作業なので、Web制作のプロに依頼する領域です。</p></div>
+          <div class="glossary-item"><p class="glossary-term">エンティティ</p><p class="glossary-def">「この会社は何者か」を特定するための情報の集まり。社名・住所・代表者・事業内容などがこれにあたります。人間でいう「自己紹介」のようなものです。</p></div>
+          <div class="glossary-item"><p class="glossary-term">AEO（AI Engine Optimization）</p><p class="glossary-def">AIに正しく理解され、引用されるようにホームページを整えること。従来の「SEO（検索エンジン最適化）」のAI版です。</p></div>
+          <div class="glossary-item"><p class="glossary-term">クローラー</p><p class="glossary-def">GoogleやAIがインターネット上のホームページを自動で巡回して情報を集めるプログラムのこと。クローラーが読めない情報は、検索結果にもAI回答にも反映されません。</p></div>
+          <div class="glossary-item"><p class="glossary-term">meta description</p><p class="glossary-def">ホームページの各ページに設定する「このページの説明文」。Google検索の結果一覧でタイトルの下に表示される短い説明文がこれにあたります。</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="results-cta" id="results-cta">
+    <div class="results-cta-inner">
+      <h2 class="results-cta-title mincho">「何から手をつければいいだろう？」<br>そんなときは、プロに相談してみませんか。</h2>
+      <p class="results-cta-desc">この診断結果をもとに、御社に合った改善方法を無料でご相談いただけます。</p>
+      <div class="results-cta-merits">
+        <p class="results-cta-merits-title">Ciras（シラス）にご相談いただくと：</p>
+        <ul class="results-cta-merits-list">
+          <li>この診断結果をもとに「何から始めるか」を一緒に整理します</li>
+          <li>御社のサイトに合った改善策を、具体的にご提案します</li>
+          <li>専門用語はすべて噛み砕いてご説明します</li>
+          <li>無理な営業は一切ありません</li>
+        </ul>
+      </div>
+      <div class="cta-btn-group" id="cta-btn-group"></div>
+      <p class="results-cta-disclaimer">この診断はAIを活用して作成しております。<br>診断結果は目安であり、実際の改善効果を保証するものではありません。</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand"><a href="/"><img src="images/logo-white.png" alt="Ciras（シラス）株式会社" class="footer-logo-img"></a></p>
+          <address class="footer-info">Ciras（シラス）株式会社<br>〒790-0813 愛媛県松山市萱町3-2-3 9CROSS 501<br>TEL: <a href="tel:050-3637-6324" style="color:inherit">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</address>
+        </div>
+        <nav class="footer-nav">
+          <div><p class="footer-nav-title">SERVICE</p><ul><li><a href="/ai-komon.html">Ciras AI顧問</a></li><li><a href="/web.html">AI活用 Webサイト制作</a></li><li><a href="/kagemusha.html">影武者</a></li><li><a href="/seminar.html">セミナー</a></li></ul></div>
+          <div><p class="footer-nav-title">COMPANY</p><ul><li><a href="/voice.html">お客様の声</a></li><li><a href="/faq.html">よくある質問</a></li><li><a href="/company.html">会社概要</a></li><li><a href="/blog/">ブログ</a></li></ul></div>
+          <div><p class="footer-nav-title">CONTACT</p><ul><li><a href="/contact.html">お問い合わせ</a></li><li><a href="/partner.html">採用・協業</a></li><li><a href="https://lin.ee/s2u6VUw">LINE</a></li><li><a href="/privacy.html">プライバシーポリシー</a></li></ul></div>
+        </nav>
+      </div>
+      <div class="footer-bottom">&copy; 2026 Ciras Inc.（シラス株式会社）</div>
+    </div>
+  </footer>
+
+  <script>
+  (function() {
+    // Header
+    var h = document.querySelector('header'), scrolled = false;
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 60 && !scrolled) { h.classList.add('scrolled'); scrolled = true; }
+      else if (window.scrollY <= 60 && scrolled) { h.classList.remove('scrolled'); scrolled = false; }
+    }, { passive: true });
+    var hbtn = document.querySelector('.hamburger'), mnav = document.querySelector('.mobile-nav');
+    if (hbtn && mnav) {
+      hbtn.addEventListener('click', function() { hbtn.classList.toggle('active'); mnav.classList.toggle('open'); document.body.style.overflow = mnav.classList.contains('open') ? 'hidden' : ''; });
+      mnav.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', function() { hbtn.classList.remove('active'); mnav.classList.remove('open'); document.body.style.overflow = ''; }); });
+    }
+
+    // URL validation
+    function isValidUrl(str) {
+      try { var u = str.trim(); if (!u.startsWith('http')) u = 'https://' + u; var url = new URL(u); return url.hostname.includes('.'); } catch (e) { return false; }
+    }
+
+    // Form
+    document.getElementById('diagnosis-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var urlError = document.getElementById('url-error');
+      var url = document.getElementById('url-input').value.trim();
+      urlError.style.display = 'none';
+      if (!url) { urlError.textContent = 'URLを入力してください'; urlError.style.display = 'block'; return; }
+      if (!isValidUrl(url)) { urlError.textContent = '正しいURLを入力してください（例：https://example.com）'; urlError.style.display = 'block'; return; }
+      showLoading();
+      var ac = new AbortController();
+      var ft = setTimeout(function() { ac.abort(); }, 180000);
+      fetch('/api/site-check', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: url }), signal: ac.signal })
+      .then(function(res) { clearTimeout(ft); if (!res.ok) { return res.json().then(function(d) { throw new Error(d.error || 'サーバーエラー'); }); } return res.json(); })
+      .then(function(data) { if (data.error) { hideLoading(); showError(data.error); return; } showResults(data); })
+      .catch(function(err) { clearTimeout(ft); hideLoading(); if (err.name === 'AbortError') { showError('診断に時間がかかりすぎました。<br>URLが正しいか確認のうえ、再度お試しください。'); } else { showError(err.message || '診断中にエラーが発生しました。時間をおいて再度お試しください。'); } });
+    });
+
+    // Loading (2-stage)
+    var loadingMsgs = [
+      { text: '主要ページを読み込んでいます...', sub: 'トップページ内のリンクから、重要なページを自動で選んでいます', pct: 10 },
+      { text: '主要ページを読み込んでいます...', sub: '会社概要・サービス・FAQなどのページを取得中です', pct: 25 },
+      { text: '主要ページを読み込んでいます...', sub: '各ページの内容を読み取っています', pct: 40 },
+      { text: 'GoogleのAI検索で御社を検索中...', sub: 'Google AIが御社をどう認識しているか確認中です', pct: 55 },
+      { text: 'AIが診断レポートを作成中...', sub: '5つの視点から分析しています', pct: 65 },
+      { text: 'AIが診断レポートを作成中...', sub: '改善提案を整理しています', pct: 75 },
+      { text: 'レポートを仕上げています...', sub: 'もうしばらくお待ちください', pct: 85 },
+      { text: 'まもなく完了します...', sub: 'お待ちいただきありがとうございます', pct: 95 }
+    ];
+    var loadingTimer = null;
+    function showLoading() {
+      document.getElementById('loading-overlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+      var idx = 0;
+      setMsg(loadingMsgs[0]);
+      loadingTimer = setInterval(function() { idx++; if (idx < loadingMsgs.length) setMsg(loadingMsgs[idx]); }, 8000);
+    }
+    function setMsg(m) { document.getElementById('loading-text').textContent = m.text; document.getElementById('loading-sub').textContent = m.sub; document.getElementById('loading-bar').style.width = m.pct + '%'; }
+    function hideLoading() {
+      if (loadingTimer) clearInterval(loadingTimer);
+      document.getElementById('loading-bar').style.width = '100%';
+      setTimeout(function() { document.getElementById('loading-overlay').classList.remove('active'); document.body.style.overflow = ''; }, 300);
+    }
+
+    // Error
+    function showError(msg) {
+      document.getElementById('hero-section').style.display = 'none';
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('error-title').textContent = '診断中にエラーが発生しました';
+      document.getElementById('error-desc').innerHTML = msg;
+      document.getElementById('error-section').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    document.getElementById('error-back-btn').addEventListener('click', function() {
+      document.getElementById('error-section').classList.remove('active');
+      document.getElementById('hero-section').style.display = '';
+      document.getElementById('form-section').style.display = '';
+      window.scrollTo({ top: 0 });
+    });
+
+    // Retry
+    document.getElementById('retry-btn').addEventListener('click', function() {
+      document.getElementById('results-section').classList.remove('active');
+      document.getElementById('results-cta').style.display = 'none';
+      document.getElementById('hero-section').style.display = '';
+      document.getElementById('form-section').style.display = '';
+      document.getElementById('url-input').value = '';
+      window.scrollTo({ top: 0 });
+    });
+
+    // Glossary toggle
+    document.getElementById('glossary-toggle').addEventListener('click', function() {
+      this.classList.toggle('open');
+      document.getElementById('glossary-content').classList.toggle('open');
+    });
+
+    // Score-based rating helper
+    function getScoreInfo(score) {
+      if (score >= 80) return { label: '十分', message: 'AI検索での引用準備が整っています', cssClass: 'r-high' };
+      if (score >= 50) return { label: '改善推奨', message: '改善すればAI検索で見つかりやすくなります', cssClass: 'r-mid' };
+      return { label: '対策が必要', message: 'AI検索で、御社はほぼ"見えない"状態です', cssClass: 'r-low' };
+    }
+
+    // Category title/subtitle definitions (score-based: high>=80, low<50)
+    var categoryDefs = {
+      entity: {
+        high: { title: 'AIが御社を正しく認識できる状態です', sub: '会社情報が明確に記載されています' },
+        low: { title: 'AIが御社を「知らない」', sub: 'AIに聞いても、御社の情報が出てこない状態です' }
+      },
+      structured_data: {
+        high: { title: 'AIが読み取るための「裏の名刺」が整っています', sub: 'AI向けの情報カードがきちんと設定されています' },
+        low: { title: 'AIが読み取るための「裏の名刺」がない', sub: 'ホームページの裏側に、AI向けの会社情報が設定されていません' }
+      },
+      content_structure: {
+        high: { title: 'AIが引用しやすい情報が揃っています', sub: 'よくある質問や具体的な情報が充実しています' },
+        low: { title: '「よくある質問」がない', sub: 'お客様がAIに聞きそうな質問への答えが、サイトに用意されていません' }
+      },
+      local_signal: {
+        high: { title: '地域での存在感がしっかり伝わります', sub: 'AIがどの地域で営業しているかを認識できる状態です' },
+        low: { title: '「どこで営業しているか」が伝わりにくい', sub: 'AIから見て、御社がどの地域で仕事をしているかが曖昧です' }
+      },
+      technical: {
+        high: { title: 'ホームページの基本的な作りは問題なし', sub: 'AIがページを読み込める状態にあります' },
+        low: { title: 'ホームページの基本的な作りに問題あり', sub: 'AIがページを正しく読み込めない状態です' }
+      }
+    };
+
+    // Number emoji mapping
+    var numEmojis = ['&#10102;', '&#10103;', '&#10104;', '&#10105;'];
+
+    // Show Results
+    function showResults(data) {
+      hideLoading();
+      document.getElementById('hero-section').style.display = 'none';
+      document.getElementById('form-section').style.display = 'none';
+
+      var r = data.result;
+      var overallScore = typeof data.overallScore === 'number' ? data.overallScore : (typeof r.overall_score === 'number' ? r.overall_score : 0);
+      var rInfo = getScoreInfo(overallScore);
+
+      // 2. Rating Hero
+      document.getElementById('rating-symbol').innerHTML = '<span class="rating-score-num">' + overallScore + '</span><span class="rating-score-unit">点</span>';
+      document.getElementById('rating-message').textContent = rInfo.message;
+      if (data.url) document.getElementById('rating-url').textContent = data.url;
+
+      // 3. Summary message
+      var summaryEl = document.getElementById('summary-msg-text');
+      if (overallScore < 50) {
+        summaryEl.innerHTML = '最近、お客様が「ChatGPTに聞いて」情報を調べることが増えています。このとき、<strong>AIが参照するのは御社のホームページに書かれた情報</strong>です。しかし現在の御社サイトは、AIが情報を正しく読み取れない状態にあります。つまり、<strong>「AIに聞いても御社が出てこない」</strong>ということです。';
+      } else if (overallScore < 80) {
+        summaryEl.innerHTML = '御社のホームページには基本的な情報は掲載されています。ただし、ChatGPTやGeminiなどの<strong>AI検索が情報を正しく読み取り、お客様に紹介できる状態</strong>にはなりきっていません。いくつかの改善で、AI検索での見つかりやすさが大きく変わります。';
+      } else {
+        summaryEl.innerHTML = '御社のホームページは、AI検索で引用されるための基本的な準備ができています。今の状態を維持しながら、さらに強化できるポイントをご案内します。';
+      }
+
+      // 4. Google AI Recognition Test (always show this section)
+      if (data.aiTest) {
+        var at = data.aiTest;
+        document.getElementById('ai-test-sub').textContent = '実際にGoogleのAI検索（AIモード）で「' + esc(at.companyName) + 'について教えて」と検索した結果です。';
+        document.getElementById('ai-test-question').textContent = at.query || '';
+
+        if (at.response) {
+          // Show the actual Google AI response
+          document.getElementById('ai-test-response').textContent = at.response;
+
+          // Show sources if available
+          if (at.sources && at.sources.length > 0) {
+            var sourcesList = document.getElementById('ai-test-sources-list');
+            sourcesList.innerHTML = '';
+            at.sources.forEach(function(s) {
+              if (s.uri) {
+                var domain = '';
+                try { domain = new URL(s.uri).hostname; } catch(e) { domain = s.uri; }
+                sourcesList.innerHTML += '<a href="' + esc(s.uri) + '" target="_blank" rel="noopener" class="ai-test-source-chip">' + esc(s.title || domain) + '</a>';
+              }
+            });
+            document.getElementById('ai-test-sources').style.display = '';
+          }
+
+          // Judgment (with frontend fallback check)
+          var judgment = r.ai_test_judgment || 'unknown';
+          var resp = (at.response || '');
+          var unknownPatterns = ['知りません', '情報がありません', '存じません', '見つかりません', '確認できません', '把握していません', '分かりません', 'わかりません'];
+          if (judgment === 'accurate' && unknownPatterns.some(function(p) { return resp.includes(p); })) {
+            judgment = 'unknown';
+          }
+          var judgEl = document.getElementById('ai-test-judgment');
+          if (judgment === 'accurate') {
+            judgEl.className = 'ai-test-judgment accurate';
+            judgEl.innerHTML = '→ Google AI検索は御社のことを正しく認識しています。';
+          } else if (judgment === 'partial') {
+            judgEl.className = 'ai-test-judgment partial';
+            judgEl.innerHTML = '→ Google AI検索は御社の情報を一部しか認識できていません。正確に認識されているとは言えません。';
+          } else {
+            judgEl.className = 'ai-test-judgment unknown';
+            judgEl.innerHTML = '→ Google AI検索は御社のことを正しく認識していません。お客様がAI検索で「おすすめの会社は？」と聞いても、御社の名前は挙がらない可能性が高い状態です。';
+          }
+        } else {
+          // Gemini API failed - show error state with details
+          var errMsg = 'Google AI検索テストの結果を取得できませんでした。';
+          if (at.error) errMsg += '\n（詳細: ' + at.error + '）';
+          document.getElementById('ai-test-response').textContent = errMsg;
+          var judgEl = document.getElementById('ai-test-judgment');
+          judgEl.className = 'ai-test-judgment unknown';
+          judgEl.innerHTML = '→ Google AI検索でのテストが実行できませんでした。後日再度お試しください。';
+        }
+        document.getElementById('ai-test-section').style.display = '';
+      }
+
+      // 5. Page Status
+      if (data.pages && data.pages.length > 0) {
+        var psList = document.getElementById('page-status-list');
+        psList.innerHTML = '';
+        var warningsHtml = '';
+        data.pages.forEach(function(p) {
+          var icon = p.status === 'success' ? '&#x2705;' : '&#x23F3;';
+          var statusText = p.status === 'success' ? '読み込み完了' : '読み込み中断';
+          psList.innerHTML += '<div class="page-status-item"><span class="page-status-icon">' + icon + '</span><span class="page-status-label">' + esc(p.label) + '</span><span style="color:var(--gray);font-size:.8rem;margin-left:.5rem">' + statusText + '</span></div>';
+          if (p.status === 'failed') {
+            warningsHtml += '<div class="page-status-warning">&#x23F3;「' + esc(p.label) + '」は読み込みに時間がかかり、今回の診断には含められませんでした。<strong>ページの表示速度自体に改善の余地がある可能性があります。</strong>詳しくはCirasにご相談ください。</div>';
+          }
+        });
+        document.getElementById('page-status-warnings').innerHTML = warningsHtml;
+        document.getElementById('page-status-section').style.display = '';
+      }
+
+      // 6. Category Details
+      if (r.categories && r.categories.length > 0) {
+        var catContainer = document.getElementById('categories-container');
+        catContainer.innerHTML = '';
+        // Sort by priority
+        var sortedCats = r.categories.slice().sort(function(a, b) { return (a.priority || 0) - (b.priority || 0); });
+        sortedCats.forEach(function(cat) {
+          var catScore = typeof cat.score === 'number' ? cat.score : 0;
+          var catInfo = getScoreInfo(catScore);
+          var defs = categoryDefs[cat.id];
+          var titleDef = defs ? (catScore >= 80 ? defs['high'] : defs['low']) : { title: cat.id, sub: '' };
+
+          var html = '<div class="category-card">';
+          html += '<div class="category-card-header">';
+          html += '<span class="category-priority">優先度 ' + (cat.priority || '-') + '位</span>';
+          html += '<span class="category-badge ' + catInfo.cssClass + '">' + catScore + '点 ' + catInfo.label + '</span>';
+          html += '<div class="category-title-wrap"><p class="category-title">' + esc(titleDef.title) + '</p><p class="category-subtitle">' + esc(titleDef.sub) + '</p></div>';
+          html += '</div>';
+          html += '<div class="category-card-body">';
+
+          // Findings
+          if (cat.findings && cat.findings.length > 0) {
+            html += '<p class="category-section-label">御社のサイトを確認した結果</p>';
+            html += '<div class="category-findings"><ul>';
+            cat.findings.forEach(function(f) { html += '<li>' + esc(f) + '</li>'; });
+            html += '</ul></div>';
+          }
+
+          // Business impact
+          if (cat.business_impact) {
+            html += '<p class="category-section-label">&#x1F4A1; これが経営にどう影響するか</p>';
+            html += '<div class="category-impact"><div class="category-impact-text">' + esc(cat.business_impact) + '</div></div>';
+          }
+
+          html += '</div></div>';
+          catContainer.innerHTML += html;
+        });
+        document.getElementById('categories-section').style.display = '';
+      }
+
+      // 7. Summary Actions
+      if (r.summary_actions && r.summary_actions.length > 0) {
+        var saList = document.getElementById('summary-actions');
+        saList.innerHTML = '';
+        r.summary_actions.forEach(function(action, i) {
+          saList.innerHTML += '<li><span class="summary-actions-num">' + numEmojis[i] + '</span><span>' + esc(action) + '</span></li>';
+        });
+        document.getElementById('summary-section').style.display = '';
+      }
+
+      // Show why-now & glossary
+      document.getElementById('why-now-section').style.display = '';
+      document.getElementById('glossary-section').style.display = '';
+
+      // 10. CTA (dynamic based on score)
+      var ctaGroup = document.getElementById('cta-btn-group');
+      ctaGroup.innerHTML = '';
+      if (overallScore < 50) {
+        // 0-49点: Web制作を前面に
+        ctaGroup.innerHTML = '<div class="cta-card primary"><p class="cta-card-label">対策をまるごとお任せしたい方</p><a href="/contact.html" class="cta-card-btn btn-white">まずは無料で相談する</a><p class="cta-card-note">AI検索対応のホームページ制作・リニューアル ｜ 220,000円〜（税込）</p></div>' +
+          '<div class="cta-card"><p class="cta-card-label">まずは話を聞いてみたい・自社で改善を進めたい方</p><a href="https://lin.ee/s2u6VUw" class="cta-card-btn btn-outline">LINEでかんたん相談</a><p class="cta-card-note">月額のAI顧問サービスもあります ｜ 月額 33,000円（税込）</p></div>';
+      } else if (overallScore <= 80) {
+        // 50-80点: AI顧問 + Web制作の両方をおすすめ
+        ctaGroup.innerHTML = '<div class="cta-card primary"><p class="cta-card-label">AIを活用した改善を相談したい方</p><a href="/ai-komon.html" class="cta-card-btn btn-white">Ciras AI顧問のご案内</a><p class="cta-card-note">月額 33,000円（税込）でAI活用を伴走サポート</p></div>' +
+          '<div class="cta-card primary"><p class="cta-card-label">ホームページの改修・リニューアルをお考えの方</p><a href="/contact.html" class="cta-card-btn btn-white">AI活用Webサイト制作のご案内</a><p class="cta-card-note">AI検索対応のホームページ制作・リニューアル ｜ 220,000円〜（税込）</p></div>';
+      } else {
+        // 81-100点: 維持・強化
+        ctaGroup.innerHTML = '<div class="cta-card primary"><p class="cta-card-label">今の良い状態を維持・強化したい方</p><a href="/ai-komon.html" class="cta-card-btn btn-white">Ciras AI顧問で定期アドバイス</a><p class="cta-card-note">月額 33,000円（税込）</p></div>' +
+          '<div class="cta-card"><p class="cta-card-label">さらに強化するためのリニューアルをお考えの方</p><a href="/contact.html" class="cta-card-btn btn-outline">まずは無料で相談する</a><p class="cta-card-note"></p></div>';
+      }
+
+      document.getElementById('results-section').classList.add('active');
+      document.getElementById('results-cta').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function esc(str) { if (!str) return ''; var d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+  })();
+  </script>
+</body>
+</html>
