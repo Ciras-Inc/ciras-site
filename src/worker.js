@@ -54,6 +54,7 @@ export default {
         status: 'ok',
         config: {
           anthropic_api_key: env.ANTHROPIC_API_KEY ? 'configured' : 'MISSING',
+          gemini_api_key: env.GEMINI_API_KEY ? 'configured' : 'MISSING',
           admin_password: env.ADMIN_PASSWORD ? 'configured' : 'MISSING',
           kv_diagnoses: env.DIAGNOSES ? 'configured' : 'MISSING'
         }
@@ -215,17 +216,23 @@ async function handleSiteCheck(request, env) {
     // API Call 1: Google AI Search Test (using Gemini with Google Search grounding)
     let aiTestResponse = null;
     let aiTestSources = [];
+    let aiTestError = null;
     if (env.GEMINI_API_KEY) {
       try {
         const geminiResult = await callGeminiAPI(env.GEMINI_API_KEY, aiTestQuery, 30000);
         if (geminiResult.success) {
           aiTestResponse = geminiResult.text || null;
           aiTestSources = geminiResult.sources || [];
+        } else {
+          aiTestError = geminiResult.error || 'Google AI検索テストに失敗しました';
+          console.error('Gemini API returned error:', aiTestError);
         }
       } catch (e) {
+        aiTestError = 'Google AI検索テスト中にエラーが発生しました';
         console.error('Google AI test failed, continuing:', e.message);
       }
     } else {
+      aiTestError = 'Google AI検索テストは現在利用できません';
       console.log('GEMINI_API_KEY not set, skipping Google AI test');
     }
 
@@ -265,7 +272,7 @@ async function handleSiteCheck(request, env) {
     return jsonResponse({
       id,
       result: analysisData,
-      aiTest: { query: aiTestQuery, response: aiTestResponse, sources: aiTestSources, companyName },
+      aiTest: { query: aiTestQuery, response: aiTestResponse, sources: aiTestSources, companyName, error: aiTestError },
       url: crawlResult.finalUrl,
       pages: crawlResult.pageStatuses,
       overallScore
