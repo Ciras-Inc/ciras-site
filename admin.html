@@ -42,7 +42,7 @@
     .admin-body{max-width:1000px;margin:0 auto;padding:2rem}
 
     /* Stats */
-    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+    .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:2rem}
     .stat-card{background:var(--white);padding:1.5rem;border-radius:4px;text-align:center;border:1px solid var(--gray-light)}
     .stat-num{font-family:'Shippori Mincho',serif;font-size:2rem;font-weight:700;color:var(--green)}
     .stat-label{font-size:.8rem;color:var(--gray)}
@@ -55,7 +55,7 @@
     .filter-btn.active{border-color:var(--green);background:var(--green-light);color:var(--green)}
 
     .diagnosis-card{background:var(--white);border:1px solid var(--gray-light);border-radius:4px;margin-bottom:1rem;overflow:hidden}
-    .diagnosis-summary{padding:1.2rem 1.5rem;display:grid;grid-template-columns:auto 1fr auto auto;gap:1.5rem;align-items:center;cursor:pointer;transition:background .2s}
+    .diagnosis-summary{padding:1.2rem 1.5rem;display:grid;gap:1.5rem;align-items:center;cursor:pointer;transition:background .2s}
     .diagnosis-summary:hover{background:rgba(232,240,230,.3)}
     .diagnosis-type{font-size:.7rem;font-weight:600;letter-spacing:.1em;color:var(--green);background:var(--green-light);padding:.2rem .6rem;border-radius:2px;white-space:nowrap}
     .diagnosis-info{min-width:0}
@@ -81,6 +81,17 @@
     .detail-solution-desc{font-size:.8rem;color:var(--gray-dark);line-height:1.8;white-space:pre-line}
     .detail-actions{margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap}
     .empty-state{text-align:center;padding:4rem 2rem;color:var(--gray)}
+
+    /* Checkbox */
+    .diagnosis-checkbox{width:18px;height:18px;accent-color:var(--green);cursor:pointer;flex-shrink:0}
+    .diagnosis-summary{grid-template-columns:auto auto 1fr auto auto}
+
+    /* Select bar */
+    .select-bar{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;padding:.8rem 1.2rem;background:var(--white);border:1px solid var(--gray-light);border-radius:4px}
+    .select-bar .delete-area{display:none}
+    .select-bar.has-selection .delete-area{display:flex;align-items:center;gap:1rem}
+    .select-bar-info{font-size:.85rem;color:var(--gray-dark);flex:1}
+    .select-all-label{font-size:.8rem;color:var(--gray-dark);display:flex;align-items:center;gap:.4rem;cursor:pointer}
 
     @media(max-width:600px){
       .stats-grid{grid-template-columns:1fr}
@@ -116,7 +127,6 @@
       <div class="stats-grid" id="stats-grid">
         <div class="stat-card"><p class="stat-num" id="stat-total">-</p><p class="stat-label">総診断数</p></div>
         <div class="stat-card"><p class="stat-num" id="stat-pending">-</p><p class="stat-label">未送信</p></div>
-        <div class="stat-card"><p class="stat-num" id="stat-with-email">-</p><p class="stat-label">メール登録済</p></div>
       </div>
       <div class="list-header">
         <h2 class="list-title">診断一覧</h2>
@@ -128,6 +138,13 @@
           <button class="filter-btn" data-filter="web-check">Web診断</button>
         </div>
       </div>
+      <div class="select-bar" id="select-bar">
+        <label class="select-all-label"><input type="checkbox" class="diagnosis-checkbox" id="select-all-cb">すべて選択</label>
+        <div class="delete-area">
+          <span class="select-bar-info" id="select-bar-info">0件選択中</span>
+          <button class="btn btn-danger btn-small" id="delete-selected-btn">選択した診断を削除</button>
+        </div>
+      </div>
       <div id="diagnosis-list"></div>
     </div>
   </div>
@@ -137,6 +154,7 @@
     var password = '';
     var allDiagnoses = [];
     var currentFilter = 'all';
+    var selectedIds = {};
 
     // ===== Login =====
     document.getElementById('login-btn').addEventListener('click', tryLogin);
@@ -216,7 +234,6 @@
     function updateStats() {
       document.getElementById('stat-total').textContent = allDiagnoses.length;
       document.getElementById('stat-pending').textContent = allDiagnoses.filter(function(d) { return d.status === 'pending'; }).length;
-      document.getElementById('stat-with-email').textContent = allDiagnoses.filter(function(d) { return d.email; }).length;
     }
 
     function renderList() {
@@ -239,9 +256,11 @@
         var statusText = d.status === 'sent' ? '送信済' : '未送信';
         var info = (d.position || '') + (d.industry ? ' / ' + d.industry : '');
         var emailText = d.email || 'メール未登録';
+        var checked = selectedIds[d.id] ? ' checked' : '';
 
         return '<div class="diagnosis-card" data-id="' + d.id + '">' +
           '<div class="diagnosis-summary">' +
+            '<input type="checkbox" class="diagnosis-checkbox item-cb" data-id="' + d.id + '"' + checked + '>' +
             '<span class="diagnosis-type">' + typeLabel + '</span>' +
             '<div class="diagnosis-info"><p class="diagnosis-info-main">' + escapeHTML(info) + '</p><p class="diagnosis-info-sub">' + escapeHTML(emailText) + '</p></div>' +
             '<span class="diagnosis-date">' + date + '</span>' +
@@ -251,9 +270,19 @@
         '</div>';
       }).join('');
 
+      // Checkbox click
+      list.querySelectorAll('.item-cb').forEach(function(cb) {
+        cb.addEventListener('click', function(e) { e.stopPropagation(); });
+        cb.addEventListener('change', function() {
+          if (this.checked) { selectedIds[this.dataset.id] = true; } else { delete selectedIds[this.dataset.id]; }
+          updateSelectBar();
+        });
+      });
+
       // Click to expand
       list.querySelectorAll('.diagnosis-summary').forEach(function(el) {
-        el.addEventListener('click', function() {
+        el.addEventListener('click', function(e) {
+          if (e.target.classList.contains('diagnosis-checkbox')) return;
           var card = this.closest('.diagnosis-card');
           var id = card.dataset.id;
           var detail = document.getElementById('detail-' + id);
@@ -267,6 +296,8 @@
           loadDiagnosisDetail(id);
         });
       });
+
+      updateSelectBar();
     }
 
     function loadDiagnosisDetail(id) {
@@ -377,6 +408,53 @@
         body: JSON.stringify({ status: 'pending' })
       }).then(function() { loadDiagnoses(); });
     };
+
+    // ===== Selection & Delete =====
+    function updateSelectBar() {
+      var count = Object.keys(selectedIds).length;
+      var bar = document.getElementById('select-bar');
+      if (count > 0) {
+        bar.classList.add('has-selection');
+        document.getElementById('select-bar-info').textContent = count + '件選択中';
+      } else {
+        bar.classList.remove('has-selection');
+      }
+      // Sync select-all checkbox
+      var checkboxes = document.querySelectorAll('.item-cb');
+      var allCb = document.getElementById('select-all-cb');
+      if (checkboxes.length > 0 && count === checkboxes.length) {
+        allCb.checked = true;
+      } else {
+        allCb.checked = false;
+      }
+    }
+
+    document.getElementById('select-all-cb').addEventListener('change', function() {
+      var checked = this.checked;
+      document.querySelectorAll('.item-cb').forEach(function(cb) {
+        cb.checked = checked;
+        if (checked) { selectedIds[cb.dataset.id] = true; } else { delete selectedIds[cb.dataset.id]; }
+      });
+      updateSelectBar();
+    });
+
+    document.getElementById('delete-selected-btn').addEventListener('click', function() {
+      var ids = Object.keys(selectedIds);
+      if (ids.length === 0) return;
+      if (!confirm(ids.length + '件の診断結果を削除しますか？\nこの操作は元に戻せません。')) return;
+      var btn = this;
+      btn.disabled = true;
+      btn.textContent = '削除中...';
+      Promise.all(ids.map(function(id) {
+        return apiFetch('/api/admin/diagnoses/' + id, { method: 'DELETE' });
+      })).then(function() {
+        selectedIds = {};
+        return loadDiagnoses();
+      }).finally(function() {
+        btn.disabled = false;
+        btn.textContent = '選択した診断を削除';
+      });
+    });
 
     function escapeHTML(str) {
       if (!str) return '';
