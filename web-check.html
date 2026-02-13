@@ -694,8 +694,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             judgEl.innerHTML = '→ Google AI検索は御社のことを正しく認識していません。お客様がAI検索で「おすすめの会社は？」と聞いても、御社の名前は挙がらない可能性が高い状態です。';
           }
         } else {
-          // Gemini API failed - show error state
-          document.getElementById('ai-test-response').textContent = 'Google AI検索テストの結果を取得できませんでした。';
+          // Gemini API failed - show error state with details
+          var errMsg = 'Google AI検索テストの結果を取得できませんでした。';
+          if (at.error) errMsg += '\n（詳細: ' + at.error + '）';
+          document.getElementById('ai-test-response').textContent = errMsg;
           var judgEl = document.getElementById('ai-test-judgment');
           judgEl.className = 'ai-test-judgment unknown';
           judgEl.innerHTML = '→ Google AI検索でのテストが実行できませんでした。後日再度お試しください。';
