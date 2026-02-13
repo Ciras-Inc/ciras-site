@@ -258,7 +258,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .results-cta-disclaimer{margin-top:2rem;font-size:.8rem;opacity:.6;line-height:1.8}
 
     /* Retry */
-    .retry-section{text-align:center;padding:2rem 2rem 0}
+    .retry-section{text-align:center;padding:3rem 2rem;border-top:1px solid var(--gray-light)}
     .btn-retry{background:var(--white);color:var(--green);border:2px solid var(--green);padding:.8rem 2rem;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .3s}
     .btn-retry:hover{background:var(--green-light)}
 
@@ -278,7 +278,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .footer-bottom{padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:.75rem;color:rgba(255,255,255,.5)}
 
     @media(max-width:900px){.header-nav{display:none}.hamburger{display:block}.footer-grid{grid-template-columns:1fr}.footer-nav{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:600px){.url-input-group{flex-direction:column}.url-input-group .btn{width:100%}.features{grid-template-columns:1fr}.rating-hero{padding:4rem 1.5rem 3rem}.rating-symbol{font-size:4rem}.category-card-header{padding:1.2rem 1.5rem;flex-wrap:wrap}.category-card-body{padding:1.2rem 1.5rem}.cta-btn-group{flex-direction:column;align-items:center}.cta-card{max-width:100%}.results-cta-buttons{flex-direction:column}}
+    @media(max-width:600px){.url-input-group{flex-direction:column}.url-input-group .btn{width:100%}.features{grid-template-columns:1fr}.rating-hero{padding:6rem 1.5rem 3rem}.rating-symbol{font-size:4rem}.category-card-header{padding:1.2rem 1.5rem;flex-wrap:wrap;gap:.5rem .8rem}.category-title-wrap{flex-basis:100%}.category-card-body{padding:1.2rem 1.5rem}.cta-btn-group{flex-direction:column;align-items:center}.cta-card{max-width:100%}.results-cta-buttons{flex-direction:column}}
   </style>
 </head>
 <body>
@@ -405,6 +405,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="result-section" id="page-status-section" style="display:none;background:var(--bg)">
       <div class="result-section-inner">
         <h3 class="result-section-title">読み込んだページ</h3>
+        <p class="result-section-sub">トップページのリンクから、重要なページを自動で選んで読み込みました。</p>
         <div class="page-status-list" id="page-status-list"></div>
         <div id="page-status-warnings"></div>
       </div>
@@ -418,9 +419,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div id="categories-container"></div>
       </div>
     </div>
-
-    <!-- Retry -->
-    <div class="retry-section"><button class="btn-retry" id="retry-btn">別のURLを診断する</button></div>
 
     <!-- 7. Summary Actions -->
     <div class="result-section summary-section" id="summary-section" style="display:none">
@@ -459,6 +457,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
       </div>
     </div>
+
+    <!-- Retry -->
+    <div class="retry-section"><button class="btn-retry" id="retry-btn">別のURLを診断する</button></div>
   </section>
 
   <!-- CTA -->
@@ -719,6 +720,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             warningsHtml += '<div class="page-status-warning">&#x23F3;「' + esc(p.label) + '」は読み込みに時間がかかり、今回の診断には含められませんでした。<strong>ページの表示速度自体に改善の余地がある可能性があります。</strong>詳しくはCirasにご相談ください。</div>';
           }
         });
+        if (data.pages.length <= 2) {
+          warningsHtml += '<div class="page-status-warning">読み込めたページが少ないため、診断精度が限定的な可能性があります。サイト内のリンクが少ない場合や、JavaScriptで動的に生成されたページの場合は、読み込みが難しいことがあります。</div>';
+        }
         document.getElementById('page-status-warnings').innerHTML = warningsHtml;
         document.getElementById('page-status-section').style.display = '';
       }
