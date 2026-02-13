@@ -485,22 +485,28 @@ async function crawlSiteV2(inputUrl, env) {
     // Step 2: Extract links and prioritize by path patterns
     const internalLinks = extractAllInternalLinks(homepage.html, homepage.url);
     const priorityPatterns = [
-      { patterns: ['/about', '/company', '/corporate', '会社概要'], label: '会社概要' },
-      { patterns: ['/service', '/business', '/solution', 'サービス'], label: 'サービス紹介' },
-      { patterns: ['/faq', '/question', 'よくある質問'], label: 'FAQ' },
-      { patterns: ['/contact', '/access', 'お問い合わせ'], label: '所在地・連絡先' },
-      { patterns: ['/blog', '/news', '/column', 'お知らせ'], label: 'コンテンツ' }
+      { patterns: ['/about', '/company', '/corporate', '/kaisha', '/profile', '/gaiyou'], label: '会社概要' },
+      { patterns: ['/service', '/business', '/solution', '/product', '/works', '/jigyou'], label: 'サービス紹介' },
+      { patterns: ['/faq', '/question', '/qa', '/q-a'], label: 'FAQ' },
+      { patterns: ['/contact', '/access', '/inquiry', '/form'], label: '所在地・連絡先' },
+      { patterns: ['/blog', '/news', '/column', '/info', '/topics', '/journal'], label: 'コンテンツ' },
+      { patterns: ['/voice', '/testimonial', '/case', '/review'], label: 'お客様の声' },
+      { patterns: ['/price', '/pricing', '/plan', '/fee', '/cost'], label: '料金' }
     ];
 
+    const maxSubpages = 6;
     const selectedPages = [];
     const usedUrls = new Set();
 
+    // Try matching with both encoded and decoded URLs
     for (const priority of priorityPatterns) {
-      if (selectedPages.length >= 4) break;
+      if (selectedPages.length >= maxSubpages) break;
       for (const link of internalLinks) {
         if (usedUrls.has(link)) continue;
         const lowerLink = link.toLowerCase();
-        const matched = priority.patterns.some(p => lowerLink.includes(p));
+        let decodedLink = lowerLink;
+        try { decodedLink = decodeURIComponent(lowerLink); } catch (e) {}
+        const matched = priority.patterns.some(p => lowerLink.includes(p) || decodedLink.includes(p));
         if (matched) {
           selectedPages.push({ url: link, label: priority.label });
           usedUrls.add(link);
@@ -509,12 +515,14 @@ async function crawlSiteV2(inputUrl, env) {
       }
     }
 
-    // If not enough pages found, use nav links
-    if (selectedPages.length < 4) {
-      const navLinks = extractNavLinks(homepage.html, homepage.url);
-      for (const link of navLinks) {
-        if (selectedPages.length >= 4) break;
+    // If not enough pages found, use remaining internal links directly
+    if (selectedPages.length < maxSubpages) {
+      for (const link of internalLinks) {
+        if (selectedPages.length >= maxSubpages) break;
         if (usedUrls.has(link)) continue;
+        // Skip obviously low-value pages
+        const lower = link.toLowerCase();
+        if (lower.includes('/privacy') || lower.includes('/terms') || lower.includes('/sitemap') || lower.includes('/login') || lower.includes('/cart') || lower.includes('/wp-admin')) continue;
         selectedPages.push({ url: link, label: 'その他' });
         usedUrls.add(link);
       }
