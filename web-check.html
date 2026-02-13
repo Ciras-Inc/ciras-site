@@ -137,7 +137,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .results-section.active{display:block}
 
     /* Rating Hero */
-    .rating-hero{background:linear-gradient(160deg,#1a3a17 0%,#2D5A27 40%,#3d7a35 100%);padding:5rem 2rem 4rem;text-align:center;color:var(--white);position:relative;overflow:hidden}
+    .rating-hero{background:linear-gradient(160deg,#1a3a17 0%,#2D5A27 40%,#3d7a35 100%);padding:7rem 2rem 4rem;text-align:center;color:var(--white);position:relative;overflow:hidden}
     .rating-hero::before{content:"";position:absolute;top:-50%;right:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);border-radius:50%}
     .rating-hero::after{content:"";position:absolute;bottom:-30%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 70%);border-radius:50%}
     .rating-hero-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
@@ -190,13 +190,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     /* Category cards */
     .category-card{background:var(--white);border:1px solid var(--gray-light);border-radius:12px;margin-bottom:2rem;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.03)}
-    .category-card-header{display:flex;align-items:flex-start;gap:1rem;padding:1.5rem 2rem;border-bottom:1px solid var(--gray-light)}
-    .category-priority{font-size:.7rem;font-weight:700;color:var(--green);letter-spacing:.1em;white-space:nowrap;margin-top:.2rem}
+    .category-card-header{display:flex;flex-direction:column;gap:.5rem;padding:1.5rem 2rem;border-bottom:1px solid var(--gray-light)}
+    .category-meta{display:flex;align-items:center;gap:.8rem}
+    .category-priority{font-size:.7rem;font-weight:700;color:var(--green);letter-spacing:.1em;white-space:nowrap}
     .category-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .8rem;border-radius:4px;font-size:.8rem;font-weight:700;white-space:nowrap;flex-shrink:0}
     .category-badge.r-high{background:#E8F0E6;color:#2D5A27}
     .category-badge.r-mid{background:#FFF8E1;color:#B8860B}
     .category-badge.r-low{background:#FFF0F0;color:#C41E3A}
-    .category-title-wrap{flex:1}
+    .category-title-wrap{}
     .category-title{font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:600;line-height:1.5;margin-bottom:.2rem}
     .category-subtitle{font-size:.85rem;color:var(--gray-dark);line-height:1.7}
     .category-card-body{padding:1.5rem 2rem}
@@ -278,7 +279,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .footer-bottom{padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:.75rem;color:rgba(255,255,255,.5)}
 
     @media(max-width:900px){.header-nav{display:none}.hamburger{display:block}.footer-grid{grid-template-columns:1fr}.footer-nav{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:600px){.url-input-group{flex-direction:column}.url-input-group .btn{width:100%}.features{grid-template-columns:1fr}.rating-hero{padding:7.5rem 1.5rem 3rem}.rating-symbol{font-size:4rem}.category-card-header{padding:1.2rem 1.5rem;flex-wrap:wrap;gap:.3rem .8rem}.category-title-wrap{flex:0 0 100%;order:3}.category-card-body{padding:1.2rem 1.5rem}.cta-btn-group{flex-direction:column;align-items:center}.cta-card{max-width:100%}.results-cta-buttons{flex-direction:column}}
+    @media(max-width:600px){.url-input-group{flex-direction:column}.url-input-group .btn{width:100%}.features{grid-template-columns:1fr}.rating-hero{padding:7.5rem 1.5rem 3rem}.rating-symbol{font-size:4rem}.category-card-header{padding:1.2rem 1.5rem}.category-card-body{padding:1.2rem 1.5rem}.cta-btn-group{flex-direction:column;align-items:center}.cta-card{max-width:100%}.results-cta-buttons{flex-direction:column}}
   </style>
 </head>
 <body>
@@ -740,8 +741,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
           var html = '<div class="category-card">';
           html += '<div class="category-card-header">';
-          html += '<span class="category-priority">優先度 ' + (cat.priority || '-') + '位</span>';
-          html += '<span class="category-badge ' + catInfo.cssClass + '">' + catScore + '点 ' + catInfo.label + '</span>';
+          html += '<div class="category-meta"><span class="category-priority">優先度 ' + (cat.priority || '-') + '位</span>';
+          html += '<span class="category-badge ' + catInfo.cssClass + '">' + catScore + '点 ' + catInfo.label + '</span></div>';
           html += '<div class="category-title-wrap"><p class="category-title">' + esc(titleDef.title) + '</p><p class="category-subtitle">' + esc(titleDef.sub) + '</p></div>';
           html += '</div>';
           html += '<div class="category-card-body">';
