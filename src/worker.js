@@ -3,6 +3,8 @@
 
 const CLAUDE_MODEL = 'claude-sonnet-4-5-20250929';
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
+const GEMINI_MODEL = 'gemini-2.0-flash';
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/';
 
 export default {
   async fetch(request, env) {
@@ -208,18 +210,23 @@ async function handleSiteCheck(request, env) {
     const companyName = extractCompanyName(crawlResult);
 
     // Step 3: API calls (sequential to avoid timeout)
-    const aiTestPrompt = `「${companyName}」という会社（または組織）について教えてください。所在地、事業内容、特徴を含めて回答してください。`;
-    const aiTestSystem = `あなたは一般的なAIアシスタントです。ユーザーの質問に、あなたが持っている知識のみで回答してください。知らない情報は「知りません」「情報がありません」と正直に回答してください。ウェブ検索は行わないでください。回答は日本語で、200文字以内で簡潔に答えてください。会社名・組織名について聞かれた場合は、その会社・組織自体について答えてください。地名や一般的な単語として解釈しないでください。`;
+    const aiTestQuery = `${companyName}について教えて`;
 
-    // API Call 1: AI Recognition Test (short timeout, failure is OK)
+    // API Call 1: Google AI Search Test (using Gemini with Google Search grounding)
     let aiTestResponse = null;
-    try {
-      const aiTestResult = await callClaudeAPI(env.ANTHROPIC_API_KEY, aiTestSystem, aiTestPrompt, 512, 30000);
-      if (aiTestResult.success) {
-        aiTestResponse = aiTestResult.rawText || (aiTestResult.data ? JSON.stringify(aiTestResult.data) : null);
+    let aiTestSources = [];
+    if (env.GEMINI_API_KEY) {
+      try {
+        const geminiResult = await callGeminiAPI(env.GEMINI_API_KEY, aiTestQuery, 30000);
+        if (geminiResult.success) {
+          aiTestResponse = geminiResult.text || null;
+          aiTestSources = geminiResult.sources || [];
+        }
+      } catch (e) {
+        console.error('Google AI test failed, continuing:', e.message);
       }
-    } catch (e) {
-      console.error('AI test failed, continuing:', e.message);
+    } else {
+      console.log('GEMINI_API_KEY not set, skipping Google AI test');
     }
 
     // API Call 2: Page Analysis (longer timeout, this is the main result)
@@ -258,7 +265,7 @@ async function handleSiteCheck(request, env) {
     return jsonResponse({
       id,
       result: analysisData,
-      aiTest: { question: aiTestPrompt, response: aiTestResponse, companyName },
+      aiTest: { query: aiTestQuery, response: aiTestResponse, sources: aiTestSources, companyName },
       url: crawlResult.finalUrl,
       pages: crawlResult.pageStatuses,
       overallScore
@@ -1059,6 +1066,66 @@ async function handleReportPage(env, id) {
   }
 }
 
+// ========== Gemini API (Google AI) ==========
+
+async function callGeminiAPI(apiKey, userPrompt, timeoutMs = 30000) {
+  try {
+    console.log('Calling Gemini API with model:', GEMINI_MODEL);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+    const response = await fetch(
+      `${GEMINI_API_URL}${GEMINI_MODEL}:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: userPrompt }] }],
+          tools: [{ google_search: {} }],
+          generationConfig: { maxOutputTokens: 1024 }
+        }),
+        signal: controller.signal
+      }
+    );
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      console.error(`Gemini API error: status=${response.status}, body=${errorBody}`);
+      return { success: false, error: `Google AI APIエラー（${response.status}）` };
+    }
+
+    const data = await response.json();
+    // Extract text from Gemini response
+    let text = '';
+    if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) {
+      text = data.candidates[0].content.parts
+        .filter(p => p.text)
+        .map(p => p.text)
+        .join('');
+    }
+
+    // Extract grounding sources if available
+    let sources = [];
+    if (data.candidates && data.candidates[0] && data.candidates[0].groundingMetadata) {
+      const gm = data.candidates[0].groundingMetadata;
+      if (gm.groundingChunks) {
+        sources = gm.groundingChunks
+          .filter(c => c.web)
+          .map(c => ({ title: c.web.title || '', uri: c.web.uri || '' }));
+      }
+    }
+
+    return { success: true, text, sources };
+  } catch (err) {
+    console.error('Gemini API call failed:', err);
+    if (err.name === 'AbortError') {
+      return { success: false, error: 'Google AI検索に時間がかかりすぎました。' };
+    }
+    return { success: false, error: 'Google AI検索中にエラーが発生しました。' };
+  }
+}
+
 // ========== Claude API ==========
 
 async function callClaudeAPI(apiKey, systemPrompt, userPrompt, maxTokens = 2048, timeoutMs = 55000) {
@@ -1392,21 +1459,21 @@ overall_scoreは5カテゴリのスコアの加重平均として算出するこ
 
 summary_actionsは、79点以下だったカテゴリのbusiness_impactから要約して、優先度順に最大4つ生成すること。すべて80点以上なら空配列にすること。
 
-ai_test_judgmentは、下記に提供される「AI認識テストの結果」を読んで判定すること。AIの回答が、サイトに書かれている会社情報と合致しているかで判断する。
-- "accurate" = AIの回答が会社の事業内容や所在地を正しく説明できている
-- "partial" = AIの回答に一部正しい情報があるが、不正確な部分もある
-- "unknown" = AIが「知りません」「情報がありません」と回答した、または会社とは無関係な内容（地名の説明など）を回答した
-重要：AIが会社名を地名や一般的な単語として解釈して回答した場合は、必ず"unknown"と判定すること。`;
+ai_test_judgmentは、下記に提供される「Google AI検索の結果」を読んで判定すること。Google AIの回答が、サイトに書かれている会社情報と合致しているかで判断する。
+- "accurate" = Google AIの回答が会社の事業内容や所在地を正しく説明できている
+- "partial" = Google AIの回答に一部正しい情報があるが、不正確な部分もある
+- "unknown" = Google AIが会社について正しく回答できなかった、または結果が取得できなかった
+重要：Google AIが会社名を地名や一般的な単語として解釈して回答した場合は、必ず"unknown"と判定すること。`;
 }
 
 function buildSiteCheckPromptV2(crawlData, companyName, aiTestResponse) {
   let prompt = `以下のWebサイト全体を分析し、AI検索で引用されやすい状態かを診断してください。
 
-【AI認識テストの結果】
+【Google AI検索の結果】
 会社名: ${companyName || '（不明）'}
-AIへの質問: 「${companyName || '（不明）'}という会社について教えてください」
-AIの回答: ${aiTestResponse || '（取得できませんでした）'}
-※ 上記の回答内容をもとに ai_test_judgment を判定してください。
+Google AIへの検索: 「${companyName || '（不明）'}について教えて」
+Google AIの回答: ${aiTestResponse || '（取得できませんでした）'}
+※ 上記のGoogle AI検索の回答内容をもとに ai_test_judgment を判定してください。
 
 【分析対象サイト】
 - URL: ${crawlData.finalUrl}
