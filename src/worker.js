@@ -3,7 +3,7 @@
 
 const CLAUDE_MODEL = 'claude-sonnet-4-5-20250929';
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
-const GEMINI_MODEL = 'gemini-2.0-flash';
+const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash'];
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/';
 
 export default {
@@ -54,6 +54,7 @@ export default {
         status: 'ok',
         config: {
           anthropic_api_key: env.ANTHROPIC_API_KEY ? 'configured' : 'MISSING',
+          gemini_api_key: env.GEMINI_API_KEY ? 'configured' : 'MISSING',
           admin_password: env.ADMIN_PASSWORD ? 'configured' : 'MISSING',
           kv_diagnoses: env.DIAGNOSES ? 'configured' : 'MISSING'
         }
@@ -215,17 +216,23 @@ async function handleSiteCheck(request, env) {
     // API Call 1: Google AI Search Test (using Gemini with Google Search grounding)
     let aiTestResponse = null;
     let aiTestSources = [];
+    let aiTestError = null;
     if (env.GEMINI_API_KEY) {
       try {
         const geminiResult = await callGeminiAPI(env.GEMINI_API_KEY, aiTestQuery, 30000);
         if (geminiResult.success) {
           aiTestResponse = geminiResult.text || null;
           aiTestSources = geminiResult.sources || [];
+        } else {
+          aiTestError = geminiResult.error || 'Google AI検索テストに失敗しました';
+          console.error('Gemini API returned error:', aiTestError);
         }
       } catch (e) {
+        aiTestError = 'Google AI検索テスト中にエラーが発生しました';
         console.error('Google AI test failed, continuing:', e.message);
       }
     } else {
+      aiTestError = 'Google AI検索テストは現在利用できません';
       console.log('GEMINI_API_KEY not set, skipping Google AI test');
     }
 
@@ -265,7 +272,7 @@ async function handleSiteCheck(request, env) {
     return jsonResponse({
       id,
       result: analysisData,
-      aiTest: { query: aiTestQuery, response: aiTestResponse, sources: aiTestSources, companyName },
+      aiTest: { query: aiTestQuery, response: aiTestResponse, sources: aiTestSources, companyName, error: aiTestError },
       url: crawlResult.finalUrl,
       pages: crawlResult.pageStatuses,
       overallScore
@@ -1069,21 +1076,51 @@ async function handleReportPage(env, id) {
 // ========== Gemini API (Google AI) ==========
 
 async function callGeminiAPI(apiKey, userPrompt, timeoutMs = 30000) {
+  let lastError = null;
+
+  // Try each model with google_search, then without
+  for (const model of GEMINI_MODELS) {
+    console.log('Trying Gemini model:', model, 'with google_search');
+
+    // Try with google_search grounding
+    const result = await callGeminiRaw(apiKey, model, userPrompt, timeoutMs, true);
+    if (result.success) return result;
+    lastError = result.error;
+    console.log('Failed with google_search:', result.error);
+
+    // Try without google_search
+    console.log('Trying Gemini model:', model, 'without tools');
+    const fallback = await callGeminiRaw(apiKey, model, userPrompt, timeoutMs, false);
+    if (fallback.success) {
+      fallback.searchGrounded = false;
+      return fallback;
+    }
+    lastError = fallback.error;
+    console.log('Failed without tools:', fallback.error);
+  }
+
+  return { success: false, error: lastError || 'すべてのGoogle AIモデルで失敗しました。' };
+}
+
+async function callGeminiRaw(apiKey, model, userPrompt, timeoutMs, useGoogleSearch) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
   try {
-    console.log('Calling Gemini API with model:', GEMINI_MODEL);
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    const body = {
+      contents: [{ parts: [{ text: userPrompt }] }],
+      generationConfig: { maxOutputTokens: 1024 }
+    };
+    if (useGoogleSearch) {
+      body.tools = [{ google_search: {} }];
+    }
 
     const response = await fetch(
-      `${GEMINI_API_URL}${GEMINI_MODEL}:generateContent?key=${apiKey}`,
+      `${GEMINI_API_URL}${model}:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: userPrompt }] }],
-          tools: [{ google_search: {} }],
-          generationConfig: { maxOutputTokens: 1024 }
-        }),
+        body: JSON.stringify(body),
         signal: controller.signal
       }
     );
@@ -1092,7 +1129,7 @@ async function callGeminiAPI(apiKey, userPrompt, timeoutMs = 30000) {
     if (!response.ok) {
       const errorBody = await response.text();
       console.error(`Gemini API error: status=${response.status}, body=${errorBody}`);
-      return { success: false, error: `Google AI APIエラー（${response.status}）` };
+      return { success: false, error: `Google AI APIエラー（${response.status}）: ${errorBody.substring(0, 200)}` };
     }
 
     const data = await response.json();
@@ -1103,6 +1140,10 @@ async function callGeminiAPI(apiKey, userPrompt, timeoutMs = 30000) {
         .filter(p => p.text)
         .map(p => p.text)
         .join('');
+    }
+
+    if (!text) {
+      return { success: false, error: 'Google AIから空のレスポンスが返されました。' };
     }
 
     // Extract grounding sources if available
@@ -1116,13 +1157,13 @@ async function callGeminiAPI(apiKey, userPrompt, timeoutMs = 30000) {
       }
     }
 
-    return { success: true, text, sources };
+    return { success: true, text, sources, searchGrounded: useGoogleSearch };
   } catch (err) {
-    console.error('Gemini API call failed:', err);
+    clearTimeout(timeout);
     if (err.name === 'AbortError') {
       return { success: false, error: 'Google AI検索に時間がかかりすぎました。' };
     }
-    return { success: false, error: 'Google AI検索中にエラーが発生しました。' };
+    throw err;
   }
 }
 

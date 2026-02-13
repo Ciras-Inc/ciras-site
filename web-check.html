@@ -651,44 +651,56 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         summaryEl.innerHTML = '御社のホームページは、AI検索で引用されるための基本的な準備ができています。今の状態を維持しながら、さらに強化できるポイントをご案内します。';
       }
 
-      // 4. Google AI Recognition Test
-      if (data.aiTest && data.aiTest.response) {
+      // 4. Google AI Recognition Test (always show this section)
+      if (data.aiTest) {
         var at = data.aiTest;
         document.getElementById('ai-test-sub').textContent = '実際にGoogleのAI検索（AIモード）で「' + esc(at.companyName) + 'について教えて」と検索した結果です。';
-        document.getElementById('ai-test-question').textContent = at.query || at.question || '';
-        document.getElementById('ai-test-response').textContent = at.response;
+        document.getElementById('ai-test-question').textContent = at.query || '';
 
-        // Show sources if available
-        if (at.sources && at.sources.length > 0) {
-          var sourcesList = document.getElementById('ai-test-sources-list');
-          sourcesList.innerHTML = '';
-          at.sources.forEach(function(s) {
-            if (s.uri) {
-              var domain = '';
-              try { domain = new URL(s.uri).hostname; } catch(e) { domain = s.uri; }
-              sourcesList.innerHTML += '<a href="' + esc(s.uri) + '" target="_blank" rel="noopener" class="ai-test-source-chip">' + esc(s.title || domain) + '</a>';
-            }
-          });
-          document.getElementById('ai-test-sources').style.display = '';
-        }
+        if (at.response) {
+          // Show the actual Google AI response
+          document.getElementById('ai-test-response').textContent = at.response;
 
-        // Judgment (with frontend fallback check)
-        var judgment = r.ai_test_judgment || 'unknown';
-        var resp = (at.response || '');
-        var unknownPatterns = ['知りません', '情報がありません', '存じません', '見つかりません', '確認できません', '把握していません', '分かりません', 'わかりません'];
-        if (judgment === 'accurate' && unknownPatterns.some(function(p) { return resp.includes(p); })) {
-          judgment = 'unknown';
-        }
-        var judgEl = document.getElementById('ai-test-judgment');
-        if (judgment === 'accurate') {
-          judgEl.className = 'ai-test-judgment accurate';
-          judgEl.innerHTML = '→ Google AI検索は御社のことを正しく認識しています。';
-        } else if (judgment === 'partial') {
-          judgEl.className = 'ai-test-judgment partial';
-          judgEl.innerHTML = '→ Google AI検索は御社の情報を一部しか認識できていません。正確に認識されているとは言えません。';
+          // Show sources if available
+          if (at.sources && at.sources.length > 0) {
+            var sourcesList = document.getElementById('ai-test-sources-list');
+            sourcesList.innerHTML = '';
+            at.sources.forEach(function(s) {
+              if (s.uri) {
+                var domain = '';
+                try { domain = new URL(s.uri).hostname; } catch(e) { domain = s.uri; }
+                sourcesList.innerHTML += '<a href="' + esc(s.uri) + '" target="_blank" rel="noopener" class="ai-test-source-chip">' + esc(s.title || domain) + '</a>';
+              }
+            });
+            document.getElementById('ai-test-sources').style.display = '';
+          }
+
+          // Judgment (with frontend fallback check)
+          var judgment = r.ai_test_judgment || 'unknown';
+          var resp = (at.response || '');
+          var unknownPatterns = ['知りません', '情報がありません', '存じません', '見つかりません', '確認できません', '把握していません', '分かりません', 'わかりません'];
+          if (judgment === 'accurate' && unknownPatterns.some(function(p) { return resp.includes(p); })) {
+            judgment = 'unknown';
+          }
+          var judgEl = document.getElementById('ai-test-judgment');
+          if (judgment === 'accurate') {
+            judgEl.className = 'ai-test-judgment accurate';
+            judgEl.innerHTML = '→ Google AI検索は御社のことを正しく認識しています。';
+          } else if (judgment === 'partial') {
+            judgEl.className = 'ai-test-judgment partial';
+            judgEl.innerHTML = '→ Google AI検索は御社の情報を一部しか認識できていません。正確に認識されているとは言えません。';
+          } else {
+            judgEl.className = 'ai-test-judgment unknown';
+            judgEl.innerHTML = '→ Google AI検索は御社のことを正しく認識していません。お客様がAI検索で「おすすめの会社は？」と聞いても、御社の名前は挙がらない可能性が高い状態です。';
+          }
         } else {
+          // Gemini API failed - show error state with details
+          var errMsg = 'Google AI検索テストの結果を取得できませんでした。';
+          if (at.error) errMsg += '\n（詳細: ' + at.error + '）';
+          document.getElementById('ai-test-response').textContent = errMsg;
+          var judgEl = document.getElementById('ai-test-judgment');
           judgEl.className = 'ai-test-judgment unknown';
-          judgEl.innerHTML = '→ Google AI検索は御社のことを正しく認識していません。お客様がAI検索で「おすすめの会社は？」と聞いても、御社の名前は挙がらない可能性が高い状態です。';
+          judgEl.innerHTML = '→ Google AI検索でのテストが実行できませんでした。後日再度お試しください。';
         }
         document.getElementById('ai-test-section').style.display = '';
       }
