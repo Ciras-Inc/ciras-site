@@ -47,6 +47,10 @@ export default {
       const id = path.split('/').pop();
       return withAuth(request, env, () => handleUpdateDiagnosis(request, env, id));
     }
+    if (path.match(/^\/api\/admin\/diagnoses\/[\w-]+$/) && request.method === 'DELETE') {
+      const id = path.split('/').pop();
+      return withAuth(request, env, () => handleDeleteDiagnosis(env, id));
+    }
 
     // Health check endpoint (admin only)
     if (path === '/api/health' && request.method === 'GET') {
@@ -1053,6 +1057,18 @@ async function handleUpdateDiagnosis(request, env, id) {
   } catch (err) {
     console.error('handleUpdateDiagnosis error:', err);
     return jsonResponse({ error: '更新に失敗しました' }, 500);
+  }
+}
+
+async function handleDeleteDiagnosis(env, id) {
+  try {
+    const raw = await env.DIAGNOSES.get(`diag:${id}`);
+    if (!raw) return jsonResponse({ error: '診断結果が見つかりません' }, 404);
+    await env.DIAGNOSES.delete(`diag:${id}`);
+    return jsonResponse({ success: true });
+  } catch (err) {
+    console.error('handleDeleteDiagnosis error:', err);
+    return jsonResponse({ error: '削除に失敗しました' }, 500);
   }
 }
 
