@@ -258,9 +258,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .results-cta-disclaimer{margin-top:2rem;font-size:.8rem;opacity:.6;line-height:1.8}
 
     /* Retry */
-    .retry-section{text-align:center;padding:3rem 2rem;border-top:1px solid var(--gray-light)}
-    .btn-retry{background:var(--white);color:var(--green);border:2px solid var(--green);padding:.8rem 2rem;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .3s}
-    .btn-retry:hover{background:var(--green-light)}
+    .retry-section{text-align:center;padding:2.5rem 0 0}
+    .btn-retry{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.4);padding:.8rem 2.5rem;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .3s}
+    .btn-retry:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.7)}
 
     /* Footer */
     footer{background:var(--black);color:var(--white);padding:4rem 2rem 2rem}
@@ -278,7 +278,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .footer-bottom{padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:.75rem;color:rgba(255,255,255,.5)}
 
     @media(max-width:900px){.header-nav{display:none}.hamburger{display:block}.footer-grid{grid-template-columns:1fr}.footer-nav{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:600px){.url-input-group{flex-direction:column}.url-input-group .btn{width:100%}.features{grid-template-columns:1fr}.rating-hero{padding:6rem 1.5rem 3rem}.rating-symbol{font-size:4rem}.category-card-header{padding:1.2rem 1.5rem;flex-wrap:wrap;gap:.5rem .8rem}.category-title-wrap{flex-basis:100%}.category-card-body{padding:1.2rem 1.5rem}.cta-btn-group{flex-direction:column;align-items:center}.cta-card{max-width:100%}.results-cta-buttons{flex-direction:column}}
+    @media(max-width:600px){.url-input-group{flex-direction:column}.url-input-group .btn{width:100%}.features{grid-template-columns:1fr}.rating-hero{padding:7.5rem 1.5rem 3rem}.rating-symbol{font-size:4rem}.category-card-header{padding:1.2rem 1.5rem;flex-wrap:wrap;gap:.3rem .8rem}.category-title-wrap{flex:0 0 100%;order:3}.category-card-body{padding:1.2rem 1.5rem}.cta-btn-group{flex-direction:column;align-items:center}.cta-card{max-width:100%}.results-cta-buttons{flex-direction:column}}
   </style>
 </head>
 <body>
@@ -458,8 +458,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
     </div>
 
-    <!-- Retry -->
-    <div class="retry-section"><button class="btn-retry" id="retry-btn">別のURLを診断する</button></div>
   </section>
 
   <!-- CTA -->
@@ -478,6 +476,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
       <div class="cta-btn-group" id="cta-btn-group"></div>
       <p class="results-cta-disclaimer">この診断はAIを活用して作成しております。<br>診断結果は目安であり、実際の改善効果を保証するものではありません。</p>
+      <div class="retry-section"><button class="btn-retry" id="retry-btn">別のURLを診断する</button></div>
     </div>
   </section>
 
