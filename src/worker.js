@@ -3,7 +3,7 @@
 
 const CLAUDE_MODEL = 'claude-sonnet-4-5-20250929';
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
-const GEMINI_MODEL = 'gemini-2.5-flash';
+const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash'];
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/';
 
 export default {
@@ -1076,32 +1076,33 @@ async function handleReportPage(env, id) {
 // ========== Gemini API (Google AI) ==========
 
 async function callGeminiAPI(apiKey, userPrompt, timeoutMs = 30000) {
-  try {
-    console.log('Calling Gemini API with model:', GEMINI_MODEL);
+  let lastError = null;
 
-    // Try with google_search grounding first
-    const result = await callGeminiRaw(apiKey, userPrompt, timeoutMs, true);
+  // Try each model with google_search, then without
+  for (const model of GEMINI_MODELS) {
+    console.log('Trying Gemini model:', model, 'with google_search');
+
+    // Try with google_search grounding
+    const result = await callGeminiRaw(apiKey, model, userPrompt, timeoutMs, true);
     if (result.success) return result;
+    lastError = result.error;
+    console.log('Failed with google_search:', result.error);
 
-    // If google_search failed, try without it as fallback
-    console.log('Google Search grounding failed, trying without tools. Error:', result.error);
-    const fallback = await callGeminiRaw(apiKey, userPrompt, timeoutMs, false);
+    // Try without google_search
+    console.log('Trying Gemini model:', model, 'without tools');
+    const fallback = await callGeminiRaw(apiKey, model, userPrompt, timeoutMs, false);
     if (fallback.success) {
       fallback.searchGrounded = false;
       return fallback;
     }
-
-    return { success: false, error: result.error || fallback.error };
-  } catch (err) {
-    console.error('Gemini API call failed:', err);
-    if (err.name === 'AbortError') {
-      return { success: false, error: 'Google AI検索に時間がかかりすぎました。' };
-    }
-    return { success: false, error: 'Google AI検索中にエラーが発生しました。' };
+    lastError = fallback.error;
+    console.log('Failed without tools:', fallback.error);
   }
+
+  return { success: false, error: lastError || 'すべてのGoogle AIモデルで失敗しました。' };
 }
 
-async function callGeminiRaw(apiKey, userPrompt, timeoutMs, useGoogleSearch) {
+async function callGeminiRaw(apiKey, model, userPrompt, timeoutMs, useGoogleSearch) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -1115,7 +1116,7 @@ async function callGeminiRaw(apiKey, userPrompt, timeoutMs, useGoogleSearch) {
     }
 
     const response = await fetch(
-      `${GEMINI_API_URL}${GEMINI_MODEL}:generateContent?key=${apiKey}`,
+      `${GEMINI_API_URL}${model}:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
