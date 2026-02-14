@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KLXZ6ND');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WixからHTML＋Cloudflareに移行した記録と成果｜Ciras株式会社</title>
+  <meta name="description" content="Wixで作っていた自社サイトを、HTML＋CSSに書き換えてCloudflare Pagesに移行。表示速度・SEO・運用コストがどう変わったかを記録します。">
+    <link rel="canonical" href="https://www.ciras.jp/blog/260214-wix-migration">
+  <link rel="icon" href="../images/favicon.ico" sizes="any">
+  <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+  <meta property="og:title" content="WixからHTML＋Cloudflareに移行した記録と成果｜Ciras株式会社">
+  <meta property="og:description" content="Wixで作っていた自社サイトを、HTML＋CSSに書き換えてCloudflare Pagesに移行。表示速度・SEO・運用コストがどう変わったかを記録します。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.ciras.jp/blog/260214-wix-migration">
+  <meta property="og:image" content="https://www.ciras.jp/images/ogp.png">
+  <meta property="og:site_name" content="Ciras（シラス）株式会社">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="article:published_time" content="2026-02-14">
+  <meta property="article:author" content="杉本竜弥">
+  <meta property="article:section" content="Web運用">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WixからHTML＋Cloudflareに移行した記録と成果｜Ciras株式会社">
+  <meta name="twitter:description" content="Wixで作っていた自社サイトを、HTML＋CSSに書き換えてCloudflare Pagesに移行。表示速度・SEO・運用コストがどう変わったかを記録します。">
+  <meta name="twitter:image" content="https://www.ciras.jp/images/ogp.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "WixからHTML＋Cloudflareに移行した記録と成果",
+    "description": "Wixで作っていた自社サイトを、HTML＋CSSに書き換えてCloudflare Pagesに移行。表示速度・SEO・運用コストがどう変わったかを記録します。",
+    "url": "https://www.ciras.jp/blog/260214-wix-migration",
+    "datePublished": "2026-02-14",
+    "dateModified": "2026-02-14",
+    "author": {
+      "@type": "Person",
+      "name": "杉本竜弥",
+      "jobTitle": "代表取締役 AIコンサルタント",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Ciras（シラス）株式会社",
+        "alternateName": ["シラス", "シラス株式会社"],
+        "url": "https://www.ciras.jp"
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Ciras（シラス）株式会社",
+      "alternateName": ["シラス", "シラス株式会社", "Ciras Inc."],
+      "url": "https://www.ciras.jp",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.ciras.jp/images/logo-green.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.ciras.jp/blog/260214-wix-migration"
+    },
+    "articleSection": "Web運用",
+    "inLanguage": "ja",
+    "keywords": ["Wix", "Cloudflare Pages", "サイト移行", "表示速度", "HTML", "静的サイト", "中小企業"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://www.ciras.jp/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "ブログ",
+        "item": "https://www.ciras.jp/blog/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "WixからHTML＋Cloudflareに移行した記録と成果"
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root{--green:#2D5A27;--green-light:#E8F0E6;--black:#1A1A1A;--gray-dark:#4A4A4A;--gray:#888;--gray-light:#E5E5E5;--white:#FFF;--bg:#FAFAFA}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Noto Sans JP',sans-serif;font-weight:400;color:var(--black);line-height:1.9;background:var(--bg);font-size:15px;letter-spacing:.03em}.mincho{font-family:'Shippori Mincho',serif}a{color:inherit;text-decoration:none}
+    header{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--white);border-bottom:1px solid var(--gray-light);transition:box-shadow .3s}header.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}.header-inner{max-width:1200px;margin:0 auto;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}.logo{display:flex;align-items:center}.logo-img{height:32px;width:auto}.header-nav{display:flex;align-items:center;gap:2rem}.header-nav>a,.nav-dropdown-trigger{font-size:.85rem;font-weight:500;color:var(--black);transition:color .3s;cursor:pointer;background:none;border:none;font-family:inherit}.header-nav>a:hover,.nav-dropdown-trigger:hover{color:var(--green)}.header-nav>.header-contact{font-size:.8rem;color:var(--white)!important;background:var(--green);padding:.7rem 1.8rem;border-radius:4px;transition:all .3s;box-shadow:0 2px 8px rgba(45,90,39,.3);font-weight:600;letter-spacing:.05em}.header-nav>.header-contact:hover{opacity:.9;box-shadow:0 4px 12px rgba(45,90,39,.4);transform:translateY(-1px)}.nav-dropdown{position:relative}.nav-dropdown-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%);background:var(--white);border:1px solid var(--gray-light);border-radius:4px;box-shadow:0 8px 24px rgba(0,0,0,.1);min-width:160px;padding:.5rem 0;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;z-index:1001;margin-top:.5rem}.nav-dropdown:hover .nav-dropdown-menu{opacity:1;visibility:visible}.nav-dropdown-menu a{display:block;padding:.6rem 1.2rem;font-size:.85rem;color:var(--black);transition:background .2s,color .2s;white-space:nowrap}.nav-dropdown-menu a:hover{background:var(--green-light);color:var(--green)}.hamburger{display:none;background:none;border:none;cursor:pointer;padding:.5rem;z-index:1002}.hamburger span{display:block;width:22px;height:2px;background:var(--black);margin:5px 0;transition:transform .3s,opacity .3s}.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}.hamburger.active span:nth-child(2){opacity:0}.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}.mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--white);padding:5rem 2rem 2rem;z-index:999;overflow-y:auto;flex-direction:column;gap:.5rem}.mobile-nav.open{display:flex}.mobile-nav a{display:block;padding:.8rem 0;font-size:1rem;font-weight:500;color:var(--black);border-bottom:1px solid var(--gray-light)}.mobile-nav-group{padding:.5rem 0}.mobile-nav-label{font-size:.75rem;font-weight:600;color:var(--green);letter-spacing:.1em;margin-bottom:.3rem}.mobile-nav-group a{padding-left:1rem;font-size:.95rem}.mobile-nav-cta{margin-top:1rem;background:var(--green);color:var(--white)!important;text-align:center;padding:1rem!important;border-radius:2px;border-bottom:none!important}
+    .breadcrumb{padding:6rem 2rem 0;background:var(--white)}.breadcrumb-inner{max-width:800px;margin:0 auto;font-size:.8rem;color:var(--gray)}.breadcrumb-inner a{color:var(--gray);transition:color .3s}.breadcrumb-inner a:hover{color:var(--green)}
+    .article-header{background:var(--white);padding:2rem 2rem 3rem;text-align:center}.article-header-inner{max-width:800px;margin:0 auto}.article-tag{display:inline-block;font-size:.7rem;font-weight:600;color:var(--green);background:var(--green-light);padding:.2rem .8rem;border-radius:2px;margin-bottom:1rem}.article-title{font-family:'Shippori Mincho',serif;font-size:clamp(1.4rem,3.5vw,1.8rem);font-weight:600;margin-bottom:1rem;line-height:1.6}.article-meta{font-size:.8rem;color:var(--gray)}.article-meta time{margin-right:1rem}
+    .article-body{padding:0 2rem 4rem}.article-content{max-width:800px;margin:0 auto;background:var(--white);border-radius:4px;border:1px solid var(--gray-light);padding:3rem}.article-content h2{font-family:'Shippori Mincho',serif;font-size:1.3rem;font-weight:600;color:var(--black);margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:2px solid var(--green-light)}.article-content h3{font-size:1.05rem;font-weight:600;color:var(--green);margin:2rem 0 .8rem}.article-content p{margin-bottom:1.2rem;line-height:2;color:var(--gray-dark)}.article-content ul,.article-content ol{margin:1rem 0 1.5rem 1.5rem;color:var(--gray-dark)}.article-content li{margin-bottom:.5rem;line-height:1.9}.article-content strong{color:var(--black);font-weight:600}.article-content blockquote{border-left:3px solid var(--green);padding:1rem 1.5rem;margin:1.5rem 0;background:var(--green-light);border-radius:0 4px 4px 0;font-size:.9rem;color:var(--gray-dark)}
+    .article-author{max-width:800px;margin:0 auto 3rem;background:var(--white);border-radius:4px;border:1px solid var(--gray-light);padding:2rem;display:flex;gap:1.5rem;align-items:center}.article-author-info h4{font-size:.95rem;font-weight:600;margin-bottom:.3rem}.article-author-info p{font-size:.8rem;color:var(--gray-dark);line-height:1.8}.author-icon{width:60px;height:60px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--green);flex-shrink:0}
+    .article-cta{max-width:800px;margin:0 auto;text-align:center;padding:2.5rem;background:var(--green-light);border-radius:4px}.article-cta-text{font-size:.95rem;color:var(--gray-dark);margin-bottom:1.5rem;line-height:1.8}.article-cta-btn{display:inline-block;font-size:.9rem;font-weight:600;color:var(--white);background:var(--green);padding:1rem 2.5rem;border-radius:2px;transition:opacity .3s}.article-cta-btn:hover{opacity:.85}.article-back{display:block;text-align:center;margin-top:2rem;font-size:.85rem;color:var(--green);font-weight:500}
+    footer{background:var(--green);color:var(--white);padding:4rem 2rem 2rem}.footer-inner{max-width:1000px;margin:0 auto}.footer-grid{display:grid;grid-template-columns:1.5fr 2fr;gap:4rem;margin-bottom:3rem}.footer-brand{margin-bottom:1rem}.footer-logo-img{height:28px;width:auto}.footer-info{font-size:.8rem;color:rgba(255,255,255,.6);line-height:2;font-style:normal}.footer-info a{color:rgba(255,255,255,.6)}.footer-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}.footer-nav-title{font-size:.7rem;font-weight:600;letter-spacing:.15em;color:rgba(255,255,255,.5);margin-bottom:1rem}.footer-nav ul{list-style:none}.footer-nav li{margin-bottom:.5rem}.footer-nav a{font-size:.85rem;color:rgba(255,255,255,.8);transition:color .3s}.footer-nav a:hover{color:var(--white)}.footer-bottom{padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:.75rem;color:rgba(255,255,255,.5)}.tools-banner{background:var(--green-light);padding:4rem 2rem;text-align:center}.tools-banner-inner{max-width:800px;margin:0 auto}.tools-banner-label{font-size:.7rem;font-weight:600;letter-spacing:.2em;color:var(--green);margin-bottom:1rem}.tools-banner-title{font-size:1.5rem;margin-bottom:1rem;color:var(--black)}.tools-banner-text{color:var(--gray-dark);margin-bottom:2rem;font-size:.95rem}.tools-banner-buttons{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap}.tools-banner-btn{display:flex;flex-direction:column;align-items:center;background:var(--white);border:2px solid var(--green);border-radius:12px;padding:1.5rem 2.5rem;transition:all .3s;text-decoration:none;min-width:240px}.tools-banner-btn:hover{background:var(--green);transform:translateY(-2px);box-shadow:0 8px 25px rgba(45,90,39,.2)}.tools-banner-btn-name{font-size:1.05rem;font-weight:700;color:var(--green);margin-bottom:.3rem}.tools-banner-btn:hover .tools-banner-btn-name{color:var(--white)}.tools-banner-btn-desc{font-size:.8rem;color:var(--gray)}.tools-banner-btn:hover .tools-banner-btn-desc{color:rgba(255,255,255,.8)}
+    .comparison-table{width:100%;border-collapse:collapse;margin:1.5rem 0}.comparison-table th,.comparison-table td{padding:.8rem 1rem;border:1px solid var(--gray-light);font-size:.9rem;line-height:1.7}.comparison-table th{background:var(--green-light);font-weight:600;color:var(--black);text-align:left;white-space:nowrap}.comparison-table td{color:var(--gray-dark)}.comparison-table tr:nth-child(even){background:var(--bg)}
+    @media(max-width:900px){.header-nav{display:none}.hamburger{display:block}.article-content{padding:2rem 1.5rem}.article-author{flex-direction:column;text-align:center}.footer-grid{grid-template-columns:1fr}.footer-nav{grid-template-columns:repeat(2,1fr)}.comparison-table{font-size:.8rem}.comparison-table th,.comparison-table td{padding:.5rem .7rem}}
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLXZ6ND"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager -->
+
+  <header><div class="header-inner"><a href="../index.html" class="logo" aria-label="Ciras（シラス）株式会社 ホーム"><img src="../images/logo-green.png" alt="Ciras（シラス）株式会社" class="logo-img"></a><nav class="header-nav"><div class="nav-dropdown"><a href="#" class="nav-dropdown-trigger">サービス</a><div class="nav-dropdown-menu"><a href="../ai-komon.html">Ciras AI顧問</a><a href="../web.html">AI活用 Webサイト制作</a><a href="../kagemusha.html">影武者</a></div></div><a href="../seminar.html">セミナー</a><div class="nav-dropdown"><a href="../company.html" class="nav-dropdown-trigger">会社概要</a><div class="nav-dropdown-menu"><a href="../voice.html">お客様の声</a><a href="../faq.html">よくある質問</a></div></div><a href="../partner.html">採用・協業</a><div class="nav-dropdown"><a href="#" class="nav-dropdown-trigger">無料診断ツール</a><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/ai-check" target="_blank" rel="noopener">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check" target="_blank" rel="noopener">Webサイト状況チェッカー</a></div></div><a href="../contact.html" class="header-contact">お問い合わせ</a></nav><button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button></div><div class="mobile-nav"><div class="mobile-nav-group"><p class="mobile-nav-label">サービス</p><a href="../ai-komon.html">Ciras AI顧問</a><a href="../web.html">AI活用 Webサイト制作</a><a href="../kagemusha.html">影武者</a></div><a href="../seminar.html">セミナー</a><div class="mobile-nav-group"><p class="mobile-nav-label">会社概要</p><a href="../company.html">会社概要</a><a href="../voice.html">お客様の声</a><a href="../faq.html">よくある質問</a></div><a href="../partner.html">採用・協業</a><div class="mobile-nav-group"><p class="mobile-nav-label">無料診断ツール</p><a href="https://www.ciras.jp/ai-check" target="_blank" rel="noopener">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check" target="_blank" rel="noopener">Webサイト状況チェッカー</a></div><a href="index.html">ブログ</a><a href="../contact.html" class="mobile-nav-cta">お問い合わせ</a></div></header>
+
+  <nav class="breadcrumb" aria-label="パンくずリスト"><div class="breadcrumb-inner"><a href="../index.html">ホーム</a> &gt; <a href="index.html">ブログ</a> &gt; WixからHTML＋Cloudflareに移行した記録と成果</div></nav>
+
+  <section class="article-header"><div class="article-header-inner">
+    <span class="article-tag">Web運用</span>
+    <h1 class="article-title">WixからHTML＋Cloudflareに移行した記録と成果</h1>
+    <p class="article-meta"><time datetime="2026-02-14">2026.2.14</time></p>
+  </div></section>
+
+  <div class="article-body">
+    <article class="article-content">
+
+      <p>Ciras株式会社では、自社のコーポレートサイトをWixからHTML＋CSSに書き換え、Cloudflare Pagesに移行しました。この記事では、その経緯・作業内容・成果を記録します。</p>
+
+      <h2>なぜWixから移行したのか</h2>
+
+      <p>当社は創業当初からWixを使ってコーポレートサイトを運用していました。ドラッグ＆ドロップで手軽にページが作れる点は便利でしたが、事業が本格化するにつれていくつかの課題が目立つようになりました。</p>
+
+      <p>まず、<strong>表示速度の問題</strong>です。Wixで構築したサイトは、ページの読み込みに体感でも遅さを感じる場面がありました。特にスマートフォンでの初回表示に時間がかかり、PageSpeed Insightsのスコアも低い状態が続いていました。表示速度はSEOにもユーザー体験にも直結するため、無視できない課題でした。</p>
+
+      <p>次に、<strong>カスタマイズの限界</strong>です。JSON-LDによる構造化データの自由な記述、robots.txtの細かな制御、metaタグの柔軟な設定など、SEOやAEO（AI Engine Optimization）に必要な対応がWixの管理画面では十分にできませんでした。特にAI検索への対応として、GPTBotやPerplexityBotなどのAIクローラーをrobots.txtで明示的に許可する設定は、Wixでは自由に編集できません。</p>
+
+      <p>そして、<strong>月額コストの問題</strong>もありました。Wixの有料プラン（月額[要記入]円）を利用しており、独自ドメインの接続やストレージ容量のために毎月固定費が発生していました。静的なコーポレートサイトにしてはコストが高いと感じていました。</p>
+
+      <p>これらの課題を総合的に判断し、HTML＋CSSでサイトをゼロから書き直し、Cloudflare Pagesにホスティングする方針を決めました。Wixのようなノーコードツールの「手軽さ」よりも、「速度・自由度・コスト」を優先した判断です。</p>
+
+      <h2>移行の流れ</h2>
+
+      <h3>1. 現状サイトの棚卸し</h3>
+
+      <p>最初に取り組んだのは、既存サイトの棚卸しです。Wix上にあった全ページの一覧をスプレッドシートに書き出し、各ページのURL・コンテンツ内容・Google Analyticsでの流入状況を整理しました。不要なページや重複コンテンツはこの段階で思い切って削除し、移行対象を[要記入]ページに絞りました。また、お問い合わせフォームなど動的機能の代替手段も検討しました。棚卸し作業には約[要記入]日を要しました。ここで移行対象を明確にしたことで、後の作業がスムーズに進みました。</p>
+
+      <h3>2. HTML＋CSSでの再構築</h3>
+
+      <p>サイトの再構築にはAI（Claude）を活用しました。ページの構成案を作り、HTML＋CSSのコードをAIと対話しながら生成していくスタイルです。デザインはWix時代の雰囲気を踏襲しつつも、コードは完全に手書き（AIアシスト）のピュアなHTML＋CSSで構築しました。フレームワークやビルドツールは一切使わず、ブラウザでそのまま表示できるシンプルな構成にしています。SEO対策として、全ページにJSON-LD構造化データ・OGPタグ・適切なmeta情報を記述しました。再構築には約[要記入]日かかりました。</p>
+
+      <h3>3. Cloudflare Pagesへのデプロイ</h3>
+
+      <p>構築したHTMLファイル一式をGitHubリポジトリに格納し、Cloudflare Pagesと連携しました。GitHubにpushするだけで自動的にビルド・デプロイされる仕組みです。Cloudflare Pagesの無料プランでも独自ドメイン・SSL・CDNが標準で利用でき、静的サイトのホスティングには十分すぎる機能が揃っています。初回のデプロイ設定はCloudflareのダッシュボードからGitHubリポジトリを選択するだけで、[要記入]分程度で完了しました。ビルドコマンドも不要で、HTMLファイルをそのまま配信する最もシンプルな構成です。</p>
+
+      <h3>4. ドメイン移管とDNS設定</h3>
+
+      <p>独自ドメインのDNSをCloudflareに向ける設定を行いました。まずドメインのネームサーバーをCloudflareに変更し、次にCloudflare PagesのカスタムドメインとしてCNAMEレコードを追加します。SSL証明書はCloudflareが自動で発行・更新してくれるため、証明書の管理コストも不要です。DNS切り替え後、[要記入]時間程度で新サイトが表示されるようになりました。ネームサーバー変更の反映待ちが一番時間のかかる工程でしたが、それ以外は特にトラブルなく進みました。</p>
+
+      <h3>5. リダイレクトと動作確認</h3>
+
+      <p>旧サイト（Wix）と新サイトでURLの構造が異なる箇所があったため、Cloudflareの_redirectsファイルを使って301リダイレクトルールを設定しました。これにより、旧URLへのアクセスが新URLに自動転送されます。Google Search Consoleでは新しいサイトマップ（sitemap.xml）を送信し、各ページのインデックス状況を確認しました。加えて、お問い合わせフォームの動作テスト、全ページのリンク切れチェック、スマートフォンでの表示確認も実施し、[要記入]に動作確認を完了しました。</p>
+
+      <h2>移行後の成果</h2>
+
+      <p>移行前後で、以下のような変化がありました。</p>
+
+      <table class="comparison-table">
+        <tr>
+          <th>項目</th>
+          <th>Wix（移行前）</th>
+          <th>HTML＋Cloudflare（移行後）</th>
+        </tr>
+        <tr>
+          <td>表示速度（モバイル）</td>
+          <td>[要記入]秒</td>
+          <td>[要記入]秒</td>
+        </tr>
+        <tr>
+          <td>PageSpeed Insights（モバイル）</td>
+          <td>[要記入]点</td>
+          <td>[要記入]点</td>
+        </tr>
+        <tr>
+          <td>PageSpeed Insights（PC）</td>
+          <td>[要記入]点</td>
+          <td>[要記入]点</td>
+        </tr>
+        <tr>
+          <td>月額コスト</td>
+          <td>[要記入]円</td>
+          <td>0円（無料プラン）</td>
+        </tr>
+        <tr>
+          <td>robots.txt制御</td>
+          <td>制限あり</td>
+          <td>完全に自由</td>
+        </tr>
+        <tr>
+          <td>JSON-LD構造化データ</td>
+          <td>一部のみ</td>
+          <td>全ページに実装</td>
+        </tr>
+        <tr>
+          <td>AIクローラー対応</td>
+          <td>未対応</td>
+          <td>GPTBot等を明示的に許可</td>
+        </tr>
+      </table>
+
+      <p>表示速度は体感でも明らかに速くなりました。Wixでは読み込み中にレイアウトが崩れて表示される場面がありましたが、移行後はページが一瞬で表示されます。SEOへの影響については、[要記入]（順位変動やインデックス状況の変化があれば追記予定）。</p>
+
+      <p>また、AI検索への対応として、robots.txtで主要なAIクローラー（GPTBot、ChatGPT-User、Google-Extended、PerplexityBot、ClaudeBot、Applebot-Extended）をすべて許可し、全ページにJSON-LD構造化データを実装しました。これにより、AI検索エンジンがサイトの情報を正確に取得・理解しやすい状態になっています。</p>
+
+      <h2>移行してみての所感</h2>
+
+      <h3>良かった点</h3>
+
+      <ul>
+        <li><strong>表示速度の改善</strong>：余計なスクリプトが一切ないため、ページの表示が圧倒的に速くなりました。ユーザー体験が目に見えて向上しています。</li>
+        <li><strong>完全なコントロール</strong>：HTML・CSS・metaタグ・構造化データ・robots.txtなど、すべてを自分たちで自由に制御できるようになりました。SEOやAEO対応で「やりたいことができない」というストレスがなくなりました。</li>
+        <li><strong>ランニングコスト0円</strong>：Cloudflare Pagesの無料プランで運用しているため、ホスティング費用がゼロになりました。Wixの月額費用がそのまま削減されています。</li>
+        <li><strong>GitHubによるバージョン管理</strong>：サイトの変更履歴がすべてGitで管理されるため、過去の状態にいつでも戻せる安心感があります。</li>
+      </ul>
+
+      <h3>注意点</h3>
+
+      <ul>
+        <li><strong>HTML/CSSの知識が必要</strong>：ノーコードツールと異なり、ページの追加や修正にはHTML・CSSの知識が必要です。ただし、AIを活用すれば、コーディング経験が浅くてもかなりの部分を効率的に進められます。</li>
+        <li><strong>更新にGitの操作が必要</strong>：コンテンツの更新にはGitHubへのpush操作が必要です。CMSのような管理画面はないため、非エンジニアが日常的に更新するには少しハードルがあります。</li>
+        <li><strong>動的機能は別途対応が必要</strong>：お問い合わせフォームやチャット機能などの動的な機能は、外部サービス（Googleフォーム、LINE公式アカウント等）との連携で対応する必要があります。</li>
+      </ul>
+
+      <h3>向いているケース・向いていないケース</h3>
+
+      <p>この構成（HTML＋Cloudflare Pages）が<strong>向いているのは</strong>、ページ数が10〜20程度のコーポレートサイトやLP、ポートフォリオサイトなどで、表示速度とSEO/AEO対応を重視し、更新頻度が月数回程度の場合です。技術面はAIの力を借りることで、HTML/CSSの経験が浅くても十分に対応できます。</p>
+
+      <p>逆に<strong>向いていないのは</strong>、ブログや商品ページの更新が毎日のように発生するサイトや、非エンジニアの複数スタッフが頻繁にコンテンツを編集する必要がある場合です。そうした場合はWordPressやヘッドレスCMSなど、管理画面があるシステムのほうが適しています。自社の運用体制と更新頻度に合わせて選択することが重要です。</p>
+
+      <h2>まとめ</h2>
+
+      <ul>
+        <li><strong>Wixから静的HTML＋Cloudflare Pagesへの移行で、表示速度・SEO・コストのすべてが改善</strong>しました。</li>
+        <li><strong>AI（Claude）を活用した開発により、HTML＋CSSの再構築も効率的に</strong>進められました。</li>
+        <li><strong>robots.txtやJSON-LDを自由に制御できるようになり、AI検索時代への対応が完了</strong>しました。</li>
+      </ul>
+
+      <p>中小企業にとって、コーポレートサイトは24時間働く営業ツールです。表示速度の遅さやSEO対応の不十分さは、見えないところで機会損失を生んでいます。もし現在のサイトに課題を感じているなら、静的サイトへの移行は検討する価値のある選択肢です。</p>
+
+      <p>Cirasでは、同様のWebサイト制作・移行支援も行っています。「自社のサイトを見直したい」「表示速度やAI検索への対応が気になる」という方は、お気軽にご相談ください。</p>
+
+      <p style="text-align:center;margin-top:2rem"><a href="../web.html" style="display:inline-block;font-size:.9rem;font-weight:600;color:var(--white);background:var(--green);padding:1rem 2.5rem;border-radius:2px;transition:opacity .3s">AI活用 Webサイト制作の詳細はこちら</a></p>
+
+    </article>
+
+    <a href="index.html" class="article-back">&larr; ブログ一覧に戻る</a>
+  </div>
+
+  <section class="tools-banner fade-in"><div class="tools-banner-inner"><p class="tools-banner-label">FREE DIAGNOSTIC</p><h2 class="tools-banner-title mincho">まずは、現状を知ることから。</h2><p class="tools-banner-text">AIの活用度やWebサイトの状態を、30秒でセルフチェックできます。</p><div class="tools-banner-buttons"><a href="https://www.ciras.jp/ai-check" class="tools-banner-btn" target="_blank" rel="noopener"><span class="tools-banner-btn-name">AI活用レベル診断</span><span class="tools-banner-btn-desc">自社のAI活用度をチェック</span></a><a href="https://www.ciras.jp/web-check" class="tools-banner-btn" target="_blank" rel="noopener"><span class="tools-banner-btn-name">Webサイト状況診断</span><span class="tools-banner-btn-desc">AI検索への対応度をチェック</span></a></div></div></section>
+  <footer><div class="footer-inner"><div class="footer-grid"><div><p class="footer-brand"><a href="../index.html" aria-label="トップページへ"><img src="../images/logo-white.png" alt="Ciras（シラス）株式会社" class="footer-logo-img"></a></p><address class="footer-info">Ciras（シラス）株式会社<br>中小企業のAI活用を実務で支援<br>〒790-0813 愛媛県松山市萱町3-2-3 9CROSS 501<br>TEL: <a href="tel:050-3637-6324" style="color:inherit">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</address></div><nav class="footer-nav" aria-label="フッターナビゲーション"><div><p class="footer-nav-title">SERVICE</p><ul><li><a href="../ai-komon.html">Ciras AI顧問</a></li><li><a href="../web.html">AI活用 Webサイト制作</a></li><li><a href="../kagemusha.html">影武者</a></li><li><a href="../seminar.html">セミナー</a></li></ul></div><div><p class="footer-nav-title">COMPANY</p><ul><li><a href="../voice.html">お客様の声</a></li><li><a href="../faq.html">よくある質問</a></li><li><a href="../company.html">会社概要</a></li><li><a href="index.html">ブログ</a></li></ul></div><div><p class="footer-nav-title">CONTACT</p><ul><li><a href="../contact.html">お問い合わせ</a></li><li><a href="../partner.html">採用・協業</a></li><li><a href="https://lin.ee/s2u6VUw">LINE</a></li><li><a href="../privacy.html">プライバシーポリシー</a></li></ul></div></nav></div><div class="footer-bottom">&copy; 2026 Ciras Inc.（シラス株式会社）</div></div></footer>
+
+  <script>
+    (function(){var h=document.querySelector('header'),s=false;window.addEventListener('scroll',function(){if(window.scrollY>60&&!s){h.classList.add('scrolled');s=true}else if(window.scrollY<=60&&s){h.classList.remove('scrolled');s=false}},{passive:true})})();
+    (function(){var btn=document.querySelector('.hamburger'),nav=document.querySelector('.mobile-nav');if(btn&&nav){btn.addEventListener('click',function(){btn.classList.toggle('active');nav.classList.toggle('open');document.body.style.overflow=nav.classList.contains('open')?'hidden':''});nav.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){btn.classList.remove('active');nav.classList.remove('open');document.body.style.overflow=''})});}})();
+  </script>
+</body>
+</html>
