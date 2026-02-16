@@ -868,6 +868,97 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       color: var(--green);
     }
 
+    /* ===== BLOG ===== */
+    .blog-section {
+      padding: 5rem 2rem;
+      background: var(--white);
+    }
+
+    .blog-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .blog-card {
+      display: block;
+      background: var(--bg);
+      border: 1px solid var(--gray-light);
+      border-radius: 6px;
+      padding: 1.5rem;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+
+    .blog-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+
+    .blog-card-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--green);
+      background: var(--green-light);
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .blog-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      line-height: 1.7;
+      margin-bottom: 0.5rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .blog-card-excerpt {
+      font-size: 0.82rem;
+      color: var(--gray-dark);
+      line-height: 1.8;
+      margin-bottom: 0.8rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .blog-card-date {
+      font-size: 0.72rem;
+      color: var(--gray);
+    }
+
+    .blog-more {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .blog-more a {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--green);
+      border: 1px solid var(--green);
+      padding: 0.7rem 2.5rem;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .blog-more a:hover {
+      background: var(--green);
+      color: var(--white);
+    }
+
     /* ===== CTA ===== */
     .cta {
       padding: 6rem 2rem;
@@ -1028,6 +1119,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       }
 
       .free-tools-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .blog-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -1522,6 +1617,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p class="free-tool-desc">あなたのWebサイトがAI検索時代に対応できているか診断。URLを入力すると100点満点でスコア評価します。</p>
           <span class="free-tool-link">無料で診断する →</span>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section class="blog-section fade-in">
+    <div class="blog-inner">
+      <div class="section-header">
+        <p class="section-label">BLOG</p>
+        <h2 class="section-title mincho">ブログ</h2>
+      </div>
+      <div class="blog-grid">
+        <a href="/blog/260214-ai-search-guide" class="blog-card">
+          <span class="blog-card-tag">Web運用</span>
+          <h3 class="blog-card-title">中小企業がAI検索で見つけてもらうためにやるべきこと</h3>
+          <p class="blog-card-excerpt">ChatGPTやPerplexityなどのAI検索で自社が引用されるために。中小企業が今すぐ始められるAI検索対策（AEO）を実務目線で解説。</p>
+          <span class="blog-card-date">2026.2.14</span>
+        </a>
+        <a href="/blog/260214-wix-migration" class="blog-card">
+          <span class="blog-card-tag">Web運用</span>
+          <h3 class="blog-card-title">WixからHTML＋Cloudflareに移行した記録と成果</h3>
+          <p class="blog-card-excerpt">Wixで作っていた自社サイトをHTML＋CSSに書き換えてCloudflare Pagesに移行。表示速度・SEO・運用コストがどう変わったか。</p>
+          <span class="blog-card-date">2026.2.14</span>
+        </a>
+        <a href="/blog/shindan-tool-release" class="blog-card">
+          <span class="blog-card-tag">お知らせ</span>
+          <h3 class="blog-card-title">無料診断ツールを公開しました</h3>
+          <p class="blog-card-excerpt">「AI活用レベル診断」と「Webサイト状況診断」の2つの無料ツールを公開。質問に答えるだけで、AIがその場で診断します。</p>
+          <span class="blog-card-date">2026.2.12</span>
+        </a>
+      </div>
+      <div class="blog-more">
+        <a href="/blog/">記事をもっと見る →</a>
       </div>
     </div>
   </section>
