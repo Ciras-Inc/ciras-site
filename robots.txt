@@ -21,3 +21,8 @@ User-agent: Applebot-Extended
 Allow: /
 
 Sitemap: https://www.ciras.jp/sitemap.xml
+
+# LLMs.txt - AI model information files
+# https://llmstxt.org/
+# llms.txt: https://www.ciras.jp/llms.txt
+# llms-full.txt: https://www.ciras.jp/llms-full.txt

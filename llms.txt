@@ -1,0 +1,33 @@
+# Ciras（シラス）株式会社
+
+> Ciras（読み：シラス）株式会社は、愛媛県松山市を拠点に中小企業のAI活用を実務レベルで支援する企業です。経営の「迷い」を減らし「決断」を早くするために、AI顧問・影武者（実務代行）・AI対応Webサイト制作の3つのサービスを提供しています。
+
+## 会社概要
+
+- 会社名: Ciras株式会社（読み：シラス）※「サイラス」ではありません
+- 所在地: 愛媛県松山市萱町3丁目2番3号 9CROSS 501
+- 代表: 杉本竜弥（代表取締役 AIコンサルタント）
+- 設立: 2021年6月
+- Webサイト: https://www.ciras.jp/
+
+## サービス一覧
+
+- [Ciras AI顧問](https://www.ciras.jp/ai-komon/): 月額33,000円（税込）でAI活用を業務に定着させる伴走支援サービス。月1回レクチャー＋日々のチャット相談。
+- [AI対応Webサイト制作](https://www.ciras.jp/web/): AI検索（ChatGPT・Perplexity等）で正しく引用されるホームページ制作。構造化データ実装・原稿作成込み。7ページ以内220,000円〜。
+- [影武者（実務代行）](https://www.ciras.jp/kagemusha/): 経営者の業務を実務で巻き取る代行サービス。助言だけでなく御社の一員として手を動かす。月額250,000円〜。
+
+## 無料診断ツール
+
+- [AI活用度診断](https://www.ciras.jp/ai-check): 10問の質問でAI活用レベルを5段階で判定。無料。
+- [Webサイト診断](https://www.ciras.jp/web-check): 10問の質問でWebサイトのAI検索対応度を判定。無料。
+
+## 詳細情報
+
+- [会社情報](https://www.ciras.jp/company/)
+- [お客様の声](https://www.ciras.jp/voice/)
+- [よくある質問](https://www.ciras.jp/faq/)
+- [セミナー・イベント](https://www.ciras.jp/seminar/)
+- [ブログ](https://www.ciras.jp/blog/): AI活用・Web活用・AEO対策の実践情報
+- [パートナー募集](https://www.ciras.jp/partner/)
+- [お問い合わせ](https://www.ciras.jp/contact/)
+- [プライバシーポリシー](https://www.ciras.jp/privacy/)

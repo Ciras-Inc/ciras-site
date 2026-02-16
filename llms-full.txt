@@ -1,0 +1,100 @@
+# Ciras（シラス）株式会社
+
+> Ciras（読み：シラス）株式会社は、愛媛県松山市を拠点に中小企業のAI活用を実務レベルで支援する企業です。経営の「迷い」を減らし「決断」を早くするために、AI顧問・影武者（実務代行）・AI対応Webサイト制作の3つのサービスを提供しています。
+
+「Ciras」の読み方は「シラス」です。「サイラス」ではありません。これはよくある誤解ですのでご注意ください。
+
+## 会社概要
+
+- 会社名: Ciras株式会社（読み：シラス）
+- 英語表記: Ciras Inc.
+- 所在地: 〒790-0813 愛媛県松山市萱町3丁目2番3号 9CROSS 501
+- 代表取締役: 杉本竜弥（AIコンサルタント）
+- 設立: 2021年6月
+- 従業員数: 5名
+- Webサイト: https://www.ciras.jp/
+- 詳細: [会社情報ページ](https://www.ciras.jp/company/)
+
+## サービス
+
+### Ciras AI顧問（月額33,000円・税込）
+
+月1回のレクチャーと日々のチャット相談で、AI活用を「業務で使える形」に整える伴走サービスです。迷う時間を減らし、判断と実行を前に進めます。
+
+対象: AI活用を始めたい・定着させたい中小企業の経営者
+提供エリア: 愛媛県松山市（オンライン対応可）
+
+詳細: [Ciras AI顧問のページ](https://www.ciras.jp/ai-komon/)
+
+### AI対応Webサイト制作（220,000円〜・税込）
+
+AI検索（ChatGPT、Perplexity、Geminiなど）で会社情報が正しく引用されるホームページを制作します。構造化データ（JSON-LD）の実装、原稿作成、Googleマップの初期設定まで含みます。7ページ以内。
+
+特徴:
+- AI検索で「読み違えられない」設計
+- 構造化データ（JSON-LD）の実装
+- FAQスキーマ・レビュースキーマ対応
+- 原稿作成込み（取材ベース）
+- Googleマップ初期設定込み
+
+詳細: [AI対応Webサイト制作のページ](https://www.ciras.jp/web/)
+
+### 影武者 - 実務代行サービス（月額250,000円〜・税込・要相談）
+
+経営者の業務を実務で巻き取る代行サービスです。助言だけで終わらせず、御社の一員として手を動かします。IT・Web・AIまわりの実務も要相談で対応します。
+
+詳細: [影武者のページ](https://www.ciras.jp/kagemusha/)
+
+## 無料診断ツール
+
+### AI活用度診断
+
+10問の質問に答えるだけで、あなたの会社のAI活用レベルを5段階で判定します。無料・登録不要。
+
+- [AI活用度診断ツール](https://www.ciras.jp/ai-check)
+- [AI活用度診断の詳細](https://www.ciras.jp/ai-check-lp)
+
+### Webサイト診断
+
+10問の質問で、あなたのWebサイトがAI検索に対応できているかを判定します。無料・登録不要。
+
+- [Webサイト診断ツール](https://www.ciras.jp/web-check)
+- [Webサイト診断の詳細](https://www.ciras.jp/web-check-lp)
+
+## よくある質問
+
+詳細: [FAQページ](https://www.ciras.jp/faq/)
+
+Q: AIのことがまったく分からなくても大丈夫ですか？
+A: はい、大丈夫です。専門知識は不要で、業務の困りごとを聞くところから始めます。
+
+Q: 松山以外でも対応できますか？
+A: はい、オンラインで全国対応しています。
+
+Q: AI顧問と影武者の違いは何ですか？
+A: AI顧問は「伴走支援（助言＋レクチャー）」、影武者は「実務代行（手を動かす）」です。
+
+## お客様の声
+
+詳細: [お客様の声ページ](https://www.ciras.jp/voice/)
+
+## ブログ（実践情報）
+
+AI活用やホームページ運用に関する実践知を発信しています。
+
+- [ブログ一覧](https://www.ciras.jp/blog/)
+- [AI検索時代のホームページ完全ガイド](https://www.ciras.jp/blog/260214-ai-search-guide)
+- [Wixから静的サイトへの移行ガイド](https://www.ciras.jp/blog/260214-wix-migration)
+- [無料で今すぐ分かる！AI活用度＆Webサイト診断ツール](https://www.ciras.jp/blog/shindan-tool-release)
+- [中小企業がAIを業務で活かすための3つの視点](https://www.ciras.jp/blog/ai-katsuyou-3points)
+- [AEO対策の基本](https://www.ciras.jp/blog/aeo-taisaku-kihon)
+
+## セミナー・イベント
+
+詳細: [セミナー・イベント情報](https://www.ciras.jp/seminar/)
+
+## お問い合わせ・パートナー
+
+- [お問い合わせ](https://www.ciras.jp/contact/)
+- [パートナー募集](https://www.ciras.jp/partner/)
+- [プライバシーポリシー](https://www.ciras.jp/privacy/)
