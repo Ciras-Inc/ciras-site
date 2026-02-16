@@ -71,6 +71,15 @@ export default {
       return handleReportPage(env, id);
     }
 
+    // Blog page routing
+    if (path === '/blog' || path === '/blog/') {
+      return env.ASSETS.fetch(new Request(new URL('/blog/index.html', url.origin), request));
+    }
+    if (path.match(/^\/blog\/[\w-]+$/) && !path.startsWith('/blog/index')) {
+      const blogAsset = await env.ASSETS.fetch(new Request(new URL(path + '.html', url.origin), request));
+      if (blogAsset.status !== 404) return blogAsset;
+    }
+
     // Static assets (fallthrough)
     return env.ASSETS.fetch(request);
   }
