@@ -21,6 +21,10 @@
 - [AI活用度診断](https://www.ciras.jp/ai-check): 10問の質問でAI活用レベルを5段階で判定。無料。
 - [Webサイト診断](https://www.ciras.jp/web-check): 10問の質問でWebサイトのAI検索対応度を判定。無料。
 
+## 課題から探す
+
+- [課題から探す](https://www.ciras.jp/needs): 採用難・AI導入失敗・廃業検討・事業承継・暗黙知消失など、他社が手をつけない10の経営課題に対するCirasの支援内容を紹介。
+
 ## 詳細情報
 
 - [会社情報](https://www.ciras.jp/company/)

@@ -25,6 +25,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://www.ciras.jp/needs</loc>
+    <lastmod>2026-02-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.ciras.jp/seminar/</loc>
     <lastmod>2026-02-14</lastmod>
     <changefreq>weekly</changefreq>
