@@ -5249,3 +5249,192 @@ ul, ol {
     padding: 1.2rem 1.5rem;
   }
 }
+
+/* ============================================================
+   PRIVACY PAGE
+   ============================================================ */
+
+/* Page nav (sticky tabs) */
+.page-privacy-nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-light);
+  padding: 0 2rem;
+  position: sticky;
+  top: 70px;
+  z-index: 100;
+}
+
+.page-privacy-nav-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 0;
+}
+
+.page-privacy-nav a {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gray);
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+}
+
+.page-privacy-nav a:hover,
+.page-privacy-nav a.active {
+  color: var(--green);
+  border-bottom-color: var(--green);
+}
+
+/* Policy content */
+.page-privacy-policy {
+  background: var(--white);
+}
+
+.page-privacy-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-privacy-lead {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  line-height: 2;
+  margin-bottom: 3rem;
+}
+
+.page-privacy-section {
+  margin-bottom: 2.5rem;
+}
+
+.page-privacy-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.page-privacy-text {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  line-height: 2;
+  margin-bottom: 0.8rem;
+}
+
+.page-privacy-link {
+  color: var(--green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.page-privacy-list {
+  list-style: none;
+  margin: 0.5rem 0 0.8rem;
+}
+
+.page-privacy-list li {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  line-height: 2;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.page-privacy-list li::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+}
+
+.page-privacy-date {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--gray-light);
+}
+
+.page-privacy-date p {
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+
+.page-privacy-company {
+  margin-top: 1.5rem;
+}
+
+.page-privacy-company p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  line-height: 2;
+}
+
+/* Tokusho section */
+.page-privacy-tokusho {
+  background: var(--bg);
+}
+
+.page-privacy-tokusho-table {
+  margin: 0;
+  border-top: 3px solid var(--green);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.page-privacy-tokusho-table dl {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+}
+
+.page-privacy-tokusho-table dt,
+.page-privacy-tokusho-table dd {
+  padding: 1rem 1.2rem;
+  font-size: 0.9rem;
+  line-height: 2;
+  border-bottom: 1px solid var(--gray-light);
+  margin: 0;
+}
+
+.page-privacy-tokusho-table dt {
+  font-weight: 600;
+  color: var(--black);
+  background: var(--green-light);
+}
+
+.page-privacy-tokusho-table dd {
+  color: var(--text-light);
+  background: var(--white);
+}
+
+.page-privacy-tokusho-table dd a {
+  color: var(--green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Privacy responsive */
+@media (max-width: 900px) {
+  .page-privacy-nav a {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-privacy-tokusho-table dl {
+    grid-template-columns: 1fr;
+  }
+
+  .page-privacy-tokusho-table dt {
+    padding-bottom: 0.3rem;
+    border-bottom: none;
+  }
+
+  .page-privacy-tokusho-table dd {
+    padding-top: 0;
+  }
+}
