@@ -188,17 +188,18 @@ ul, ol {
 }
 
 /* Header CTA */
-.header-cta {
+.header-nav > a.header-cta {
   font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--white) !important;
+  font-weight: 600;
+  color: var(--white);
   background: var(--green);
   padding: 0.6rem 1.5rem;
   border-radius: var(--radius);
   transition: background 0.3s;
+  letter-spacing: 0.03em;
 }
 
-.header-cta:hover {
+.header-nav > a.header-cta:hover {
   background: var(--green-hover);
 }
 
