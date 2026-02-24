@@ -308,7 +308,7 @@ ul, ol {
 }
 
 .section-label {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.2em;
   color: var(--green);
@@ -316,8 +316,8 @@ ul, ol {
 }
 
 .section-title {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 600;
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 700;
   color: var(--black);
 }
 
@@ -1062,6 +1062,39 @@ ul, ol {
   flex-wrap: wrap;
 }
 
+/* Page CTA（company / voice / faq） */
+.page-cta {
+  padding: var(--section-padding) 2rem;
+  background: var(--green-light);
+  text-align: center;
+}
+
+.page-cta-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.page-cta-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 1rem;
+}
+
+.page-cta-text {
+  font-size: 1.05rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+  line-height: 2;
+}
+
+.page-cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 /* ============================================================
    FOOTER（全ページ共通）
    ============================================================ */
@@ -1239,20 +1272,11 @@ ul, ol {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .free-tools-grid {
-    grid-template-columns: 1fr;
-  }
-
   .blog-grid {
     grid-template-columns: 1fr;
   }
-}
 
   /* Service detail pages */
-  .page-hero-inner {
-    text-align: center;
-  }
-
   .page-service-grid {
     grid-template-columns: 1fr;
   }
@@ -1295,14 +1319,162 @@ ul, ol {
   }
 }
 
-@media (max-width: 600px) {
+/* ============================================================
+   MOBILE OPTIMIZATION (768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 48px;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .hero-inner {
+    padding: 2rem 1.5rem;
+    gap: 2rem;
+  }
+
   .hero-accent-text {
-    font-size: 5rem;
+    font-size: 6rem;
+  }
+
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .page-hero {
+    padding: 5rem 1.5rem 2.5rem;
+  }
+
+  .page-section {
+    padding: var(--section-padding) 1.5rem;
+  }
+
+  .page-service-card {
+    padding: 1.2rem;
+  }
+
+  .page-reason-block {
+    padding: 1.2rem;
+  }
+
+  .page-examples-category {
+    padding: 1rem;
+  }
+
+  .page-flow-item {
+    padding: 1rem;
+  }
+
+  .page-about-lead {
+    font-size: 1.2rem;
+  }
+
+  .page-about-feature {
+    padding: 1rem;
+  }
+
+  .page-pricing-main-includes {
+    padding: 1.2rem;
+  }
+
+  .page-pricing-option {
+    padding: 1rem;
+  }
+
+  .page-faq-question {
+    padding: 1rem 1.2rem;
+  }
+
+  .page-faq-answer {
+    padding: 0 1.2rem 1rem 2.5rem;
+  }
+
+  .page-tools-banner {
+    padding: var(--section-padding) 1.5rem;
+  }
+
+  .page-tools-banner-btn {
+    padding: 1.2rem 2rem;
+    min-width: auto;
+    width: 100%;
+  }
+
+  .cta {
+    padding: var(--section-padding) 1.5rem;
+  }
+
+  .page-cta {
+    padding: var(--section-padding) 1.5rem;
+  }
+
+  .site-footer {
+    padding: 2.5rem 1.5rem 1.5rem;
+  }
+
+  .seminar-inner {
+    gap: 1.5rem;
+  }
+
+  .page-needs-card {
+    padding: 1.2rem 1rem;
+  }
+
+  .page-company-mission {
+    padding: var(--section-padding) 1.5rem;
+  }
+
+  .page-faq-category {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --section-padding: 36px;
+  }
+
+  .hero-accent-text {
+    font-size: 4rem;
+  }
+
+  .hero-inner {
+    padding: 1.5rem 1rem;
+  }
+
+  .page-hero {
+    padding: 4rem 1rem 2rem;
+  }
+
+  .page-section {
+    padding: var(--section-padding) 1rem;
+  }
+
+  .section-header {
+    margin-bottom: 1.2rem;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+  }
+
+  .page-hero-title {
+    font-size: 1.6rem;
+  }
+
+  .page-hero-service {
+    font-size: 1.4rem;
   }
 
   .problem-list {
     flex-direction: column;
     align-items: center;
+  }
+
+  .free-tools-grid {
+    grid-template-columns: 1fr;
   }
 
   .seminar-photos {
@@ -1336,6 +1508,47 @@ ul, ol {
   .page-pricing-main-price {
     text-align: center;
   }
+
+  .page-service-card {
+    padding: 1rem;
+  }
+
+  .page-reason-block {
+    padding: 1rem;
+  }
+
+  .page-tools-banner {
+    padding: var(--section-padding) 1rem;
+  }
+
+  .page-tools-banner-title {
+    font-size: 1.3rem;
+  }
+
+  .cta {
+    padding: var(--section-padding) 1rem;
+  }
+
+  .page-cta {
+    padding: var(--section-padding) 1rem;
+  }
+
+  .page-cta-title {
+    font-size: 1.3rem;
+  }
+
+  .cta-title {
+    font-size: 1.3rem;
+  }
+
+  .site-footer {
+    padding: 2rem 1rem 1rem;
+  }
+
+  .footer-nav {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
 
 /* ============================================================
@@ -1351,6 +1564,7 @@ ul, ol {
 .page-hero-inner {
   max-width: 900px;
   margin: 0 auto;
+  text-align: center;
   opacity: 0;
   transform: translateY(30px);
   animation: heroIn 0.9s ease 0.2s forwards;
@@ -1365,24 +1579,26 @@ ul, ol {
 }
 
 .page-hero-service {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.8rem;
+  font-weight: 700;
   color: var(--black);
   margin-bottom: 1.5rem;
 }
 
 .page-hero-lead {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--text-light);
   line-height: 2;
   margin-bottom: 2rem;
-  max-width: 640px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .page-hero-title {
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-size: clamp(2rem, 4.5vw, 3rem);
   font-weight: 700;
-  line-height: 1.6;
+  line-height: 1.5;
   color: var(--black);
   margin-bottom: 1.5rem;
 }
@@ -1394,6 +1610,7 @@ ul, ol {
 .page-hero-price {
   display: flex;
   align-items: baseline;
+  justify-content: center;
   gap: 0.8rem;
   flex-wrap: wrap;
 }
@@ -1457,16 +1674,16 @@ ul, ol {
 }
 
 .page-problem-text {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   line-height: 1.8;
 }
 
 .page-problem-footer {
-  text-align: center;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius);
-  font-size: 0.95rem;
+  text-align: left;
+  padding: 1.5rem 0 0;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 1.05rem;
   line-height: 2;
 }
 
@@ -1497,20 +1714,20 @@ ul, ol {
 }
 
 .page-service-card-title {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.8rem;
 }
 
 .page-service-card-desc {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--text-light);
   line-height: 1.9;
 }
 
 .page-service-notes {
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--gray);
   line-height: 2;
 }
@@ -1518,7 +1735,7 @@ ul, ol {
 /* Examples / Consultation Grid */
 .page-examples-intro {
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   color: var(--text-light);
   margin-bottom: 2rem;
   line-height: 2;
@@ -1547,7 +1764,7 @@ ul, ol {
 }
 
 .page-examples-category li {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--text-light);
   padding: 0.4rem 0;
   padding-left: 1rem;
@@ -1585,7 +1802,7 @@ ul, ol {
 }
 
 .page-reason-list li {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--text-light);
   padding: 0.5rem 0;
   padding-left: 1.2rem;
@@ -1666,7 +1883,7 @@ ul, ol {
 }
 
 .page-pricing-main-includes li {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--text-light);
   padding: 0.4rem 0;
   padding-left: 1.5rem;
@@ -1783,7 +2000,7 @@ ul, ol {
 }
 
 .page-pricing-includes-list li {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--text-light);
   padding-left: 1.2rem;
   position: relative;
@@ -1812,7 +2029,7 @@ ul, ol {
 }
 
 .page-flow-item-step {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--green);
   letter-spacing: 0.1em;
@@ -1820,13 +2037,13 @@ ul, ol {
 }
 
 .page-flow-item-title {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
 .page-flow-item-desc {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--text-light);
   line-height: 1.8;
 }
@@ -1847,7 +2064,7 @@ ul, ol {
 
 .page-faq-question {
   padding: 1.2rem 1.5rem;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 500;
   display: flex;
   align-items: flex-start;
@@ -1862,7 +2079,7 @@ ul, ol {
 
 .page-faq-answer {
   padding: 0 1.5rem 1.2rem 3rem;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--text-light);
   line-height: 2;
 }
@@ -1936,8 +2153,8 @@ ul, ol {
 }
 
 .page-tools-banner-title {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.8rem;
+  font-weight: 700;
   margin-bottom: 1rem;
   color: var(--black);
 }
@@ -1945,7 +2162,7 @@ ul, ol {
 .page-tools-banner-text {
   color: var(--text-light);
   margin-bottom: 2rem;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
 }
 
 .page-tools-banner-buttons {
@@ -2008,7 +2225,7 @@ ul, ol {
 }
 
 .page-future-content {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   line-height: 2.2;
   color: rgba(255, 255, 255, 0.85);
 }
@@ -2024,23 +2241,23 @@ ul, ol {
 
 .page-future-highlight {
   margin-top: 2rem;
-  padding: 1.5rem;
-  background: var(--green);
-  border-radius: var(--radius);
-  text-align: center;
-  font-weight: 500;
+  padding: 1.2rem 0 0;
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
 /* About (service page variant) */
 .page-about-lead {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
   line-height: 1.8;
   margin-bottom: 1.5rem;
 }
 
 .page-about-text {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   color: var(--text-light);
   line-height: 2;
   margin-bottom: 1.5rem;
@@ -2066,14 +2283,14 @@ ul, ol {
 }
 
 .page-about-feature-title {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--green);
   margin-bottom: 0.5rem;
 }
 
 .page-about-feature-desc {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--text-light);
   line-height: 1.8;
 }
@@ -2117,13 +2334,12 @@ ul, ol {
 /* About Highlight Box */
 .page-about-highlight {
   margin-top: 2rem;
-  padding: 1.5rem;
-  background: var(--green);
-  color: var(--white);
-  border-radius: var(--radius);
-  text-align: center;
-  font-weight: 500;
-  font-size: 0.95rem;
+  padding: 1.2rem 0 0;
+  border-top: 2px solid var(--green);
+  color: var(--green);
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
 /* Pricing Includes text (non-list variant) */
@@ -3366,6 +3582,10 @@ ul, ol {
     grid-template-columns: 1fr;
   }
 
+  .page-contact-method {
+    padding: 1.5rem;
+  }
+
   .page-contact-info-grid {
     grid-template-columns: 1fr;
   }
@@ -3393,7 +3613,7 @@ ul, ol {
 }
 
 .diag-hero-desc {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   color: var(--text-light);
   line-height: 2;
 }
