@@ -1062,6 +1062,39 @@ ul, ol {
   flex-wrap: wrap;
 }
 
+/* Page CTA（company / voice / faq） */
+.page-cta {
+  padding: var(--section-padding) 2rem;
+  background: var(--green-light);
+  text-align: center;
+}
+
+.page-cta-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.page-cta-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 1rem;
+}
+
+.page-cta-text {
+  font-size: 1.05rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+  line-height: 2;
+}
+
+.page-cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 /* ============================================================
    FOOTER（全ページ共通）
    ============================================================ */
@@ -3392,7 +3425,7 @@ ul, ol {
 }
 
 .diag-hero-desc {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   color: var(--text-light);
   line-height: 2;
 }
