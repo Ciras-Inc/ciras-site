@@ -308,7 +308,7 @@ ul, ol {
 }
 
 .section-label {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.2em;
   color: var(--green);
@@ -316,8 +316,8 @@ ul, ol {
 }
 
 .section-title {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 600;
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 700;
   color: var(--black);
 }
 
@@ -1245,10 +1245,6 @@ ul, ol {
 }
 
   /* Service detail pages */
-  .page-hero-inner {
-    text-align: center;
-  }
-
   .page-service-grid {
     grid-template-columns: 1fr;
   }
@@ -1351,6 +1347,7 @@ ul, ol {
 .page-hero-inner {
   max-width: 900px;
   margin: 0 auto;
+  text-align: center;
   opacity: 0;
   transform: translateY(30px);
   animation: heroIn 0.9s ease 0.2s forwards;
@@ -1365,24 +1362,26 @@ ul, ol {
 }
 
 .page-hero-service {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.8rem;
+  font-weight: 700;
   color: var(--black);
   margin-bottom: 1.5rem;
 }
 
 .page-hero-lead {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--text-light);
   line-height: 2;
   margin-bottom: 2rem;
-  max-width: 640px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .page-hero-title {
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-size: clamp(2rem, 4.5vw, 3rem);
   font-weight: 700;
-  line-height: 1.6;
+  line-height: 1.5;
   color: var(--black);
   margin-bottom: 1.5rem;
 }
@@ -1394,6 +1393,7 @@ ul, ol {
 .page-hero-price {
   display: flex;
   align-items: baseline;
+  justify-content: center;
   gap: 0.8rem;
   flex-wrap: wrap;
 }
@@ -1457,16 +1457,16 @@ ul, ol {
 }
 
 .page-problem-text {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   line-height: 1.8;
 }
 
 .page-problem-footer {
-  text-align: center;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius);
-  font-size: 0.95rem;
+  text-align: left;
+  padding: 1.5rem 0 0;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 1.05rem;
   line-height: 2;
 }
 
@@ -1497,20 +1497,20 @@ ul, ol {
 }
 
 .page-service-card-title {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.8rem;
 }
 
 .page-service-card-desc {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--text-light);
   line-height: 1.9;
 }
 
 .page-service-notes {
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--gray);
   line-height: 2;
 }
@@ -1518,7 +1518,7 @@ ul, ol {
 /* Examples / Consultation Grid */
 .page-examples-intro {
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   color: var(--text-light);
   margin-bottom: 2rem;
   line-height: 2;
@@ -1547,7 +1547,7 @@ ul, ol {
 }
 
 .page-examples-category li {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--text-light);
   padding: 0.4rem 0;
   padding-left: 1rem;
@@ -1585,7 +1585,7 @@ ul, ol {
 }
 
 .page-reason-list li {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--text-light);
   padding: 0.5rem 0;
   padding-left: 1.2rem;
@@ -1666,7 +1666,7 @@ ul, ol {
 }
 
 .page-pricing-main-includes li {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--text-light);
   padding: 0.4rem 0;
   padding-left: 1.5rem;
@@ -1783,7 +1783,7 @@ ul, ol {
 }
 
 .page-pricing-includes-list li {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--text-light);
   padding-left: 1.2rem;
   position: relative;
@@ -1812,7 +1812,7 @@ ul, ol {
 }
 
 .page-flow-item-step {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--green);
   letter-spacing: 0.1em;
@@ -1820,13 +1820,13 @@ ul, ol {
 }
 
 .page-flow-item-title {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
 .page-flow-item-desc {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--text-light);
   line-height: 1.8;
 }
@@ -1847,7 +1847,7 @@ ul, ol {
 
 .page-faq-question {
   padding: 1.2rem 1.5rem;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 500;
   display: flex;
   align-items: flex-start;
@@ -1862,7 +1862,7 @@ ul, ol {
 
 .page-faq-answer {
   padding: 0 1.5rem 1.2rem 3rem;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--text-light);
   line-height: 2;
 }
@@ -1936,8 +1936,8 @@ ul, ol {
 }
 
 .page-tools-banner-title {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.8rem;
+  font-weight: 700;
   margin-bottom: 1rem;
   color: var(--black);
 }
@@ -1945,7 +1945,7 @@ ul, ol {
 .page-tools-banner-text {
   color: var(--text-light);
   margin-bottom: 2rem;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
 }
 
 .page-tools-banner-buttons {
@@ -2008,7 +2008,7 @@ ul, ol {
 }
 
 .page-future-content {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   line-height: 2.2;
   color: rgba(255, 255, 255, 0.85);
 }
@@ -2024,23 +2024,23 @@ ul, ol {
 
 .page-future-highlight {
   margin-top: 2rem;
-  padding: 1.5rem;
-  background: var(--green);
-  border-radius: var(--radius);
-  text-align: center;
-  font-weight: 500;
+  padding: 1.2rem 0 0;
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
 /* About (service page variant) */
 .page-about-lead {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
   line-height: 1.8;
   margin-bottom: 1.5rem;
 }
 
 .page-about-text {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   color: var(--text-light);
   line-height: 2;
   margin-bottom: 1.5rem;
@@ -2066,14 +2066,14 @@ ul, ol {
 }
 
 .page-about-feature-title {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--green);
   margin-bottom: 0.5rem;
 }
 
 .page-about-feature-desc {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--text-light);
   line-height: 1.8;
 }
@@ -2117,13 +2117,12 @@ ul, ol {
 /* About Highlight Box */
 .page-about-highlight {
   margin-top: 2rem;
-  padding: 1.5rem;
-  background: var(--green);
-  color: var(--white);
-  border-radius: var(--radius);
-  text-align: center;
-  font-weight: 500;
-  font-size: 0.95rem;
+  padding: 1.2rem 0 0;
+  border-top: 2px solid var(--green);
+  color: var(--green);
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
 /* Pricing Includes text (non-list variant) */
