@@ -2100,3 +2100,90 @@ ul, ol {
   margin-top: 0.5rem;
   line-height: 1.8;
 }
+
+/* About Highlight Box */
+.page-about-highlight {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--green);
+  color: var(--white);
+  border-radius: var(--radius);
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+/* Pricing Includes text (non-list variant) */
+.page-pricing-main-includes p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  line-height: 2;
+  margin-bottom: 0.3rem;
+}
+
+/* Service Card Task List */
+.page-service-card-tasks {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--gray);
+}
+
+.page-service-card-tasks li {
+  padding: 0.3rem 0 0.3rem 1rem;
+  position: relative;
+}
+
+.page-service-card-tasks li::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+}
+
+/* Comparison Table */
+.page-comparison-table-wrap {
+  overflow-x: auto;
+}
+
+.page-comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.page-comparison-table th,
+.page-comparison-table td {
+  padding: 1rem;
+  border: 1px solid var(--gray-light);
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.page-comparison-table thead th {
+  background: var(--bg);
+  font-weight: 600;
+}
+
+.page-comparison-table tbody th {
+  background: var(--bg);
+  font-weight: 500;
+  width: 25%;
+}
+
+.page-comparison-highlight {
+  background: var(--green-light);
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .page-comparison-table {
+    font-size: 0.8rem;
+  }
+  .page-comparison-table th,
+  .page-comparison-table td {
+    padding: 0.7rem;
+  }
+
+  .page-reason-grid {
+    grid-template-columns: 1fr;
+  }
+}
