@@ -1858,6 +1858,17 @@ ul, ol {
   color: var(--text-light);
 }
 
+@media (max-width: 600px) {
+  .page-hero-price {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+  }
+  .page-hero-price-main {
+    font-size: 2rem;
+  }
+}
+
 .page-hero-desc {
   font-size: 1.05rem;
   color: var(--text-light);
