@@ -1239,10 +1239,6 @@ ul, ol {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .free-tools-grid {
-    grid-template-columns: 1fr;
-  }
-
   .blog-grid {
     grid-template-columns: 1fr;
   }
@@ -1303,6 +1299,10 @@ ul, ol {
   .problem-list {
     flex-direction: column;
     align-items: center;
+  }
+
+  .free-tools-grid {
+    grid-template-columns: 1fr;
   }
 
   .seminar-photos {
