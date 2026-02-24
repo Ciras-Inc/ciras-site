@@ -1761,6 +1761,25 @@ ul, ol {
   color: var(--text-light);
 }
 
+.page-hero-desc {
+  font-size: 1.05rem;
+  color: var(--text-light);
+  line-height: 2;
+  margin-bottom: 1rem;
+}
+
+.page-hero-green-light {
+  background: var(--green-light);
+}
+
+.page-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  text-align: left;
+}
+
 /* Page Section Common */
 .page-section {
   padding: var(--section-padding) 2rem;
@@ -3024,8 +3043,9 @@ ul, ol {
 
 /* Seminar responsive */
 @media (max-width: 900px) {
-  .page-hero-inner[style*="grid-template-columns: 1fr 1fr"] {
-    grid-template-columns: 1fr !important;
+  .page-hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
   }
 
   .page-seminar-hero-visual {
@@ -5503,6 +5523,11 @@ ul, ol {
 /* ============================================================
    PARTNER PAGE (partner.html)
    ============================================================ */
+.page-partner-narrow {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
 .page-partner-values {
   background: var(--white);
 }
@@ -5601,6 +5626,7 @@ ul, ol {
 
 .page-partner-cta {
   background: var(--green-light);
+  text-align: center;
 }
 
 /* Partner responsive */
