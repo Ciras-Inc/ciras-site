@@ -360,6 +360,22 @@ ul, ol {
   color: var(--green);
 }
 
+.hero-catch .highlight {
+  position: relative;
+  display: inline;
+}
+
+.hero-catch .highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 0.1em;
+  left: 0;
+  right: 0;
+  height: 0.35em;
+  background: var(--green-light);
+  z-index: -1;
+}
+
 .hero-sub {
   font-size: 1rem;
   color: var(--text-light);
