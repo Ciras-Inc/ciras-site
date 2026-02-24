@@ -2440,7 +2440,7 @@ ul, ol {
 
 /* Tools Banner */
 .page-tools-banner {
-  background: var(--green-light);
+  background: var(--white);
   padding: var(--section-padding) 2rem;
   text-align: center;
 }
@@ -2451,15 +2451,15 @@ ul, ol {
 }
 
 .page-tools-banner-label {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.2em;
   color: var(--green);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .page-tools-banner-title {
-  font-size: 1.8rem;
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
   font-weight: 700;
   margin-bottom: 1rem;
   color: var(--black);
