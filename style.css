@@ -1275,7 +1275,6 @@ ul, ol {
   .blog-grid {
     grid-template-columns: 1fr;
   }
-}
 
   /* Service detail pages */
   .page-service-grid {
@@ -1320,9 +1319,153 @@ ul, ol {
   }
 }
 
-@media (max-width: 600px) {
+/* ============================================================
+   MOBILE OPTIMIZATION (768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 48px;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .hero-inner {
+    padding: 2rem 1.5rem;
+    gap: 2rem;
+  }
+
   .hero-accent-text {
-    font-size: 5rem;
+    font-size: 6rem;
+  }
+
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .page-hero {
+    padding: 5rem 1.5rem 2.5rem;
+  }
+
+  .page-section {
+    padding: var(--section-padding) 1.5rem;
+  }
+
+  .page-service-card {
+    padding: 1.2rem;
+  }
+
+  .page-reason-block {
+    padding: 1.2rem;
+  }
+
+  .page-examples-category {
+    padding: 1rem;
+  }
+
+  .page-flow-item {
+    padding: 1rem;
+  }
+
+  .page-about-lead {
+    font-size: 1.2rem;
+  }
+
+  .page-about-feature {
+    padding: 1rem;
+  }
+
+  .page-pricing-main-includes {
+    padding: 1.2rem;
+  }
+
+  .page-pricing-option {
+    padding: 1rem;
+  }
+
+  .page-faq-question {
+    padding: 1rem 1.2rem;
+  }
+
+  .page-faq-answer {
+    padding: 0 1.2rem 1rem 2.5rem;
+  }
+
+  .page-tools-banner {
+    padding: var(--section-padding) 1.5rem;
+  }
+
+  .page-tools-banner-btn {
+    padding: 1.2rem 2rem;
+    min-width: auto;
+    width: 100%;
+  }
+
+  .cta {
+    padding: var(--section-padding) 1.5rem;
+  }
+
+  .page-cta {
+    padding: var(--section-padding) 1.5rem;
+  }
+
+  .site-footer {
+    padding: 2.5rem 1.5rem 1.5rem;
+  }
+
+  .seminar-inner {
+    gap: 1.5rem;
+  }
+
+  .page-needs-card {
+    padding: 1.2rem 1rem;
+  }
+
+  .page-company-mission {
+    padding: var(--section-padding) 1.5rem;
+  }
+
+  .page-faq-category {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --section-padding: 36px;
+  }
+
+  .hero-accent-text {
+    font-size: 4rem;
+  }
+
+  .hero-inner {
+    padding: 1.5rem 1rem;
+  }
+
+  .page-hero {
+    padding: 4rem 1rem 2rem;
+  }
+
+  .page-section {
+    padding: var(--section-padding) 1rem;
+  }
+
+  .section-header {
+    margin-bottom: 1.2rem;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+  }
+
+  .page-hero-title {
+    font-size: 1.6rem;
+  }
+
+  .page-hero-service {
+    font-size: 1.4rem;
   }
 
   .problem-list {
@@ -1364,6 +1507,47 @@ ul, ol {
 
   .page-pricing-main-price {
     text-align: center;
+  }
+
+  .page-service-card {
+    padding: 1rem;
+  }
+
+  .page-reason-block {
+    padding: 1rem;
+  }
+
+  .page-tools-banner {
+    padding: var(--section-padding) 1rem;
+  }
+
+  .page-tools-banner-title {
+    font-size: 1.3rem;
+  }
+
+  .cta {
+    padding: var(--section-padding) 1rem;
+  }
+
+  .page-cta {
+    padding: var(--section-padding) 1rem;
+  }
+
+  .page-cta-title {
+    font-size: 1.3rem;
+  }
+
+  .cta-title {
+    font-size: 1.3rem;
+  }
+
+  .site-footer {
+    padding: 2rem 1rem 1rem;
+  }
+
+  .footer-nav {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 
@@ -3396,6 +3580,10 @@ ul, ol {
 @media (max-width: 768px) {
   .page-contact-methods {
     grid-template-columns: 1fr;
+  }
+
+  .page-contact-method {
+    padding: 1.5rem;
   }
 
   .page-contact-info-grid {
