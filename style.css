@@ -1273,7 +1273,7 @@ ul, ol {
   }
 
   .trust-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .seminar-inner {
@@ -1319,14 +1319,22 @@ ul, ol {
   }
 
   .page-flow-list {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .page-works-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .page-about-features {
+    grid-template-columns: 1fr;
+  }
+
+  .free-tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .seminar-photos {
     grid-template-columns: 1fr;
   }
 
@@ -3205,7 +3213,7 @@ ul, ol {
   }
 
   .page-seminar-archive-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 }
 
