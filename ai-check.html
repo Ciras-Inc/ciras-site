@@ -568,7 +568,7 @@ async function submitQuiz(){
     displayResults(result);
   } catch(err){
     hideLoading();
-    alert('診断中にエラーが発生しました。しばらく経ってから再度お試しください。');
+    alert(err.message || '診断中にエラーが発生しました。しばらく経ってから再度お試しください。');
     console.error(err);
   }
 }
@@ -595,28 +595,41 @@ function hideLoading(){
  * Worker側でAnthropic APIキーを管理しています。
  */
 
+var levelMap = {
+  'まだ使っていない': { level: 1, name: '入門期' },
+  '個人的に試している程度': { level: 2, name: '試行期' },
+  '一部の業務で使っている': { level: 3, name: '活用期' },
+  '組織的に活用している': { level: 4, name: '最適化期' }
+};
+
 async function callDiagnosticAPI(answers){
-  var systemPrompt = 'あなたはCiras株式会社のAI活用診断の専門家です。中小企業向けに、実践的で具体的なAI活用提案を行います。\n\n以下の回答を分析し、必ず以下のJSON形式のみで回答してください（JSON以外のテキストは一切出力しないでください）：\n\n{\n  "level": 1〜4の数値,\n  "levelName": "入門期" or "試行期" or "活用期" or "最適化期",\n  "summary": "2〜3文の総合評価。業種と規模を踏まえた具体的なコメント",\n  "solutions": [\n    {\n      "title": "改善案のタイトル（10文字以内）",\n      "before": "現状の課題（1〜2文で具体的に）",\n      "after": "AI導入後の改善イメージ（1〜2文で具体的に）"\n    }\n  ],\n  "nextStep": "最初に取り組むべきアクション（1文）"\n}\n\nレベル基準：\n- 1（入門期）：まだ使っていない\n- 2（試行期）：個人的に試している\n- 3（活用期）：一部業務で使っている\n- 4（最適化期）：組織的に活用\n\nsolutionsは3〜4個。業種・目的に合わせた実践的な提案にしてください。';
-
-  var userMsg = '【AI活用レベル診断】\n立場：' + answers.role + '\n業種：' + answers.industry + '\n従業員数：' + answers.employees + '\nAIで実現したいこと：' + answers.goals.join('、') + (answers.details ? '\n補足：' + answers.details : '') + '\n現在のAI活用状況：' + answers.currentUsage;
-
   var response = await fetch('/api/ai-check', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      system: systemPrompt,
-      message: userMsg
+      q1_position: answers.role,
+      q2_industry: answers.industry,
+      q3_employees: answers.employees,
+      q4_interests: answers.goals,
+      q5_details: answers.details,
+      q6_ai_status: answers.currentUsage
     })
   });
 
-  if(!response.ok) throw new Error('API Error: ' + response.status);
+  if(!response.ok) {
+    var errData;
+    try { errData = await response.json(); } catch(e) { errData = {}; }
+    throw new Error(errData.error || 'API Error: ' + response.status);
+  }
   var data = await response.json();
 
-  // Worker側の返却形式に対応（直接JSONまたはtextフィールド）
-  if(data.level) return data;
-  var text = data.text || (data.content && data.content[0] && data.content[0].text) || '';
-  var jsonStr = text.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
-  return JSON.parse(jsonStr);
+  // Worker returns { id, result: { solutions: [...] } }
+  var result = data.result || data;
+  var levelInfo = levelMap[answers.currentUsage] || { level: 1, name: '入門期' };
+  result.level = levelInfo.level;
+  result.levelName = levelInfo.name;
+  result.diagnosisId = data.id;
+  return result;
 }
 
 /* ===== Display Results ===== */
@@ -624,19 +637,27 @@ function displayResults(result){
   // Level
   document.getElementById('resultLevelNum').textContent = result.level;
   document.getElementById('resultLevelName').textContent = result.levelName;
-  document.getElementById('resultSummary').textContent = result.summary;
+
+  var summaryTexts = {
+    1: 'AIの活用はまだこれからの段階です。以下の提案を参考に、まずは小さなところから始めてみましょう。',
+    2: 'AIに個人的に触れている段階です。業務への本格導入で、大きな効果が期待できます。',
+    3: '一部の業務でAIを活用されています。さらに活用範囲を広げることで、より大きな成果につながります。',
+    4: '組織的にAIを活用されています。さらなる最適化や差別化で、競争優位をつくりましょう。'
+  };
+  document.getElementById('resultSummary').textContent = summaryTexts[result.level] || summaryTexts[1];
 
   // Solutions
   var container = document.getElementById('solutionCards');
   container.innerHTML = '';
-  result.solutions.forEach(function(sol, i){
+  (result.solutions || []).forEach(function(sol, i){
     var card = document.createElement('div');
     card.className = 'sol-card';
     card.innerHTML =
-      '<div class="sol-card-title"><span class="sol-card-num">' + (i+1) + '</span>' + sol.title + '</div>' +
-      '<div class="sol-before"><div class="sol-before-label">BEFORE（現状）</div><p>' + sol.before + '</p></div>' +
+      '<div class="sol-card-title"><span class="sol-card-num">' + (i+1) + '</span>' + escapeHTML(sol.title) + '</div>' +
+      (sol.point ? '<div style="grid-column:1/-1;padding:0 0 12px"><p style="font-size:0.9rem;font-weight:600;color:var(--green);background:var(--green-light);padding:8px 14px;border-radius:6px">' + escapeHTML(sol.point) + '</p></div>' : '') +
+      '<div class="sol-before"><div class="sol-before-label">BEFORE（現状）</div><p>' + escapeHTML(sol.before || '') + '</p></div>' +
       '<div class="sol-arrow">→</div>' +
-      '<div class="sol-after"><div class="sol-after-label">AFTER（改善後）</div><p>' + sol.after + '</p></div>';
+      '<div class="sol-after"><div class="sol-after-label">AFTER（改善後）</div><p>' + escapeHTML(sol.after || '') + '</p></div>';
     container.appendChild(card);
   });
 
@@ -644,6 +665,11 @@ function displayResults(result){
   document.getElementById('quizSection').style.display='none';
   document.getElementById('resultsSection').classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function escapeHTML(str){
+  if(!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
 </body>
