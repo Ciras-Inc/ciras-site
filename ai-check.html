@@ -591,44 +591,30 @@ function hideLoading(){
 }
 
 /* ===== API Configuration =====
- * 現在のAPIエンドポイントを設定してください。
- * Cloudflare Workers等のプロキシ経由を推奨します。
- * 例: endpoint を '/api/ai-check' に変更し、Workerでプロキシ
+ * Cloudflare Worker 経由でAPIを呼び出します。
+ * Worker側でAnthropic APIキーを管理しています。
  */
-var API_CONFIG = {
-  endpoint: 'https://api.anthropic.com/v1/messages',
-  model: 'claude-sonnet-4-20250514'
-  // apiKey は Worker側で管理してください
-};
 
 async function callDiagnosticAPI(answers){
-  var systemPrompt = 'あなたはCiras株式会社のAI活用診断の専門家です。中小企業向けに、実践的で具体的なAI活用提案を行います。\n\n以下の回答を分析し、必ず以下のJSON形式のみで回答してください（JSON以外のテキストは一切出力しないでください）：\n\n```json\n{\n  "level": 1〜4の数値,\n  "levelName": "入門期" or "試行期" or "活用期" or "最適化期",\n  "summary": "2〜3文の総合評価。業種と規模を踏まえた具体的なコメント",\n  "solutions": [\n    {\n      "title": "改善案のタイトル（10文字以内）",\n      "before": "現状の課題（1〜2文で具体的に）",\n      "after": "AI導入後の改善イメージ（1〜2文で具体的に）"\n    }\n  ],\n  "nextStep": "最初に取り組むべきアクション（1文）"\n}\n```\n\nレベル基準：\n- 1（入門期）：まだ使っていない\n- 2（試行期）：個人的に試している\n- 3（活用期）：一部業務で使っている\n- 4（最適化期）：組織的に活用\n\nsolutionsは3〜4個。業種・目的に合わせた実践的な提案にしてください。';
+  var systemPrompt = 'あなたはCiras株式会社のAI活用診断の専門家です。中小企業向けに、実践的で具体的なAI活用提案を行います。\n\n以下の回答を分析し、必ず以下のJSON形式のみで回答してください（JSON以外のテキストは一切出力しないでください）：\n\n{\n  "level": 1〜4の数値,\n  "levelName": "入門期" or "試行期" or "活用期" or "最適化期",\n  "summary": "2〜3文の総合評価。業種と規模を踏まえた具体的なコメント",\n  "solutions": [\n    {\n      "title": "改善案のタイトル（10文字以内）",\n      "before": "現状の課題（1〜2文で具体的に）",\n      "after": "AI導入後の改善イメージ（1〜2文で具体的に）"\n    }\n  ],\n  "nextStep": "最初に取り組むべきアクション（1文）"\n}\n\nレベル基準：\n- 1（入門期）：まだ使っていない\n- 2（試行期）：個人的に試している\n- 3（活用期）：一部業務で使っている\n- 4（最適化期）：組織的に活用\n\nsolutionsは3〜4個。業種・目的に合わせた実践的な提案にしてください。';
 
   var userMsg = '【AI活用レベル診断】\n立場：' + answers.role + '\n業種：' + answers.industry + '\n従業員数：' + answers.employees + '\nAIで実現したいこと：' + answers.goals.join('、') + (answers.details ? '\n補足：' + answers.details : '') + '\n現在のAI活用状況：' + answers.currentUsage;
 
-  var response = await fetch(API_CONFIG.endpoint, {
+  var response = await fetch('/api/ai-check', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'anthropic-version': '2023-06-01',
-      'x-api-key': API_CONFIG.apiKey || ''
-      // 本番では Cloudflare Worker 経由で apiKey を管理してください
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: API_CONFIG.model,
-      max_tokens: 1200,
-      messages: [
-        { role: 'user', content: userMsg }
-      ],
-      system: systemPrompt
+      system: systemPrompt,
+      message: userMsg
     })
   });
 
   if(!response.ok) throw new Error('API Error: ' + response.status);
   var data = await response.json();
-  var text = data.content[0].text;
 
-  // Parse JSON from response (handle markdown code blocks)
+  // Worker側の返却形式に対応（直接JSONまたはtextフィールド）
+  if(data.level) return data;
+  var text = data.text || (data.content && data.content[0] && data.content[0].text) || '';
   var jsonStr = text.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
   return JSON.parse(jsonStr);
 }
