@@ -1,345 +1,384 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KLXZ6ND');</script>
-<!-- End Google Tag Manager -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ご相談・お問い合わせ｜Ciras株式会社</title>
-  <meta name="description" content="Cirasへのご相談・お問い合わせ。LINE・電話・フォームからお気軽にご連絡ください。営業時間10:00〜17:30（土日祝休）。愛媛県松山市。">
-  <link rel="canonical" href="https://www.ciras.jp/contact">
-  <link rel="icon" href="images/favicon.ico" sizes="any">
-  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お問い合わせ｜Ciras（シラス）株式会社｜AI活用の無料相談</title>
+<meta name="description" content="Ciras（シラス）株式会社へのお問い合わせ。AI活用コンサルティング、Webサイト制作、業務システム開発のご相談・お見積りなど、お気軽にご連絡ください。LINE・電話・フォームから。">
+<meta property="og:title" content="お問い合わせ｜Ciras（シラス）株式会社">
+<meta property="og:description" content="AI活用支援のご相談・お見積りなど、お気軽にご連絡ください。LINE・電話・フォームから。">
+<meta property="og:url" content="https://www.ciras.jp/contact.html">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://www.ciras.jp/contact.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--green:#2c5926;--green-light:#E8F0E7;--green-pale:#C5E6C0;--warm-gray:#F5F5F0;--white:#FFFFFF;--text-primary:#1a1a1a;--text-secondary:#555;--text-light:#888;--border:rgba(0,0,0,0.08);--font-main:'Noto Sans JP',sans-serif;--max-width:1080px;--section-padding:80px 0;--transition:0.25s ease}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:var(--font-main);font-weight:400;color:var(--text-primary);line-height:1.8;font-size:16.5px;background:var(--white);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none;transition:opacity var(--transition)}a:hover{opacity:0.75}
+img{max-width:100%;display:block}ul{list-style:none}
+.container{max-width:var(--max-width);margin:0 auto;padding:0 24px}
 
-  <!-- OGP -->
-  <meta property="og:title" content="お問い合わせ｜Ciras（シラス）株式会社">
-  <meta property="og:description" content="Cirasへのお問い合わせ。AI活用支援、Webサイト制作、セミナーのご相談など、お気軽にご連絡ください。愛媛・松山。">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.ciras.jp/contact">
-  <meta property="og:image" content="https://www.ciras.jp/images/ogp.png">
-  <meta property="og:site_name" content="Ciras（シラス）株式会社">
-  <meta property="og:locale" content="ja_JP">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="お問い合わせ｜Ciras（シラス）株式会社">
-  <meta name="twitter:description" content="Cirasへのお問い合わせ。AI活用支援、Webサイト制作、セミナーのご相談など、お気軽にご連絡ください。愛媛・松山。">
-  <meta name="twitter:image" content="https://www.ciras.jp/images/ogp.png">
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+.fade-in.is-visible{opacity:1;transform:translateY(0)}
+.fade-in-delay-1{transition-delay:0.1s}.fade-in-delay-2{transition-delay:0.2s}
 
-  <!-- Fonts: Noto Sans JP only -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+/* Header */
+header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.06);height:64px}
+.header-inner{max-width:var(--max-width);margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:100%}
+.header-logo img{height:26px;width:auto}
+.header-nav{display:flex;align-items:center;gap:22px}
+.header-nav>a,.nav-dropdown>a{font-size:0.88rem;font-weight:500;color:var(--text-secondary);letter-spacing:0.02em;transition:color var(--transition);cursor:pointer}
+.header-nav>a:hover,.nav-dropdown>a:hover{color:var(--green);opacity:1}
+.nav-dropdown{position:relative}.nav-dropdown>a::after{content:'';display:inline-block;width:5px;height:5px;border-right:1.5px solid var(--text-light);border-bottom:1.5px solid var(--text-light);transform:rotate(45deg);margin-left:5px;vertical-align:2px;transition:transform var(--transition)}
+.nav-dropdown:hover>a::after{transform:rotate(-135deg)}
+.nav-dropdown-menu{display:none;position:absolute;top:100%;left:-12px;padding-top:10px;z-index:1200}
+.nav-dropdown:hover .nav-dropdown-menu{display:block}
+.nav-dropdown-menu-inner{background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.08);padding:8px 0;min-width:240px}
+.nav-dropdown-menu a{display:block;padding:10px 20px;font-size:0.88rem;font-weight:500;color:var(--text-secondary)!important;transition:background var(--transition),color var(--transition)}
+.nav-dropdown-menu a:hover{background:var(--green-light);color:var(--green)!important;opacity:1}
+.nav-cta{background:var(--green)!important;color:var(--white)!important;padding:8px 20px!important;border-radius:6px;font-weight:600!important;font-size:0.88rem!important}
+.nav-cta:hover{opacity:0.9!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;z-index:1100}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text-primary);border-radius:2px;transition:var(--transition)}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.98);backdrop-filter:blur(16px);z-index:1050;padding:80px 24px 40px;flex-direction:column;overflow-y:auto}
+.mobile-menu.active{display:flex}
+.mobile-menu a{display:block;padding:16px 0;font-size:1.05rem;font-weight:500;color:var(--text-primary);border-bottom:1px solid rgba(0,0,0,0.06)}
+.mobile-menu .mobile-cta{display:block;background:var(--green);color:var(--white);text-align:center;padding:16px;border-radius:8px;margin-top:24px;font-weight:600;border-bottom:none}
+.mobile-menu .mobile-sub{font-size:0.92rem;color:var(--text-light);padding-left:24px}
 
-  <!-- Shared CSS -->
-  <link rel="stylesheet" href="style.css">
+/* Shared */
+.section-label{font-size:0.75rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);margin-bottom:12px;opacity:0.6}
+.btn{display:inline-block;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:600;transition:all var(--transition);text-align:center}
+.btn:active{transform:scale(0.97)}
+.btn--green{background:var(--green);color:var(--white)}.btn--green:hover{opacity:0.9}
+.btn--white{background:var(--white);color:var(--green)}.btn--white:hover{background:#f4f4f4;opacity:1}
+.btn--white-outline{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.5)}.btn--white-outline:hover{border-color:#fff;opacity:1}
 
-  <!-- JSON-LD: ContactPage -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ContactPage",
-    "name": "お問い合わせ｜Ciras（シラス）株式会社",
-    "description": "Ciras（シラス）株式会社へのお問い合わせページ。LINE・電話・フォームからお気軽にご連絡ください。",
-    "url": "https://www.ciras.jp/contact",
-    "mainEntity": {
-      "@type": "LocalBusiness",
-      "name": "Ciras（シラス）株式会社",
-      "telephone": "050-3637-6324",
-      "email": "info@ciras.jp",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "萱町3丁目2番3号 9CROSS 501",
-        "addressLocality": "松山市",
-        "addressRegion": "愛媛県",
-        "postalCode": "790-0813",
-        "addressCountry": "JP"
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        "opens": "10:00",
-        "closes": "17:30"
-      }
+/* Hero */
+.hero{background:var(--warm-gray);padding:80px 0 64px}
+.hero .section-label{margin-bottom:16px}
+.hero h1{font-size:2.4rem;font-weight:900;line-height:1.3;margin-bottom:12px}
+.hero-lead{font-size:1rem;color:var(--text-secondary);line-height:1.9}
+
+/* Contact Methods */
+.methods{background:var(--white);padding:var(--section-padding)}
+.methods h2{font-size:1.7rem;font-weight:700;margin-bottom:32px}
+.methods-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.method-card{display:flex;flex-direction:column;align-items:center;text-align:center;background:var(--warm-gray);border:1px solid var(--border);border-radius:12px;padding:36px 28px;transition:all var(--transition)}
+.method-card:hover{border-color:var(--green);box-shadow:0 4px 20px rgba(44,89,38,0.08);opacity:1}
+.method-icon{font-size:2rem;margin-bottom:16px;line-height:1}
+.method-card h3{font-size:1.1rem;font-weight:600;margin-bottom:8px}
+.method-card p{font-size:0.9rem;color:var(--text-secondary);margin-bottom:16px;line-height:1.8}
+.method-btn{display:inline-block;background:var(--green);color:var(--white);padding:10px 28px;border-radius:8px;font-size:0.95rem;font-weight:600;transition:opacity var(--transition)}
+.method-btn:hover{opacity:0.9}
+.method-note{font-size:0.82rem;color:var(--text-light);margin-top:12px;line-height:1.7}
+.methods-note{font-size:0.88rem;color:var(--text-light);margin-top:24px;text-align:center}
+
+/* Form Section */
+.form-section{background:var(--warm-gray);padding:var(--section-padding)}
+.form-section h2{font-size:1.7rem;font-weight:700;margin-bottom:8px}
+.form-lead{font-size:1rem;color:var(--text-secondary);margin-bottom:32px;line-height:1.9}
+.form-wrap{background:var(--white);border-radius:12px;border:1px solid var(--border);padding:32px 24px;max-width:720px;margin:0 auto}
+.form-wrap iframe{width:100%;border:none;min-height:1524px}
+
+/* Info */
+.info{background:var(--white);padding:var(--section-padding)}
+.info h2{font-size:1.7rem;font-weight:700;margin-bottom:32px}
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px 40px}
+.info-item h3{font-size:0.88rem;font-weight:600;color:var(--green);margin-bottom:6px;letter-spacing:0.02em}
+.info-item p{font-size:0.95rem;color:var(--text-secondary);line-height:1.9}
+.info-item a{color:var(--green);font-weight:500}
+.info-item a:hover{opacity:0.75}
+
+/* Map */
+.map{background:var(--warm-gray);padding:var(--section-padding)}
+.map h2{font-size:1.7rem;font-weight:700;margin-bottom:16px}
+.map-text{font-size:0.95rem;color:var(--text-secondary);margin-bottom:24px;line-height:1.8}
+.map-embed{border-radius:12px;overflow:hidden;height:360px}
+.map-embed iframe{width:100%;height:100%;border:0}
+
+/* Free Diagnostic */
+.free-diagnostic{background:var(--white);padding:64px 0}
+.free-diagnostic h2{font-size:1.7rem;font-weight:700;margin-bottom:8px}
+.free-diagnostic-lead{font-size:1rem;color:var(--text-secondary);margin-bottom:28px}
+.diag-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.diag-card{background:var(--warm-gray);border:1px solid var(--border);border-radius:12px;padding:28px 24px;display:block;transition:all var(--transition)}
+.diag-card:hover{border-color:var(--green);box-shadow:0 4px 20px rgba(44,89,38,0.08);opacity:1}
+.diag-card h3{font-size:1.1rem;font-weight:600;margin-bottom:6px}
+.diag-card p{font-size:0.9rem;color:var(--text-secondary)}
+
+/* Footer */
+footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;font-size:0.88rem;border-top:1px solid var(--border)}
+.footer-inner{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;padding-bottom:40px}
+.footer-brand p{margin-top:6px;line-height:1.8}.footer-logo{margin-bottom:12px}.footer-logo img{height:24px;width:auto}
+.footer-links h4{font-size:0.78rem;font-weight:600;letter-spacing:0.1em;color:var(--text-light);margin-bottom:14px}
+.footer-links li{margin-bottom:8px}.footer-links a{color:var(--text-secondary);transition:color var(--transition)}.footer-links a:hover{color:var(--green);opacity:1}
+.footer-bottom{border-top:1px solid var(--border);padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.footer-bottom a{color:var(--text-light);margin-right:20px;font-size:0.78rem}.footer-bottom span{font-size:0.78rem;color:var(--text-light)}
+
+/* Responsive */
+@media(max-width:768px){
+  .header-nav{display:none}.hamburger{display:flex}
+  .hero{padding:56px 0 48px}.hero h1{font-size:2rem}
+  .methods-grid{grid-template-columns:1fr}
+  .form-wrap{padding:20px 16px}
+  .form-wrap iframe{min-height:1600px}
+  .info-grid{grid-template-columns:1fr}
+  .diag-grid{grid-template-columns:1fr}
+  .map-embed{height:280px}
+  .container{padding:0 20px}
+  .methods,.form-section,.info,.map,.free-diagnostic{padding:56px 0}
+  .methods h2,.form-section h2,.info h2,.map h2,.free-diagnostic h2{font-size:1.45rem}
+  .footer-inner{grid-template-columns:1fr;gap:28px}.footer-bottom{flex-direction:column;text-align:center;gap:8px}
+}
+@media(max-width:375px){
+  .hero h1{font-size:1.75rem}.container{padding:0 16px}
+}
+</style>
+
+<!-- JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "お問い合わせ｜Ciras株式会社",
+  "description": "Ciras株式会社へのお問い合わせページ。AI活用支援のご相談・お見積り。",
+  "url": "https://www.ciras.jp/contact.html",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "Ciras株式会社",
+    "alternateName": "シラス株式会社",
+    "url": "https://www.ciras.jp",
+    "telephone": "050-3637-6324",
+    "email": "info@ciras.jp",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "萱町3丁目2番3号 9CROSS 501",
+      "addressLocality": "松山市",
+      "addressRegion": "愛媛県",
+      "postalCode": "790-0813",
+      "addressCountry": "JP"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "10:00",
+      "closes": "17:30"
     }
   }
-  </script>
-
-  <!-- JSON-LD: BreadcrumbList -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://www.ciras.jp/"},
-      {"@type": "ListItem", "position": 2, "name": "お問い合わせ", "item": "https://www.ciras.jp/contact"}
-    ]
-  }
-  </script>
+}
+</script>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLXZ6ND"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager -->
 
-  <!-- ===== HEADER（共通パーツ） ===== -->
-  <header class="site-header">
-    <div class="header-inner">
-      <a href="/" class="logo" aria-label="Ciras（シラス）株式会社 ホーム"><img src="images/logo-green.png" alt="Ciras（シラス）株式会社" class="logo-img"></a>
-      <nav class="header-nav">
-        <div class="nav-dropdown">
-          <a href="#services" class="nav-dropdown-trigger">サービス</a>
-          <div class="nav-dropdown-menu">
-            <a href="/ai-komon.html">Ciras AI顧問</a>
-            <a href="/web.html">AI活用 Webサイト制作</a>
-            <a href="/system.html">AI業務システム開発</a>
-            <a href="/kagemusha.html">影武者</a>
-          </div>
-        </div>
-        <a href="/needs.html">課題から探す</a>
-        <a href="/seminar.html">セミナー</a>
-        <div class="nav-dropdown">
-          <a href="/company.html" class="nav-dropdown-trigger">会社概要</a>
-          <div class="nav-dropdown-menu">
-            <a href="/voice.html">お客様の声</a>
-            <a href="/faq.html">よくある質問</a>
-          </div>
-        </div>
-        <a href="/partner.html">採用・協業</a>
-        <div class="nav-dropdown">
-          <a href="#free-tools" class="nav-dropdown-trigger">無料診断ツール</a>
-          <div class="nav-dropdown-menu">
-            <a href="/ai-check.html">AI活用レベルチェッカー</a>
-            <a href="/web-check.html">Webサイト状況チェッカー</a>
-          </div>
-        </div>
-        <a href="/blog/">ブログ</a>
-        <a href="/contact.html" class="header-cta">お問い合わせ</a>
-      </nav>
-      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
-    </div>
-    <nav class="mobile-nav" aria-label="モバイルメニュー">
-      <div class="mobile-nav-group">
-        <p class="mobile-nav-label">サービス</p>
-        <a href="/ai-komon.html">Ciras AI顧問</a>
-        <a href="/web.html">AI活用 Webサイト制作</a>
-        <a href="/system.html">AI業務システム開発</a>
-        <a href="/kagemusha.html">影武者</a>
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="/" class="header-logo"><img src="images/logo-green.png" alt="Ciras（シラス）株式会社"></a>
+    <nav class="header-nav">
+      <div class="nav-dropdown">
+        <a href="/#services">サービス</a>
+        <div class="nav-dropdown-menu"><div class="nav-dropdown-menu-inner">
+          <a href="/ai-komon.html">Ciras AI顧問</a>
+          <a href="/web.html">AI活用 Webサイト制作</a>
+          <a href="/system.html">AI業務システム開発</a>
+          <a href="/kagemusha.html">影武者</a>
+        </div></div>
       </div>
       <a href="/needs.html">課題から探す</a>
       <a href="/seminar.html">セミナー</a>
-      <div class="mobile-nav-group">
-        <p class="mobile-nav-label">会社概要</p>
-        <a href="/company.html">会社概要</a>
-        <a href="/voice.html">お客様の声</a>
-        <a href="/faq.html">よくある質問</a>
-      </div>
+      <a href="/company.html">会社概要</a>
       <a href="/partner.html">採用・協業</a>
-      <div class="mobile-nav-group">
-        <p class="mobile-nav-label">無料診断ツール</p>
-        <a href="/ai-check.html">AI活用レベルチェッカー</a>
-        <a href="/web-check.html">Webサイト状況チェッカー</a>
-      </div>
+      <a href="/#free-tools">無料診断ツール</a>
       <a href="/blog/">ブログ</a>
-      <a href="/contact.html" class="mobile-nav-cta">お問い合わせ</a>
+      <a href="/contact.html" class="nav-cta">お問い合わせ</a>
     </nav>
-  </header>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</header>
 
-  <main>
-    <!-- ===== HERO ===== -->
-    <section class="page-hero">
-      <div class="page-hero-inner">
-        <p class="page-hero-label">CONTACT</p>
-        <h1 class="page-hero-title">お問い合わせ</h1>
-        <p class="page-hero-desc">サービスに関するご質問、お見積りのご依頼など、<br>お気軽にご連絡ください。</p>
-      </div>
-    </section>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/#services" onclick="toggleMenu()">サービス</a>
+  <a href="/ai-komon.html" class="mobile-sub">　Ciras AI顧問</a>
+  <a href="/web.html" class="mobile-sub">　AI活用 Webサイト制作</a>
+  <a href="/system.html" class="mobile-sub">　AI業務システム開発</a>
+  <a href="/kagemusha.html" class="mobile-sub">　影武者</a>
+  <a href="/needs.html">課題から探す</a>
+  <a href="/seminar.html">セミナー</a>
+  <a href="/company.html">会社概要</a>
+  <a href="/partner.html">採用・協業</a>
+  <a href="/#free-tools" onclick="toggleMenu()">無料診断ツール</a>
+  <a href="/blog/">ブログ</a>
+  <a href="/contact.html" class="mobile-cta">お問い合わせ</a>
+</div>
 
-    <!-- ===== CONTACT METHODS ===== -->
-    <section class="page-section page-contact-methods-section fade-in">
-      <div class="container">
-        <h2 class="sr-only">お問い合わせ方法</h2>
-        <div class="page-contact-methods">
-          <a href="https://lin.ee/s2u6VUw" class="page-contact-method" target="_blank" rel="noopener">
-            <span class="page-contact-method-icon">💬</span>
-            <h3 class="page-contact-method-title">LINEで相談</h3>
-            <p class="page-contact-method-desc">友だち追加後、<br>トーク画面からご相談ください</p>
-            <span class="page-contact-method-btn">友だち追加</span>
-          </a>
-          <a href="tel:050-3637-6324" class="page-contact-method">
-            <span class="page-contact-method-icon">📞</span>
-            <h3 class="page-contact-method-title">お電話</h3>
-            <p class="page-contact-method-desc">平日 10:00〜17:30</p>
-            <span class="page-contact-method-btn">050-3637-6324</span>
-          </a>
-        </div>
-      </div>
-    </section>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Contact</p>
+      <h1>お問い合わせ</h1>
+      <p class="hero-lead">サービスに関するご質問、お見積りのご依頼など、お気軽にご連絡ください。<br>「こんなこと聞いていいのかな？」ということでも、遠慮なくどうぞ。</p>
+    </div>
+  </div>
+</section>
 
-    <!-- ===== FORM ===== -->
-    <section class="page-section page-contact-form-section fade-in">
-      <div class="container">
-        <div class="page-contact-form-wrap">
-          <h2 class="page-contact-form-title">お問い合わせフォーム</h2>
-          <p class="page-contact-form-lead">「こんなこと聞いていいのかな？」ということでも、遠慮なくどうぞ。<br>内容を確認後、1営業日以内にご返信いたします。</p>
-          <div class="page-contact-form-iframe-wrap">
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScuWO3hDyCffOD3GE50yVVeSymItIp9zvwMjsKRLDYY6CD68g/viewform?embedded=true" title="お問い合わせフォーム" loading="lazy">読み込み中…</iframe>
-          </div>
-        </div>
-      </div>
-    </section>
+<!-- CONTACT METHODS -->
+<section class="methods">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Quick Contact</p>
+      <h2>お問い合わせ方法</h2>
+    </div>
+    <div class="methods-grid fade-in">
+      <a href="https://lin.ee/s2u6VUw" class="method-card" target="_blank" rel="noopener">
+        <div class="method-icon">💬</div>
+        <h3>LINEで相談</h3>
+        <p>友だち追加後、トーク画面からご相談ください。<br>チャット感覚でお気軽にどうぞ。</p>
+        <span class="method-btn">友だち追加</span>
+      </a>
+      <a href="tel:050-3637-6324" class="method-card">
+        <div class="method-icon">📞</div>
+        <h3>お電話</h3>
+        <p>平日 10:00〜17:30<br>お急ぎの方はお電話が便利です。</p>
+        <span class="method-btn">050-3637-6324</span>
+        <span class="method-note">※留守番電話の場合は、お名前とご用件をお残しください。折り返しご連絡いたします。</span>
+      </a>
+    </div>
+    <p class="methods-note fade-in">※営業目的のお問い合わせはお受けしておりません。ご了承ください。</p>
+  </div>
+</section>
 
-    <!-- ===== INFO ===== -->
-    <section class="page-section page-contact-info fade-in">
-      <div class="container">
-        <h2 class="sr-only">会社情報</h2>
-        <div class="page-contact-info-grid">
-          <div class="page-contact-info-item">
-            <h3>所在地</h3>
-            <p>〒790-0813<br>愛媛県松山市萱町3丁目2番3号<br>9CROSS 501</p>
-          </div>
-          <div class="page-contact-info-item">
-            <h3>営業時間</h3>
-            <p>10:00〜17:30<br>定休日：土日祝</p>
-          </div>
-          <div class="page-contact-info-item">
-            <h3>電話</h3>
-            <p><a href="tel:050-3637-6324">050-3637-6324</a></p>
-          </div>
-          <div class="page-contact-info-item">
-            <h3>メール</h3>
-            <p><a href="mailto:info@ciras.jp">info@ciras.jp</a></p>
-          </div>
-        </div>
-      </div>
-    </section>
+<!-- FORM SECTION -->
+<section class="form-section">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Form</p>
+      <h2>お問い合わせフォーム</h2>
+      <p class="form-lead">内容を確認後、2営業日以内にご返信いたします。</p>
+    </div>
+    <div class="form-wrap fade-in">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScuWO3hDyCffOD3GE50yVVeSymItIp9zvwMjsKRLDYY6CD68g/viewform?embedded=true" title="お問い合わせフォーム" loading="lazy">読み込み中…</iframe>
+    </div>
+  </div>
+</section>
 
-    <!-- ===== TOOLS BANNER ===== -->
-    <section class="page-section page-tools-banner fade-in">
-      <div class="container">
-        <p class="section-label">FREE DIAGNOSTIC</p>
-        <h2 class="section-title">まずは、現状を知ることから。</h2>
-        <p class="page-tools-banner-text">AIの活用度やWebサイトの状態を、30秒でセルフチェックできます。</p>
-        <div class="page-tools-banner-buttons">
-          <a href="/ai-check.html" class="page-tools-banner-btn">
-            <span class="page-tools-banner-btn-name">AI活用レベル診断</span>
-            <span class="page-tools-banner-btn-desc">自社のAI活用度をチェック</span>
-          </a>
-          <a href="/web-check.html" class="page-tools-banner-btn">
-            <span class="page-tools-banner-btn-name">Webサイト状況診断</span>
-            <span class="page-tools-banner-btn-desc">AI検索への対応度をチェック</span>
-          </a>
-        </div>
+<!-- INFO -->
+<section class="info">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Information</p>
+      <h2>会社情報</h2>
+    </div>
+    <div class="info-grid fade-in">
+      <div class="info-item">
+        <h3>所在地</h3>
+        <p>〒790-0813<br>愛媛県松山市萱町3丁目2番3号<br>9CROSS 501</p>
       </div>
-    </section>
-  </main>
-
-  <!-- ===== FOOTER（共通パーツ） ===== -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-grid">
-        <div>
-          <p class="footer-brand"><a href="/" aria-label="トップページへ"><img src="images/logo-white.png" alt="Ciras（シラス）株式会社" class="footer-logo-img"></a></p>
-          <p class="footer-info">
-            Ciras（シラス）株式会社<br>
-            〒790-0813 愛媛県松山市萱町3-2-3 9CROSS 501<br>
-            TEL: <a href="tel:050-3637-6324" style="color:inherit">050-3637-6324</a><br>
-            営業時間: 10:00〜17:30（土日祝休）
-          </p>
-        </div>
-        <nav class="footer-nav" aria-label="フッターナビゲーション">
-          <div>
-            <p class="footer-nav-title">SERVICE</p>
-            <ul>
-              <li><a href="/ai-komon.html">Ciras AI顧問</a></li>
-              <li><a href="/web.html">AI活用 Webサイト制作</a></li>
-              <li><a href="/system.html">AI業務システム開発</a></li>
-              <li><a href="/kagemusha.html">影武者</a></li>
-              <li><a href="/seminar.html">セミナー</a></li>
-            </ul>
-          </div>
-          <div>
-            <p class="footer-nav-title">COMPANY</p>
-            <ul>
-              <li><a href="/voice.html">お客様の声</a></li>
-              <li><a href="/faq.html">よくある質問</a></li>
-              <li><a href="/company.html">会社概要</a></li>
-              <li><a href="/blog/">ブログ</a></li>
-            </ul>
-          </div>
-          <div>
-            <p class="footer-nav-title">CONTACT</p>
-            <ul>
-              <li><a href="/contact.html">お問い合わせ</a></li>
-              <li><a href="/partner.html">採用・協業</a></li>
-              <li><a href="https://lin.ee/s2u6VUw">LINE</a></li>
-              <li><a href="/privacy.html">プライバシーポリシー</a></li>
-              <li><a href="/privacy.html#tokusho">特定商取引法に基づく表記</a></li>
-            </ul>
-          </div>
-        </nav>
+      <div class="info-item">
+        <h3>営業時間</h3>
+        <p>10:00〜17:30<br>定休日：土日祝</p>
       </div>
-      <div class="footer-bottom">
-        &copy; 2026 Ciras Inc.（シラス株式会社）
+      <div class="info-item">
+        <h3>電話</h3>
+        <p><a href="tel:050-3637-6324">050-3637-6324</a></p>
+      </div>
+      <div class="info-item">
+        <h3>メール</h3>
+        <p><a href="mailto:info@ciras.jp">info@ciras.jp</a></p>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    // Fade-in on scroll
-    (function(){
-      var items = document.querySelectorAll('.fade-in');
-      items.forEach(function(el){ el.classList.add('hidden'); });
-      if (!('IntersectionObserver' in window)) {
-        items.forEach(function(el){ el.classList.remove('hidden'); });
-        return;
-      }
-      var observer = new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-          if (entry.isIntersecting) {
-            entry.target.classList.remove('hidden');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-      items.forEach(function(el){ observer.observe(el); });
-      setTimeout(function(){ items.forEach(function(el){ el.classList.remove('hidden'); }); }, 2000);
-    })();
+<!-- MAP -->
+<section class="map">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Access</p>
+      <h2>アクセス</h2>
+      <p class="map-text">〒790-0813 愛媛県松山市萱町3丁目2番3号 9CROSS 501<br>伊予鉄道 本町六丁目駅より徒歩5分</p>
+    </div>
+    <div class="map-embed fade-in">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3313.7095233972427!2d132.7542638757076!3d33.845600973235406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x354fe54e6735b889%3A0x6d42c35c4071bf02!2zQ2lyYXPmoKrlvI_kvJrnpL4!5e0!3m2!1sja!2sjp!4v1771986508442!5m2!1sja!2sjp" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
 
-    // Sticky header shadow
-    (function(){
-      var header = document.querySelector('.site-header');
-      var scrolled = false;
-      window.addEventListener('scroll', function(){
-        if (window.scrollY > 60 && !scrolled) { header.classList.add('scrolled'); scrolled = true; }
-        else if (window.scrollY <= 60 && scrolled) { header.classList.remove('scrolled'); scrolled = false; }
-      }, { passive: true });
-    })();
+<!-- FREE DIAGNOSTIC -->
+<section class="free-diagnostic">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Free Diagnostic</p>
+      <h2>まずは、現状を知ることから</h2>
+      <p class="free-diagnostic-lead">AIの活用度やWebサイトの状態を、30秒でセルフチェックできます。</p>
+    </div>
+    <div class="diag-grid fade-in">
+      <a href="/ai-check" class="diag-card">
+        <h3>AI活用レベルチェッカー</h3>
+        <p>自社のAI活用度をチェック →</p>
+      </a>
+      <a href="/web-check" class="diag-card">
+        <h3>Webサイト状況チェッカー</h3>
+        <p>AI検索への対応度をチェック →</p>
+      </a>
+    </div>
+  </div>
+</section>
 
-    // Hamburger menu
-    (function(){
-      var btn = document.querySelector('.hamburger');
-      var nav = document.querySelector('.mobile-nav');
-      if (btn && nav) {
-        btn.addEventListener('click', function(){
-          btn.classList.toggle('active');
-          nav.classList.toggle('open');
-          document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
-        });
-        nav.querySelectorAll('a').forEach(function(a){
-          a.addEventListener('click', function(){
-            btn.classList.remove('active');
-            nav.classList.remove('open');
-            document.body.style.overflow = '';
-          });
-        });
-      }
-    })();
-  </script>
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo"><img src="images/logo-green.png" alt="Ciras（シラス）株式会社"></div>
+        <p>Ciras（シラス）株式会社</p>
+        <p>愛媛県松山市萱町3-2-3 9CROSS 501</p>
+        <p>TEL: <a href="tel:050-3637-6324">050-3637-6324</a></p>
+        <p>営業時間: 10:00〜17:30（土日祝休）</p>
+      </div>
+      <div class="footer-links">
+        <h4>サービス</h4>
+        <ul>
+          <li><a href="/ai-komon.html">Ciras AI顧問</a></li>
+          <li><a href="/web.html">AI活用 Webサイト制作</a></li>
+          <li><a href="/system.html">AI業務システム開発</a></li>
+          <li><a href="/kagemusha.html">影武者</a></li>
+          <li><a href="/seminar.html">セミナー</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>情報</h4>
+        <ul>
+          <li><a href="/company.html">会社概要</a></li>
+          <li><a href="/voice.html">お客様の声</a></li>
+          <li><a href="/faq.html">よくある質問</a></li>
+          <li><a href="/blog/">ブログ</a></li>
+          <li><a href="/partner.html">採用・協業</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        <a href="/privacy.html">プライバシーポリシー</a>
+        <a href="/privacy.html#tokusho">特定商取引法に基づく表記</a>
+      </div>
+      <span>© 2026 Ciras Inc.（シラス株式会社）</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('active');document.querySelector('.hamburger').classList.toggle('active')}
+document.addEventListener('DOMContentLoaded',function(){var targets=document.querySelectorAll('.fade-in');if('IntersectionObserver' in window){var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}})},{threshold:0.15,rootMargin:'0px 0px -40px 0px'});targets.forEach(function(t){observer.observe(t)})}else{targets.forEach(function(t){t.classList.add('is-visible')})}});
+</script>
 </body>
 </html>
