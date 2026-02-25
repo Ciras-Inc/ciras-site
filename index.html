@@ -1,558 +1,630 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ciras（シラス）株式会社｜その仕事、減らします。｜愛媛・松山のAI活用支援</title>
-<meta name="description" content="愛媛・松山の中小企業向けAI活用支援。AI顧問・Webサイト制作・業務システム開発・実務代行で、経営者の仕事を減らします。Ciras（シラス）株式会社。">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-<style>
-:root {
-  --green-deep: #2D5A27;
-  --green-dark: #1A3A18;
-  --green-light: #E8F0E7;
-  --green-pale: #C5E6C0;
-  --warm-gray: #F5F5F0;
-  --white: #FFFFFF;
-  --text-primary: #1a1a1a;
-  --text-secondary: #555;
-  --text-light: #888;
-  --font-main: 'Noto Sans JP', sans-serif;
-  --max-width: 1080px;
-  --section-padding: 80px 0;
-  --transition: 0.25s ease;
-}
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; scroll-padding-top:72px; -webkit-text-size-adjust:100%; }
-body { font-family:var(--font-main); font-weight:400; color:var(--text-primary); line-height:1.8; font-size:15px; background:var(--white); -webkit-font-smoothing:antialiased; }
-a { color:inherit; text-decoration:none; transition:opacity var(--transition); }
-a:hover { opacity:0.75; }
-img { max-width:100%; display:block; }
-ul { list-style:none; }
-.container { max-width:var(--max-width); margin:0 auto; padding:0 24px; }
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KLXZ6ND');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ciras（シラス）株式会社｜その仕事、減らせます。｜愛媛・松山のAIコンサルティング</title>
+  <meta name="description" content="愛媛・松山のAIコンサルティング会社Ciras。『その仕事、減らせます。』をモットーに、中小企業のAI導入・Web制作・業務システム開発を支援します。">
+  <link rel="canonical" href="https://www.ciras.jp/">
+  <link rel="icon" href="images/favicon.ico" sizes="any">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
-/* === Header === */
-header { position:sticky; top:0; z-index:1000; background:rgba(255,255,255,0.97); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid rgba(0,0,0,0.06); height:64px; }
-.header-inner { max-width:var(--max-width); margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:100%; }
-.header-logo span { font-size:1.1rem; font-weight:700; color:var(--green-deep); letter-spacing:0.04em; }
-.header-nav { display:flex; align-items:center; gap:28px; }
-.header-nav a { font-size:0.82rem; font-weight:500; color:var(--text-secondary); letter-spacing:0.02em; transition:color var(--transition); }
-.header-nav a:hover { color:var(--green-deep); opacity:1; }
-.nav-cta { background:var(--green-deep)!important; color:var(--white)!important; padding:8px 20px!important; border-radius:6px; font-weight:600!important; }
-.nav-cta:hover { background:var(--green-dark)!important; opacity:1!important; }
+  <!-- OGP -->
+  <meta property="og:title" content="Ciras（シラス）株式会社｜その仕事、減らせます。｜愛媛・松山のAIコンサルティング">
+  <meta property="og:description" content="愛媛・松山のAIコンサルティング会社Ciras。『その仕事、減らせます。』をモットーに、中小企業のAI導入・Web制作・業務システム開発を支援します。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.ciras.jp/">
+  <meta property="og:image" content="https://www.ciras.jp/images/ogp.png">
+  <meta property="og:site_name" content="Ciras（シラス）株式会社">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ciras（シラス）株式会社｜その仕事、減らせます。｜愛媛・松山のAIコンサルティング">
+  <meta name="twitter:description" content="愛媛・松山のAIコンサルティング会社Ciras。『その仕事、減らせます。』をモットーに、中小企業のAI導入・Web制作・業務システム開発を支援します。">
+  <meta name="twitter:image" content="https://www.ciras.jp/images/ogp.png">
 
-.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:8px; z-index:1100; }
-.hamburger span { display:block; width:22px; height:2px; background:var(--text-primary); border-radius:2px; transition:var(--transition); }
-.hamburger.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
-.hamburger.active span:nth-child(2) { opacity:0; }
-.hamburger.active span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+  <!-- Fonts: Noto Sans JP only -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-.mobile-menu { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(255,255,255,0.98); backdrop-filter:blur(16px); z-index:1050; padding:80px 24px 40px; flex-direction:column; overflow-y:auto; }
-.mobile-menu.active { display:flex; }
-.mobile-menu a { display:block; padding:16px 0; font-size:1.05rem; font-weight:500; color:var(--text-primary); border-bottom:1px solid rgba(0,0,0,0.06); }
-.mobile-menu .mobile-cta { display:block; background:var(--green-deep); color:var(--white); text-align:center; padding:16px; border-radius:8px; margin-top:24px; font-weight:600; border-bottom:none; }
-.mobile-menu .mobile-sub { margin-top:24px; padding-top:16px; border-top:1px solid rgba(0,0,0,0.08); }
-.mobile-menu .mobile-sub a { font-size:0.85rem; color:var(--text-light); padding:10px 0; border-bottom:none; }
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="style.css">
 
-/* === Section Label === */
-.section-label { font-size:0.7rem; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--green-deep); margin-bottom:12px; opacity:0.6; }
-.section-label--white { color:var(--green-pale); }
+  <!-- JSON-LD: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Ciras（シラス）株式会社",
+    "legalName": "Ciras株式会社",
+    "alternateName": ["シラス", "シラス株式会社", "Ciras Inc."],
+    "url": "https://www.ciras.jp",
+    "logo": "https://www.ciras.jp/images/logo-green.png",
+    "description": "Ciras（シラス）株式会社は、愛媛県松山市を拠点に、中小企業のAI活用を実務レベルで支援する専門企業です。「Ciras」の読みは「シラス」です（※「サイラス」ではありません）。「その仕事、減らせます。」をモットーに、AIの力で日々の業務を軽くするお手伝いをしています。",
+    "foundingDate": "2021-06",
+    "founder": {
+      "@type": "Person",
+      "name": "杉本竜弥",
+      "jobTitle": "代表取締役 AIコンサルタント"
+    },
+    "numberOfEmployees": {
+      "@type": "QuantitativeValue",
+      "value": 5
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "萱町3丁目2番3号 9CROSS 501",
+      "addressLocality": "松山市",
+      "addressRegion": "愛媛県",
+      "postalCode": "790-0813",
+      "addressCountry": "JP"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+81-50-3637-6324",
+      "contactType": "customer service",
+      "availableLanguage": "Japanese"
+    },
+    "areaServed": {
+      "@type": "State",
+      "name": "愛媛県"
+    },
+    "knowsAbout": ["AI活用コンサルティング", "生成AI", "ChatGPT活用支援", "中小企業DX", "AIセミナー", "Webサイト制作", "AI検索最適化", "AEO"],
+    "slogan": "その仕事、減らせます。"
+  }
+  </script>
 
-/* === Buttons === */
-.btn { display:inline-block; padding:14px 32px; border-radius:8px; font-size:0.9rem; font-weight:600; transition:all var(--transition); text-align:center; }
-.btn:active { transform:scale(0.97); }
-.btn--white { background:var(--white); color:var(--green-deep); }
-.btn--white:hover { background:#f0f0f0; opacity:1; }
-.btn--outline { background:transparent; color:var(--white); border:1px solid rgba(255,255,255,0.4); }
-.btn--outline:hover { border-color:var(--white); opacity:1; }
-.btn--green-outline { background:transparent; color:var(--green-deep); border:1px solid var(--green-deep); }
-.btn--green-outline:hover { background:var(--green-light); opacity:1; }
-.btn--white-outline { background:transparent; color:var(--white); border:1px solid rgba(255,255,255,0.4); }
-.btn--white-outline:hover { border-color:#fff; opacity:1; }
+  <!-- JSON-LD: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Ciras（シラス）株式会社",
+    "alternateName": ["シラス株式会社", "Ciras Inc."],
+    "url": "https://www.ciras.jp",
+    "description": "Ciras（シラス）株式会社の公式サイト。愛媛県松山市の中小企業向けAI活用支援企業。「Ciras」の読みは「シラス」です。「その仕事、減らせます。」をモットーに、AI導入・Web制作・業務効率化を支援。",
+    "inLanguage": "ja",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Ciras（シラス）株式会社",
+      "alternateName": "シラス株式会社"
+    }
+  }
+  </script>
 
-/* ============================================
-   HERO — 2カラム
-   ============================================ */
-.hero { background:var(--green-deep); color:var(--white); padding:0; position:relative; overflow:hidden; }
-.hero-grid { display:grid; grid-template-columns:1fr 1fr; min-height:520px; }
-.hero-text { display:flex; flex-direction:column; justify-content:center; padding:80px 48px 80px 0; padding-left:max(24px, calc((100vw - var(--max-width)) / 2 + 24px)); }
-.hero h1 { font-size:3rem; font-weight:900; line-height:1.25; letter-spacing:-0.02em; margin-bottom:24px; }
-.hero-sub { font-size:0.95rem; line-height:1.9; opacity:0.8; font-weight:300; max-width:440px; margin-bottom:36px; }
-.hero-buttons { display:flex; gap:12px; flex-wrap:wrap; }
-.hero-image { position:relative; overflow:hidden; }
-.hero-image img { width:100%; height:100%; object-fit:cover; object-position:center top; }
-.hero-image::after { content:''; position:absolute; top:0; left:0; width:100px; height:100%; background:linear-gradient(to right, var(--green-deep), transparent); }
+  <!-- JSON-LD: Service -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Ciras AI顧問",
+    "description": "中小企業向けAI活用コンサルティング。月額33,000円で、AI導入から活用定着まで伴走支援します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "Ciras（シラス）株式会社"
+    },
+    "areaServed": {
+      "@type": "State",
+      "name": "愛媛県"
+    },
+    "serviceType": "AIコンサルティング"
+  }
+  </script>
 
-/* ============================================
-   Track Record — 数字左 + 写真右
-   ============================================ */
-.track-record { background:var(--white); padding:56px 0; border-bottom:1px solid rgba(0,0,0,0.04); }
-.stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; text-align:center; }
-.stat-number { font-size:2.4rem; font-weight:700; color:var(--green-deep); line-height:1.2; }
-.stat-number small { font-size:0.45em; font-weight:500; }
-.stat-label { font-size:0.8rem; color:var(--text-secondary); margin-top:2px; }
-
-/* ============================================
-   Problems
-   ============================================ */
-.problems { background:var(--warm-gray); padding:var(--section-padding); }
-.problems h2 { font-size:1.5rem; font-weight:700; margin-bottom:32px; text-align:center; }
-.problem-list { max-width:560px; margin:0 auto 32px; display:flex; flex-direction:column; gap:12px; }
-.problem-item { background:var(--white); padding:16px 20px; border-radius:8px; font-size:0.95rem; font-weight:500; display:flex; align-items:center; gap:12px; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
-.problem-item::before { content:''; width:6px; height:6px; background:var(--green-deep); border-radius:50%; flex-shrink:0; }
-.bridge { text-align:center; max-width:520px; margin:0 auto; color:var(--text-secondary); font-size:0.95rem; line-height:1.9; }
-.bridge strong { color:var(--text-primary); }
-
-/* ============================================
-   Services
-   ============================================ */
-.services { background:var(--white); padding:var(--section-padding); }
-.services h2 { font-size:1.5rem; font-weight:700; margin-bottom:40px; }
-.services-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
-.service-card { display:block; background:var(--white); border:1px solid rgba(0,0,0,0.08); border-radius:12px; padding:32px 28px; transition:all var(--transition); position:relative; }
-.service-card:hover { border-color:var(--green-deep); box-shadow:0 4px 20px rgba(45,90,39,0.08); opacity:1; transform:translateY(-2px); }
-.service-num { font-size:0.65rem; font-weight:600; letter-spacing:0.12em; color:var(--text-light); margin-bottom:12px; }
-.service-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:10px; }
-.service-card p { font-size:0.85rem; color:var(--text-secondary); line-height:1.7; margin-bottom:16px; }
-.service-price { font-size:0.85rem; font-weight:600; color:var(--green-deep); }
-.service-arrow { position:absolute; right:24px; bottom:28px; font-size:0.8rem; color:var(--text-light); }
-
-/* ============================================
-   Free Tools
-   ============================================ */
-.free-tools { background:var(--green-deep); color:var(--white); padding:64px 0; }
-.free-tools h2 { font-size:1.5rem; font-weight:700; margin-bottom:8px; }
-.free-tools-lead { opacity:0.7; font-size:0.9rem; margin-bottom:32px; }
-.diagnostic-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
-.diagnostic-card { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); border-radius:12px; padding:28px 24px; transition:all var(--transition); display:block; }
-.diagnostic-card:hover { background:rgba(255,255,255,0.15); opacity:1; }
-.diagnostic-card h3 { font-size:1rem; font-weight:600; margin-bottom:8px; }
-.diagnostic-card p { font-size:0.82rem; opacity:0.75; line-height:1.7; margin-bottom:16px; }
-.diagnostic-link { font-size:0.85rem; font-weight:600; color:var(--green-pale); }
-
-/* ============================================
-   Why Section
-   ============================================ */
-.why { background:var(--warm-gray); padding:var(--section-padding); }
-.why h2 { font-size:1.5rem; font-weight:700; margin-bottom:8px; }
-.why-lead { color:var(--text-secondary); font-size:0.9rem; margin-bottom:36px; }
-.comparison { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
-.comparison-col { background:var(--white); border-radius:12px; padding:28px 24px; }
-.comparison-col h3 { font-size:0.95rem; font-weight:700; margin-bottom:16px; }
-.comparison-col.positive h3 { color:var(--green-deep); }
-.comparison-col.negative h3 { color:#888; }
-.comparison-col li { font-size:0.85rem; line-height:1.7; padding:6px 0; color:var(--text-secondary); padding-left:20px; position:relative; }
-.comparison-col.positive li::before { content:'✓'; position:absolute; left:0; color:var(--green-deep); font-weight:700; font-size:0.8rem; }
-.comparison-col.negative li::before { content:'—'; position:absolute; left:0; color:#ccc; }
-
-/* ============================================
-   Future（2030）— テキスト左 + 写真右
-   ============================================ */
-.future { background:var(--white); padding:var(--section-padding); }
-.future-grid { display:grid; grid-template-columns:1fr 0.8fr; gap:48px; align-items:center; }
-.future-content h2 { font-size:1.5rem; font-weight:700; margin-bottom:20px; }
-.future-text { font-size:0.95rem; color:var(--text-secondary); line-height:2; margin-bottom:28px; }
-.future-text strong { color:var(--text-primary); }
-.future-image img { width:100%; height:280px; object-fit:cover; border-radius:12px; }
-
-/* ============================================
-   Seminar — 写真左 + テキスト右
-   ============================================ */
-.seminar { background:var(--warm-gray); padding:var(--section-padding); }
-.seminar h2 { font-size:1.5rem; font-weight:700; margin-bottom:8px; }
-.seminar-lead { color:var(--text-secondary); font-size:0.9rem; margin-bottom:28px; }
-.seminar-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:center; }
-.seminar-photo img { width:100%; height:240px; object-fit:cover; border-radius:12px; }
-.seminar-info { display:flex; flex-direction:column; gap:16px; }
-.seminar-type { background:var(--white); border-radius:10px; padding:20px 24px; }
-.seminar-type h4 { font-size:0.95rem; font-weight:600; margin-bottom:4px; }
-.seminar-type p { font-size:0.8rem; color:var(--text-light); }
-
-/* ============================================
-   Blog
-   ============================================ */
-.blog { background:var(--white); padding:var(--section-padding); }
-.blog h2 { font-size:1.5rem; font-weight:700; margin-bottom:32px; }
-.blog-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:28px; }
-.blog-card { display:block; border:1px solid rgba(0,0,0,0.06); border-radius:10px; padding:24px 20px; transition:all var(--transition); }
-.blog-card:hover { border-color:rgba(0,0,0,0.12); opacity:1; box-shadow:0 2px 12px rgba(0,0,0,0.04); }
-.blog-tag { font-size:0.7rem; font-weight:600; color:var(--green-deep); background:var(--green-light); padding:2px 8px; border-radius:4px; display:inline-block; margin-bottom:10px; }
-.blog-card h3 { font-size:0.9rem; font-weight:600; line-height:1.6; margin-bottom:8px; }
-.blog-card p { font-size:0.78rem; color:var(--text-light); line-height:1.6; margin-bottom:8px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.blog-date { font-size:0.72rem; color:var(--text-light); }
-.blog-more { text-align:center; }
-.blog-more a { font-size:0.85rem; font-weight:500; color:var(--green-deep); }
-
-/* ============================================
-   Final CTA
-   ============================================ */
-.final-cta { background:var(--green-dark); color:var(--white); padding:72px 0; text-align:center; }
-.final-cta h2 { font-size:1.5rem; font-weight:700; margin-bottom:16px; }
-.final-cta p { opacity:0.75; font-size:0.9rem; line-height:1.9; margin-bottom:32px; }
-.cta-buttons { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-
-/* ============================================
-   Footer
-   ============================================ */
-footer { background:#111; color:rgba(255,255,255,0.6); padding:56px 0 0; font-size:0.8rem; }
-.footer-inner { display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:40px; padding-bottom:40px; }
-.footer-brand p { margin-top:6px; line-height:1.8; }
-.footer-brand a { color:rgba(255,255,255,0.6); }
-.footer-brand a:hover { color:#fff; }
-.footer-logo { font-size:1rem; font-weight:700; color:#fff; margin-bottom:12px; display:block; }
-.footer-links h4 { font-size:0.72rem; font-weight:600; letter-spacing:0.1em; color:rgba(255,255,255,0.35); margin-bottom:14px; }
-.footer-links li { margin-bottom:8px; }
-.footer-links a { color:rgba(255,255,255,0.6); transition:color var(--transition); }
-.footer-links a:hover { color:#fff; opacity:1; }
-.footer-bottom { border-top:1px solid rgba(255,255,255,0.08); padding:20px 0; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
-.footer-bottom a { color:rgba(255,255,255,0.4); margin-right:20px; font-size:0.72rem; }
-.footer-bottom span { font-size:0.72rem; color:rgba(255,255,255,0.3); }
-
-/* ============================================
-   Responsive
-   ============================================ */
-@media (max-width:768px) {
-  .header-nav { display:none; }
-  .hamburger { display:flex; }
-  .hero-grid { grid-template-columns:1fr; min-height:auto; }
-  .hero-image { height:300px; order:-1; }
-  .hero-image::after { width:100%; height:100px; top:auto; bottom:0; left:0; background:linear-gradient(to top, var(--green-deep), transparent); }
-  .hero-text { padding:40px 20px 56px; }
-  .hero h1 { font-size:2.2rem; }
-  .hero-buttons { flex-direction:column; }
-  .btn { display:block; width:100%; padding:16px 0; }
-  .stats-grid { grid-template-columns:repeat(2,1fr); }
-  .stat-number { font-size:1.8rem; }
-  .services-grid, .diagnostic-grid, .comparison, .blog-grid { grid-template-columns:1fr; }
-  .future-grid { grid-template-columns:1fr; gap:24px; }
-  .future-image img { height:200px; }
-  .seminar-grid { grid-template-columns:1fr; gap:20px; }
-  .seminar-photo img { height:200px; }
-  .container { padding:0 20px; }
-  .problems, .services, .free-tools, .why, .future, .seminar, .blog { padding:56px 0; }
-  .track-record { padding:48px 0; }
-  .problems h2, .services h2, .why h2, .future-content h2, .seminar h2, .blog h2 { font-size:1.3rem; }
-  .footer-inner { grid-template-columns:1fr; gap:28px; }
-  .footer-bottom { flex-direction:column; text-align:center; gap:8px; }
-}
-@media (max-width:375px) {
-  .hero h1 { font-size:1.85rem; }
-  .hero-text { padding:32px 16px 48px; }
-  .hero-image { height:260px; }
-  .container { padding:0 16px; }
-}
-</style>
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://www.ciras.jp/"}
+    ]
+  }
+  </script>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLXZ6ND"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager -->
 
-<!-- HEADER -->
-<header>
-  <div class="header-inner">
-    <a href="/" class="header-logo"><span>Ciras</span></a>
-    <nav class="header-nav">
-      <a href="#services">サービス</a>
-      <a href="#seminar">セミナー</a>
-      <a href="/voice.html">お客様の声</a>
-      <a href="/faq.html">よくある質問</a>
-      <a href="/contact.html" class="nav-cta">お問い合わせ</a>
+  <!-- ===== HEADER（共通パーツ） ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo" aria-label="Ciras（シラス）株式会社 ホーム"><img src="images/logo-green.png" alt="Ciras（シラス）株式会社" class="logo-img"></a>
+      <nav class="header-nav">
+        <div class="nav-dropdown">
+          <a href="#services" class="nav-dropdown-trigger">サービス</a>
+          <div class="nav-dropdown-menu">
+            <a href="/ai-komon.html">Ciras AI顧問</a>
+            <a href="/web.html">AI活用 Webサイト制作</a>
+            <a href="/system.html">AI業務システム開発</a>
+            <a href="/kagemusha.html">影武者</a>
+          </div>
+        </div>
+        <a href="/needs.html">課題から探す</a>
+        <a href="/seminar.html">セミナー</a>
+        <div class="nav-dropdown">
+          <a href="/company.html" class="nav-dropdown-trigger">会社概要</a>
+          <div class="nav-dropdown-menu">
+            <a href="/voice.html">お客様の声</a>
+            <a href="/faq.html">よくある質問</a>
+          </div>
+        </div>
+        <a href="/partner.html">採用・協業</a>
+        <div class="nav-dropdown">
+          <a href="#free-tools" class="nav-dropdown-trigger">無料診断ツール</a>
+          <div class="nav-dropdown-menu">
+            <a href="/ai-check.html">AI活用レベルチェッカー</a>
+            <a href="/web-check.html">Webサイト状況チェッカー</a>
+          </div>
+        </div>
+        <a href="/blog/">ブログ</a>
+        <a href="/contact.html" class="header-cta">お問い合わせ</a>
+      </nav>
+      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+    <nav class="mobile-nav" aria-label="モバイルメニュー">
+      <div class="mobile-nav-group">
+        <p class="mobile-nav-label">サービス</p>
+        <a href="/ai-komon.html">Ciras AI顧問</a>
+        <a href="/web.html">AI活用 Webサイト制作</a>
+        <a href="/system.html">AI業務システム開発</a>
+        <a href="/kagemusha.html">影武者</a>
+      </div>
+      <a href="/needs.html">課題から探す</a>
+      <a href="/seminar.html">セミナー</a>
+      <div class="mobile-nav-group">
+        <p class="mobile-nav-label">会社概要</p>
+        <a href="/company.html">会社概要</a>
+        <a href="/voice.html">お客様の声</a>
+        <a href="/faq.html">よくある質問</a>
+      </div>
+      <a href="/partner.html">採用・協業</a>
+      <div class="mobile-nav-group">
+        <p class="mobile-nav-label">無料診断ツール</p>
+        <a href="/ai-check.html">AI活用レベルチェッカー</a>
+        <a href="/web-check.html">Webサイト状況チェッカー</a>
+      </div>
+      <a href="/blog/">ブログ</a>
+      <a href="/contact.html" class="mobile-nav-cta">お問い合わせ</a>
     </nav>
-    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
-  </div>
-</header>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#services" onclick="toggleMenu()">サービス</a>
-  <a href="#seminar" onclick="toggleMenu()">セミナー</a>
-  <a href="/voice.html">お客様の声</a>
-  <a href="/faq.html">よくある質問</a>
-  <a href="/contact.html" class="mobile-cta">お問い合わせ</a>
-  <div class="mobile-sub">
-    <a href="/company.html">会社概要</a>
-    <a href="/needs.html">課題から探す</a>
-    <a href="/partner.html">採用・協業</a>
-    <a href="/blog/">ブログ</a>
-  </div>
-</div>
+  </header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-grid">
-    <div class="hero-text">
-      <h1>その仕事、<br>減らします。</h1>
-      <p class="hero-sub">AIの導入・活用・仕組み化で、経営者の手間と迷いを減らす。<br>愛媛・松山から、中小企業のAI活用を支援します。</p>
-      <div class="hero-buttons">
-        <a href="/contact.html" class="btn btn--white">お問い合わせ</a>
-        <a href="#services" class="btn btn--outline">サービスを見る</a>
-      </div>
-    </div>
-    <div class="hero-image">
-      <img src="images/sugimoto.jpg" alt="Ciras代表" loading="eager">
-    </div>
-  </div>
-</section>
-
-<!-- TRACK RECORD -->
-<section class="track-record">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat-item">
-        <div class="stat-number">80<small>回+</small></div>
-        <div class="stat-label">セミナー開催</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">5,000<small>件+</small></div>
-        <div class="stat-label">相談対応</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">80<small>%+</small></div>
-        <div class="stat-label">3年以上継続率</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">10<small>回+</small></div>
-        <div class="stat-label">メディア掲載</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROBLEMS -->
-<section class="problems">
-  <div class="container">
-    <p class="section-label">Problem</p>
-    <h2>こんな状態、続いていませんか？</h2>
-    <div class="problem-list">
-      <div class="problem-item">AIを入れたが、結局使われていない</div>
-      <div class="problem-item">やることが多く、判断が後回しになる</div>
-      <div class="problem-item">相談できる相手がいない</div>
-    </div>
-    <p class="bridge">原因は、ツールではなく<strong>「整理」の不足</strong>。<br>Cirasは御社の業務を見て、減らせる仕事から一緒に手を付けます。</p>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section class="services" id="services">
-  <div class="container">
-    <p class="section-label">Service</p>
-    <h2>サービス</h2>
-    <div class="services-grid">
-      <a href="/ai-komon.html" class="service-card">
-        <div class="service-num">SERVICE 01</div>
-        <h3>Ciras AI顧問</h3>
-        <p>月1回の面談と日々のチャット相談。調べる・迷う・試す、の時間を減らします。</p>
-        <div class="service-price">月額 33,000円</div>
-        <span class="service-arrow">→</span>
-      </a>
-      <a href="/web.html" class="service-card">
-        <div class="service-num">SERVICE 02</div>
-        <h3>AI活用 Webサイト制作</h3>
-        <p>AI検索で、会社情報が読み違えられないホームページを作ります。引用されやすい形に整えます。</p>
-        <div class="service-price">220,000円〜（税込）</div>
-        <span class="service-arrow">→</span>
-      </a>
-      <a href="/kagemusha.html" class="service-card">
-        <div class="service-num">SERVICE 03</div>
-        <h3>影武者</h3>
-        <p>経営者の業務を実際に巻き取ります。助言ではなく、実務ごと引き受けます。</p>
-        <div class="service-price">月額 25万円〜</div>
-        <span class="service-arrow">→</span>
-      </a>
-      <a href="/system.html" class="service-card">
-        <div class="service-num">SERVICE 04</div>
-        <h3>AI業務システム開発</h3>
-        <p>申込・決済、予約連携、非対面対応など。業務の「手間」を仕組みにまとめます。</p>
-        <div class="service-price">330,000円〜（税込）</div>
-        <span class="service-arrow">→</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- FREE TOOLS -->
-<section class="free-tools" id="free-tools">
-  <div class="container">
-    <p class="section-label section-label--white">Free Diagnostic</p>
-    <h2>無料診断ツール</h2>
-    <p class="free-tools-lead">1〜2分の質問に答えるだけ。AIがその場で分析し、提案をお届けします。</p>
-    <div class="diagnostic-grid">
-      <a href="/ai-check" class="diagnostic-card">
-        <h3>AI活用レベルチェッカー</h3>
-        <p>6つの質問に答えるだけ。あなたのビジネスに合ったAI活用の提案をAIがその場で作成します。</p>
-        <span class="diagnostic-link">無料で診断する →</span>
-      </a>
-      <a href="/web-check" class="diagnostic-card">
-        <h3>Webサイト状況チェッカー</h3>
-        <p>AI検索時代に対応できているか診断。URLを入力すると100点満点でスコア評価します。</p>
-        <span class="diagnostic-link">無料で診断する →</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- WHY CIRAS -->
-<section class="why">
-  <div class="container">
-    <p class="section-label">Why Ciras</p>
-    <h2>なぜAI顧問が必要か</h2>
-    <p class="why-lead">相談先がないまま進めるほど、手戻りと迷いが増えます。</p>
-    <div class="comparison">
-      <div class="comparison-col positive">
-        <h3>✓ AI顧問がいると</h3>
-        <ul>
-          <li>調べる時間が減り、判断が早くなる</li>
-          <li>AI活用の方針がブレず、手戻りが減る</li>
-          <li>社内の使い方が統一され、定着しやすい</li>
-          <li>困ったときにすぐ聞け、止まらない</li>
-        </ul>
-      </div>
-      <div class="comparison-col negative">
-        <h3>✗ AI顧問がいないと</h3>
-        <ul>
-          <li>試すだけで終わり、仕事は減らない</li>
-          <li>使い方がバラバラで、かえって手間が増える</li>
-          <li>詳しい人に負荷が集中し、続かない</li>
-          <li>判断が後回しになり、競合に先を行かれる</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FUTURE (2030) -->
-<section class="future">
-  <div class="container">
-    <div class="future-grid">
-      <div class="future-content">
-        <p class="section-label">2030</p>
-        <h2>検索の入口が、<br>すでに変わり始めています</h2>
-        <div class="future-text">
-          検索結果を開く前に、AIが答えを返す場面が増えています。<br>
-          参照されるのは、企業の公式サイトの情報です。<br>
-          御社の社名で検索したとき、<strong>正しい情報がまとまっていますか？</strong><br>
-          情報が古い・散らばっている——それだけで、誤解が生まれます。
+  <main>
+    <!-- ===== HERO / ファーストビュー ===== -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <h1 class="hero-catch">
+            AI活用で<br>
+            経営の「迷い」を減らし<br>
+            <span class="highlight">「決断」</span>を早くする
+          </h1>
+          <p class="hero-sub">
+            Ciras（シラス）株式会社は、愛媛・松山から中小企業のAI活用を支援します。<br>
+            「何を、どう使うか」を整理し、業務で使える形まで落とし込みます。
+          </p>
+          <div class="hero-cta">
+            <a href="/contact.html" class="btn btn-primary">お問い合わせ</a>
+            <a href="#services" class="btn btn-secondary">サービスを見る</a>
+          </div>
         </div>
-        <a href="/web.html" class="btn btn--green-outline">AI活用 Webサイト制作について →</a>
-      </div>
-      <div class="future-image">
-        <img src="images/seminar-1.jpg" alt="AI活用セミナーの様子" loading="lazy">
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SEMINAR -->
-<section class="seminar" id="seminar">
-  <div class="container">
-    <p class="section-label">Seminar</p>
-    <h2>セミナー・研修</h2>
-    <p class="seminar-lead">オンライン・対面で定期開催。企業研修や外部講師としても登壇しています。</p>
-    <div class="seminar-grid">
-      <div class="seminar-photo">
-        <img src="images/seminar-2.jpg" alt="研修の様子" loading="lazy">
-      </div>
-      <div class="seminar-info">
-        <div class="seminar-type">
-          <h4>オンラインセミナー</h4>
-          <p>原則毎月開催（内容は都度案内）</p>
+        <div class="hero-visual">
+          <div class="hero-accent-text">決断</div>
+          <div class="hero-message">
+            <p class="hero-message-main">
+              迷いを減らし<br>
+              実行を増やす
+            </p>
+          </div>
         </div>
-        <div class="seminar-type">
-          <h4>生成AI活用塾</h4>
-          <p>対面（参加費は都度案内）</p>
-        </div>
-        <a href="/seminar.html" class="btn btn--green-outline" style="margin-top:8px;">セミナー情報を見る</a>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- BLOG -->
-<section class="blog">
-  <div class="container">
-    <p class="section-label">Blog</p>
-    <h2>ブログ</h2>
-    <div class="blog-grid">
-      <a href="/blog/260214-ai-search-guide" class="blog-card">
-        <span class="blog-tag">Web運用</span>
-        <h3>中小企業がAI検索で見つけてもらうためにやるべきこと</h3>
-        <p>ChatGPTやPerplexityなどのAI検索で自社が引用されるために。中小企業が今すぐ始められるAI検索対策を実務目線で解説。</p>
-        <span class="blog-date">2026.2.14</span>
-      </a>
-      <a href="/blog/260214-wix-migration" class="blog-card">
-        <span class="blog-tag">Web運用</span>
-        <h3>WixからHTML＋Cloudflareに移行した記録と成果</h3>
-        <p>Wixで作っていた自社サイトをHTML＋CSSに書き換えてCloudflare Pagesに移行。表示速度・SEO・運用コストの変化。</p>
-        <span class="blog-date">2026.2.14</span>
-      </a>
-      <a href="/blog/shindan-tool-release" class="blog-card">
-        <span class="blog-tag">お知らせ</span>
-        <h3>無料診断ツールを公開しました</h3>
-        <p>「AI活用レベル診断」と「Webサイト状況診断」の2つの無料ツールを公開。質問に答えるだけでAIが診断します。</p>
-        <span class="blog-date">2026.2.12</span>
-      </a>
-    </div>
-    <div class="blog-more"><a href="/blog/">記事をもっと見る →</a></div>
-  </div>
-</section>
+    <!-- ===== PROBLEM ===== -->
+    <section class="problem fade-in">
+      <div class="problem-inner">
+        <h2 class="problem-title">
+          毎日の業務、こんな「もったいない」ありませんか？
+        </h2>
+        <div class="problem-list">
+          <span class="problem-item">同じ作業を何度も繰り返している</span>
+          <span class="problem-item">人手が足りないのに仕事は増える</span>
+          <span class="problem-item">AIを試したが定着しない</span>
+          <span class="problem-item">ホームページが放置されている</span>
+          <span class="problem-item">相談できる相手がいない</span>
+        </div>
+        <p class="problem-answer">
+          大丈夫です。それは技術の問題ではありません。<br>
+          <strong>「どの仕事を、どう減らすか」が整理できていないだけ</strong>です。<br>
+          Cirasは、AIを使って御社の業務をひとつずつ軽くしていきます。
+        </p>
+      </div>
+    </section>
 
-<!-- FINAL CTA -->
-<section class="final-cta">
-  <div class="container">
-    <h2>まずは、お気軽にご相談ください</h2>
-    <p>「何から手をつければいいか」からで構いません。<br>状況を整理して、次にやることを一緒に決めます。</p>
-    <div class="cta-buttons">
-      <a href="/contact.html" class="btn btn--white">お問い合わせ</a>
-      <a href="https://lin.ee/s2u6VUw" class="btn btn--white-outline">LINEで相談</a>
-    </div>
-  </div>
-</section>
+    <!-- ===== SERVICES ===== -->
+    <section id="services" class="services fade-in" style="scroll-margin-top: 80px;">
+      <div class="services-inner">
+        <div class="section-header">
+          <p class="section-label">SERVICE</p>
+          <h2 class="section-title">あなたの「減らしたい」に応えるサービス</h2>
+        </div>
+        <div class="service-list">
+          <a href="/ai-komon.html" class="service-card">
+            <div>
+              <p class="service-num">SERVICE 01</p>
+            </div>
+            <div>
+              <h3 class="service-name">Ciras AI顧問</h3>
+              <p class="service-desc">月1回のレクチャーと日常のチャット相談。「何をAIに任せるか」を一緒に考え、業務の手間を減らします。</p>
+            </div>
+            <div class="service-right">
+              <p class="service-price">月額 33,000円</p>
+              <span class="service-link">詳しく見る →</span>
+            </div>
+          </a>
+          <a href="/web.html" class="service-card">
+            <div>
+              <p class="service-num">SERVICE 02</p>
+            </div>
+            <div>
+              <h3 class="service-name">AI活用 Webサイト制作</h3>
+              <p class="service-desc">AI検索（AIが答える検索）で、会社情報が<strong>読み違えられない</strong>ホームページを作ります。強み・サービス・料金・よくある質問を整理し、引用されやすい形に整えます。</p>
+            </div>
+            <div class="service-right">
+              <p class="service-price">220,000円〜（税込）</p>
+              <span class="service-link">詳しく見る →</span>
+            </div>
+          </a>
+          <a href="/kagemusha.html" class="service-card">
+            <div>
+              <p class="service-num">SERVICE 03</p>
+            </div>
+            <div>
+              <h3 class="service-name">影武者</h3>
+              <p class="service-desc">経営者の業務を実際に巻き取る代行サービス。アドバイスだけでなく、あなたの「やらなきゃ」を減らします。</p>
+            </div>
+            <div class="service-right">
+              <p class="service-price">月額 25万円〜</p>
+              <span class="service-link">詳しく見る →</span>
+            </div>
+          </a>
+          <a href="/system.html" class="service-card">
+            <div>
+              <p class="service-num">SERVICE 04</p>
+            </div>
+            <div>
+              <h3 class="service-name">AI業務システム開発</h3>
+              <p class="service-desc">申込・決済、予約連携、非対面対応など。毎日の「手作業」を仕組みにして、繰り返しの手間を減らします。</p>
+            </div>
+            <div class="service-right">
+              <p class="service-price">330,000円〜（税込）</p>
+              <span class="service-link">詳しく見る →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container">
+    <!-- ===== REASON (WHY CIRAS) ===== -->
+    <section class="reason fade-in">
+      <div class="reason-inner">
+        <div class="section-header">
+          <p class="section-label">WHY CIRAS</p>
+          <h2 class="section-title">なぜ、AIパートナーが必要なのか</h2>
+        </div>
+        <p class="reason-lead">仕事を減らすには、「何を減らすか」を一緒に考える相手が必要です。</p>
+        <div class="reason-content">
+          <div class="reason-block reason-positive">
+            <h3 class="reason-block-title">AIパートナーがいると</h3>
+            <ul class="reason-list">
+              <li>どの仕事を減らせるか、具体的にわかる</li>
+              <li>AIの選び方・使い方がブレなくなる</li>
+              <li>社内で使い方が統一され、継続しやすい</li>
+              <li>困った時の相談先があり、つまずきにくい</li>
+            </ul>
+          </div>
+          <div class="reason-block reason-negative">
+            <h3 class="reason-block-title">AIパートナーがいないと</h3>
+            <ul class="reason-list negative">
+              <li>試すだけで終わり、業務改善につながらない</li>
+              <li>使い方が人によって異なり、社内が混乱</li>
+              <li>詳しい担当者に負担が集中し、続かない</li>
+              <li>結局、仕事が減らないまま時間だけが過ぎる</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TRUST / 実績 ===== -->
+    <section class="trust fade-in">
+      <div class="trust-inner">
+        <div class="section-header">
+          <p class="section-label">TRACK RECORD</p>
+          <h2 class="section-title">実績</h2>
+        </div>
+        <div class="trust-grid">
+          <div class="trust-item">
+            <p class="trust-item-num">80<span>回+</span></p>
+            <p class="trust-item-label">セミナー開催</p>
+          </div>
+          <div class="trust-item">
+            <p class="trust-item-num">5,000<span>件+</span></p>
+            <p class="trust-item-label">相談対応</p>
+          </div>
+          <div class="trust-item">
+            <p class="trust-item-num">80<span>%+</span></p>
+            <p class="trust-item-label">3年以上継続率</p>
+          </div>
+          <div class="trust-item">
+            <p class="trust-item-num">10<span>回+</span></p>
+            <p class="trust-item-label">メディア掲載</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEMINAR ===== -->
+    <section class="seminar fade-in">
+      <div class="seminar-inner">
+        <div class="seminar-photos">
+          <div class="seminar-photo"><img src="images/seminar-1.jpg" alt="セミナー風景 - 講演の様子" loading="lazy"></div>
+          <div class="seminar-photo"><img src="images/seminar-2.jpg" alt="セミナー風景 - 研修の様子" loading="lazy"></div>
+        </div>
+        <div class="seminar-content">
+          <p class="section-label">SEMINAR</p>
+          <h2 class="seminar-title">セミナー・研修</h2>
+          <p class="seminar-text">
+            オンライン・対面で定期開催。<br>
+            企業研修や外部講師としても登壇しています。<br>
+            まずはセミナーから、という方も歓迎です。
+          </p>
+          <div class="seminar-info">
+            <div class="seminar-info-item">
+              <span class="seminar-info-label">オンラインセミナー</span>
+              <span class="seminar-info-value">原則毎月開催（内容は都度案内）</span>
+            </div>
+            <div class="seminar-info-item">
+              <span class="seminar-info-label">生成AI活用塾</span>
+              <span class="seminar-info-value">対面（参加費は都度案内）</span>
+            </div>
+          </div>
+          <a href="/seminar.html" class="btn btn-secondary">セミナー情報を見る</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2030 ===== -->
+    <section class="thesis fade-in">
+      <div class="thesis-inner">
+        <p class="thesis-year">2030</p>
+        <h2 class="thesis-title">
+          検索の入口が、すでに変わり始めています
+        </h2>
+        <p class="thesis-text">
+          検索結果を開く前に、AIが要点をまとめて答える場面が増えています。<br>
+          そのとき材料になるのは、企業の「公式情報」です。<br>
+          御社の社名で検索したとき、住所・事業内容・強みは、正しくまとまっていますか。<br>
+          <strong>情報が古い／散らばっている／説明が足りない</strong>だけで、誤解の原因になります。<br>
+          だからこそ、今、会社情報を整えたホームページが必要です。
+        </p>
+        <a href="/web.html" class="thesis-link">AI活用 Webサイト制作について詳しく →</a>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="about fade-in" id="about">
+      <div class="about-inner">
+        <div class="section-header">
+          <p class="section-label">ABOUT</p>
+          <h2 class="section-title">Ciras（シラス）株式会社について</h2>
+        </div>
+        <div class="about-content">
+          <p>Ciras（シラス）株式会社は、愛媛県松山市にある小さな会社です。「Ciras」の読みは「シラス」です（※「サイラス」ではありません）。2021年6月設立。</p>
+          <p>中小企業がAIを「日常の業務で、ふつうに使える」ようになるためのお手伝いをしています。</p>
+          <ul class="about-services">
+            <li><strong>Ciras AI顧問</strong>（月額33,000円）― 月1回のレクチャーと日々のチャット相談で、AI活用を一緒に考える伴走支援</li>
+            <li><strong>AI活用 Webサイト制作</strong>（220,000円〜）― AI検索で会社情報が正しく伝わるホームページづくり</li>
+            <li><strong>影武者</strong>（月額250,000円〜）― 経営者の業務を実際にお手伝いする実務代行</li>
+            <li><strong>AI業務システム開発</strong>（330,000円〜）― 申込・決済、予約連携、非対面対応など、業務の「手間」を仕組みにまとめる開発</li>
+          </ul>
+          <p>所在地：〒790-0813 愛媛県松山市萱町3丁目2番3号 9CROSS 501｜TEL: 050-3637-6324｜メール: info@ciras.jp</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FREE TOOLS ===== -->
+    <section class="free-tools fade-in" id="free-tools">
+      <div class="free-tools-inner">
+        <div class="section-header">
+          <p class="section-label">FREE TOOLS</p>
+          <h2 class="section-title">無料診断ツール</h2>
+        </div>
+        <p class="free-tools-lead">1〜2分の質問に答えるだけ。AIがその場で分析し、あなたのビジネスに合った提案をお届けします。</p>
+        <div class="free-tools-grid">
+          <a href="/ai-check.html" class="free-tool-card">
+            <p class="free-tool-label">DIAGNOSTIC 01</p>
+            <h3 class="free-tool-name">AI活用レベルチェッカー</h3>
+            <p class="free-tool-desc">6つの質問に答えるだけで、あなたのビジネスに合ったAI活用の提案をAIがその場で作成します。</p>
+            <span class="free-tool-link">無料で診断する →</span>
+          </a>
+          <a href="/web-check.html" class="free-tool-card">
+            <p class="free-tool-label">DIAGNOSTIC 02</p>
+            <h3 class="free-tool-name">Webサイト状況チェッカー</h3>
+            <p class="free-tool-desc">あなたのWebサイトがAI検索時代に対応できているか診断。URLを入力すると100点満点でスコア評価します。</p>
+            <span class="free-tool-link">無料で診断する →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BLOG ===== -->
+    <section class="blog-section fade-in">
+      <div class="blog-inner">
+        <div class="section-header">
+          <p class="section-label">BLOG</p>
+          <h2 class="section-title">ブログ</h2>
+        </div>
+        <div class="blog-grid">
+          <a href="/blog/260214-ai-search-guide" class="blog-card">
+            <span class="blog-card-tag">Web運用</span>
+            <h3 class="blog-card-title">中小企業がAI検索で見つけてもらうためにやるべきこと</h3>
+            <p class="blog-card-excerpt">ChatGPTやPerplexityなどのAI検索で自社が引用されるために。中小企業が今すぐ始められるAI検索対策（AEO）を実務目線で解説。</p>
+            <span class="blog-card-date">2026.2.14</span>
+          </a>
+          <a href="/blog/260214-wix-migration" class="blog-card">
+            <span class="blog-card-tag">Web運用</span>
+            <h3 class="blog-card-title">WixからHTML＋Cloudflareに移行した記録と成果</h3>
+            <p class="blog-card-excerpt">Wixで作っていた自社サイトをHTML＋CSSに書き換えてCloudflare Pagesに移行。表示速度・SEO・運用コストがどう変わったか。</p>
+            <span class="blog-card-date">2026.2.14</span>
+          </a>
+          <a href="/blog/shindan-tool-release" class="blog-card">
+            <span class="blog-card-tag">お知らせ</span>
+            <h3 class="blog-card-title">無料診断ツールを公開しました</h3>
+            <p class="blog-card-excerpt">「AI活用レベル診断」と「Webサイト状況診断」の2つの無料ツールを公開。質問に答えるだけで、AIがその場で診断します。</p>
+            <span class="blog-card-date">2026.2.12</span>
+          </a>
+        </div>
+        <div class="blog-more">
+          <a href="/blog/">記事をもっと見る →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta fade-in">
+      <div class="cta-inner">
+        <h2 class="cta-title">その仕事、一緒に減らしませんか？</h2>
+        <p class="cta-text">
+          「何を、どう減らせばいいか」からで大丈夫です。<br>
+          状況を整理し、次の一手を一緒に決めます。<br>
+          ご相談は、フォーム／LINEからどうぞ。
+        </p>
+        <div class="cta-buttons">
+          <a href="/contact.html" class="btn btn-primary btn-large">まずは無料で相談する</a>
+          <a href="https://lin.ee/s2u6VUw" class="btn btn-secondary">LINEで相談</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER（共通パーツ） ===== -->
+  <footer class="site-footer">
     <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="footer-logo">Ciras</span>
-        <p>Ciras（シラス）株式会社</p>
-        <p>愛媛県松山市萱町3-2-3 9CROSS 501</p>
-        <p>TEL: <a href="tel:050-3637-6324">050-3637-6324</a></p>
-        <p>営業時間: 10:00〜17:30（土日祝休）</p>
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand"><a href="/" aria-label="トップページへ"><img src="images/logo-white.png" alt="Ciras（シラス）株式会社" class="footer-logo-img"></a></p>
+          <p class="footer-info">
+            Ciras（シラス）株式会社<br>
+            〒790-0813 愛媛県松山市萱町3-2-3 9CROSS 501<br>
+            TEL: <a href="tel:050-3637-6324" style="color:inherit">050-3637-6324</a><br>
+            営業時間: 10:00〜17:30（土日祝休）
+          </p>
+        </div>
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <div>
+            <p class="footer-nav-title">SERVICE</p>
+            <ul>
+              <li><a href="/ai-komon.html">Ciras AI顧問</a></li>
+              <li><a href="/web.html">AI活用 Webサイト制作</a></li>
+              <li><a href="/system.html">AI業務システム開発</a></li>
+              <li><a href="/kagemusha.html">影武者</a></li>
+              <li><a href="/seminar.html">セミナー</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-nav-title">COMPANY</p>
+            <ul>
+              <li><a href="/voice.html">お客様の声</a></li>
+              <li><a href="/faq.html">よくある質問</a></li>
+              <li><a href="/company.html">会社概要</a></li>
+              <li><a href="/blog/">ブログ</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-nav-title">CONTACT</p>
+            <ul>
+              <li><a href="/contact.html">お問い合わせ</a></li>
+              <li><a href="/partner.html">採用・協業</a></li>
+              <li><a href="https://lin.ee/s2u6VUw">LINE</a></li>
+              <li><a href="/privacy.html">プライバシーポリシー</a></li>
+              <li><a href="/privacy.html#tokusho">特定商取引法に基づく表記</a></li>
+            </ul>
+          </div>
+        </nav>
       </div>
-      <div class="footer-links">
-        <h4>サービス</h4>
-        <ul>
-          <li><a href="/ai-komon.html">Ciras AI顧問</a></li>
-          <li><a href="/web.html">AI活用 Webサイト制作</a></li>
-          <li><a href="/system.html">AI業務システム開発</a></li>
-          <li><a href="/kagemusha.html">影武者</a></li>
-          <li><a href="/seminar.html">セミナー</a></li>
-        </ul>
-      </div>
-      <div class="footer-links">
-        <h4>情報</h4>
-        <ul>
-          <li><a href="/company.html">会社概要</a></li>
-          <li><a href="/voice.html">お客様の声</a></li>
-          <li><a href="/faq.html">よくある質問</a></li>
-          <li><a href="/blog/">ブログ</a></li>
-          <li><a href="/partner.html">採用・協業</a></li>
-        </ul>
+      <div class="footer-bottom">
+        &copy; 2026 Ciras Inc.（シラス株式会社）
       </div>
     </div>
-    <div class="footer-bottom">
-      <div>
-        <a href="/privacy.html">プライバシーポリシー</a>
-        <a href="/privacy.html#tokusho">特定商取引法に基づく表記</a>
-      </div>
-      <span>© 2026 Ciras Inc.（シラス株式会社）</span>
-    </div>
-  </div>
-</footer>
+  </footer>
 
-<script>
-function toggleMenu(){
-  document.getElementById('mobileMenu').classList.toggle('active');
-  document.querySelector('.hamburger').classList.toggle('active');
-}
-</script>
+  <script>
+    // Fade-in on scroll
+    (function(){
+      var items = document.querySelectorAll('.fade-in');
+      items.forEach(function(el){ el.classList.add('hidden'); });
+      if (!('IntersectionObserver' in window)) {
+        items.forEach(function(el){ el.classList.remove('hidden'); });
+        return;
+      }
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.remove('hidden');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      items.forEach(function(el){ observer.observe(el); });
+      setTimeout(function(){ items.forEach(function(el){ el.classList.remove('hidden'); }); }, 2000);
+    })();
+
+    // Header scroll shadow
+    (function(){
+      var header = document.querySelector('.site-header');
+      var scrolled = false;
+      window.addEventListener('scroll', function(){
+        if (window.scrollY > 60 && !scrolled) {
+          header.classList.add('scrolled');
+          scrolled = true;
+        } else if (window.scrollY <= 60 && scrolled) {
+          header.classList.remove('scrolled');
+          scrolled = false;
+        }
+      }, { passive: true });
+    })();
+
+    // Hamburger menu
+    (function(){
+      var btn = document.querySelector('.hamburger');
+      var nav = document.querySelector('.mobile-nav');
+      if (btn && nav) {
+        btn.addEventListener('click', function(){
+          btn.classList.toggle('active');
+          nav.classList.toggle('open');
+          document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+        });
+        nav.querySelectorAll('a').forEach(function(a){
+          a.addEventListener('click', function(){
+            btn.classList.remove('active');
+            nav.classList.remove('open');
+            document.body.style.overflow = '';
+          });
+        });
+      }
+    })();
+  </script>
+
 </body>
 </html>
