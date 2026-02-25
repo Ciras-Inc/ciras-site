@@ -322,18 +322,18 @@ footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;
         </div>
         <p class="q-hint">最大2つまで選択できます</p>
         <div class="option-grid" id="q4Grid">
-          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="業務効率化"><span class="option-check"></span>時間がかかっている作業を速く終わらせたい</label>
-          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="売上・集客"><span class="option-check"></span>売上や集客を伸ばすヒントがほしい</label>
-          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="採用・求人"><span class="option-check"></span>良い人材を採用したい・求人の反応を増やしたい</label>
-          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="品質・標準化"><span class="option-check"></span>人によってバラつく業務の質を安定させたい</label>
-          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="差別化"><span class="option-check"></span>周りと差がつく強みをつくりたい</label>
-          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="リスク管理"><span class="option-check"></span>見落としているリスクや課題を知りたい</label>
-          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="社内連携"><span class="option-check"></span>社内の情報共有やコミュニケーションを良くしたい</label>
-          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="情報発信"><span class="option-check"></span>SNSや発信のネタ・運用を楽にしたい</label>
-          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="顧客対応"><span class="option-check"></span>お客様対応の質やスピードを上げたい</label>
-          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="新規事業"><span class="option-check"></span>新しい事業やサービスのアイデアがほしい</label>
-          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="コスト削減"><span class="option-check"></span>コストを抑える方法を見つけたい</label>
-          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="情報収集"><span class="option-check"></span>まずAIで何ができるのか知りたい</label>
+          <div class="option-card" data-value="業務効率化" onclick="selectCheck(this,'q4',2)"><span class="option-check"></span>時間がかかっている作業を速く終わらせたい</div>
+          <div class="option-card" data-value="売上・集客" onclick="selectCheck(this,'q4',2)"><span class="option-check"></span>売上や集客を伸ばすヒントがほしい</div>
+          <div class="option-card" data-value="採用・求人" onclick="selectCheck(this,'q4',2)"><span class="option-check"></span>良い人材を採用したい・求人の反応を増やしたい</div>
+          <div class="option-card" data-value="品質・標準化" onclick="selectCheck(this,'q4',2)"><span class="option-check"></span>人によってバラつく業務の質を安定させたい</div>
+          <div class="option-card" data-value="差別化" onclick="selectCheck(this,'q4',2)"><span class="option-check"></span>周りと差がつく強みをつくりたい</div>
+          <div class="option-card" data-value="リスク管理" onclick="selectCheck(this,'q4',2)"><span class="option-check"></span>見落としているリスクや課題を知りたい</div>
+          <div class="option-card" data-value="社内連携" onclick="selectCheck(this,'q4',2)"><span class="option-check"></span>社内の情報共有やコミュニケーションを良くしたい</div>
+          <div class="option-card" data-value="情報発信" onclick="selectCheck(this,'q4',2)"><span class="option-check"></span>SNSや発信のネタ・運用を楽にしたい</div>
+          <div class="option-card" data-value="顧客対応" onclick="selectCheck(this,'q4',2)"><span class="option-check"></span>お客様対応の質やスピードを上げたい</div>
+          <div class="option-card" data-value="新規事業" onclick="selectCheck(this,'q4',2)"><span class="option-check"></span>新しい事業やサービスのアイデアがほしい</div>
+          <div class="option-card" data-value="コスト削減" onclick="selectCheck(this,'q4',2)"><span class="option-check"></span>コストを抑える方法を見つけたい</div>
+          <div class="option-card" data-value="情報収集" onclick="selectCheck(this,'q4',2)"><span class="option-check"></span>まずAIで何ができるのか知りたい</div>
         </div>
         <p class="q-error">1つ以上選択してください（最大2つ）</p>
       </div>
@@ -499,16 +499,13 @@ function selectRadio(el, name){
 
 function selectCheck(el, name, max){
   var block=el.closest('.q-block');
-  var input=el.querySelector('input');
   var selected=block.querySelectorAll('.option-card.selected');
 
   if(el.classList.contains('selected')){
     el.classList.remove('selected');
-    input.checked=false;
   } else {
     if(selected.length>=max) return;
     el.classList.add('selected');
-    input.checked=true;
   }
 
   // Update disabled state
@@ -527,7 +524,7 @@ function validateQuiz(){
     var q=block.dataset.q;
     block.classList.remove('has-error');
     if(q==='q4'){
-      var checked=block.querySelectorAll('input:checked');
+      var checked=block.querySelectorAll('.option-card.selected');
       if(checked.length===0){block.classList.add('has-error');valid=false}
     } else {
       var checked=block.querySelector('input:checked');
@@ -546,7 +543,7 @@ function collectAnswers(){
   var q2=document.querySelector('input[name="q2"]:checked');
   var q3=document.querySelector('input[name="q3"]:checked');
   var q4=[];
-  document.querySelectorAll('input[name="q4"]:checked').forEach(function(cb){q4.push(cb.value)});
+  document.querySelectorAll('#q4Grid .option-card.selected').forEach(function(c){q4.push(c.dataset.value)});
   var q5=document.querySelector('textarea[name="q5"]').value.trim();
   var q6=document.querySelector('input[name="q6"]:checked');
   return {
