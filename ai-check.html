@@ -1,628 +1,667 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KLXZ6ND');</script>
-<!-- End Google Tag Manager -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI活用レベルチェッカー｜無料診断｜Ciras（シラス）株式会社</title>
-  <meta name="description" content="6つの質問に答えるだけで、AIがあなたのビジネスに合ったAI活用提案をその場で作成。無料・登録不要。">
-  <link rel="canonical" href="https://www.ciras.jp/ai-check">
-  <link rel="icon" href="images/favicon.ico" sizes="any">
-  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI活用レベルチェッカー｜無料診断｜Ciras（シラス）株式会社</title>
+<meta name="description" content="6つの質問に答えるだけで、AIがあなたのビジネスに合ったAI活用提案をその場で作成。所要時間約1〜2分。無料で何度でもお試しいただけます。愛媛・松山のCiras（シラス）株式会社。">
+<meta property="og:title" content="AI活用レベルチェッカー｜無料診断｜Ciras（シラス）株式会社">
+<meta property="og:description" content="6つの質問に答えるだけで、AIがあなたのビジネスに合ったAI活用提案をその場で作成します。">
+<meta property="og:url" content="https://www.ciras.jp/ai-check">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://www.ciras.jp/ai-check">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--green:#2c5926;--green-light:#E8F0E7;--green-pale:#C5E6C0;--warm-gray:#F5F5F0;--white:#FFFFFF;--text-primary:#1a1a1a;--text-secondary:#555;--text-light:#888;--border:rgba(0,0,0,0.08);--font-main:'Noto Sans JP',sans-serif;--max-width:1080px;--section-padding:80px 0;--transition:0.25s ease;--red:#d44;--red-light:#fef0f0}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:var(--font-main);font-weight:400;color:var(--text-primary);line-height:1.8;font-size:16.5px;background:var(--white);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none;transition:opacity var(--transition)}a:hover{opacity:0.75}
+img{max-width:100%;display:block}ul{list-style:none}
+.container{max-width:var(--max-width);margin:0 auto;padding:0 24px}
 
-  <!-- OGP -->
-  <meta property="og:title" content="AI活用レベルチェッカー｜無料診断｜Ciras（シラス）株式会社">
-  <meta property="og:description" content="6つの質問に答えるだけで、AIがあなたのビジネスに合ったAI活用提案をその場で作成。無料・登録不要。">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.ciras.jp/ai-check">
-  <meta property="og:image" content="https://www.ciras.jp/images/ogp.png">
-  <meta property="og:site_name" content="Ciras（シラス）株式会社">
-  <meta property="og:locale" content="ja_JP">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AI活用レベルチェッカー｜無料診断｜Ciras（シラス）株式会社">
-  <meta name="twitter:description" content="6つの質問に答えるだけで、AIがあなたのビジネスに合ったAI活用提案をその場で作成。無料・登録不要。">
-  <meta name="twitter:image" content="https://www.ciras.jp/images/ogp.png">
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+.fade-in.is-visible{opacity:1;transform:translateY(0)}
+.fade-in-delay-1{transition-delay:0.1s}.fade-in-delay-2{transition-delay:0.2s}.fade-in-delay-3{transition-delay:0.3s}
 
-  <!-- Fonts: Noto Sans JP only -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+/* Header */
+header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.06);height:64px}
+.header-inner{max-width:var(--max-width);margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:100%}
+.header-logo img{height:26px;width:auto}
+.header-nav{display:flex;align-items:center;gap:22px}
+.header-nav>a,.nav-dropdown>a{font-size:0.88rem;font-weight:500;color:var(--text-secondary);letter-spacing:0.02em;transition:color var(--transition);cursor:pointer}
+.header-nav>a:hover,.nav-dropdown>a:hover{color:var(--green);opacity:1}
+.nav-dropdown{position:relative}.nav-dropdown>a::after{content:'';display:inline-block;width:5px;height:5px;border-right:1.5px solid var(--text-light);border-bottom:1.5px solid var(--text-light);transform:rotate(45deg);margin-left:5px;vertical-align:2px;transition:transform var(--transition)}
+.nav-dropdown:hover>a::after{transform:rotate(-135deg)}
+.nav-dropdown-menu{display:none;position:absolute;top:100%;left:-12px;padding-top:10px;z-index:1200}
+.nav-dropdown:hover .nav-dropdown-menu{display:block}
+.nav-dropdown-menu-inner{background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.08);padding:8px 0;min-width:240px}
+.nav-dropdown-menu a{display:block;padding:10px 20px;font-size:0.88rem;font-weight:500;color:var(--text-secondary)!important;transition:background var(--transition),color var(--transition)}
+.nav-dropdown-menu a:hover{background:var(--green-light);color:var(--green)!important;opacity:1}
+.nav-cta{background:var(--green)!important;color:var(--white)!important;padding:8px 20px!important;border-radius:6px;font-weight:600!important;font-size:0.88rem!important}
+.nav-cta:hover{opacity:0.9!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;z-index:1100}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text-primary);border-radius:2px;transition:var(--transition)}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.98);backdrop-filter:blur(16px);z-index:1050;padding:80px 24px 40px;flex-direction:column;overflow-y:auto}
+.mobile-menu.active{display:flex}
+.mobile-menu a{display:block;padding:16px 0;font-size:1.05rem;font-weight:500;color:var(--text-primary);border-bottom:1px solid rgba(0,0,0,0.06)}
+.mobile-menu .mobile-cta{display:block;background:var(--green);color:var(--white);text-align:center;padding:16px;border-radius:8px;margin-top:24px;font-weight:600;border-bottom:none}
+.mobile-menu .mobile-sub{font-size:0.92rem;color:var(--text-light);padding-left:24px}
 
-  <!-- Shared CSS -->
-  <link rel="stylesheet" href="style.css">
+/* Shared */
+.section-label{font-size:0.75rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);margin-bottom:12px;opacity:0.6}
+.btn{display:inline-block;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:600;transition:all var(--transition);text-align:center;cursor:pointer;border:none}
+.btn:active{transform:scale(0.97)}
+.btn--green{background:var(--green);color:var(--white)}.btn--green:hover{opacity:0.9}
+.btn--white{background:var(--white);color:var(--green)}.btn--white:hover{background:#f4f4f4;opacity:1}
+.btn--white-outline{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.5)}.btn--white-outline:hover{border-color:#fff;opacity:1}
 
-  <!-- JSON-LD: WebApplication + BreadcrumbList -->
-  <script type="application/ld+json">
-  [{
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "AI活用レベルチェッカー",
-    "description": "6つの質問に答えるだけで、AIがあなたのビジネスに合ったAI活用提案をその場で作成。無料・登録不要。",
-    "url": "https://www.ciras.jp/ai-check",
-    "applicationCategory": "BusinessApplication",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
-    "provider": {
-      "@type": "Organization",
-      "name": "Ciras（シラス）株式会社",
-      "url": "https://www.ciras.jp"
-    }
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://www.ciras.jp/" },
-      { "@type": "ListItem", "position": 2, "name": "AI活用レベルチェッカー", "item": "https://www.ciras.jp/ai-check" }
-    ]
-  }]
-  </script>
+/* Hero */
+.hero{background:var(--warm-gray);padding:72px 0 56px;text-align:center}
+.hero h1{font-size:2.2rem;font-weight:900;line-height:1.3;margin-bottom:16px}
+.hero-sub{font-size:1.05rem;color:var(--text-secondary);line-height:1.9;margin-bottom:12px;max-width:560px;margin-left:auto;margin-right:auto}
+.hero-time{display:inline-flex;align-items:center;gap:8px;font-size:0.9rem;color:var(--text-light);background:var(--white);padding:8px 20px;border-radius:50px}
+.hero-time::before{content:'⏱';font-size:1rem}
+
+/* Quiz */
+.quiz-section{background:var(--white);padding:64px 0 80px}
+.quiz-form{max-width:720px;margin:0 auto}
+.q-block{margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--border)}
+.q-block:last-of-type{border-bottom:none;margin-bottom:32px;padding-bottom:0}
+.q-header{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.q-num{font-size:0.8rem;font-weight:700;color:var(--white);background:var(--green);padding:4px 12px;border-radius:4px;line-height:1.4}
+.q-title{font-size:1.1rem;font-weight:700}
+.q-required{font-size:0.72rem;font-weight:600;color:var(--red);background:var(--red-light);padding:2px 8px;border-radius:3px;margin-left:8px}
+.q-optional{font-size:0.72rem;font-weight:600;color:var(--text-light);background:var(--warm-gray);padding:2px 8px;border-radius:3px;margin-left:8px}
+.q-hint{font-size:0.85rem;color:var(--text-light);margin-bottom:12px}
+.q-error{font-size:0.82rem;color:var(--red);margin-top:8px;display:none}
+.q-block.has-error .q-error{display:block}
+.q-block.has-error .q-header .q-num{background:var(--red)}
+
+/* Option cards - radio */
+.option-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.option-grid--3col{grid-template-columns:repeat(3,1fr)}
+.option-card{position:relative;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:0.95rem;font-weight:500;color:var(--text-secondary);transition:all var(--transition);user-select:none}
+.option-card:hover{border-color:rgba(44,89,38,0.3);background:rgba(44,89,38,0.02)}
+.option-card.selected{border-color:var(--green);background:var(--green-light);color:var(--green);font-weight:600}
+.option-card input{position:absolute;opacity:0;pointer-events:none}
+.option-dot{width:18px;height:18px;border:2px solid #ccc;border-radius:50%;flex-shrink:0;transition:all var(--transition);display:flex;align-items:center;justify-content:center}
+.option-card.selected .option-dot{border-color:var(--green);background:var(--green)}
+.option-card.selected .option-dot::after{content:'';width:6px;height:6px;background:var(--white);border-radius:50%}
+
+/* Checkbox cards */
+.option-check{width:18px;height:18px;border:2px solid #ccc;border-radius:4px;flex-shrink:0;transition:all var(--transition);display:flex;align-items:center;justify-content:center}
+.option-card.selected .option-check{border-color:var(--green);background:var(--green)}
+.option-card.selected .option-check::after{content:'✓';color:var(--white);font-size:0.7rem;font-weight:700}
+.option-card.disabled{opacity:0.4;pointer-events:none}
+
+/* Textarea */
+.q-textarea{width:100%;padding:14px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:var(--font-main);font-size:0.95rem;line-height:1.7;resize:vertical;min-height:100px;transition:border-color var(--transition);color:var(--text-primary)}
+.q-textarea:focus{outline:none;border-color:var(--green)}
+.q-textarea::placeholder{color:var(--text-light)}
+
+/* Submit */
+.submit-area{text-align:center;padding-top:16px}
+.btn-submit{font-size:1.1rem;padding:18px 56px;font-family:var(--font-main)}
+
+/* Loading */
+.loading-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);z-index:2000;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+.loading-overlay.active{display:flex}
+.loading-spinner{width:48px;height:48px;border:3px solid var(--green-light);border-top-color:var(--green);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:1.05rem;color:var(--text-secondary);text-align:center}
+.loading-sub{font-size:0.9rem;color:var(--text-light);margin-top:4px}
+
+/* Results */
+.results-section{display:none;padding:0 0 0}
+.results-section.active{display:block}
+
+/* Result Hero */
+.result-hero{background:var(--green);color:var(--white);padding:56px 0;text-align:center}
+.result-label{font-size:0.75rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-pale);margin-bottom:16px;opacity:0.7}
+.result-level-badge{display:inline-flex;align-items:center;gap:16px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:20px 36px;margin-bottom:24px}
+.result-level-num{font-size:3.2rem;font-weight:900;line-height:1}
+.result-level-info{text-align:left}
+.result-level-tag{font-size:0.75rem;font-weight:600;letter-spacing:0.1em;opacity:0.7;text-transform:uppercase}
+.result-level-name{font-size:1.3rem;font-weight:700}
+.result-summary{max-width:640px;margin:0 auto;font-size:1rem;line-height:1.9;opacity:0.85}
+
+/* Solutions */
+.result-solutions{background:var(--warm-gray);padding:var(--section-padding)}
+.result-solutions h2{font-size:1.7rem;font-weight:700;margin-bottom:8px}
+.result-solutions-lead{font-size:0.95rem;color:var(--text-secondary);margin-bottom:36px}
+.solution-cards{display:flex;flex-direction:column;gap:20px}
+.sol-card{background:var(--white);border-radius:14px;padding:28px 28px;display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch;box-shadow:0 2px 8px rgba(0,0,0,0.03)}
+.sol-card-title{font-size:1rem;font-weight:700;margin-bottom:16px;grid-column:1/-1;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.sol-card-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--green);color:var(--white);border-radius:50%;font-size:0.78rem;font-weight:700;flex-shrink:0}
+.sol-before,.sol-after{padding:12px 0}
+.sol-before-label,.sol-after-label{font-size:0.75rem;font-weight:600;letter-spacing:0.08em;margin-bottom:6px}
+.sol-before-label{color:var(--text-light)}
+.sol-after-label{color:var(--green)}
+.sol-before p,.sol-after p{font-size:0.93rem;color:var(--text-secondary);line-height:1.7}
+.sol-after p{color:var(--text-primary);font-weight:500}
+.sol-arrow{display:flex;align-items:center;justify-content:center;padding:0 16px;font-size:1.3rem;color:var(--green);font-weight:700}
+
+/* Next Step CTA */
+.next-step{background:var(--white);padding:var(--section-padding)}
+.next-step-inner{max-width:720px;margin:0 auto;text-align:center}
+.next-step h2{font-size:1.5rem;font-weight:700;margin-bottom:24px;line-height:1.6}
+.next-step-lead{font-size:1rem;color:var(--text-secondary);margin-bottom:32px;line-height:1.9}
+.support-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:560px;margin:0 auto 36px;text-align:left}
+.support-item{background:var(--warm-gray);border-radius:8px;padding:14px 16px;font-size:0.9rem;font-weight:500;display:flex;align-items:flex-start;gap:8px}
+.support-item::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.cta-note{font-size:0.85rem;color:var(--text-light)}
+
+/* Final CTA */
+.final-cta{background:var(--green);color:var(--white);padding:72px 0;text-align:center}
+.final-cta h2{font-size:1.7rem;font-weight:700;margin-bottom:16px}
+.final-cta p{opacity:0.8;font-size:1rem;line-height:1.9;margin-bottom:32px}
+
+/* Footer */
+footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;font-size:0.88rem;border-top:1px solid var(--border)}
+.footer-inner{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;padding-bottom:40px}
+.footer-brand p{margin-top:6px;line-height:1.8}.footer-logo{margin-bottom:12px}.footer-logo img{height:24px;width:auto}
+.footer-links h4{font-size:0.78rem;font-weight:600;letter-spacing:0.1em;color:var(--text-light);margin-bottom:14px}
+.footer-links li{margin-bottom:8px}.footer-links a{color:var(--text-secondary);transition:color var(--transition)}.footer-links a:hover{color:var(--green);opacity:1}
+.footer-bottom{border-top:1px solid var(--border);padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.footer-bottom a{color:var(--text-light);margin-right:20px;font-size:0.78rem}.footer-bottom span{font-size:0.78rem;color:var(--text-light)}
+
+/* Responsive */
+@media(max-width:768px){
+  .header-nav{display:none}.hamburger{display:flex}
+  .hero{padding:56px 0 40px}.hero h1{font-size:1.8rem}
+  .quiz-section{padding:48px 0 56px}
+  .option-grid,.option-grid--3col{grid-template-columns:1fr}
+  .q-block{margin-bottom:32px;padding-bottom:32px}
+  .btn{display:block;width:100%;padding:16px 0}
+  .btn-submit{padding:18px 0}
+  .result-hero{padding:40px 0}
+  .result-level-badge{padding:16px 24px;flex-direction:column;text-align:center;gap:8px}
+  .result-level-info{text-align:center}
+  .result-level-num{font-size:2.6rem}
+  .sol-card{grid-template-columns:1fr;gap:0}
+  .sol-arrow{transform:rotate(90deg);padding:8px 0}
+  .support-list{grid-template-columns:1fr}
+  .result-solutions,.next-step{padding:56px 0}
+  .result-solutions h2,.next-step h2{font-size:1.35rem}
+  .container{padding:0 20px}
+  .footer-inner{grid-template-columns:1fr;gap:28px}.footer-bottom{flex-direction:column;text-align:center;gap:8px}
+}
+@media(max-width:375px){
+  .hero h1{font-size:1.55rem}.container{padding:0 16px}
+}
+</style>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLXZ6ND"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager -->
 
-  <!-- ===== HEADER（共通パーツ） ===== -->
-  <header class="site-header">
-    <div class="header-inner">
-      <a href="/" class="logo" aria-label="Ciras（シラス）株式会社 ホーム"><img src="images/logo-green.png" alt="Ciras（シラス）株式会社" class="logo-img"></a>
-      <nav class="header-nav">
-        <div class="nav-dropdown">
-          <a href="#services" class="nav-dropdown-trigger">サービス</a>
-          <div class="nav-dropdown-menu">
-            <a href="/ai-komon.html">Ciras AI顧問</a>
-            <a href="/web.html">AI活用 Webサイト制作</a>
-            <a href="/system.html">AI業務システム開発</a>
-            <a href="/kagemusha.html">影武者</a>
-          </div>
-        </div>
-        <a href="/needs.html">課題から探す</a>
-        <a href="/seminar.html">セミナー</a>
-        <div class="nav-dropdown">
-          <a href="/company.html" class="nav-dropdown-trigger">会社概要</a>
-          <div class="nav-dropdown-menu">
-            <a href="/voice.html">お客様の声</a>
-            <a href="/faq.html">よくある質問</a>
-          </div>
-        </div>
-        <a href="/partner.html">採用・協業</a>
-        <div class="nav-dropdown">
-          <a href="#free-tools" class="nav-dropdown-trigger">無料診断ツール</a>
-          <div class="nav-dropdown-menu">
-            <a href="/ai-check.html">AI活用レベルチェッカー</a>
-            <a href="/web-check.html">Webサイト状況チェッカー</a>
-          </div>
-        </div>
-        <a href="/blog/">ブログ</a>
-        <a href="/contact.html" class="header-cta">お問い合わせ</a>
-      </nav>
-      <button class="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
-    </div>
-    <nav class="mobile-nav" aria-label="モバイルメニュー">
-      <div class="mobile-nav-group">
-        <p class="mobile-nav-label">サービス</p>
-        <a href="/ai-komon.html">Ciras AI顧問</a>
-        <a href="/web.html">AI活用 Webサイト制作</a>
-        <a href="/system.html">AI業務システム開発</a>
-        <a href="/kagemusha.html">影武者</a>
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="/" class="header-logo"><img src="images/logo-green.png" alt="Ciras（シラス）株式会社"></a>
+    <nav class="header-nav">
+      <div class="nav-dropdown">
+        <a href="/#services">サービス</a>
+        <div class="nav-dropdown-menu"><div class="nav-dropdown-menu-inner">
+          <a href="/ai-komon.html">Ciras AI顧問</a>
+          <a href="/web.html">AI活用 Webサイト制作</a>
+          <a href="/system.html">AI業務システム開発</a>
+          <a href="/kagemusha.html">影武者</a>
+        </div></div>
       </div>
-      <a href="/needs.html">課題から探す</a>
       <a href="/seminar.html">セミナー</a>
-      <div class="mobile-nav-group">
-        <p class="mobile-nav-label">会社概要</p>
-        <a href="/company.html">会社概要</a>
-        <a href="/voice.html">お客様の声</a>
-        <a href="/faq.html">よくある質問</a>
-      </div>
+      <a href="/company.html">会社概要</a>
       <a href="/partner.html">採用・協業</a>
-      <div class="mobile-nav-group">
-        <p class="mobile-nav-label">無料診断ツール</p>
-        <a href="/ai-check.html">AI活用レベルチェッカー</a>
-        <a href="/web-check.html">Webサイト状況チェッカー</a>
+      <div class="nav-dropdown">
+        <a href="/#free-tools">無料診断ツール</a>
+        <div class="nav-dropdown-menu"><div class="nav-dropdown-menu-inner">
+          <a href="/ai-check">AI活用レベルチェッカー</a>
+          <a href="/web-check">Webサイト状況チェッカー</a>
+        </div></div>
       </div>
-      <a href="/blog/">ブログ</a>
-      <a href="/contact.html" class="mobile-nav-cta">お問い合わせ</a>
+      <a href="/contact.html" class="nav-cta">お問い合わせ</a>
     </nav>
-  </header>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/#services" onclick="toggleMenu()">サービス</a>
+  <a href="/ai-komon.html" class="mobile-sub">　Ciras AI顧問</a>
+  <a href="/web.html" class="mobile-sub">　AI活用 Webサイト制作</a>
+  <a href="/system.html" class="mobile-sub">　AI業務システム開発</a>
+  <a href="/kagemusha.html" class="mobile-sub">　影武者</a>
+  <a href="/seminar.html">セミナー</a>
+  <a href="/company.html">会社概要</a>
+  <a href="/partner.html">採用・協業</a>
+  <a href="/#free-tools" onclick="toggleMenu()">無料診断ツール</a>
+  <a href="/ai-check" class="mobile-sub">　AI活用レベルチェッカー</a>
+  <a href="/web-check" class="mobile-sub">　Webサイト状況チェッカー</a>
+  <a href="/blog/">ブログ</a>
+  <a href="/contact.html" class="mobile-cta">お問い合わせ</a>
+</div>
 
-  <main>
-    <!-- Hero -->
-    <section class="page-hero diag-hero">
-      <div class="page-hero-inner diag-hero-inner">
-        <p class="page-hero-label">FREE DIAGNOSTIC</p>
-        <h1 class="page-hero-title" style="margin-bottom:1rem">AI活用レベルチェッカー</h1>
-        <p class="diag-hero-desc">
-          6つの質問に答えるだけで、あなたのビジネスに合った<br>
-          AI活用の提案を、AIがその場で作成します。
-        </p>
-        <p class="diag-hero-time">所要時間：約1〜2分</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <p class="section-label fade-in">Free Diagnostic</p>
+    <h1 class="fade-in">AI活用レベルチェッカー</h1>
+    <p class="hero-sub fade-in">6つの質問に答えるだけで、あなたのビジネスに合った<br>AI活用の提案を、AIがその場で作成します。</p>
+    <div class="fade-in"><span class="hero-time">所要時間：約1〜2分</span></div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz-section" id="quizSection">
+  <div class="container">
+    <form class="quiz-form" id="quizForm" onsubmit="return false">
+
+      <!-- Q1 -->
+      <div class="q-block" data-q="q1" data-required="true">
+        <div class="q-header">
+          <span class="q-num">Q1</span>
+          <span class="q-title">あなたの立場は？</span>
+          <span class="q-required">必須</span>
+        </div>
+        <div class="option-grid">
+          <label class="option-card" onclick="selectRadio(this,'q1')"><input type="radio" name="q1" value="経営者・役員"><span class="option-dot"></span>経営者・役員</label>
+          <label class="option-card" onclick="selectRadio(this,'q1')"><input type="radio" name="q1" value="管理職・マネージャー"><span class="option-dot"></span>管理職・マネージャー</label>
+          <label class="option-card" onclick="selectRadio(this,'q1')"><input type="radio" name="q1" value="一般社員・スタッフ"><span class="option-dot"></span>一般社員・スタッフ</label>
+          <label class="option-card" onclick="selectRadio(this,'q1')"><input type="radio" name="q1" value="個人事業主"><span class="option-dot"></span>個人事業主</label>
+        </div>
+        <p class="q-error">立場を選択してください</p>
       </div>
-    </section>
 
-    <!-- Form -->
-    <section class="diag-form-section fade-in" id="form-section">
-      <div class="diag-form-inner">
-        <form id="diagnosis-form" novalidate>
-
-          <!-- Q1 -->
-          <div class="question-block" id="q1-block">
-            <p class="question-num">Q1</p>
-            <p class="question-text">あなたの立場は？<span class="question-required">必須</span></p>
-            <div class="option-grid">
-              <div class="option-item"><input type="radio" name="q1" id="q1-1" value="経営者・役員"><label for="q1-1">経営者・役員</label></div>
-              <div class="option-item"><input type="radio" name="q1" id="q1-2" value="管理職・マネージャー"><label for="q1-2">管理職・マネージャー</label></div>
-              <div class="option-item"><input type="radio" name="q1" id="q1-3" value="一般社員・スタッフ"><label for="q1-3">一般社員・スタッフ</label></div>
-              <div class="option-item"><input type="radio" name="q1" id="q1-4" value="個人事業主"><label for="q1-4">個人事業主</label></div>
-            </div>
-            <p class="question-error" id="q1-error">立場を選択してください</p>
-          </div>
-
-          <!-- Q2 -->
-          <div class="question-block" id="q2-block">
-            <p class="question-num">Q2</p>
-            <p class="question-text">業種<span class="question-required">必須</span></p>
-            <div class="option-grid">
-              <div class="option-item"><input type="radio" name="q2" id="q2-1" value="製造業"><label for="q2-1">製造業</label></div>
-              <div class="option-item"><input type="radio" name="q2" id="q2-2" value="小売・飲食"><label for="q2-2">小売・飲食</label></div>
-              <div class="option-item"><input type="radio" name="q2" id="q2-3" value="サービス業"><label for="q2-3">サービス業</label></div>
-              <div class="option-item"><input type="radio" name="q2" id="q2-4" value="建設・不動産"><label for="q2-4">建設・不動産</label></div>
-              <div class="option-item"><input type="radio" name="q2" id="q2-5" value="医療・福祉・介護"><label for="q2-5">医療・福祉・介護</label></div>
-              <div class="option-item"><input type="radio" name="q2" id="q2-6" value="士業・コンサルティング"><label for="q2-6">士業・コンサルティング</label></div>
-              <div class="option-item"><input type="radio" name="q2" id="q2-7" value="IT・通信"><label for="q2-7">IT・通信</label></div>
-              <div class="option-item"><input type="radio" name="q2" id="q2-8" value="その他"><label for="q2-8">その他</label></div>
-            </div>
-            <div class="other-input" id="q2-other-wrap">
-              <input type="text" id="q2-other" placeholder="業種を入力してください" maxlength="50">
-            </div>
-            <p class="question-error" id="q2-error">業種を選択してください</p>
-          </div>
-
-          <!-- Q3 -->
-          <div class="question-block" id="q3-block">
-            <p class="question-num">Q3</p>
-            <p class="question-text">従業員数<span class="question-required">必須</span></p>
-            <div class="option-grid">
-              <div class="option-item"><input type="radio" name="q3" id="q3-1" value="1〜5名"><label for="q3-1">1〜5名</label></div>
-              <div class="option-item"><input type="radio" name="q3" id="q3-2" value="6〜20名"><label for="q3-2">6〜20名</label></div>
-              <div class="option-item"><input type="radio" name="q3" id="q3-3" value="21〜50名"><label for="q3-3">21〜50名</label></div>
-              <div class="option-item"><input type="radio" name="q3" id="q3-4" value="51〜100名"><label for="q3-4">51〜100名</label></div>
-              <div class="option-item"><input type="radio" name="q3" id="q3-5" value="101名以上"><label for="q3-5">101名以上</label></div>
-            </div>
-            <p class="question-error" id="q3-error">従業員数を選択してください</p>
-          </div>
-
-          <!-- Q4 -->
-          <div class="question-block" id="q4-block">
-            <p class="question-num">Q4</p>
-            <p class="question-text">AIで実現したいこと、興味があることは？<span class="question-required">必須</span></p>
-            <p class="question-note">最大2つまで選択できます</p>
-            <div class="option-grid option-grid-1">
-              <div class="option-item"><input type="checkbox" name="q4" id="q4-1" value="時間がかかっている作業を速く終わらせたい（業務効率化）"><label for="q4-1">時間がかかっている作業を速く終わらせたい（業務効率化）</label></div>
-              <div class="option-item"><input type="checkbox" name="q4" id="q4-2" value="売上や集客を伸ばすヒントがほしい（売上・集客）"><label for="q4-2">売上や集客を伸ばすヒントがほしい（売上・集客）</label></div>
-              <div class="option-item"><input type="checkbox" name="q4" id="q4-3" value="良い人材を採用したい・求人の反応を増やしたい（採用・求人）"><label for="q4-3">良い人材を採用したい・求人の反応を増やしたい（採用・求人）</label></div>
-              <div class="option-item"><input type="checkbox" name="q4" id="q4-4" value="人によってバラつく業務の質を安定させたい（品質・標準化）"><label for="q4-4">人によってバラつく業務の質を安定させたい（品質・標準化）</label></div>
-              <div class="option-item"><input type="checkbox" name="q4" id="q4-5" value="周りと差がつく強みをつくりたい（差別化）"><label for="q4-5">周りと差がつく強みをつくりたい（差別化）</label></div>
-              <div class="option-item"><input type="checkbox" name="q4" id="q4-6" value="見落としているリスクや課題を知りたい（リスク管理）"><label for="q4-6">見落としているリスクや課題を知りたい（リスク管理）</label></div>
-              <div class="option-item"><input type="checkbox" name="q4" id="q4-7" value="社内の情報共有やコミュニケーションを良くしたい（社内連携）"><label for="q4-7">社内の情報共有やコミュニケーションを良くしたい（社内連携）</label></div>
-              <div class="option-item"><input type="checkbox" name="q4" id="q4-8" value="SNSや発信のネタ・運用を楽にしたい（情報発信）"><label for="q4-8">SNSや発信のネタ・運用を楽にしたい（情報発信）</label></div>
-              <div class="option-item"><input type="checkbox" name="q4" id="q4-9" value="お客様対応の質やスピードを上げたい（顧客対応）"><label for="q4-9">お客様対応の質やスピードを上げたい（顧客対応）</label></div>
-              <div class="option-item"><input type="checkbox" name="q4" id="q4-10" value="新しい事業やサービスのアイデアがほしい（新規事業）"><label for="q4-10">新しい事業やサービスのアイデアがほしい（新規事業）</label></div>
-              <div class="option-item"><input type="checkbox" name="q4" id="q4-11" value="コストを抑える方法を見つけたい（コスト削減）"><label for="q4-11">コストを抑える方法を見つけたい（コスト削減）</label></div>
-              <div class="option-item"><input type="checkbox" name="q4" id="q4-12" value="まずAIで何ができるのか知りたい（情報収集）"><label for="q4-12">まずAIで何ができるのか知りたい（情報収集）</label></div>
-            </div>
-            <p class="question-error" id="q4-error">1つ以上選択してください（最大2つ）</p>
-          </div>
-
-          <!-- Q5 -->
-          <div class="question-block" id="q5-block">
-            <p class="question-num">Q5</p>
-            <p class="question-text">もう少し詳しく教えてください<span style="font-size:.8rem;color:var(--gray);margin-left:.5rem">任意</span></p>
-            <textarea class="form-textarea" id="q5" name="q5" placeholder="例）「見積もり作成に毎日2時間かかっている」など。書いていただけると、より具体的なご提案ができます。" maxlength="500"></textarea>
-          </div>
-
-          <!-- Q6 -->
-          <div class="question-block" id="q6-block">
-            <p class="question-num">Q6</p>
-            <p class="question-text">今のAI活用状況は？<span class="question-required">必須</span></p>
-            <div class="option-grid">
-              <div class="option-item"><input type="radio" name="q6" id="q6-1" value="まだ使っていない"><label for="q6-1">まだ使っていない</label></div>
-              <div class="option-item"><input type="radio" name="q6" id="q6-2" value="個人的に試している程度"><label for="q6-2">個人的に試している程度</label></div>
-              <div class="option-item"><input type="radio" name="q6" id="q6-3" value="一部の業務で使っている"><label for="q6-3">一部の業務で使っている</label></div>
-              <div class="option-item"><input type="radio" name="q6" id="q6-4" value="組織的に活用している"><label for="q6-4">組織的に活用している</label></div>
-            </div>
-            <p class="question-error" id="q6-error">AI活用状況を選択してください</p>
-          </div>
-
-          <!-- Submit -->
-          <div class="diag-submit-section">
-            <button type="submit" class="btn btn-primary btn-large" id="submit-btn">診断する</button>
-          </div>
-        </form>
+      <!-- Q2 -->
+      <div class="q-block" data-q="q2" data-required="true">
+        <div class="q-header">
+          <span class="q-num">Q2</span>
+          <span class="q-title">業種</span>
+          <span class="q-required">必須</span>
+        </div>
+        <div class="option-grid">
+          <label class="option-card" onclick="selectRadio(this,'q2')"><input type="radio" name="q2" value="製造業"><span class="option-dot"></span>製造業</label>
+          <label class="option-card" onclick="selectRadio(this,'q2')"><input type="radio" name="q2" value="小売・飲食"><span class="option-dot"></span>小売・飲食</label>
+          <label class="option-card" onclick="selectRadio(this,'q2')"><input type="radio" name="q2" value="サービス業"><span class="option-dot"></span>サービス業</label>
+          <label class="option-card" onclick="selectRadio(this,'q2')"><input type="radio" name="q2" value="建設・不動産"><span class="option-dot"></span>建設・不動産</label>
+          <label class="option-card" onclick="selectRadio(this,'q2')"><input type="radio" name="q2" value="医療・福祉・介護"><span class="option-dot"></span>医療・福祉・介護</label>
+          <label class="option-card" onclick="selectRadio(this,'q2')"><input type="radio" name="q2" value="士業・コンサルティング"><span class="option-dot"></span>士業・コンサルティング</label>
+          <label class="option-card" onclick="selectRadio(this,'q2')"><input type="radio" name="q2" value="IT・通信"><span class="option-dot"></span>IT・通信</label>
+          <label class="option-card" onclick="selectRadio(this,'q2')"><input type="radio" name="q2" value="その他"><span class="option-dot"></span>その他</label>
+        </div>
+        <p class="q-error">業種を選択してください</p>
       </div>
-    </section>
 
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loading-overlay">
-      <div class="loading-spinner"></div>
-      <p class="loading-text" id="loading-text">回答を分析しています...</p>
-      <p class="loading-sub" id="loading-sub">AIがあなたのビジネスに合った提案を作成中</p>
-      <div class="loading-progress">
-        <div class="loading-progress-bar" id="loading-bar"></div>
+      <!-- Q3 -->
+      <div class="q-block" data-q="q3" data-required="true">
+        <div class="q-header">
+          <span class="q-num">Q3</span>
+          <span class="q-title">従業員数</span>
+          <span class="q-required">必須</span>
+        </div>
+        <div class="option-grid">
+          <label class="option-card" onclick="selectRadio(this,'q3')"><input type="radio" name="q3" value="1〜5名"><span class="option-dot"></span>1〜5名</label>
+          <label class="option-card" onclick="selectRadio(this,'q3')"><input type="radio" name="q3" value="6〜20名"><span class="option-dot"></span>6〜20名</label>
+          <label class="option-card" onclick="selectRadio(this,'q3')"><input type="radio" name="q3" value="21〜50名"><span class="option-dot"></span>21〜50名</label>
+          <label class="option-card" onclick="selectRadio(this,'q3')"><input type="radio" name="q3" value="51〜100名"><span class="option-dot"></span>51〜100名</label>
+          <label class="option-card" onclick="selectRadio(this,'q3')"><input type="radio" name="q3" value="101名以上"><span class="option-dot"></span>101名以上</label>
+        </div>
+        <p class="q-error">従業員数を選択してください</p>
+      </div>
+
+      <!-- Q4 -->
+      <div class="q-block" data-q="q4" data-required="true">
+        <div class="q-header">
+          <span class="q-num">Q4</span>
+          <span class="q-title">AIで実現したいこと、興味があることは？</span>
+          <span class="q-required">必須</span>
+        </div>
+        <p class="q-hint">最大2つまで選択できます</p>
+        <div class="option-grid" id="q4Grid">
+          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="業務効率化"><span class="option-check"></span>時間がかかっている作業を速く終わらせたい</label>
+          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="売上・集客"><span class="option-check"></span>売上や集客を伸ばすヒントがほしい</label>
+          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="採用・求人"><span class="option-check"></span>良い人材を採用したい・求人の反応を増やしたい</label>
+          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="品質・標準化"><span class="option-check"></span>人によってバラつく業務の質を安定させたい</label>
+          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="差別化"><span class="option-check"></span>周りと差がつく強みをつくりたい</label>
+          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="リスク管理"><span class="option-check"></span>見落としているリスクや課題を知りたい</label>
+          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="社内連携"><span class="option-check"></span>社内の情報共有やコミュニケーションを良くしたい</label>
+          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="情報発信"><span class="option-check"></span>SNSや発信のネタ・運用を楽にしたい</label>
+          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="顧客対応"><span class="option-check"></span>お客様対応の質やスピードを上げたい</label>
+          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="新規事業"><span class="option-check"></span>新しい事業やサービスのアイデアがほしい</label>
+          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="コスト削減"><span class="option-check"></span>コストを抑える方法を見つけたい</label>
+          <label class="option-card" onclick="selectCheck(this,'q4',2)"><input type="checkbox" name="q4" value="情報収集"><span class="option-check"></span>まずAIで何ができるのか知りたい</label>
+        </div>
+        <p class="q-error">1つ以上選択してください（最大2つ）</p>
+      </div>
+
+      <!-- Q5 -->
+      <div class="q-block" data-q="q5">
+        <div class="q-header">
+          <span class="q-num">Q5</span>
+          <span class="q-title">もう少し詳しく教えてください</span>
+          <span class="q-optional">任意</span>
+        </div>
+        <textarea class="q-textarea" name="q5" placeholder="例：毎月の請求書作成に時間がかかっている、SNS投稿のネタが尽きる、など具体的に書いていただくとより的確な提案ができます。"></textarea>
+      </div>
+
+      <!-- Q6 -->
+      <div class="q-block" data-q="q6" data-required="true">
+        <div class="q-header">
+          <span class="q-num">Q6</span>
+          <span class="q-title">今のAI活用状況は？</span>
+          <span class="q-required">必須</span>
+        </div>
+        <div class="option-grid">
+          <label class="option-card" onclick="selectRadio(this,'q6')"><input type="radio" name="q6" value="まだ使っていない"><span class="option-dot"></span>まだ使っていない</label>
+          <label class="option-card" onclick="selectRadio(this,'q6')"><input type="radio" name="q6" value="個人的に試している程度"><span class="option-dot"></span>個人的に試している程度</label>
+          <label class="option-card" onclick="selectRadio(this,'q6')"><input type="radio" name="q6" value="一部の業務で使っている"><span class="option-dot"></span>一部の業務で使っている</label>
+          <label class="option-card" onclick="selectRadio(this,'q6')"><input type="radio" name="q6" value="組織的に活用している"><span class="option-dot"></span>組織的に活用している</label>
+        </div>
+        <p class="q-error">AI活用状況を選択してください</p>
+      </div>
+
+      <div class="submit-area">
+        <button type="button" class="btn btn--green btn-submit" onclick="submitQuiz()">診断する</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div>
+    <div class="loading-text" id="loadingText">回答を分析しています...</div>
+    <div class="loading-sub">AIがあなたのビジネスに合った提案を作成中</div>
+  </div>
+</div>
+
+<!-- RESULTS (hidden until submitted) -->
+<div class="results-section" id="resultsSection">
+
+  <!-- Result Hero -->
+  <section class="result-hero">
+    <div class="container">
+      <p class="result-label">Diagnostic Result</p>
+      <div class="result-level-badge">
+        <div class="result-level-num" id="resultLevelNum">-</div>
+        <div class="result-level-info">
+          <div class="result-level-tag">LEVEL</div>
+          <div class="result-level-name" id="resultLevelName">診断中...</div>
+        </div>
+      </div>
+      <p class="result-summary" id="resultSummary"></p>
+    </div>
+  </section>
+
+  <!-- Solutions -->
+  <section class="result-solutions">
+    <div class="container">
+      <p class="section-label">Solutions</p>
+      <h2>あなたの業務が、こう変わります</h2>
+      <p class="result-solutions-lead">回答内容をもとに、AIが具体的な改善案を作成しました。<br>「今の状態」と「変わった後」を比べてご覧ください。</p>
+      <div class="solution-cards" id="solutionCards">
+        <!-- Dynamically inserted -->
       </div>
     </div>
+  </section>
 
-    <!-- Results -->
-    <section class="results-section" id="results-section">
-      <!-- Level Hero -->
-      <div class="level-hero">
-        <div class="level-hero-inner">
-          <p class="level-label">Diagnostic Result</p>
-          <div class="level-circle">
-            <span class="level-num" id="level-num">-</span>
-            <span class="level-num-label">LEVEL</span>
-          </div>
-          <h2 class="level-name" id="level-name">診断中...</h2>
-          <p class="level-desc" id="level-desc"></p>
-          <div class="level-bar-wrap" id="level-bar"></div>
+  <!-- Next Step -->
+  <section class="next-step">
+    <div class="container">
+      <div class="next-step-inner">
+        <p class="section-label">Next Step</p>
+        <h2>「面白そうだけど、どこから手をつければ？」<br>そんなときは、プロに相談してみませんか。</h2>
+        <p class="next-step-lead">この診断結果をもとに、あなたの会社に合った<br>AI活用の進め方を、無料でご相談いただけます。</p>
+        <div class="support-list">
+          <div class="support-item">「何から始めればいいか」を一緒に整理</div>
+          <div class="support-item">月1回のレクチャーで、使い方を丁寧にご説明</div>
+          <div class="support-item">日々のチャットで「ちょっとした疑問」もすぐ解決</div>
+          <div class="support-item">専門知識は不要。パソコンが使えればOK</div>
         </div>
+        <div class="cta-buttons">
+          <a href="/contact.html" class="btn btn--green">まずは無料で相談する</a>
+          <a href="https://lin.ee/s2u6VUw" class="btn" style="background:var(--green-light);color:var(--green)">LINEでかんたん相談</a>
+        </div>
+        <p class="cta-note">相談は無料です。無理な営業は一切ありません。</p>
       </div>
+    </div>
+  </section>
+</div>
 
-      <!-- Solutions -->
-      <div class="solutions-section">
-        <div class="solutions-section-inner">
-          <div class="solutions-header">
-            <p class="solutions-header-label">Solutions</p>
-            <h3 class="solutions-header-title">あなたの業務が、こう変わります</h3>
-            <p class="solutions-header-desc">回答内容をもとに、AIが具体的な改善案を作成しました。<br>「今の状態」と「変わった後」を比べてご覧ください。</p>
-          </div>
-          <div id="solutions-container"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA after results -->
-    <section class="diag-results-cta" id="results-cta" style="display:none">
-      <div class="diag-results-cta-inner">
-        <p class="diag-results-cta-label">NEXT STEP</p>
-        <h2 class="diag-results-cta-title">「面白そうだけど、どこから手をつければ？」<br>そんなときは、プロに相談してみませんか。</h2>
-        <p class="diag-results-cta-desc">この診断結果をもとに、あなたの会社に合った<br>AI活用の進め方を、無料でご相談いただけます。</p>
-        <div class="diag-results-cta-service">
-          <p class="diag-results-cta-service-title">Ciras AI顧問なら、こんなサポートができます</p>
-          <ul class="diag-results-cta-service-list">
-            <li>「何から始めればいいか」を一緒に整理</li>
-            <li>月1回のレクチャーで、使い方を丁寧にご説明</li>
-            <li>日々のチャットで「ちょっとした疑問」もすぐ解決</li>
-            <li>専門知識は不要。パソコンが使えればOK</li>
-          </ul>
-        </div>
-        <div class="diag-results-cta-buttons">
-          <a href="/contact.html" class="btn-cta-primary">まずは無料で相談する</a>
-          <a href="https://lin.ee/s2u6VUw" class="btn-cta-secondary">LINEでかんたん相談</a>
-        </div>
-        <p class="diag-results-cta-note">相談は無料です。無理な営業は一切ありません。</p>
-      </div>
-    </section>
-  </main>
-
-  <!-- ===== FOOTER（共通パーツ） ===== -->
-  <footer class="site-footer">
+<!-- FOOTER -->
+<footer>
+  <div class="container">
     <div class="footer-inner">
-      <div class="footer-grid">
-        <div>
-          <p class="footer-brand"><a href="/" aria-label="トップページへ"><img src="images/logo-white.png" alt="Ciras（シラス）株式会社" class="footer-logo-img"></a></p>
-          <p class="footer-info">
-            Ciras（シラス）株式会社<br>
-            〒790-0813 愛媛県松山市萱町3-2-3 9CROSS 501<br>
-            TEL: <a href="tel:050-3637-6324" style="color:inherit">050-3637-6324</a><br>
-            営業時間: 10:00〜17:30（土日祝休）
-          </p>
-        </div>
-        <nav class="footer-nav" aria-label="フッターナビゲーション">
-          <div>
-            <p class="footer-nav-title">SERVICE</p>
-            <ul>
-              <li><a href="/ai-komon.html">Ciras AI顧問</a></li>
-              <li><a href="/web.html">AI活用 Webサイト制作</a></li>
-              <li><a href="/system.html">AI業務システム開発</a></li>
-              <li><a href="/kagemusha.html">影武者</a></li>
-              <li><a href="/seminar.html">セミナー</a></li>
-            </ul>
-          </div>
-          <div>
-            <p class="footer-nav-title">COMPANY</p>
-            <ul>
-              <li><a href="/voice.html">お客様の声</a></li>
-              <li><a href="/faq.html">よくある質問</a></li>
-              <li><a href="/company.html">会社概要</a></li>
-              <li><a href="/blog/">ブログ</a></li>
-            </ul>
-          </div>
-          <div>
-            <p class="footer-nav-title">CONTACT</p>
-            <ul>
-              <li><a href="/contact.html">お問い合わせ</a></li>
-              <li><a href="/partner.html">採用・協業</a></li>
-              <li><a href="https://lin.ee/s2u6VUw">LINE</a></li>
-              <li><a href="/privacy.html">プライバシーポリシー</a></li>
-              <li><a href="/privacy.html#tokusho">特定商取引法に基づく表記</a></li>
-            </ul>
-          </div>
-        </nav>
+      <div class="footer-brand">
+        <div class="footer-logo"><img src="images/logo-green.png" alt="Ciras（シラス）株式会社"></div>
+        <p>Ciras（シラス）株式会社</p>
+        <p>愛媛県松山市萱町3-2-3 9CROSS 501</p>
+        <p>TEL: <a href="tel:050-3637-6324">050-3637-6324</a></p>
+        <p>営業時間: 10:00〜17:30（土日祝休）</p>
       </div>
-      <div class="footer-bottom">
-        &copy; 2026 Ciras Inc.（シラス株式会社）
+      <div class="footer-links">
+        <h4>サービス</h4>
+        <ul>
+          <li><a href="/ai-komon.html">Ciras AI顧問</a></li>
+          <li><a href="/web.html">AI活用 Webサイト制作</a></li>
+          <li><a href="/system.html">AI業務システム開発</a></li>
+          <li><a href="/kagemusha.html">影武者</a></li>
+          <li><a href="/seminar.html">セミナー</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>情報</h4>
+        <ul>
+          <li><a href="/company.html">会社概要</a></li>
+          <li><a href="/voice.html">お客様の声</a></li>
+          <li><a href="/faq.html">よくある質問</a></li>
+          <li><a href="/blog/">ブログ</a></li>
+          <li><a href="/partner.html">採用・協業</a></li>
+        </ul>
       </div>
     </div>
-  </footer>
+    <div class="footer-bottom">
+      <div>
+        <a href="/privacy.html">プライバシーポリシー</a>
+        <a href="/privacy.html#tokusho">特定商取引法に基づく表記</a>
+      </div>
+      <span>© 2026 Ciras Inc.（シラス株式会社）</span>
+    </div>
+  </div>
+</footer>
 
-  <script>
-  (function() {
-    // ===== Common: Header scroll, hamburger, fade-in =====
-    var h = document.querySelector('header'), scrolled = false;
-    window.addEventListener('scroll', function() {
-      if (window.scrollY > 60 && !scrolled) { h.classList.add('scrolled'); scrolled = true; }
-      else if (window.scrollY <= 60 && scrolled) { h.classList.remove('scrolled'); scrolled = false; }
-    }, { passive: true });
+<script>
+/* ===== Menu ===== */
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('active');document.querySelector('.hamburger').classList.toggle('active')}
 
-    var hbtn = document.querySelector('.hamburger'), mnav = document.querySelector('.mobile-nav');
-    if (hbtn && mnav) {
-      hbtn.addEventListener('click', function() {
-        hbtn.classList.toggle('active'); mnav.classList.toggle('open');
-        document.body.style.overflow = mnav.classList.contains('open') ? 'hidden' : '';
-      });
-      mnav.querySelectorAll('a').forEach(function(a) {
-        a.addEventListener('click', function() { hbtn.classList.remove('active'); mnav.classList.remove('open'); document.body.style.overflow = ''; });
-      });
+/* ===== Fade-in ===== */
+document.addEventListener('DOMContentLoaded',function(){
+  var targets=document.querySelectorAll('.fade-in');
+  if('IntersectionObserver' in window){
+    var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}})},{threshold:0.15,rootMargin:'0px 0px -40px 0px'});
+    targets.forEach(function(t){observer.observe(t)});
+  }else{targets.forEach(function(t){t.classList.add('is-visible')})}
+});
+
+/* ===== Quiz Logic ===== */
+function selectRadio(el, name){
+  var block=el.closest('.q-block');
+  block.querySelectorAll('.option-card').forEach(function(c){c.classList.remove('selected')});
+  el.classList.add('selected');
+  el.querySelector('input').checked=true;
+  block.classList.remove('has-error');
+}
+
+function selectCheck(el, name, max){
+  var block=el.closest('.q-block');
+  var input=el.querySelector('input');
+  var selected=block.querySelectorAll('.option-card.selected');
+
+  if(el.classList.contains('selected')){
+    el.classList.remove('selected');
+    input.checked=false;
+  } else {
+    if(selected.length>=max) return;
+    el.classList.add('selected');
+    input.checked=true;
+  }
+
+  // Update disabled state
+  var nowSelected=block.querySelectorAll('.option-card.selected').length;
+  block.querySelectorAll('.option-card').forEach(function(c){
+    if(!c.classList.contains('selected')){
+      c.classList.toggle('disabled', nowSelected>=max);
     }
+  });
+  block.classList.remove('has-error');
+}
 
-    var fadeEls = document.querySelectorAll('.fade-in');
-    fadeEls.forEach(function(e) { e.classList.add('hidden'); });
-    if ('IntersectionObserver' in window) {
-      var obs = new IntersectionObserver(function(entries) {
-        entries.forEach(function(en) { if (en.isIntersecting) { en.target.classList.remove('hidden'); obs.unobserve(en.target); } });
-      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-      fadeEls.forEach(function(e) { obs.observe(e); });
-      setTimeout(function() { fadeEls.forEach(function(e) { e.classList.remove('hidden'); }); }, 2000);
+function validateQuiz(){
+  var valid=true;
+  document.querySelectorAll('.q-block[data-required="true"]').forEach(function(block){
+    var q=block.dataset.q;
+    block.classList.remove('has-error');
+    if(q==='q4'){
+      var checked=block.querySelectorAll('input:checked');
+      if(checked.length===0){block.classList.add('has-error');valid=false}
     } else {
-      fadeEls.forEach(function(e) { e.classList.remove('hidden'); });
+      var checked=block.querySelector('input:checked');
+      if(!checked){block.classList.add('has-error');valid=false}
     }
+  });
+  if(!valid){
+    var first=document.querySelector('.q-block.has-error');
+    if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  return valid;
+}
 
-    // ===== Q2 "その他" toggle =====
-    var q2Radios = document.querySelectorAll('input[name="q2"]');
-    var q2OtherWrap = document.getElementById('q2-other-wrap');
-    q2Radios.forEach(function(r) {
-      r.addEventListener('change', function() {
-        q2OtherWrap.classList.toggle('visible', this.value === 'その他');
-      });
-    });
+function collectAnswers(){
+  var q1=document.querySelector('input[name="q1"]:checked');
+  var q2=document.querySelector('input[name="q2"]:checked');
+  var q3=document.querySelector('input[name="q3"]:checked');
+  var q4=[];
+  document.querySelectorAll('input[name="q4"]:checked').forEach(function(cb){q4.push(cb.value)});
+  var q5=document.querySelector('textarea[name="q5"]').value.trim();
+  var q6=document.querySelector('input[name="q6"]:checked');
+  return {
+    role: q1?q1.value:'',
+    industry: q2?q2.value:'',
+    employees: q3?q3.value:'',
+    goals: q4,
+    details: q5,
+    currentUsage: q6?q6.value:''
+  };
+}
 
-    // ===== Q4 max 2 checkboxes =====
-    var q4Checks = document.querySelectorAll('input[name="q4"]');
-    q4Checks.forEach(function(cb) {
-      cb.addEventListener('change', function() {
-        var checked = document.querySelectorAll('input[name="q4"]:checked');
-        q4Checks.forEach(function(c) {
-          if (!c.checked) c.disabled = checked.length >= 2;
-        });
-      });
-    });
+/* ===== Submit & API Call ===== */
+async function submitQuiz(){
+  if(!validateQuiz()) return;
+  var answers=collectAnswers();
+  showLoading();
 
-    // ===== State =====
-    var diagnosisId = null;
+  try {
+    var result = await callDiagnosticAPI(answers);
+    hideLoading();
+    displayResults(result);
+  } catch(err){
+    hideLoading();
+    alert('診断中にエラーが発生しました。しばらく経ってから再度お試しください。');
+    console.error(err);
+  }
+}
 
-    // ===== Form submission =====
-    document.getElementById('diagnosis-form').addEventListener('submit', function(e) {
-      e.preventDefault();
+function showLoading(){
+  document.getElementById('loadingOverlay').classList.add('active');
+  document.body.style.overflow='hidden';
+  var texts=['回答を分析しています...','業種に合った活用方法を検討中...','具体的な改善案を作成しています...'];
+  var i=0;
+  window._loadingInterval=setInterval(function(){
+    i=(i+1)%texts.length;
+    document.getElementById('loadingText').textContent=texts[i];
+  },2500);
+}
 
-      // Clear previous errors
-      document.querySelectorAll('.question-error').forEach(function(el) { el.style.display = 'none'; });
+function hideLoading(){
+  document.getElementById('loadingOverlay').classList.remove('active');
+  document.body.style.overflow='';
+  if(window._loadingInterval) clearInterval(window._loadingInterval);
+}
 
-      // Validate
-      var valid = true;
-      var q1 = document.querySelector('input[name="q1"]:checked');
-      if (!q1) { document.getElementById('q1-error').style.display = 'block'; valid = false; }
+/* ===== API Configuration =====
+ * 現在のAPIエンドポイントを設定してください。
+ * Cloudflare Workers等のプロキシ経由を推奨します。
+ * 例: endpoint を '/api/ai-check' に変更し、Workerでプロキシ
+ */
+var API_CONFIG = {
+  endpoint: 'https://api.anthropic.com/v1/messages',
+  model: 'claude-sonnet-4-20250514'
+  // apiKey は Worker側で管理してください
+};
 
-      var q2 = document.querySelector('input[name="q2"]:checked');
-      if (!q2) { document.getElementById('q2-error').style.display = 'block'; valid = false; }
+async function callDiagnosticAPI(answers){
+  var systemPrompt = 'あなたはCiras株式会社のAI活用診断の専門家です。中小企業向けに、実践的で具体的なAI活用提案を行います。\n\n以下の回答を分析し、必ず以下のJSON形式のみで回答してください（JSON以外のテキストは一切出力しないでください）：\n\n```json\n{\n  "level": 1〜4の数値,\n  "levelName": "入門期" or "試行期" or "活用期" or "最適化期",\n  "summary": "2〜3文の総合評価。業種と規模を踏まえた具体的なコメント",\n  "solutions": [\n    {\n      "title": "改善案のタイトル（10文字以内）",\n      "before": "現状の課題（1〜2文で具体的に）",\n      "after": "AI導入後の改善イメージ（1〜2文で具体的に）"\n    }\n  ],\n  "nextStep": "最初に取り組むべきアクション（1文）"\n}\n```\n\nレベル基準：\n- 1（入門期）：まだ使っていない\n- 2（試行期）：個人的に試している\n- 3（活用期）：一部業務で使っている\n- 4（最適化期）：組織的に活用\n\nsolutionsは3〜4個。業種・目的に合わせた実践的な提案にしてください。';
 
-      var q3 = document.querySelector('input[name="q3"]:checked');
-      if (!q3) { document.getElementById('q3-error').style.display = 'block'; valid = false; }
+  var userMsg = '【AI活用レベル診断】\n立場：' + answers.role + '\n業種：' + answers.industry + '\n従業員数：' + answers.employees + '\nAIで実現したいこと：' + answers.goals.join('、') + (answers.details ? '\n補足：' + answers.details : '') + '\n現在のAI活用状況：' + answers.currentUsage;
 
-      var q4 = document.querySelectorAll('input[name="q4"]:checked');
-      if (q4.length === 0) { document.getElementById('q4-error').style.display = 'block'; valid = false; }
+  var response = await fetch(API_CONFIG.endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'anthropic-version': '2023-06-01',
+      'x-api-key': API_CONFIG.apiKey || ''
+      // 本番では Cloudflare Worker 経由で apiKey を管理してください
+    },
+    body: JSON.stringify({
+      model: API_CONFIG.model,
+      max_tokens: 1200,
+      messages: [
+        { role: 'user', content: userMsg }
+      ],
+      system: systemPrompt
+    })
+  });
 
-      var q6 = document.querySelector('input[name="q6"]:checked');
-      if (!q6) { document.getElementById('q6-error').style.display = 'block'; valid = false; }
+  if(!response.ok) throw new Error('API Error: ' + response.status);
+  var data = await response.json();
+  var text = data.content[0].text;
 
-      if (!valid) {
-        // Scroll to first error
-        var firstErr = document.querySelector('.question-error[style*="block"]');
-        if (firstErr) firstErr.closest('.question-block').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
+  // Parse JSON from response (handle markdown code blocks)
+  var jsonStr = text.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
+  return JSON.parse(jsonStr);
+}
 
-      // Build payload
-      var q2Industry = q2.value;
-      var q2Other = '';
-      if (q2.value === 'その他') {
-        q2Other = document.getElementById('q2-other').value.trim();
-        if (q2Other) q2Industry = 'その他（' + q2Other + '）';
-      }
+/* ===== Display Results ===== */
+function displayResults(result){
+  // Level
+  document.getElementById('resultLevelNum').textContent = result.level;
+  document.getElementById('resultLevelName').textContent = result.levelName;
+  document.getElementById('resultSummary').textContent = result.summary;
 
-      var payload = {
-        q1_position: q1.value,
-        q2_industry: q2Industry,
-        q2_industry_other: q2Other,
-        q3_employees: q3.value,
-        q4_interests: Array.from(q4).map(function(c) { return c.value; }),
-        q5_details: document.getElementById('q5').value.trim(),
-        q6_ai_status: q6.value
-      };
+  // Solutions
+  var container = document.getElementById('solutionCards');
+  container.innerHTML = '';
+  result.solutions.forEach(function(sol, i){
+    var card = document.createElement('div');
+    card.className = 'sol-card';
+    card.innerHTML =
+      '<div class="sol-card-title"><span class="sol-card-num">' + (i+1) + '</span>' + sol.title + '</div>' +
+      '<div class="sol-before"><div class="sol-before-label">BEFORE（現状）</div><p>' + sol.before + '</p></div>' +
+      '<div class="sol-arrow">→</div>' +
+      '<div class="sol-after"><div class="sol-after-label">AFTER（改善後）</div><p>' + sol.after + '</p></div>';
+    container.appendChild(card);
+  });
 
-      // Show loading
-      showLoading();
-
-      // Submit
-      fetch('/api/ai-check', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data.error) {
-          hideLoading();
-          alert(data.error);
-          return;
-        }
-        diagnosisId = data.id;
-        showResults(data.result);
-      })
-      .catch(function() {
-        hideLoading();
-        alert('ただいま診断が混み合っています。しばらくしてからお試しください。');
-      });
-    });
-
-    // ===== Loading =====
-    var loadingMessages = [
-      { text: '回答を分析しています...', sub: 'AIがあなたのビジネスに合った提案を作成中', pct: 15 },
-      { text: '業種・規模に合わせて検討中...', sub: 'あなたの状況に最適な提案を選定しています', pct: 35 },
-      { text: 'AI活用の提案を作成中...', sub: '具体的な解決案をまとめています', pct: 60 },
-      { text: '仕上げをしています...', sub: 'あと少しです', pct: 85 }
-    ];
-    var loadingTimer = null;
-
-    function showLoading() {
-      var overlay = document.getElementById('loading-overlay');
-      overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      var idx = 0;
-      updateLoadingMessage(loadingMessages[0]);
-      loadingTimer = setInterval(function() {
-        idx++;
-        if (idx < loadingMessages.length) updateLoadingMessage(loadingMessages[idx]);
-      }, 4000);
-    }
-
-    function updateLoadingMessage(msg) {
-      document.getElementById('loading-text').textContent = msg.text;
-      document.getElementById('loading-sub').textContent = msg.sub;
-      document.getElementById('loading-bar').style.width = msg.pct + '%';
-    }
-
-    function hideLoading() {
-      if (loadingTimer) clearInterval(loadingTimer);
-      document.getElementById('loading-bar').style.width = '100%';
-      setTimeout(function() {
-        document.getElementById('loading-overlay').classList.remove('active');
-        document.body.style.overflow = '';
-      }, 300);
-    }
-
-    // ===== Level definitions =====
-    var levelDefs = [
-      { min: 0, name: 'はじめの一歩', desc: '今はまだAIを活用していない段階。でも、ここからが一番変われるタイミングです。5つの提案の中から、まず1つ試してみてください。' },
-      { min: 2, name: 'AI活用 入門', desc: '少しずつAIに触れ始めている段階。まだまだ伸びしろがたくさんあります。下の提案で、次のステップに進みましょう。' },
-      { min: 3, name: '着実に前進中', desc: '一部の業務でAIを使い始めています。ここからは「使い方の幅」を広げることで、さらに大きな効果が出ます。' },
-      { min: 4, name: 'AI活用 上級者', desc: '組織的にAIを活用されています。さらに一歩先の使い方で、競合との差を広げましょう。' }
-    ];
-
-    function getLevel(aiStatus) {
-      var lvMap = { 'まだ使っていない': 1, '個人的に試している程度': 2, '一部の業務で使っている': 3, '組織的に活用している': 4 };
-      return lvMap[aiStatus] || 1;
-    }
-
-    // ===== Results =====
-    function showResults(result) {
-      hideLoading();
-
-      // Hide form and hero
-      document.querySelector('.hero').style.display = 'none';
-      document.getElementById('form-section').style.display = 'none';
-
-      // Determine level from Q6 answer
-      var q6Val = document.querySelector('input[name="q6"]:checked');
-      var level = q6Val ? getLevel(q6Val.value) : 1;
-      var levelDef = levelDefs[0];
-      for (var li = levelDefs.length - 1; li >= 0; li--) {
-        if (level >= levelDefs[li].min) { levelDef = levelDefs[li]; break; }
-      }
-
-      // Populate level hero
-      document.getElementById('level-num').textContent = level;
-      document.getElementById('level-name').textContent = levelDef.name;
-      document.getElementById('level-desc').textContent = levelDef.desc;
-
-      // Level bar (5 segments)
-      var barHTML = '';
-      for (var b = 1; b <= 5; b++) {
-        barHTML += '<div class="level-bar-item' + (b <= level ? ' active' : '') + '"></div>';
-      }
-      document.getElementById('level-bar').innerHTML = barHTML;
-
-      // Build solutions HTML
-      var container = document.getElementById('solutions-container');
-      container.innerHTML = '';
-      if (result.solutions && result.solutions.length > 0) {
-        result.solutions.forEach(function(s, i) {
-          var card = document.createElement('div');
-          card.className = 'solution-card';
-
-          var html = '<div class="solution-card-header">' +
-            '<div class="solution-num-badge">' + (i + 1) + '</div>' +
-            '<div class="solution-title-wrap">' +
-              '<p class="solution-num">SOLUTION ' + String(i + 1).padStart(2, '0') + '</p>' +
-              '<h3 class="solution-title">' + escapeHTML(s.title) + '</h3>' +
-            '</div>' +
-          '</div>';
-
-          if (s.point) {
-            html += '<div class="solution-point">' +
-              '<span class="solution-point-icon"><svg viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm3.7 6.3l-4 4a1 1 0 01-1.4 0l-2-2a1 1 0 111.4-1.4L9 10.2l3.3-3.3a1 1 0 011.4 1.4z"/></svg></span>' +
-              '<span>' + escapeHTML(s.point) + '</span>' +
-            '</div>';
-          }
-
-          html += '<div class="solution-ba">' +
-            '<div class="solution-before">' +
-              '<p class="solution-ba-label solution-ba-label-before"><span class="solution-ba-label-icon solution-ba-label-icon-before">&times;</span> 今の状態</p>' +
-              '<p class="solution-ba-text">' + escapeHTML(s.before || s.description || '') + '</p>' +
-            '</div>' +
-            '<div class="solution-ba-divider"><div class="solution-ba-divider-line"></div><div class="solution-ba-divider-arrow">&#x25BC;</div><div class="solution-ba-divider-line"></div></div>' +
-            '<div class="solution-after">' +
-              '<p class="solution-ba-label solution-ba-label-after"><span class="solution-ba-label-icon solution-ba-label-icon-after">&#x2713;</span> AIを使うと</p>' +
-              '<p class="solution-ba-text">' + escapeHTML(s.after || '') + '</p>' +
-            '</div>' +
-          '</div>';
-
-          card.innerHTML = html;
-          container.appendChild(card);
-        });
-      }
-
-      // Show results
-      document.getElementById('results-section').classList.add('active');
-      document.getElementById('results-cta').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function escapeHTML(str) {
-      if (!str) return '';
-      var d = document.createElement('div');
-      d.textContent = str;
-      return d.innerHTML;
-    }
-  })();
-  </script>
-
+  // Show results
+  document.getElementById('quizSection').style.display='none';
+  document.getElementById('resultsSection').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
 </body>
 </html>
