@@ -33,7 +33,7 @@
    ============================================ */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; scroll-padding-top:72px; }
-body { font-family:var(--font-main); font-weight:400; color:var(--text-primary); line-height:1.8; font-size:15px; background:var(--white); -webkit-font-smoothing:antialiased; }
+body { font-family:var(--font-main); font-weight:400; color:var(--text-primary); line-height:1.8; font-size:16.5px; background:var(--white); -webkit-font-smoothing:antialiased; }
 a { color:inherit; text-decoration:none; transition:opacity var(--transition); }
 a:hover { opacity:0.75; }
 img { max-width:100%; display:block; }
@@ -87,17 +87,64 @@ header {
 .header-nav {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 22px;
 }
-.header-nav a {
-  font-size: 0.8rem;
+.header-nav > a,
+.nav-dropdown > a {
+  font-size: 0.88rem;
   font-weight: 500;
   color: var(--text-secondary);
   letter-spacing: 0.02em;
   transition: color var(--transition);
+  cursor: pointer;
 }
-.header-nav a:hover {
+.header-nav > a:hover,
+.nav-dropdown > a:hover {
   color: var(--green);
+  opacity: 1;
+}
+/* Dropdown */
+.nav-dropdown { position: relative; }
+.nav-dropdown > a::after {
+  content: '';
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-right: 1.5px solid var(--text-light);
+  border-bottom: 1.5px solid var(--text-light);
+  transform: rotate(45deg);
+  margin-left: 5px;
+  vertical-align: 2px;
+  transition: transform var(--transition);
+}
+.nav-dropdown:hover > a::after { transform: rotate(-135deg); }
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: -12px;
+  padding-top: 10px;
+  z-index: 1200;
+}
+.nav-dropdown:hover .nav-dropdown-menu { display: block; }
+.nav-dropdown-menu-inner {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  padding: 8px 0;
+  min-width: 240px;
+}
+.nav-dropdown-menu a {
+  display: block;
+  padding: 10px 20px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-secondary) !important;
+  transition: background var(--transition), color var(--transition);
+}
+.nav-dropdown-menu a:hover {
+  background: var(--green-light);
+  color: var(--green) !important;
   opacity: 1;
 }
 .nav-cta {
@@ -106,6 +153,7 @@ header {
   padding: 8px 20px !important;
   border-radius: 6px;
   font-weight: 600 !important;
+  font-size: 0.88rem !important;
 }
 .nav-cta:hover {
   opacity: 0.9 !important;
@@ -169,7 +217,7 @@ header {
    Section Label
    ============================================ */
 .section-label {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -186,7 +234,7 @@ header {
   display: inline-block;
   padding: 14px 32px;
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   transition: all var(--transition);
   text-align: center;
@@ -230,16 +278,16 @@ header {
   align-items: center;
   gap: 40px;
 }
-.hero h1 {
-  font-size: 2.8rem;
+.hero h1 { 
+  font-size: 3rem;
   font-weight: 900;
   line-height: 1.3;
   letter-spacing: -0.01em;
   margin-bottom: 24px;
   color: var(--text-primary);
 }
-.hero-sub {
-  font-size: 0.95rem;
+.hero-sub { 
+  font-size: 1.05rem;
   line-height: 1.9;
   color: var(--text-secondary);
   max-width: 440px;
@@ -300,7 +348,7 @@ header {
   line-height: 1.2;
 }
 .stat-number small { font-size: 0.45em; font-weight: 500; }
-.stat-label { font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; }
+.stat-label { font-size: 0.9rem; color: var(--text-secondary); margin-top: 2px; }
 
 /* ============================================
    Problems
@@ -326,7 +374,7 @@ header {
   background: var(--white);
   padding: 16px 20px;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -346,7 +394,7 @@ header {
   max-width: 520px;
   margin: 0 auto;
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   line-height: 1.9;
 }
 .bridge strong { color: var(--text-primary); }
@@ -384,15 +432,15 @@ header {
   transform: translateY(-2px);
 }
 .service-num {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   color: var(--text-light);
   margin-bottom: 12px;
 }
-.service-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
-.service-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
-.service-price { font-size: 0.85rem; font-weight: 600; color: var(--green); }
+.service-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
+.service-card p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
+.service-price { font-size: 0.95rem; font-weight: 600; color: var(--green); }
 .service-arrow { position: absolute; right: 24px; bottom: 28px; font-size: 0.8rem; color: var(--text-light); }
 
 /* ============================================
@@ -403,8 +451,8 @@ header {
   color: var(--white);
   padding: 64px 0;
 }
-.free-tools h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
-.free-tools-lead { opacity: 0.7; font-size: 0.9rem; margin-bottom: 32px; }
+.free-tools h2 { font-size: 1.7rem; font-weight: 700; margin-bottom: 8px; }
+.free-tools-lead { opacity: 0.7; font-size: 1rem; margin-bottom: 32px; }
 .diagnostic-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; }
 .diagnostic-card {
   background: rgba(255,255,255,0.1);
@@ -415,9 +463,9 @@ header {
   display: block;
 }
 .diagnostic-card:hover { background: rgba(255,255,255,0.15); opacity: 1; }
-.diagnostic-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
-.diagnostic-card p { font-size: 0.82rem; opacity: 0.75; line-height: 1.7; margin-bottom: 16px; }
-.diagnostic-link { font-size: 0.85rem; font-weight: 600; color: var(--green-pale); }
+.diagnostic-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
+.diagnostic-card p { font-size: 0.95rem; opacity: 0.75; line-height: 1.7; margin-bottom: 16px; }
+.diagnostic-link { font-size: 0.95rem; font-weight: 600; color: var(--green-pale); }
 
 /* ============================================
    Why Section
@@ -426,11 +474,11 @@ header {
   background: var(--warm-gray);
   padding: var(--section-padding);
 }
-.why h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
-.why-lead { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 36px; }
+.why h2 { font-size: 1.7rem; font-weight: 700; margin-bottom: 8px; }
+.why-lead { color: var(--text-secondary); font-size: 1rem; margin-bottom: 36px; }
 .comparison { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; }
 .comparison-col { background: var(--white); border-radius: 12px; padding: 28px 24px; }
-.comparison-col h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 16px; }
+.comparison-col h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 16px; }
 .comparison-col.positive h3 { color: var(--green); }
 .comparison-col.negative h3 { color: #888; }
 .comparison-col li {
@@ -453,8 +501,8 @@ header {
   gap: 48px;
   align-items: center;
 }
-.future-content h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; }
-.future-text { font-size: 0.95rem; color: var(--text-secondary); line-height: 2; margin-bottom: 28px; }
+.future-content h2 { font-size: 1.7rem; font-weight: 700; margin-bottom: 20px; }
+.future-text { font-size: 1.05rem; color: var(--text-secondary); line-height: 2; margin-bottom: 28px; }
 .future-text strong { color: var(--text-primary); }
 .future-image img { width: 100%; height: 280px; object-fit: cover; border-radius: 12px; }
 
@@ -465,8 +513,8 @@ header {
   background: var(--warm-gray);
   padding: var(--section-padding);
 }
-.seminar h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
-.seminar-lead { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 28px; }
+.seminar h2 { font-size: 1.7rem; font-weight: 700; margin-bottom: 8px; }
+.seminar-lead { color: var(--text-secondary); font-size: 1rem; margin-bottom: 28px; }
 .seminar-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -476,8 +524,8 @@ header {
 .seminar-photo img { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; }
 .seminar-info { display: flex; flex-direction: column; gap: 16px; }
 .seminar-type { background: var(--white); border-radius: 10px; padding: 20px 24px; }
-.seminar-type h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
-.seminar-type p { font-size: 0.8rem; color: var(--text-light); }
+.seminar-type h4 { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; }
+.seminar-type p { font-size: 0.9rem; color: var(--text-light); }
 
 /* ============================================
    Blog
@@ -486,7 +534,7 @@ header {
   background: var(--white);
   padding: var(--section-padding);
 }
-.blog h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 32px; }
+.blog h2 { font-size: 1.7rem; font-weight: 700; margin-bottom: 32px; }
 .blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 28px; }
 .blog-card {
   display: block;
@@ -501,14 +549,14 @@ header {
   background: var(--green-light); padding: 2px 8px; border-radius: 4px;
   display: inline-block; margin-bottom: 10px;
 }
-.blog-card h3 { font-size: 0.9rem; font-weight: 600; line-height: 1.6; margin-bottom: 8px; }
+.blog-card h3 { font-size: 1rem; font-weight: 600; line-height: 1.6; margin-bottom: 8px; }
 .blog-card p {
-  font-size: 0.78rem; color: var(--text-light); line-height: 1.6; margin-bottom: 8px;
+  font-size: 0.88rem; color: var(--text-light); line-height: 1.6; margin-bottom: 8px;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.blog-date { font-size: 0.72rem; color: var(--text-light); }
+.blog-date { font-size: 0.82rem; color: var(--text-light); }
 .blog-more { text-align: center; }
-.blog-more a { font-size: 0.85rem; font-weight: 500; color: var(--green); }
+.blog-more a { font-size: 0.95rem; font-weight: 500; color: var(--green); }
 
 /* ============================================
    Final CTA
@@ -519,8 +567,8 @@ header {
   padding: 72px 0;
   text-align: center;
 }
-.final-cta h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 16px; }
-.final-cta p { opacity: 0.8; font-size: 0.9rem; line-height: 1.9; margin-bottom: 32px; }
+.final-cta h2 { font-size: 1.7rem; font-weight: 700; margin-bottom: 16px; }
+.final-cta p { opacity: 0.8; font-size: 1rem; line-height: 1.9; margin-bottom: 32px; }
 .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
 /* ============================================
@@ -530,7 +578,7 @@ footer {
   background: var(--warm-gray);
   color: var(--text-secondary);
   padding: 56px 0 0;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   border-top: 1px solid var(--border);
 }
 .footer-inner {
@@ -566,8 +614,8 @@ footer {
   gap: 16px;
   flex-wrap: wrap;
 }
-.footer-bottom a { color: var(--text-light); margin-right: 20px; font-size: 0.72rem; }
-.footer-bottom span { font-size: 0.72rem; color: var(--text-light); }
+.footer-bottom a { color: var(--text-light); margin-right: 20px; font-size: 0.78rem; }
+.footer-bottom span { font-size: 0.78rem; color: var(--text-light); }
 
 /* ============================================
    Responsive
@@ -578,7 +626,7 @@ footer {
 
   .hero { padding: 64px 0 56px; }
   .hero-grid { grid-template-columns: 1fr; gap: 24px; }
-  .hero h1 { font-size: 2.2rem; }
+  .hero h1 {  font-size: 2.2rem; }
   .hero-deco { align-items: flex-start; margin-top: 8px; }
   .hero-deco-big { font-size: 5rem; }
   .hero-deco-text { margin-top: -28px; text-align: left; }
@@ -598,14 +646,14 @@ footer {
   .container { padding: 0 20px; }
   .problems, .services, .free-tools, .why, .future, .seminar, .blog { padding: 56px 0; }
   .track-record { padding: 48px 0; }
-  .problems h2, .services h2, .why h2, .future-content h2, .seminar h2, .blog h2 { font-size: 1.3rem; }
+  .problems h2, .services h2, .why h2, .future-content h2, .seminar h2, .blog h2 { font-size: 1.45rem; }
 
   .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; text-align: center; gap: 8px; }
 }
 
 @media (max-width: 375px) {
-  .hero h1 { font-size: 1.85rem; }
+  .hero h1 {  font-size: 1.85rem; }
   .hero-deco-big { font-size: 4rem; }
   .container { padding: 0 16px; }
 }
@@ -622,7 +670,17 @@ footer {
       <img src="images/logo-green.png" alt="Ciras（シラス）株式会社">
     </a>
     <nav class="header-nav">
-      <a href="#services">サービス</a>
+      <div class="nav-dropdown">
+        <a href="#services">サービス</a>
+        <div class="nav-dropdown-menu">
+          <div class="nav-dropdown-menu-inner">
+            <a href="/ai-komon.html">Ciras AI顧問</a>
+            <a href="/web.html">AI活用 Webサイト制作</a>
+            <a href="/system.html">AI業務システム開発</a>
+            <a href="/kagemusha.html">影武者</a>
+          </div>
+        </div>
+      </div>
       <a href="/needs.html">課題から探す</a>
       <a href="/seminar.html">セミナー</a>
       <a href="/company.html">会社概要</a>
@@ -638,6 +696,10 @@ footer {
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#services" onclick="toggleMenu()">サービス</a>
+  <a href="/ai-komon.html" style="padding-left:24px; font-size:0.92rem; color:#888;">　Ciras AI顧問</a>
+  <a href="/web.html" style="padding-left:24px; font-size:0.92rem; color:#888;">　AI活用 Webサイト制作</a>
+  <a href="/system.html" style="padding-left:24px; font-size:0.92rem; color:#888;">　AI業務システム開発</a>
+  <a href="/kagemusha.html" style="padding-left:24px; font-size:0.92rem; color:#888;">　影武者</a>
   <a href="/needs.html">課題から探す</a>
   <a href="/seminar.html">セミナー</a>
   <a href="/company.html">会社概要</a>
