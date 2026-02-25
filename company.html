@@ -9,7 +9,10 @@
 <meta property="og:description" content="愛媛県松山市を拠点に、中小企業向けAI活用支援を提供するCiras株式会社の会社概要。">
 <meta property="og:url" content="https://www.ciras.jp/company.html">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://www.ciras.jp/images/ogp.png">
 <link rel="canonical" href="https://www.ciras.jp/company.html">
+<link rel="icon" href="/images/favicon.ico" sizes="any">
+<link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
@@ -150,6 +153,9 @@ footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;
   .info-table th,.info-table td{padding:12px 10px;font-size:0.88rem}
 }
 </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Ciras（シラス）株式会社","description":"愛媛県松山市を拠点に、中小企業向けAI活用コンサルティング、Webサイト制作、AI業務システム開発、セミナー・研修を提供。","url":"https://www.ciras.jp","logo":"https://www.ciras.jp/images/logo-green.png","telephone":"+81-89-906-7474","address":{"@type":"PostalAddress","addressLocality":"松山市","addressRegion":"愛媛県","addressCountry":"JP"},"founder":{"@type":"Person","name":"杉本竜弥"}}
+</script>
 </head>
 <body>
 
@@ -171,7 +177,13 @@ footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;
       <a href="/seminar.html">セミナー</a>
       <a href="/company.html">会社概要</a>
       <a href="/partner.html">採用・協業</a>
-      <a href="/#free-tools">無料診断ツール</a>
+      <div class="nav-dropdown">
+        <a href="/#free-tools">無料診断ツール</a>
+        <div class="nav-dropdown-menu"><div class="nav-dropdown-menu-inner">
+          <a href="/ai-check">AI活用レベルチェッカー</a>
+          <a href="/web-check">Webサイト状況チェッカー</a>
+        </div></div>
+      </div>
       <a href="/blog/">ブログ</a>
       <a href="/contact.html" class="nav-cta">お問い合わせ</a>
     </nav>
@@ -189,6 +201,8 @@ footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;
   <a href="/company.html">会社概要</a>
   <a href="/partner.html">採用・協業</a>
   <a href="/#free-tools" onclick="toggleMenu()">無料診断ツール</a>
+  <a href="/ai-check" class="mobile-sub">　AI活用レベルチェッカー</a>
+  <a href="/web-check" class="mobile-sub">　Webサイト状況チェッカー</a>
   <a href="/blog/">ブログ</a>
   <a href="/contact.html" class="mobile-cta">お問い合わせ</a>
 </div>
