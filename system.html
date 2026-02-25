@@ -121,13 +121,12 @@ header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.97);back
 .works{background:var(--white);padding:var(--section-padding)}
 .works h2{font-size:1.7rem;font-weight:700;margin-bottom:40px}
 .works-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
-.work-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all var(--transition)}
-.work-card:hover{border-color:var(--green);box-shadow:0 4px 20px rgba(44,89,38,0.08)}
-.work-card-img{width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;background:var(--warm-gray);padding:20px 16px;border-bottom:1px solid var(--border)}
-.work-card-body{padding:20px 24px}
-.work-card-body h3{font-size:1.05rem;font-weight:700;margin-bottom:6px}
-.work-card-body p{font-size:0.9rem;color:var(--text-secondary);line-height:1.7}
-.work-card-tag{display:inline-block;font-size:0.78rem;font-weight:600;color:var(--green);background:var(--green-light);padding:3px 10px;border-radius:4px;margin-top:8px}
+.work-card{background:var(--white);border:2px solid var(--green);border-radius:12px;padding:32px 28px;display:block;transition:all var(--transition);position:relative}
+.work-card:hover{box-shadow:0 6px 24px rgba(44,89,38,0.12);transform:translateY(-2px);opacity:1}
+.work-card-tag{display:inline-block;font-size:0.75rem;font-weight:600;color:var(--white);background:var(--green);padding:4px 12px;border-radius:20px;margin-bottom:16px}
+.work-card h3{font-size:1.15rem;font-weight:700;margin-bottom:10px}
+.work-card p{font-size:0.92rem;color:var(--text-secondary);line-height:1.8}
+.work-card-arrow{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:0.88rem;font-weight:600;color:var(--green)}
 
 /* Why Ciras */
 .why-ciras{background:var(--warm-gray);padding:var(--section-padding)}
@@ -403,20 +402,16 @@ footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;
     </div>
     <div class="works-grid fade-in">
       <a href="/ai-check" class="work-card">
-        <img src="images/work-ai-checker.png" alt="AI活用レベルチェッカー" class="work-card-img" loading="lazy">
-        <div class="work-card-body">
-          <h3>AI活用レベルチェッカー</h3>
-          <p>8つの質問に答えるだけで、AIが自社のAI活用度を4段階で診断。改善提案まで自動生成。集客ツールとしても機能し、月間利用者が増加中。</p>
-          <span class="work-card-tag">AI診断ツール</span>
-        </div>
+        <span class="work-card-tag">AI診断ツール</span>
+        <h3>AI活用レベルチェッカー</h3>
+        <p>8つの質問に答えるだけで、AIが自社のAI活用度を4段階で診断。改善提案まで自動生成。集客ツールとしても機能しています。</p>
+        <span class="work-card-arrow">実際に試してみる →</span>
       </a>
       <a href="/web-check" class="work-card">
-        <img src="images/work-web-checker.png" alt="Webサイト状況チェッカー" class="work-card-img" loading="lazy">
-        <div class="work-card-body">
-          <h3>Webサイト状況チェッカー</h3>
-          <p>URLを入力するだけで、AIがWebサイトのAI検索対応度を自動分析。改善ポイントを具体的に提示し、次のアクションにつなげる。</p>
-          <span class="work-card-tag">AI分析ツール</span>
-        </div>
+        <span class="work-card-tag">AI分析ツール</span>
+        <h3>Webサイト状況チェッカー</h3>
+        <p>URLを入力するだけで、AIがWebサイトのAI検索対応度を自動分析。改善ポイントを具体的に提示し、次のアクションにつなげます。</p>
+        <span class="work-card-arrow">実際に試してみる →</span>
       </a>
     </div>
   </div>
