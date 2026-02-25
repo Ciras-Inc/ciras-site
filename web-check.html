@@ -636,7 +636,7 @@ async function startDiagnosis(){
   showLoading();
 
   try {
-    var response = await fetch('/api/web-check', {
+    var response = await fetch('/api/site-check', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url: url })
@@ -674,14 +674,53 @@ function resetDiagnosis(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
+/* ===== Helpers for display ===== */
+var categoryNames = {
+  entity: 'AIが会社を認識できるか',
+  structured_data: '機械向け情報（構造化データ）',
+  content_structure: 'AI引用しやすい文章構造',
+  local_signal: '地域×専門性',
+  technical: '技術的なアクセシビリティ'
+};
+
+function scoreToBadge(score){
+  if(score >= 80) return { symbol: '◎', cls: 'badge-excellent' };
+  if(score >= 50) return { symbol: '○', cls: 'badge-good' };
+  if(score >= 20) return { symbol: '△', cls: 'badge-fair' };
+  return { symbol: '×', cls: 'badge-poor' };
+}
+
+function scoreToLevel(score){
+  if(score >= 80) return 'AI検索対応 優良';
+  if(score >= 60) return 'AI検索対応 良好';
+  if(score >= 40) return '改善の余地あり';
+  if(score >= 20) return '要改善';
+  return '早急な対策が必要';
+}
+
+function escapeHtml(str){
+  var d = document.createElement('div');
+  d.appendChild(document.createTextNode(str));
+  return d.innerHTML;
+}
+
 /* ===== Display Results ===== */
 function displayResults(data){
+  var analysis = data.result || {};
+  var categories = analysis.categories || [];
+  var aiTest = data.aiTest || {};
+
   // Score & Level
-  var score = data.score || data.level || '-';
-  var levelName = data.levelName || data.level_name || '';
+  var score = typeof data.overallScore === 'number' ? data.overallScore : (typeof analysis.overall_score === 'number' ? analysis.overall_score : '-');
   document.getElementById('resultScore').textContent = score;
-  document.getElementById('resultLevel').textContent = levelName;
-  document.getElementById('resultSummary').textContent = data.summary || '';
+  document.getElementById('resultLevel').textContent = typeof score === 'number' ? scoreToLevel(score) : '';
+
+  // Summary from AI test judgment and actions
+  var summaryParts = [];
+  if(aiTest.companyName) summaryParts.push('「' + aiTest.companyName + '」のWebサイトを診断しました。');
+  if(typeof score === 'number') summaryParts.push('AI検索対応の総合スコアは ' + score + ' 点です。');
+  if(analysis.summary_actions && analysis.summary_actions.length > 0) summaryParts.push('優先度の高い改善点が ' + analysis.summary_actions.length + ' 件あります。');
+  document.getElementById('resultSummary').textContent = summaryParts.join('');
 
   // Page Status
   var statusList = document.getElementById('pageStatusList');
@@ -689,67 +728,81 @@ function displayResults(data){
   if(data.pages && data.pages.length){
     data.pages.forEach(function(p){
       var icon = p.status === 'success' ? '✅' : p.status === 'failed' ? '⚠️' : 'ℹ️';
-      var label = p.status === 'success' ? '' : p.status === 'failed' ? '（読み込み失敗）' : '（未検査）';
+      var suffix = p.status === 'success' ? '' : p.status === 'failed' ? '（読み込み失敗）' : '（未検査）';
+      var displayName = p.label ? p.label + '（' + p.url + '）' : p.url;
       var item = document.createElement('div');
       item.className = 'page-status-item';
-      item.innerHTML = '<span class="status-icon">' + icon + '</span><span>' + (p.title || p.url) + label + '</span>';
+      item.innerHTML = '<span class="status-icon">' + icon + '</span><span>' + escapeHtml(displayName) + suffix + '</span>';
       statusList.appendChild(item);
     });
   }
 
   // Company Analysis
-  document.getElementById('companyInfoCard').innerHTML = (data.companyAnalysis || data.company_analysis || '情報を取得できませんでした。').replace(/\n/g,'<br>');
+  var companyHtml = '';
+  if(aiTest.companyName) companyHtml += '<strong>会社名:</strong> ' + escapeHtml(aiTest.companyName) + '<br>';
+  if(data.url) companyHtml += '<strong>診断URL:</strong> ' + escapeHtml(data.url) + '<br>';
+  var judgment = analysis.ai_test_judgment;
+  if(judgment === 'accurate') companyHtml += '<br>Google AI検索では、御社の情報が<strong>正しく認識されています</strong>。';
+  else if(judgment === 'partial') companyHtml += '<br>Google AI検索では、御社の情報が<strong>一部認識されていますが、不正確な部分もあります</strong>。';
+  else companyHtml += '<br>Google AI検索では、御社の情報が<strong>正しく認識されていない状態です</strong>。';
+  document.getElementById('companyInfoCard').innerHTML = companyHtml || '情報を取得できませんでした。';
 
   // AI Search Preview
-  document.getElementById('aiPreviewBody').textContent = data.aiPreview || data.ai_preview || 'AI検索での御社の情報を取得できませんでした。';
+  document.getElementById('aiPreviewBody').textContent = aiTest.response || (aiTest.error ? 'AI検索テスト: ' + aiTest.error : 'AI検索での御社の情報を取得できませんでした。');
 
-  // Checkpoints
+  // Checkpoints (from categories)
   var cpContainer = document.getElementById('checkpointCards');
   cpContainer.innerHTML = '';
-  var checkpoints = data.checkpoints || [];
-  checkpoints.forEach(function(cp){
-    var badgeClass = 'badge-na';
-    var symbol = cp.rating || cp.symbol || 'ー';
-    if(symbol === '◎') badgeClass = 'badge-excellent';
-    else if(symbol === '○') badgeClass = 'badge-good';
-    else if(symbol === '△') badgeClass = 'badge-fair';
-    else if(symbol === '×') badgeClass = 'badge-poor';
-
+  categories.forEach(function(cat){
+    var badge = scoreToBadge(cat.score);
+    var title = categoryNames[cat.id] || cat.id;
+    var findingsHtml = '';
+    if(cat.findings && cat.findings.length){
+      findingsHtml = cat.findings.map(function(f){ return escapeHtml(f); }).join('<br>');
+    }
+    var detailHtml = '';
+    if(cat.business_impact){
+      detailHtml = '<div style="margin-top:10px;padding:12px;background:var(--warm-gray);border-radius:8px;font-size:0.88rem;color:var(--text-secondary);line-height:1.8">' + escapeHtml(cat.business_impact) + '</div>';
+    }
     var card = document.createElement('div');
     card.className = 'checkpoint-card';
-    var detailHtml = '';
-    if(cp.detail || cp.technical){
-      detailHtml = '<div class="checkpoint-detail"><details><summary>詳しい技術情報を見る（Web担当者向け）</summary><div class="checkpoint-detail-inner">' + (cp.detail || cp.technical) + '</div></details></div>';
-    }
     card.innerHTML =
-      '<div class="checkpoint-header"><div class="checkpoint-badge ' + badgeClass + '">' + symbol + '</div><div class="checkpoint-title">' + (cp.title || cp.name) + '</div></div>' +
-      '<div class="checkpoint-body">' + (cp.description || cp.findings || '') + '</div>' + detailHtml;
+      '<div class="checkpoint-header"><div class="checkpoint-badge ' + badge.cls + '">' + badge.symbol + '</div><div class="checkpoint-title">' + escapeHtml(title) + '（' + cat.score + '点）</div></div>' +
+      '<div class="checkpoint-body">' + findingsHtml + '</div>' + detailHtml;
     cpContainer.appendChild(card);
   });
 
-  // Strengths
+  // Strengths (categories with score >= 60)
   var strList = document.getElementById('strengthList');
   strList.innerHTML = '';
-  var strengths = data.strengths || [];
-  strengths.forEach(function(s){
+  categories.filter(function(c){ return c.score >= 60; }).forEach(function(cat){
+    var title = categoryNames[cat.id] || cat.id;
+    var text = title + '（' + cat.score + '点）';
+    if(cat.findings && cat.findings.length) text += ' — ' + cat.findings[0];
     var item = document.createElement('div');
     item.className = 'strength-item';
-    item.innerHTML = '<span class="strength-icon">✓</span><span class="strength-text">' + (typeof s === 'string' ? s : s.text || s.description) + '</span>';
+    item.innerHTML = '<span class="strength-icon">✓</span><span class="strength-text">' + escapeHtml(text) + '</span>';
     strList.appendChild(item);
   });
+  // If no strengths, hide the section
+  var strengthsSection = strList.closest('.strengths');
+  if(strengthsSection) strengthsSection.style.display = categories.some(function(c){ return c.score >= 60; }) ? '' : 'none';
 
-  // Solutions
+  // Solutions (from summary_actions and low-scoring categories)
   var solContainer = document.getElementById('solutionCards');
   solContainer.innerHTML = '';
-  var solutions = data.solutions || [];
-  solutions.forEach(function(sol, i){
+  var lowCategories = categories.filter(function(c){ return c.score < 80; }).sort(function(a,b){ return a.priority - b.priority; });
+  lowCategories.forEach(function(cat, i){
+    var title = categoryNames[cat.id] || cat.id;
+    var currentText = cat.findings && cat.findings.length ? cat.findings.join('、') : '改善が必要です';
+    var improvedText = cat.business_impact || '対策を実施することで改善が期待できます';
     var card = document.createElement('div');
     card.className = 'sol-card';
     card.innerHTML =
-      '<div class="sol-card-title"><span class="sol-card-num">' + (i+1) + '</span>' + (sol.title || '') + '</div>' +
-      '<div class="sol-before"><div class="sol-before-label">BEFORE（現状）</div><p>' + (sol.before || sol.current || '') + '</p></div>' +
+      '<div class="sol-card-title"><span class="sol-card-num">' + (i+1) + '</span>' + escapeHtml(title) + '</div>' +
+      '<div class="sol-before"><div class="sol-before-label">現状</div><p>' + escapeHtml(currentText) + '</p></div>' +
       '<div class="sol-arrow">→</div>' +
-      '<div class="sol-after"><div class="sol-after-label">AFTER（改善後）</div><p>' + (sol.after || sol.improved || '') + '</p></div>';
+      '<div class="sol-after"><div class="sol-after-label">改善すると</div><p>' + escapeHtml(improvedText) + '</p></div>';
     solContainer.appendChild(card);
   });
 
