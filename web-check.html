@@ -113,11 +113,17 @@ header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.97);back
 .result-hero{background:var(--green);color:var(--white);padding:64px 0;text-align:center}
 .result-label{font-size:0.8rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-pale);margin-bottom:20px;opacity:0.8}
 .result-level-badge{display:inline-flex;align-items:center;gap:20px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:24px 40px;margin-bottom:28px}
+.result-score-wrap{display:flex;align-items:baseline;gap:4px}
 .result-score{font-size:3.5rem;font-weight:900;line-height:1}
+.result-score-max{font-size:1.2rem;font-weight:600;opacity:0.6}
 .result-score-info{text-align:left}
 .result-score-tag{font-size:0.8rem;font-weight:600;letter-spacing:0.1em;opacity:0.7;text-transform:uppercase}
 .result-score-name{font-size:1.4rem;font-weight:700}
 .result-summary{max-width:640px;margin:0 auto;font-size:1.05rem;line-height:2;opacity:0.9}
+.result-comment{max-width:640px;margin:20px auto 0;padding:16px 24px;border-radius:10px;font-size:0.95rem;line-height:1.8;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.15)}
+.result-comment:empty{display:none}
+.result-comment a{color:var(--white);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.result-comment a:hover{opacity:0.8}
 .result-disclaimer{max-width:640px;margin:24px auto 0;font-size:0.82rem;opacity:0.55;line-height:1.8}
 
 /* Page Status */
@@ -244,8 +250,10 @@ footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;
   .features{padding:32px 0}
   .result-hero{padding:48px 0}
   .result-level-badge{padding:20px 28px;flex-direction:column;text-align:center;gap:8px}
+  .result-score-wrap{justify-content:center}
   .result-score-info{text-align:center}
   .result-score{font-size:2.8rem}
+  .result-comment{padding:14px 18px;font-size:0.9rem}
   .sol-card{grid-template-columns:1fr;gap:0;padding:24px}
   .sol-arrow{transform:rotate(90deg);padding:8px 0}
   .company-info-row{flex-direction:column;gap:4px}
@@ -418,13 +426,16 @@ footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;
     <div class="container">
       <p class="result-label">Diagnostic Result</p>
       <div class="result-level-badge">
-        <div class="result-score" id="resultScore">-</div>
+        <div class="result-score-wrap">
+          <span class="result-score" id="resultScore">-</span><span class="result-score-max">/ 100</span>
+        </div>
         <div class="result-score-info">
           <div class="result-score-tag">LEVEL</div>
           <div class="result-score-name" id="resultLevel">診断中...</div>
         </div>
       </div>
       <p class="result-summary" id="resultSummary"></p>
+      <div class="result-comment" id="resultComment"></div>
       <p class="result-disclaimer">⚠ 本診断はWebサイトに掲載されている情報をAIが読み込み分析した結果です。<br>実際の購買のしやすさ・閲覧体験・デザインの印象・売上等は評価対象外です。</p>
     </div>
   </section>
@@ -519,15 +530,15 @@ footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;
     <div class="container">
       <div class="next-step-inner">
         <p class="section-label">Next Step</p>
-        <h2>「何から手をつければいいだろう？」<br>そんなときは、プロに相談してみませんか。</h2>
-        <p class="next-step-lead">この診断結果をもとに、あなたの会社に合った<br>Webサイトの改善方法を、無料でご相談いただけます。</p>
-        <div class="support-list">
+        <h2 id="nextStepHeading">「何から手をつければいいだろう？」<br>そんなときは、プロに相談してみませんか。</h2>
+        <p class="next-step-lead" id="nextStepLead">この診断結果をもとに、あなたの会社に合った<br>Webサイトの改善方法を、無料でご相談いただけます。</p>
+        <div class="support-list" id="nextStepSupport">
           <div class="support-item">診断結果をもとに「何から始めるか」を一緒に整理</div>
           <div class="support-item">御社のサイトに合った改善策を具体的にご提案</div>
           <div class="support-item">月額のコンサルティングで寄り添って改善をサポート</div>
           <div class="support-item">専門知識は不要。わかりやすくご説明します</div>
         </div>
-        <div class="cta-buttons">
+        <div class="cta-buttons" id="nextStepButtons">
           <a href="/contact.html" class="btn btn--green">まずは無料で相談する</a>
           <a href="https://lin.ee/s2u6VUw" class="btn" style="background:var(--green-light);color:var(--green)">LINEでかんたん相談</a>
         </div>
@@ -722,6 +733,80 @@ function scoreToLevel(score){
   return '早急な対策が必要';
 }
 
+function scoreToComment(score){
+  if(score >= 90) return {
+    text: 'すばらしい結果です！AI検索への対応がしっかりできています。この状態を維持しつつ、さらに上を目指しましょう。',
+    cta: ''
+  };
+  if(score >= 70) return {
+    text: '良い水準ですが、あと少しの改善で大きく差がつきます。特に弱いポイントを重点的に改善すれば、AI検索での露出がさらに向上します。',
+    cta: '改善ポイントの優先順位を一緒に整理しませんか？ → <a href="/contact.html">無料相談はこちら</a>'
+  };
+  if(score >= 50) return {
+    text: 'AI検索で見つけてもらえる土台はありますが、競合に差をつけられている可能性があります。いくつかの改善で、スコアは大きく伸びます。',
+    cta: 'Webサイトの改善で、AI検索からの集客を強化しませんか？ → <a href="/contact.html">無料相談はこちら</a>'
+  };
+  if(score >= 30) return {
+    text: 'AI検索で御社の情報が正しく伝わっていない状態です。Webサイトの構成を見直すことで、AI経由の新規問い合わせ獲得が期待できます。',
+    cta: 'サイトリニューアルで、AI時代の集客基盤を整えませんか？ → <a href="/contact.html">無料相談はこちら</a>'
+  };
+  return {
+    text: 'AI検索にほとんど対応できていない状態です。このままでは、AIが御社を紹介する機会を逃し続けてしまいます。早めの対策をおすすめします。',
+    cta: 'まずはプロに相談して、何から始めるか整理しましょう → <a href="/contact.html">無料相談はこちら</a>'
+  };
+}
+
+function updateNextStepCTA(score){
+  var heading = document.getElementById('nextStepHeading');
+  var lead = document.getElementById('nextStepLead');
+  var support = document.getElementById('nextStepSupport');
+  var buttons = document.getElementById('nextStepButtons');
+  if(typeof score !== 'number') return;
+
+  if(score >= 90){
+    heading.innerHTML = '高スコアの今こそ、<br>さらに一歩先へ進みませんか。';
+    lead.innerHTML = '現在の良い状態を維持しながら、AI検索からの問い合わせ獲得を<br>さらに強化する方法をご提案できます。';
+    support.innerHTML =
+      '<div class="support-item">高スコアを維持するための定期的な改善アドバイス</div>' +
+      '<div class="support-item">競合との差をさらに広げる戦略のご提案</div>' +
+      '<div class="support-item">AI検索からの問い合わせを増やすコンテンツ設計</div>' +
+      '<div class="support-item">月額コンサルティングで継続的にサポート</div>';
+    buttons.innerHTML =
+      '<a href="/contact.html" class="btn btn--green">さらに上を目指して相談する</a>' +
+      '<a href="https://lin.ee/s2u6VUw" class="btn" style="background:var(--green-light);color:var(--green)">LINEでかんたん相談</a>';
+  } else if(score >= 70){
+    heading.innerHTML = 'あと少しの改善で、<br>AI検索の上位表示が見えてきます。';
+    lead.innerHTML = '70点台は「惜しい」ゾーン。弱点を重点的に改善すれば、<br>AI検索での露出が大きく変わります。';
+    support.innerHTML =
+      '<div class="support-item">診断結果をもとに、弱点の優先順位を一緒に整理</div>' +
+      '<div class="support-item">80点超えに向けた具体的な改善策をご提案</div>' +
+      '<div class="support-item">月額コンサルティングで寄り添って改善をサポート</div>' +
+      '<div class="support-item">専門知識は不要。わかりやすくご説明します</div>';
+  } else if(score >= 50){
+    heading.innerHTML = '伸びしろは十分あります。<br>プロと一緒に改善しませんか。';
+    lead.innerHTML = 'サイトの土台はあるので、正しい改善を行えば<br>AI検索での評価は大きく上がります。';
+    support.innerHTML =
+      '<div class="support-item">「何から手をつけるか」を一緒に整理</div>' +
+      '<div class="support-item">御社のサイトに合った改善策を具体的にご提案</div>' +
+      '<div class="support-item">サイトリニューアルのお見積りも可能</div>' +
+      '<div class="support-item">専門知識は不要。わかりやすくご説明します</div>';
+    buttons.innerHTML =
+      '<a href="/contact.html" class="btn btn--green">まずは無料で相談する</a>' +
+      '<a href="/web.html" class="btn" style="background:var(--green-light);color:var(--green)">Webサイト制作サービスを見る</a>';
+  } else {
+    heading.innerHTML = '今のままだと、<br>AI検索で見つけてもらえません。';
+    lead.innerHTML = 'でも、ご安心ください。正しく対策すれば、スコアは大きく改善できます。<br>まずはプロに相談して、最短ルートで改善を始めましょう。';
+    support.innerHTML =
+      '<div class="support-item">現状の課題を分析し、改善の優先順位を整理</div>' +
+      '<div class="support-item">AI検索に強いサイト構成への改善提案</div>' +
+      '<div class="support-item">サイトリニューアルのお見積りも可能</div>' +
+      '<div class="support-item">専門知識は不要。わかりやすくご説明します</div>';
+    buttons.innerHTML =
+      '<a href="/contact.html" class="btn btn--green">まずは無料で相談する</a>' +
+      '<a href="/web.html" class="btn" style="background:var(--green-light);color:var(--green)">Webサイト制作サービスを見る</a>';
+  }
+}
+
 function escapeHtml(str){
   var d = document.createElement('div');
   d.appendChild(document.createTextNode(str));
@@ -738,6 +823,15 @@ function displayResults(data){
   var score = typeof data.overallScore === 'number' ? data.overallScore : (typeof analysis.overall_score === 'number' ? analysis.overall_score : '-');
   document.getElementById('resultScore').textContent = score;
   document.getElementById('resultLevel').textContent = typeof score === 'number' ? scoreToLevel(score) : '';
+
+  // Score comment with CTA
+  var commentEl = document.getElementById('resultComment');
+  if(typeof score === 'number'){
+    var comment = scoreToComment(score);
+    commentEl.innerHTML = comment.text + (comment.cta ? '<br>' + comment.cta : '');
+  } else {
+    commentEl.innerHTML = '';
+  }
 
   // Summary from AI test judgment and actions
   var summaryParts = [];
@@ -830,6 +924,9 @@ function displayResults(data){
       '<div class="sol-after"><div class="sol-after-label">改善すると</div><p>' + escapeHtml(improvedText) + '</p></div>';
     solContainer.appendChild(card);
   });
+
+  // Update Next Step CTA based on score
+  updateNextStepCTA(score);
 
   // Show results, hide input
   document.getElementById('inputSection').style.display='none';
