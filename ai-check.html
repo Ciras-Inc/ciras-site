@@ -613,10 +613,10 @@ function hideLoading(){
  */
 
 var levelMap = {
-  'まだ使っていない': { level: 1, name: '入門期' },
-  '個人的に試している程度': { level: 2, name: '試行期' },
-  '一部の業務で使っている': { level: 3, name: '活用期' },
-  '組織的に活用している': { level: 4, name: '最適化期' }
+  'まだ使っていない': { level: 1, name: 'まずはここから' },
+  '個人的に試している程度': { level: 2, name: 'あと少しで変わる' },
+  '一部の業務で使っている': { level: 3, name: 'さらに伸ばせる' },
+  '組織的に活用している': { level: 4, name: '次のステージへ' }
 };
 
 async function callDiagnosticAPI(answers){
@@ -656,10 +656,10 @@ function displayResults(result){
   document.getElementById('resultLevelName').textContent = result.levelName;
 
   var summaryTexts = {
-    1: 'AIの活用はまだこれからの段階です。以下の提案を参考に、まずは小さなところから始めてみましょう。',
-    2: 'AIに個人的に触れている段階です。業務への本格導入で、大きな効果が期待できます。',
-    3: '一部の業務でAIを活用されています。さらに活用範囲を広げることで、より大きな成果につながります。',
-    4: '組織的にAIを活用されています。さらなる最適化や差別化で、競争優位をつくりましょう。'
+    1: 'AIの活用はまだこれからですが、だからこそ伸びしろは十分です。Cirasの「AI顧問」なら、何から始めればいいかを一緒に整理し、最初の一歩をサポートします。',
+    2: 'AIに触れ始めた今がチャンスです。自己流から一歩進んで、Cirasの「AI顧問」で業務に合った正しい使い方を身につければ、日々の仕事がぐっと楽になります。',
+    3: '一部でAIを活用されているのは素晴らしいスタートです。Cirasの「AI業務システム開発」で仕組み化すれば、効果をさらに大きく広げられます。',
+    4: '組織的にAIを活用されている先進的な取り組みです。Cirasと連携して業務システムの高度化やWeb戦略の強化を進め、さらなる差別化を実現しましょう。'
   };
   document.getElementById('resultSummary').textContent = summaryTexts[result.level] || summaryTexts[1];
 
