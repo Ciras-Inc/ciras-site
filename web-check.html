@@ -271,26 +271,7 @@ footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;
 
 <!-- JSON-LD -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Webサイト状況チェッカー",
-  "description": "URLを入力するだけで、AI検索での自社サイトの状態を無料診断。ChatGPTなどのAI検索で見つかる状態かを診断します。",
-  "url": "https://www.ciras.jp/web-check",
-  "applicationCategory": "AnalyticsTool",
-  "operatingSystem": "Web",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "JPY"
-  },
-  "provider": {
-    "@type": "Organization",
-    "name": "Ciras株式会社",
-    "alternateName": "シラス株式会社",
-    "url": "https://www.ciras.jp"
-  }
-}
+{"@context":"https://schema.org","@type":"WebApplication","name":"Webサイト状況チェッカー","url":"https://www.ciras.jp/web-check","description":"URLを入力するだけで、あなたのWebサイトをAIがその場で診断。AI検索での見え方も確認できます。無料・登録不要。Ciras株式会社提供。","applicationCategory":"BusinessApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"provider":{"@type":"Organization","name":"Ciras株式会社","url":"https://www.ciras.jp"}}
 </script>
 </head>
 <body>
@@ -530,19 +511,13 @@ footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;
     <div class="container">
       <div class="next-step-inner">
         <p class="section-label">Next Step</p>
-        <h2 id="nextStepHeading">「何から手をつければいいだろう？」<br>そんなときは、プロに相談してみませんか。</h2>
-        <p class="next-step-lead" id="nextStepLead">この診断結果をもとに、あなたの会社に合った<br>Webサイトの改善方法を、無料でご相談いただけます。</p>
-        <div class="support-list" id="nextStepSupport">
-          <div class="support-item">診断結果をもとに「何から始めるか」を一緒に整理</div>
-          <div class="support-item">御社のサイトに合った改善策を具体的にご提案</div>
-          <div class="support-item">月額のコンサルティングで寄り添って改善をサポート</div>
-          <div class="support-item">専門知識は不要。わかりやすくご説明します</div>
-        </div>
+        <h2 id="nextStepHeading">この診断結果をもとに、何から手をつければいいか一緒に整理します。</h2>
+        <p class="next-step-lead" id="nextStepLead">AI活用 Webサイト制作（22万円〜）では、AI検索で<br>正しく引用される設計と原稿づくりをセットで対応します。</p>
+        <div class="support-list" id="nextStepSupport" style="display:none"></div>
         <div class="cta-buttons" id="nextStepButtons">
-          <a href="/contact" class="btn btn--green">まずは無料で相談する</a>
-          <a href="https://lin.ee/s2u6VUw" class="btn" style="background:var(--green-light);color:var(--green)">LINEでかんたん相談</a>
+          <a href="/contact" class="btn btn--green">無料で相談する</a>
+          <a href="https://lin.ee/s2u6VUw" class="btn" style="background:var(--green-light);color:var(--green)">LINEで相談</a>
         </div>
-        <p class="cta-note">相談は無料です。無理な営業は一切ありません。</p>
       </div>
     </div>
   </section>
@@ -773,14 +748,14 @@ function updateNextStepCTA(score){
       '<div class="support-item">月額コンサルティングで継続的にサポート</div>';
     buttons.innerHTML =
       '<a href="/contact" class="btn btn--green">さらに上を目指して相談する</a>' +
-      '<a href="https://lin.ee/s2u6VUw" class="btn" style="background:var(--green-light);color:var(--green)">LINEでかんたん相談</a>';
+      '<a href="https://lin.ee/s2u6VUw" class="btn" style="background:var(--green-light);color:var(--green)">LINEで相談</a>';
   } else if(score >= 70){
     heading.innerHTML = 'あと少しの改善で、<br>AI検索の上位表示が見えてきます。';
     lead.innerHTML = '70点台は「惜しい」ゾーン。弱点を重点的に改善すれば、<br>AI検索での露出が大きく変わります。';
     support.innerHTML =
       '<div class="support-item">診断結果をもとに、弱点の優先順位を一緒に整理</div>' +
       '<div class="support-item">80点超えに向けた具体的な改善策をご提案</div>' +
-      '<div class="support-item">月額コンサルティングで寄り添って改善をサポート</div>' +
+      '<div class="support-item">月額コンサルティングで継続的に改善をサポート</div>' +
       '<div class="support-item">専門知識は不要。わかりやすくご説明します</div>';
   } else if(score >= 50){
     heading.innerHTML = '伸びしろは十分あります。<br>プロと一緒に改善しませんか。';
