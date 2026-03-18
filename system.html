@@ -1,633 +1,370 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI業務システム開発｜業務の「手間」を仕組みにまとめる｜Ciras（シラス）株式会社</title>
-<meta name="description" content="LINE連携・予約システム・決済など、業務の「手間」を仕組みにまとめるAI業務システム開発。330,000円〜。愛媛県松山市のCiras株式会社が、中小企業の業務効率化をシステムで支援します。">
-<meta property="og:title" content="AI業務システム開発｜業務の「手間」を仕組みにまとめる｜Ciras（シラス）株式会社">
-<meta property="og:description" content="申込・決済、予約連携、非対面対応など、業務の手間をシステムにまとめます。330,000円〜。">
-<meta property="og:url" content="https://www.ciras.jp/system">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://www.ciras.jp/images/ogp.png">
-<link rel="canonical" href="https://www.ciras.jp/system">
-<link rel="icon" href="/images/favicon.ico" sizes="any">
-<link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-<style>
-:root{--green:#2c5926;--green-light:#E8F0E7;--green-pale:#C5E6C0;--warm-gray:#F5F5F0;--white:#FFFFFF;--text-primary:#1a1a1a;--text-secondary:#555;--text-light:#888;--border:rgba(0,0,0,0.08);--font-main:'Noto Sans JP',sans-serif;--max-width:1080px;--section-padding:80px 0;--transition:0.25s ease}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:72px}
-body{font-family:var(--font-main);font-weight:400;color:var(--text-primary);line-height:1.8;font-size:16.5px;background:var(--white);-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none;transition:opacity var(--transition)}a:hover{opacity:0.75}
-img{max-width:100%;display:block}ul{list-style:none}
-.container{max-width:var(--max-width);margin:0 auto;padding:0 24px}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <title>AI業務システム開発｜愛媛県のシステム開発ならCiras株式会社｜松山市｜33万円〜</title>
+  <meta name="description" content="AIを活用した開発で、従来の1/3〜1/5のコストで業務システムを構築。予約受付、注文フォーム、問い合わせ自動応答など。愛媛県松山市のCiras株式会社。33万円〜。" />
+  <link rel="canonical" href="https://www.ciras.jp/system" />
+  <meta property="og:title" content="AI業務システム開発｜愛媛県のシステム開発｜Ciras株式会社" />
+  <meta property="og:description" content="毎日手でやっている作業を仕組みにします。33万円〜。愛媛県松山市。" />
+  <meta property="og:url" content="https://www.ciras.jp/system" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+/* ── HERO ── */
+    .hero { padding-top: 100px; padding-bottom: 56px; } @media (min-width: 1024px) { .hero { padding-top: 120px; padding-bottom: 80px; } }
+    .hero-grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; } @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1fr 1fr; gap: 64px; } }
+    .hero-img { width: 100%; border-radius: 4px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+    .hero h1 { font-size: 30px; font-weight: 700; line-height: 1.35; letter-spacing: -0.02em; } @media (min-width: 640px) { .hero h1 { font-size: 38px; } } @media (min-width: 1024px) { .hero h1 { font-size: 42px; } }
+    .hero-desc { margin-top: 24px; font-size: 15px; line-height: 1.9; color: #555; }
+    .hero-price { margin-top: 28px; display: inline-block; padding: 12px 24px; background: #F7F7F7; border-radius: 4px; }
+    .hero-price strong { font-size: 32px; font-weight: 900; letter-spacing: -0.02em; } .hero-price span { font-size: 14px; font-weight: 400; color: #666; }
+    .hero-buttons { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; } @media (min-width: 640px) { .hero-buttons { flex-direction: row; } }
+    .hero-buttons .btn-primary, .hero-buttons .btn-outline { padding: 14px 28px; font-size: 14px; }
 
-.fade-in{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
-.fade-in.is-visible{opacity:1;transform:translateY(0)}
-.fade-in-delay-1{transition-delay:0.1s}.fade-in-delay-2{transition-delay:0.2s}.fade-in-delay-3{transition-delay:0.3s}
+    /* ── EXAMPLES（こんな仕組み、作れます） ── */
+    .examples { padding: 80px 0; background: #F7F7F7; } @media (min-width: 1024px) { .examples { padding: 112px 0; } }
+    .examples-grid { display: grid; grid-template-columns: 1fr; gap: 16px; } @media (min-width: 768px) { .examples-grid { grid-template-columns: repeat(2, 1fr); } }
+    .example-card { padding: 24px 28px; background: #fff; border-radius: 4px; border: 1px solid #eee; border-left: 3px solid #242422; }
+    .example-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .example-card p { font-size: 13px; line-height: 1.7; color: #666; }
+    .examples-note { margin-top: 32px; font-size: 14px; color: #888; }
 
-/* Header */
-header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.06);height:64px}
-.header-inner{max-width:var(--max-width);margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:100%}
-.header-logo img{height:26px;width:auto}
-.header-nav{display:flex;align-items:center;gap:22px}
-.header-nav>a,.nav-dropdown>a{font-size:0.88rem;font-weight:500;color:var(--text-secondary);letter-spacing:0.02em;transition:color var(--transition);cursor:pointer}
-.header-nav>a:hover,.nav-dropdown>a:hover{color:var(--green);opacity:1}
-.nav-dropdown{position:relative}.nav-dropdown>a::after{content:'';display:inline-block;width:5px;height:5px;border-right:1.5px solid var(--text-light);border-bottom:1.5px solid var(--text-light);transform:rotate(45deg);margin-left:5px;vertical-align:2px;transition:transform var(--transition)}
-.nav-dropdown:hover>a::after{transform:rotate(-135deg)}
-.nav-dropdown-menu{display:none;position:absolute;top:100%;left:-12px;padding-top:10px;z-index:1200}
-.nav-dropdown:hover .nav-dropdown-menu{display:block}
-.nav-dropdown-menu-inner{background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.08);padding:8px 0;min-width:240px}
-.nav-dropdown-menu a{display:block;padding:10px 20px;font-size:0.88rem;font-weight:500;color:var(--text-secondary)!important;transition:background var(--transition),color var(--transition)}
-.nav-dropdown-menu a:hover{background:var(--green-light);color:var(--green)!important;opacity:1}
-.nav-cta{background:var(--green)!important;color:var(--white)!important;padding:8px 20px!important;border-radius:6px;font-weight:600!important;font-size:0.88rem!important}
-.nav-cta:hover{opacity:0.9!important}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;z-index:1100}
-.hamburger span{display:block;width:22px;height:2px;background:var(--text-primary);border-radius:2px;transition:var(--transition)}
-.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.hamburger.active span:nth-child(2){opacity:0}
-.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
-.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.98);backdrop-filter:blur(16px);z-index:1050;padding:80px 24px 40px;flex-direction:column;overflow-y:auto}
-.mobile-menu.active{display:flex}
-.mobile-menu a{display:block;padding:16px 0;font-size:1.05rem;font-weight:500;color:var(--text-primary);border-bottom:1px solid rgba(0,0,0,0.06)}
-.mobile-menu .mobile-cta{display:block;background:var(--green);color:var(--white);text-align:center;padding:16px;border-radius:8px;margin-top:24px;font-weight:600;border-bottom:none}
-.mobile-menu .mobile-sub{font-size:0.92rem;color:var(--text-light);padding-left:24px}
+    /* ── COMPARE（3列比較） ── */
+    .compare { padding: 80px 0; background: #fff; } @media (min-width: 1024px) { .compare { padding: 112px 0; } }
+    .compare-table { width: 100%; max-width: 900px; border-collapse: collapse; }
+    .compare-table th, .compare-table td { padding: 16px 14px; text-align: left; font-size: 13px; line-height: 1.6; border-bottom: 1px solid #eee; vertical-align: top; }
+    @media (min-width: 640px) { .compare-table th, .compare-table td { padding: 18px 20px; font-size: 14px; } }
+    .compare-table th { font-weight: 500; color: #888; width: 22%; background: #fafafa; }
+    .compare-table td { width: 26%; }
+    .compare-head th { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 14px 20px; }
+    .compare-head th:nth-child(2) { color: #242422; background: #F7F7F7; }
+    .compare-head th:nth-child(3) { color: #aaa; }
+    .compare-head th:nth-child(4) { color: #aaa; }
+    .compare-ciras { background: #F7F7F7; font-weight: 500; color: #242422 !important; }
+    .compare-note { margin-top: 32px; font-size: 14px; color: #666; line-height: 1.8; max-width: 900px; }
 
-/* Shared */
-.section-label{font-size:0.75rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);margin-bottom:12px;opacity:0.6}
-.section-label--white{color:var(--green-pale)}
-.btn{display:inline-block;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:600;transition:all var(--transition);text-align:center}
-.btn:active{transform:scale(0.97)}
-.btn--green{background:var(--green);color:var(--white)}.btn--green:hover{opacity:0.9}
-.btn--green-outline{background:transparent;color:var(--green);border:1px solid var(--green)}.btn--green-outline:hover{background:var(--green-light);opacity:1}
-.btn--white{background:var(--white);color:var(--green)}.btn--white:hover{background:#f4f4f4;opacity:1}
-.btn--white-outline{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.5)}.btn--white-outline:hover{border-color:#fff;opacity:1}
-.mid-cta{background:var(--green);padding:40px 0;text-align:center}
-.mid-cta p{color:var(--white);font-size:1.05rem;margin-bottom:20px;opacity:0.9}
-.mid-cta .btn{padding:12px 28px}
+    /* ── MERIT / DEMERIT ── */
+    .meride { padding: 80px 0; background: #F7F7F7; } @media (min-width: 1024px) { .meride { padding: 112px 0; } }
+    .meride-grid { display: grid; grid-template-columns: 1fr; gap: 24px; max-width: 800px; }
+    @media (min-width: 768px) { .meride-grid { grid-template-columns: repeat(2, 1fr); } }
+    .meride-card { padding: 32px; background: #fff; border-radius: 4px; border: 1px solid #eee; }
+    .meride-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .meride-card h3 .meride-icon { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; font-weight: 700; }
+    .meride-card--merit h3 .meride-icon { background: #242422; color: #fff; }
+    .meride-card--demerit h3 .meride-icon { background: #eee; color: #888; }
+    .meride-card li { font-size: 14px; line-height: 1.7; color: #555; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+    .meride-card li:last-child { border-bottom: none; }
+    .meride-bottom { margin-top: 40px; padding: 32px; background: #fff; border-radius: 4px; border-left: 3px solid #242422; max-width: 800px; }
+    .meride-bottom p { font-size: 15px; line-height: 1.8; color: #555; }
 
-/* Hero */
-.hero{background:var(--warm-gray);padding:80px 0 64px}
-.hero-grid{display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center}
-.hero .section-label{margin-bottom:16px}
-.hero h1{font-size:2.4rem;font-weight:900;line-height:1.3;margin-bottom:20px}
-.hero-sub{font-size:1.05rem;color:var(--text-secondary);line-height:1.9;margin-bottom:32px;max-width:520px}
-.hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
-.hero-price-box{background:var(--white);border-radius:16px;padding:40px 36px;text-align:center;box-shadow:0 2px 16px rgba(0,0,0,0.04);min-width:220px}
-.hero-price-num{font-size:3.2rem;font-weight:900;color:var(--green);line-height:1}
-.hero-price-unit{font-size:0.95rem;color:var(--text-secondary);margin-top:8px}
+    /* ── WORKS ── */
+    .works { padding: 80px 0; background: #F7F7F7; } @media (min-width: 1024px) { .works { padding: 112px 0; } }
+    .works-grid { display: grid; grid-template-columns: 1fr; gap: 24px; } @media (min-width: 768px) { .works-grid { grid-template-columns: repeat(2, 1fr); } }
+    .works-card { padding: 32px; background: #fff; border-radius: 4px; border: 1px solid #eee; }
+    .works-card-tag { font-size: 11px; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: #aaa; margin-bottom: 12px; }
+    .works-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .works-card p { font-size: 14px; line-height: 1.8; color: #666; margin-bottom: 16px; }
+    .works-card a { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: #242422; transition: color 0.2s; }
+    .works-card a:hover { color: #555; }
 
-/* Track Record */
-.track-record{background:var(--white);padding:48px 0;border-bottom:1px solid var(--border)}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
-.stat-number{font-size:2.2rem;font-weight:700;color:var(--green);line-height:1.2}
-.stat-number small{font-size:0.45em;font-weight:500}
-.stat-label{font-size:0.9rem;color:var(--text-secondary);margin-top:2px}
+    /* ── PRICING ── */
+    .pricing { padding: 80px 0; background: #fff; } @media (min-width: 1024px) { .pricing { padding: 112px 0; } }
+    .pricing-card { max-width: 560px; padding: 40px; background: #F7F7F7; border-radius: 4px; border: 1px solid #eee; }
+    @media (max-width: 639px) { .pricing-card { padding: 32px 24px; } }
+    .pricing-name { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .pricing-amount { font-size: 48px; font-weight: 900; letter-spacing: -0.02em; line-height: 1; }
+    .pricing-amount span { font-size: 16px; font-weight: 500; color: #666; }
+    .pricing-note { margin-top: 20px; font-size: 14px; line-height: 1.8; color: #666; }
+    .pricing-cta { margin-top: 28px; }
 
-/* Problems */
-.problems{background:var(--warm-gray);padding:var(--section-padding)}
-.problems h2{font-size:1.7rem;font-weight:700;margin-bottom:32px;text-align:center}
-.problem-list{max-width:600px;margin:0 auto 32px;display:flex;flex-direction:column;gap:12px}
-.problem-item{background:var(--white);padding:18px 22px;border-radius:8px;font-size:1.05rem;font-weight:500;display:flex;align-items:center;gap:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
-.problem-item::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;flex-shrink:0}
-.bridge{text-align:center;max-width:540px;margin:0 auto;color:var(--text-secondary);font-size:1.05rem;line-height:1.9}
-.bridge strong{color:var(--text-primary)}
+    /* ── FLOW ── */
+    .flow { padding: 80px 0; background: #F7F7F7; } @media (min-width: 1024px) { .flow { padding: 112px 0; } }
+    .flow-grid { display: grid; grid-template-columns: 1fr; gap: 0; } @media (min-width: 768px) { .flow-grid { grid-template-columns: repeat(3, 1fr); } }
+    .flow-step { padding: 28px 20px; text-align: center; position: relative; border: 1px solid #eee; background: #fff; border-radius: 4px; margin-bottom: 12px; }
+    @media (min-width: 768px) { .flow-step { margin-bottom: 0; border-radius: 0; } .flow-step:first-child { border-radius: 4px 0 0 4px; } .flow-step:last-child { border-radius: 0 4px 4px 0; } }
+    .flow-step-num { width: 32px; height: 32px; border-radius: 50%; background: #242422; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+    .flow-step h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .flow-step p { font-size: 13px; line-height: 1.6; color: #666; }
+    .flow-step-arrow { display: none; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); z-index: 2; color: #ccc; } @media (min-width: 768px) { .flow-step-arrow { display: block; } }
 
-/* Before/After */
-.before-after{background:var(--white);padding:var(--section-padding)}
-.before-after h2{font-size:1.7rem;font-weight:700;margin-bottom:40px;text-align:center}
-.ba-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch;max-width:800px;margin:0 auto}
-.ba-col{padding:28px 24px}
-.ba-before{background:var(--warm-gray);border-radius:12px 0 0 12px}
-.ba-after{background:var(--green-light);border-radius:0 12px 12px 0}
-.ba-arrow{display:flex;align-items:center;justify-content:center;padding:0 12px;font-size:1.5rem;color:var(--green);font-weight:700}
-.ba-col h3{font-size:1rem;font-weight:700;margin-bottom:16px;text-align:center}
-.ba-col h3.ba-after-title{color:var(--green)}
-.ba-row{padding:12px 0;border-bottom:1px solid var(--border);font-size:0.95rem;color:var(--text-secondary);line-height:1.6}
-.ba-row:last-child{border-bottom:none}
-.ba-row strong{color:var(--text-primary);font-weight:600}
-.ba-note{text-align:center;margin-top:24px;font-size:0.9rem;color:var(--text-light)}
+    /* ── FAQ ── */
+    .faq { padding: 80px 0; background: #fff; } @media (min-width: 1024px) { .faq { padding: 112px 0; } }
+    .faq-list { max-width: 800px; }
+    .faq-item { border-bottom: 1px solid #ddd; }
+    .faq-question { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 24px 0; font-size: 15px; font-weight: 600; color: #242422; background: none; border: none; font-family: inherit; cursor: pointer; text-align: left; line-height: 1.6; gap: 16px; }
+    .faq-question .faq-icon { width: 20px; height: 20px; flex-shrink: 0; color: #aaa; transition: transform 0.25s; }
+    .faq-item.open .faq-question .faq-icon { transform: rotate(45deg); }
+    .faq-answer { display: none; padding: 0 0 24px 0; font-size: 14px; line-height: 1.9; color: #666; }
+    .faq-item.open .faq-answer { display: block; }
 
-/* Solutions */
-.solutions{background:var(--warm-gray);padding:var(--section-padding)}
-.solutions h2{font-size:1.7rem;font-weight:700;margin-bottom:40px}
-.solutions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.solution-card{background:var(--white);border-radius:12px;padding:28px 24px}
-.solution-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:var(--green);color:var(--white);border-radius:50%;font-size:0.85rem;font-weight:700;margin-bottom:14px}
-.solution-card h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
-.solution-card p{font-size:0.95rem;color:var(--text-secondary);line-height:1.7}
+    /* ── CTA ── */
+    .cta { padding: 80px 0; background: #1A1A1A; } @media (min-width: 1024px) { .cta { padding: 112px 0; } }
+    .cta-inner { max-width: 640px; margin: 0 auto; text-align: center; }
+    .cta-inner h2 { font-size: 28px; font-weight: 700; color: #fff; line-height: 1.35; } @media (min-width: 1024px) { .cta-inner h2 { font-size: 36px; } }
+    .cta-inner p { margin-top: 20px; font-size: 15px; line-height: 1.9; color: #999; }
+    .cta-buttons { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; justify-content: center; } @media (min-width: 640px) { .cta-buttons { flex-direction: row; } }
 
-/* Works */
-.works{background:var(--white);padding:var(--section-padding)}
-.works h2{font-size:1.7rem;font-weight:700;margin-bottom:40px}
-.works-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
-.work-card{background:var(--white);border:2px solid var(--green);border-radius:12px;padding:32px 28px;display:block;transition:all var(--transition);position:relative}
-.work-card:hover{box-shadow:0 6px 24px rgba(44,89,38,0.12);transform:translateY(-2px);opacity:1}
-.work-card-tag{display:inline-block;font-size:0.75rem;font-weight:600;color:var(--white);background:var(--green);padding:4px 12px;border-radius:20px;margin-bottom:16px}
-.work-card h3{font-size:1.15rem;font-weight:700;margin-bottom:10px}
-.work-card p{font-size:0.92rem;color:var(--text-secondary);line-height:1.8}
-.work-card-arrow{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:0.88rem;font-weight:600;color:var(--green)}
-
-/* Why Ciras */
-.why-ciras{background:var(--warm-gray);padding:var(--section-padding)}
-.why-ciras h2{font-size:1.7rem;font-weight:700;margin-bottom:36px}
-.why-ciras-grid{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center}
-.why-ciras-photo img{width:220px;height:220px;object-fit:cover;object-position:center top;border-radius:12px}
-.why-ciras-text h3{font-size:1.2rem;font-weight:700;margin-bottom:12px}
-.why-ciras-text p{font-size:1rem;color:var(--text-secondary);line-height:1.9;margin-bottom:16px}
-.why-ciras-points{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:8px}
-.why-ciras-point{background:var(--white);border-radius:8px;padding:16px 18px;font-size:0.95rem;font-weight:500;display:flex;align-items:center;gap:10px}
-.why-ciras-point::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
-
-/* Flow */
-.flow{background:var(--white);padding:var(--section-padding)}
-.flow h2{font-size:1.7rem;font-weight:700;margin-bottom:36px}
-.flow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.flow-step{background:var(--warm-gray);border-radius:12px;padding:28px 20px;text-align:center}
-.flow-step-num{font-size:0.75rem;font-weight:600;letter-spacing:0.1em;color:var(--green);margin-bottom:12px}
-.flow-step h3{font-size:1.05rem;font-weight:700;margin-bottom:8px}
-.flow-step p{font-size:0.9rem;color:var(--text-secondary)}
-
-/* Pricing */
-.pricing{background:var(--warm-gray);padding:var(--section-padding)}
-.pricing h2{font-size:1.7rem;font-weight:700;margin-bottom:36px}
-.pricing-box{background:var(--white);border-radius:16px;padding:40px 36px;max-width:560px}
-.pricing-box h3{font-size:1.1rem;font-weight:700;margin-bottom:4px}
-.pricing-amount{font-size:2.8rem;font-weight:900;color:var(--green);line-height:1.2;margin-bottom:4px}
-.pricing-amount small{font-size:1rem;font-weight:500}
-.pricing-note{margin-top:16px;font-size:0.88rem;color:var(--text-light)}
-.pricing-compare{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
-.pricing-compare p{font-size:0.9rem;color:var(--text-secondary);line-height:1.8}
-.pricing-compare strong{color:var(--text-primary)}
-
-/* FAQ */
-.faq{background:var(--white);padding:var(--section-padding)}
-.faq h2{font-size:1.7rem;font-weight:700;margin-bottom:36px}
-.faq-list{max-width:720px}
-.faq-item{border-bottom:1px solid var(--border)}
-.faq-q{padding:20px 0;font-size:1.05rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:12px}
-.faq-q::before{content:'Q';display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:32px;background:var(--green);color:var(--white);border-radius:6px;font-size:0.85rem;font-weight:700}
-.faq-q::after{content:'+';margin-left:auto;font-size:1.3rem;color:var(--text-light);transition:transform var(--transition)}
-.faq-item.open .faq-q::after{transform:rotate(45deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease}
-.faq-a-inner{padding:0 0 20px 44px;font-size:0.95rem;color:var(--text-secondary);line-height:1.8}
-
-/* Free Diagnostic */
-.free-diagnostic{background:var(--warm-gray);padding:64px 0}
-.free-diagnostic h2{font-size:1.7rem;font-weight:700;margin-bottom:8px}
-.free-diagnostic-lead{font-size:1rem;color:var(--text-secondary);margin-bottom:28px}
-.diag-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-.diag-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:28px 24px;display:block;transition:all var(--transition)}
-.diag-card:hover{border-color:var(--green);box-shadow:0 4px 20px rgba(44,89,38,0.08);opacity:1}
-.diag-card h3{font-size:1.1rem;font-weight:600;margin-bottom:6px}
-.diag-card p{font-size:0.9rem;color:var(--text-secondary)}
-
-/* Final CTA */
-.final-cta{background:var(--green);color:var(--white);padding:72px 0;text-align:center}
-.final-cta h2{font-size:1.7rem;font-weight:700;margin-bottom:16px}
-.final-cta p{opacity:0.8;font-size:1rem;line-height:1.9;margin-bottom:32px}
-.cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-
-/* Footer */
-footer{background:var(--warm-gray);color:var(--text-secondary);padding:56px 0 0;font-size:0.88rem;border-top:1px solid var(--border)}
-.footer-inner{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;padding-bottom:40px}
-.footer-brand p{margin-top:6px;line-height:1.8}.footer-logo{margin-bottom:12px}.footer-logo img{height:24px;width:auto}
-.footer-links h4{font-size:0.78rem;font-weight:600;letter-spacing:0.1em;color:var(--text-light);margin-bottom:14px}
-.footer-links li{margin-bottom:8px}.footer-links a{color:var(--text-secondary);transition:color var(--transition)}.footer-links a:hover{color:var(--green);opacity:1}
-.footer-bottom{border-top:1px solid var(--border);padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-.footer-bottom a{color:var(--text-light);margin-right:20px;font-size:0.78rem}.footer-bottom span{font-size:0.78rem;color:var(--text-light)}
-
-/* Responsive */
-@media(max-width:768px){
-  .header-nav{display:none}.hamburger{display:flex}
-  .hero{padding:56px 0 48px}.hero-grid{grid-template-columns:1fr;gap:32px}.hero h1{font-size:2rem}
-  .hero-price-box{padding:28px 24px}.hero-price-num{font-size:2.4rem}
-  .hero-buttons{flex-direction:column}.btn{display:block;width:100%;padding:16px 0}
-  .stats-grid{grid-template-columns:repeat(2,1fr)}.stat-number{font-size:1.8rem}
-  .solutions-grid,.diag-grid{grid-template-columns:1fr}
-  .ba-grid{grid-template-columns:1fr;gap:0}
-  .ba-before{border-radius:12px 12px 0 0}.ba-after{border-radius:0 0 12px 12px}
-  .ba-arrow{transform:rotate(90deg);padding:8px 0}
-  .works-grid{grid-template-columns:1fr}
-  .flow-grid{grid-template-columns:repeat(3,1fr)}
-  .why-ciras-grid{grid-template-columns:1fr;text-align:center}
-  .why-ciras-photo img{width:180px;height:180px;margin:0 auto}
-  .why-ciras-points{grid-template-columns:1fr}
-  .container{padding:0 20px}.track-record{padding:40px 0}
-  .problems,.before-after,.solutions,.works,.why-ciras,.flow,.pricing,.faq,.free-diagnostic{padding:56px 0}
-  .problems h2,.before-after h2,.solutions h2,.works h2,.why-ciras h2,.flow h2,.pricing h2,.faq h2,.free-diagnostic h2{font-size:1.45rem}
-  .footer-inner{grid-template-columns:1fr;gap:28px}.footer-bottom{flex-direction:column;text-align:center;gap:8px}
-}
-@media(max-width:375px){
-  .hero h1{font-size:1.75rem}.hero-price-num{font-size:2rem}.container{padding:0 16px}
-  .flow-grid{grid-template-columns:1fr}.solutions-grid{grid-template-columns:1fr}
-}
-</style>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Service","name":"AI業務システム開発","description":"申込・決済、予約連携、非対面対応など、業務の手間をシステムにまとめます。330,000円〜。中小企業の業務に合わせた開発。","provider":{"@type":"Organization","name":"Ciras（シラス）株式会社","url":"https://www.ciras.jp"},"url":"https://www.ciras.jp/system","areaServed":{"@type":"Country","name":"JP"},"offers":{"@type":"Offer","price":"330000","priceCurrency":"JPY"}}
-</script>
+    /* ── FOOTER ── */
+    .footer { background: #1A1A1A; color: #fff; } .footer-inner { padding: 64px 0; } @media (min-width: 1024px) { .footer-inner { padding: 80px 0; } }
+    .footer-grid { display: grid; grid-template-columns: 1fr; gap: 40px; } @media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(2, 1fr); } } @media (min-width: 1024px) { .footer-grid { grid-template-columns: repeat(4, 1fr); gap: 32px; } }
+    .footer-logo { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; } .footer-info { font-size: 13px; color: #999; line-height: 1.8; } .footer-info.mt { margin-top: 12px; }
+    .footer-col-label { font-size: 12px; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: #666; margin-bottom: 16px; } .footer-col nav { display: flex; flex-direction: column; gap: 10px; } .footer-col nav a { font-size: 13px; color: #bbb; transition: color 0.2s; } .footer-col nav a:hover { color: #fff; }
+    .footer-btn-white { display: flex; align-items: center; justify-content: center; width: 100%; padding: 12px 20px; font-size: 13px; font-weight: 500; color: #242422; background: #fff; border-radius: 3px; } .footer-btn-white:hover { background: #f0f0f0; }
+    .footer-btn-outline { display: flex; align-items: center; justify-content: center; width: 100%; padding: 12px 20px; font-size: 13px; font-weight: 500; color: #fff; border: 1px solid #444; border-radius: 3px; } .footer-btn-outline:hover { border-color: #666; }
+    .footer-bottom { margin-top: 56px; padding-top: 24px; border-top: 1px solid #333; } .footer-bottom p { font-size: 11px; color: #666; }
+  </style>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Service", "name": "AI業務システム開発",
+    "provider": { "@type": "ProfessionalService", "name": "Ciras株式会社", "url": "https://www.ciras.jp", "telephone": "050-3637-6324",
+      "address": { "@type": "PostalAddress", "streetAddress": "萱町3-2-3 9CROSS 501", "addressLocality": "松山市", "addressRegion": "愛媛県", "postalCode": "790-0054", "addressCountry": "JP" } },
+    "description": "AIを活用した開発で、従来の1/3〜1/5のコストで業務システムを構築。予約受付、注文フォーム、問い合わせ自動応答など。愛媛県松山市のCiras株式会社。33万円〜。",
+    "offers": { "@type": "Offer", "price": "330000", "priceCurrency": "JPY" } }
+  </script>
 </head>
 <body>
-
-<!-- HEADER -->
-<header>
-  <div class="header-inner">
-    <a href="/" class="header-logo"><img src="images/logo-green.png" alt="Ciras（シラス）株式会社"></a>
+  <!-- ── HEADER ── -->
+  <header class="header" id="header"><div class="container"><div class="header-inner">
+    <a href="https://www.ciras.jp/" class="header-logo"><span class="header-logo-main">Ciras</span><span class="header-logo-sub">シラス株式会社</span></a>
     <nav class="header-nav">
-      <div class="nav-dropdown">
-        <a href="/#services">サービス</a>
-        <div class="nav-dropdown-menu"><div class="nav-dropdown-menu-inner">
-          <a href="/ai-komon">Ciras AI顧問</a>
-          <a href="/web">AI活用 Webサイト制作</a>
-          <a href="/system">AI業務システム開発</a>
-          <a href="/kagemusha">影武者</a>
-        </div></div>
-      </div>
-      <a href="/needs">課題から探す</a>
-      <a href="/seminar">セミナー</a>
-      <div class="nav-dropdown">
-        <a href="/company">会社概要</a>
-        <div class="nav-dropdown-menu"><div class="nav-dropdown-menu-inner">
-          <a href="/voice">お客様の声</a>
-          <a href="/faq">よくある質問</a>
-        </div></div>
-      </div>
-      <a href="/partner">採用・協業</a>
-      <div class="nav-dropdown">
-        <a href="/#free-tools">無料診断ツール</a>
-        <div class="nav-dropdown-menu"><div class="nav-dropdown-menu-inner">
-          <a href="/ai-check">AI活用レベルチェッカー</a>
-          <a href="/web-check">Webサイト状況チェッカー</a>
-        </div></div>
-      </div>
-      <a href="/blog/">ブログ</a>
-      <a href="/contact" class="nav-cta">お問い合わせ</a>
+      <div class="nav-dropdown"><button class="nav-dropdown-trigger">サービス <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a><a href="https://www.ciras.jp/kagemusha">影武者</a></div></div>
+      <a href="https://www.ciras.jp/needs">課題から探す</a><a href="https://www.ciras.jp/seminar">セミナー</a>
+      <div class="nav-dropdown"><button class="nav-dropdown-trigger">会社概要 <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/voice">お客様の声</a><a href="https://www.ciras.jp/faq">よくある質問</a></div></div>
+      <a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/blog/">ブログ</a>
     </nav>
-    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
-  </div>
-</header>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="/#services" onclick="toggleMenu()">サービス</a>
-  <a href="/ai-komon" class="mobile-sub">　Ciras AI顧問</a>
-  <a href="/web" class="mobile-sub">　AI活用 Webサイト制作</a>
-  <a href="/system" class="mobile-sub">　AI業務システム開発</a>
-  <a href="/kagemusha" class="mobile-sub">　影武者</a>
-  <a href="/needs">課題から探す</a>
-  <a href="/seminar">セミナー</a>
-  <a href="/company">会社概要</a>
-  <a href="/voice" style="padding-left:24px; font-size:0.92rem; color:#888;">　お客様の声</a>
-  <a href="/faq" style="padding-left:24px; font-size:0.92rem; color:#888;">　よくある質問</a>
-  <a href="/partner">採用・協業</a>
-  <a href="/#free-tools" onclick="toggleMenu()">無料診断ツール</a>
-  <a href="/ai-check" class="mobile-sub">　AI活用レベルチェッカー</a>
-  <a href="/web-check" class="mobile-sub">　Webサイト状況チェッカー</a>
-  <a href="/blog/">ブログ</a>
-  <a href="/contact" class="mobile-cta">お問い合わせ</a>
-</div>
+    <div class="header-cta">
+      <div class="nav-dropdown"><button class="nav-dropdown-trigger header-cta-link">無料診断ツール <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/ai-check">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check">Webサイト状況チェッカー</a></div></div>
+      <a href="https://www.ciras.jp/contact" class="btn-primary">お問い合わせ</a>
+    </div>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="メニューを開く"><svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg><svg id="closeIcon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div></div>
+  <div class="mobile-menu" id="mobileMenu"><nav class="container">
+    <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">サービス <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/ai-komon" onclick="closeMobile()">Ciras AI顧問</a><a href="https://www.ciras.jp/web" onclick="closeMobile()">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system" onclick="closeMobile()">AI業務システム開発</a><a href="https://www.ciras.jp/kagemusha" onclick="closeMobile()">影武者</a></div></div>
+    <a href="https://www.ciras.jp/needs" onclick="closeMobile()">課題から探す</a><a href="https://www.ciras.jp/seminar" onclick="closeMobile()">セミナー</a>
+    <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">会社概要 <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/company" onclick="closeMobile()">会社概要</a><a href="https://www.ciras.jp/voice" onclick="closeMobile()">お客様の声</a><a href="https://www.ciras.jp/faq" onclick="closeMobile()">よくある質問</a></div></div>
+    <a href="https://www.ciras.jp/partner" onclick="closeMobile()">採用・協業</a>
+    <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">無料診断ツール <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/ai-check" onclick="closeMobile()">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check" onclick="closeMobile()">Webサイト状況チェッカー</a></div></div>
+    <a href="https://www.ciras.jp/blog/" onclick="closeMobile()">ブログ</a>
+    <div class="mobile-cta"><a href="https://www.ciras.jp/contact" class="btn-primary" onclick="closeMobile()">お問い合わせ</a></div>
+  </nav></div></header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-grid">
-      <div>
-        <p class="section-label">Service 04</p>
-        <h1>「やりたかったこと」を、<br>仕組みにする。</h1>
-        <p class="hero-sub">申込・決済、予約連携、非対面対応——業務の「手間」をシステムにまとめ、お客様も社内もラクにします。</p>
-        <div class="hero-buttons">
-          <a href="/contact" class="btn btn--green">まずは無料で相談する</a>
-          <a href="#pricing" class="btn btn--green-outline">料金を見る</a>
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="fade-in-up">
+          <p class="section-label">AI業務システム開発</p>
+          <h1>予約、注文、問い合わせ。<br>手作業のままにしていませんか。</h1>
+          <p class="hero-desc">AIを活用した開発で、従来の1/3〜1/5のコストで業務システムを構築します。<br>必要な機能だけに絞るので、中小企業の予算で実現できます。</p>
+          <div class="hero-price"><strong>330,000</strong> <span>円〜（税込）</span></div>
+          <div class="hero-buttons">
+            <a href="https://www.ciras.jp/contact" class="btn-primary">無料で相談する <span class="arrow" style="margin-left:8px">→</span></a>
+            <a href="#pricing" class="btn-outline">料金を見る</a>
+          </div>
         </div>
-      </div>
-      <div class="hero-price-box">
-        <div class="hero-price-num">330,000</div>
-        <div class="hero-price-unit">円〜（税込）</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TRACK RECORD -->
-<section class="track-record">
-  <div class="container">
-    <div class="stats-grid fade-in">
-      <div class="stat-item"><div class="stat-number">80<small>回+</small></div><div class="stat-label">セミナー開催</div></div>
-      <div class="stat-item"><div class="stat-number">5,000<small>件+</small></div><div class="stat-label">相談対応</div></div>
-      <div class="stat-item"><div class="stat-number">80<small>%+</small></div><div class="stat-label">3年以上継続率</div></div>
-      <div class="stat-item"><div class="stat-number">10<small>回+</small></div><div class="stat-label">メディア掲載</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- PROBLEMS -->
-<section class="problems">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Problem</p>
-      <h2>こんな「手間」、続いていませんか？</h2>
-    </div>
-    <div class="problem-list">
-      <div class="problem-item fade-in fade-in-delay-1">電話・FAXでの受付に時間を取られている</div>
-      <div class="problem-item fade-in fade-in-delay-2">問い合わせ後の対応が、全部手動のまま</div>
-      <div class="problem-item fade-in fade-in-delay-3">お客様に来店してもらわないと手続きが進まない</div>
-    </div>
-    <p class="bridge fade-in">「人がやらなくていい作業」を仕組みにするだけで、<br><strong>対応スピードも、お客様の満足度も変わります。</strong></p>
-  </div>
-</section>
-
-<!-- ★追加：BEFORE / AFTER（問題3解決） -->
-<section class="before-after">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Before / After</p>
-      <h2>システム化すると、何が変わるか</h2>
-    </div>
-    <div class="ba-grid fade-in">
-      <div class="ba-col ba-before">
-        <h3>手動のまま</h3>
-        <div class="ba-row">電話受付 → <strong>1件あたり約10〜15分</strong></div>
-        <div class="ba-row">申込情報の転記 → <strong>毎回手入力</strong></div>
-        <div class="ba-row">来店必須 → <strong>営業時間内しか対応できない</strong></div>
-        <div class="ba-row">問い合わせ対応 → <strong>都度メール・電話で返信</strong></div>
-      </div>
-      <div class="ba-arrow">→</div>
-      <div class="ba-col ba-after">
-        <h3 class="ba-after-title">システム化した場合</h3>
-        <div class="ba-row">Web申込 → <strong>24時間・自動受付</strong></div>
-        <div class="ba-row">データ連携 → <strong>入力ゼロで自動反映</strong></div>
-        <div class="ba-row">非対面対応 → <strong>時間・場所を問わず手続き完了</strong></div>
-        <div class="ba-row">自動返信＋FAQ → <strong>定型対応を80%以上削減</strong></div>
-      </div>
-    </div>
-    <p class="ba-note fade-in">※数値は導入事例をもとにした目安です。業務内容により異なります。</p>
-  </div>
-</section>
-
-<!-- ★改善：SOLUTIONS（問題4解決 - 各カードに成果を追記） -->
-<section class="solutions">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Solution</p>
-      <h2>開発できること（一例）</h2>
-    </div>
-    <div class="solutions-grid">
-      <div class="solution-card fade-in fade-in-delay-1">
-        <div class="solution-num">01</div>
-        <h3>オンライン申込・決済</h3>
-        <p>商品選択→情報入力→決済まで、Webで完結。電話・FAX対応を減らします。</p>
-      </div>
-      <div class="solution-card fade-in fade-in-delay-2">
-        <div class="solution-num">02</div>
-        <h3>非対面対応システム</h3>
-        <p>来店不要で手続き・申請ができる仕組み。お客様の負担を減らし、対応エリアも広がります。</p>
-      </div>
-      <div class="solution-card fade-in fade-in-delay-3">
-        <div class="solution-num">03</div>
-        <h3>事前ヒアリングシステム</h3>
-        <p>来店前にWebで情報を収集。当日のやり取りを短縮し、サービスの質が上がります。</p>
-      </div>
-      <div class="solution-card fade-in fade-in-delay-1">
-        <div class="solution-num">04</div>
-        <h3>外部サービス連携・自動化</h3>
-        <p>予約サイトや管理ツールへの手入力をなくし、データを自動で反映させます。</p>
-      </div>
-      <div class="solution-card fade-in fade-in-delay-2">
-        <div class="solution-num">05</div>
-        <h3>AI診断・チェッカーツール</h3>
-        <p>質問に答えるだけでAIが分析・提案。集客と信頼獲得を同時に実現します。</p>
-      </div>
-      <div class="solution-card fade-in fade-in-delay-3">
-        <div class="solution-num">06</div>
-        <h3>業務特化ツール</h3>
-        <p>御社の業務に合わせた、既製品にはないシステムをゼロから設計・開発します。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MID CTA 1 -->
-<div class="mid-cta fade-in">
-  <div class="container">
-    <p>「こんなことできる？」からで大丈夫です。</p>
-    <a href="/contact" class="btn btn--white">無料で相談する</a>
-  </div>
-</div>
-
-<!-- ★追加：WORKS（問題1解決 - 開発実績） -->
-<section class="works">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Works</p>
-      <h2>開発実績</h2>
-    </div>
-    <div class="works-grid fade-in">
-      <a href="/ai-check" class="work-card">
-        <span class="work-card-tag">AI診断ツール</span>
-        <h3>AI活用レベルチェッカー</h3>
-        <p>8つの質問に答えるだけで、AIが自社のAI活用度を4段階で診断。改善提案まで自動生成。集客ツールとしても機能しています。</p>
-        <span class="work-card-arrow">実際に試してみる →</span>
-      </a>
-      <a href="/web-check" class="work-card">
-        <span class="work-card-tag">AI分析ツール</span>
-        <h3>Webサイト状況チェッカー</h3>
-        <p>URLを入力するだけで、AIがWebサイトのAI検索対応度を自動分析。改善ポイントを具体的に提示し、次のアクションにつなげます。</p>
-        <span class="work-card-arrow">実際に試してみる →</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- WHY CIRAS -->
-<section class="why-ciras">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Why Ciras</p>
-      <h2>なぜCirasのシステム開発が選ばれるか</h2>
-    </div>
-    <div class="why-ciras-grid fade-in">
-      <div class="why-ciras-photo">
-        <img src="images/sugimoto.jpg" alt="代表 杉本竜弥" loading="lazy">
-      </div>
-      <div class="why-ciras-text">
-        <h3>業務を理解しているから、「使われるシステム」を作れる</h3>
-        <p>Cirasは月額顧問として中小企業の業務を日常的に見ています。だからこそ、「現場で実際に使われる仕組み」を設計できます。大企業向けの過剰なシステムではなく、御社の規模・予算・業務フローに合った開発をします。</p>
-        <div class="why-ciras-points">
-          <div class="why-ciras-point">AI顧問の知見を活かした設計</div>
-          <div class="why-ciras-point">小さく始めて、育てられる</div>
-          <div class="why-ciras-point">中小企業の予算に合わせた開発</div>
-          <div class="why-ciras-point">運用しながら改善できる体制</div>
+        <div class="fade-in-up">
+          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663117049137/D9X35CqJLqxN6WJMkxFyt8/service-ai-advisor-SKHd2BtMGZEA6Kqw9iGU43.webp" alt="AI業務システム開発" class="hero-img" loading="eager" />
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FLOW -->
-<section class="flow">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Flow</p>
-      <h2>開発の進め方</h2>
+  <!-- ── こんな仕組み、作れます ── -->
+  <section class="examples">
+    <div class="container">
+      <div class="section-heading fade-in-up">
+        <p class="section-label">Use Cases</p>
+        <h2>開発事例</h2>
+        <p class="subtitle">愛媛県内の中小企業を中心に、以下のような業務システムを開発しています。</p>
+      </div>
+      <div class="examples-grid stagger">
+        <div class="example-card fade-in-up">
+          <h3>オンライン注文・決済</h3>
+          <p>商品選択から決済までWebで完結。電話・FAX対応の工数を削減します。</p>
+        </div>
+        <div class="example-card fade-in-up">
+          <h3>LINE予約・問い合わせ受付</h3>
+          <p>LINEから予約・問い合わせを受け付け、自動返信で一次対応まで完了します。</p>
+        </div>
+        <div class="example-card fade-in-up">
+          <h3>事前ヒアリングフォーム</h3>
+          <p>来店・来社前にWebで情報を収集。当日の対応時間を短縮し、サービス品質が上がります。</p>
+        </div>
+        <div class="example-card fade-in-up">
+          <h3>問い合わせの自動応答</h3>
+          <p>よくある質問にAIが自動回答。定型対応を減らし、必要な問い合わせだけ人が対応します。</p>
+        </div>
+        <div class="example-card fade-in-up">
+          <h3>AI診断・チェッカーツール</h3>
+          <p>質問に答えるだけでAIが分析・提案。集客と見込み顧客の獲得を同時に実現します。</p>
+        </div>
+        <div class="example-card fade-in-up">
+          <h3>業務特化の専用ツール</h3>
+          <p>既製品では対応できない、御社固有の業務フローに合わせたシステムを設計・開発します。</p>
+        </div>
+      </div>
     </div>
-    <div class="flow-grid fade-in">
-      <div class="flow-step">
-        <div class="flow-step-num">STEP 1</div>
-        <h3>ヒアリング</h3>
-        <p>業務の流れと「困っていること」を整理します</p>
-      </div>
-      <div class="flow-step">
-        <div class="flow-step-num">STEP 2</div>
-        <h3>設計・開発</h3>
-        <p>必要な機能だけに絞り、短期間で構築します</p>
-      </div>
-      <div class="flow-step">
-        <div class="flow-step-num">STEP 3</div>
-        <h3>導入・改善</h3>
-        <p>実際の運用を見ながら、使いやすく調整します</p>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- ★改善：PRICING（問題2解決 - 相場感を追加） -->
-<section class="pricing" id="pricing">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Pricing</p>
-      <h2>料金</h2>
-    </div>
-    <div class="pricing-box fade-in">
-      <h3>AI業務システム開発</h3>
-      <div class="pricing-amount">330,000<small>円〜（税込）</small></div>
-      <p class="pricing-note">※機能・規模により変動します。まずはご相談ください。<br>必要な機能だけに絞る設計なので、中小企業の予算に合わせた提案が可能です。</p>
-      <div class="pricing-compare">
-        <p>一般的な業務システム開発は、<strong>外注で数百万〜数千万円</strong>が相場です。Cirasでは、必要最小限の機能に絞り、AI顧問として日常的に業務を把握しているからこそ、<strong>ヒアリングコストを抑えた合理的な価格</strong>で提供できます。</p>
+  <!-- ── 比較テーブル（◯△×） ── -->
+  <section class="compare">
+    <div class="container">
+      <div class="section-heading fade-in-up">
+        <p class="section-label">Comparison</p>
+        <h2>AI活用開発と、他の選択肢の違い</h2>
+        <p class="subtitle">Cirasは開発工程にAIを活用することで、従来の1/3〜1/5のコストでシステムを構築しています。</p>
       </div>
+      <table class="compare-table fade-in-up">
+        <tr class="compare-head"><th></th><th>Ciras（AI活用開発）</th><th>一般的な開発会社</th><th>自社対応（ノーコード等）</th></tr>
+        <tr><th>費用</th><td class="compare-ciras">◯ 33万円〜</td><td>× 数百万〜が相場</td><td>◯ 月額数千円〜</td></tr>
+        <tr><th>開発期間</th><td class="compare-ciras">◯ 1〜3ヶ月</td><td>△ 3〜6ヶ月以上</td><td>◯ すぐ始められる</td></tr>
+        <tr><th>自社業務への適合</th><td class="compare-ciras">◯ 業務に合わせて設計</td><td>◯ 要件定義から対応</td><td>△ テンプレートの範囲内</td></tr>
+        <tr><th>複雑な機能</th><td>△ 規模による（要相談）</td><td>◯ 大規模にも対応</td><td>× 限界がある</td></tr>
+        <tr><th>公開後の保守・相談</th><td class="compare-ciras">◯ AI顧問で継続対応</td><td>△ 保守契約は別途</td><td>× 自力で対応</td></tr>
+        <tr><th>デザインの自由度</th><td>△ 機能優先の設計</td><td>◯ 自由度が高い</td><td>△ テンプレート依存</td></tr>
+      </table>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- MID CTA 2 -->
-<div class="mid-cta fade-in">
-  <div class="container">
-    <p>料金や機能のご不明点もお気軽にどうぞ。</p>
-    <a href="/contact" class="btn btn--white">無料で相談する</a>
-  </div>
-</div>
+  <!-- ── AI活用開発のメリット・デメリット ── -->
+  <section class="meride">
+    <div class="container">
+      <div class="section-heading fade-in-up">
+        <p class="section-label">Merit / Demerit</p>
+        <h2>AI活用開発の、正直なところ</h2>
+      </div>
+      <div class="meride-grid stagger">
+        <div class="meride-card meride-card--merit fade-in-up">
+          <h3><span class="meride-icon">◯</span> メリット</h3>
+          <ul>
+            <li>開発コストが従来の1/3〜1/5。中小企業でも手が届く</li>
+            <li>短期間で形になる。まず動くものを作り、使いながら直せる</li>
+            <li>必要な機能だけに絞れる。過剰な仕様にならない</li>
+          </ul>
+        </div>
+        <div class="meride-card meride-card--demerit fade-in-up">
+          <h3><span class="meride-icon">△</span> デメリット</h3>
+          <ul>
+            <li>大規模・複雑なシステムには向かない</li>
+            <li>AIが書いたコードには品質管理が必要</li>
+            <li>デザインにこだわる場合は追加コストがかかる</li>
+          </ul>
+        </div>
+      </div>
+      <div class="meride-bottom fade-in-up">
+        <p>デメリットの「品質管理」は、Cirasが対応します。AIで安く・速く作り、人の目で品質を確認する。この組み合わせが、中小企業にとって現実的なシステム開発です。</p>
+      </div>
+    </div>
+  </section>
 
-<!-- FAQ -->
-<section class="faq">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">FAQ</p>
-      <h2>よくあるご質問</h2>
-    </div>
-    <div class="faq-list fade-in">
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">開発期間はどれくらいですか？</div>
-        <div class="faq-a"><div class="faq-a-inner">機能の規模によりますが、シンプルなシステムで1〜2ヶ月、複雑なものでも3ヶ月程度が目安です。必要最小限の機能で早期にリリースし、運用しながら改善するアプローチを取っています。</div></div>
+  <!-- ── WORKS ── -->
+  <section class="works">
+    <div class="container">
+      <div class="section-heading fade-in-up">
+        <p class="section-label">Works</p>
+        <h2>開発実績</h2>
       </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">ITに詳しくなくても大丈夫ですか？</div>
-        <div class="faq-a"><div class="faq-a-inner">はい。専門用語を使わず、業務の流れに沿ってご説明します。「こういうことがしたい」をお聞かせいただければ、最適な仕組みをご提案します。</div></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">公開後の修正や機能追加はできますか？</div>
-        <div class="faq-a"><div class="faq-a-inner">はい。運用しながら「ここをこうしたい」という要望に対応できます。Ciras AI顧問（月額33,000円）をご契約いただくと、日常的な相談や保守対応も含まれます。</div></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">既存のサービスやツールと連携できますか？</div>
-        <div class="faq-a"><div class="faq-a-inner">多くの場合可能です。予約システム、決済サービス、Googleスプレッドシート、LINE公式アカウントなど、お使いのツールに合わせた連携を設計します。</div></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">どんな業種でも対応できますか？</div>
-        <div class="faq-a"><div class="faq-a-inner">業種を問わず対応しています。精肉店のオンライン注文、介護事業所の事前ヒアリング、イベントの申込管理など、さまざまな業種の実績があります。まずは「こんなことできる？」からお気軽にご相談ください。</div></div>
+      <div class="works-grid stagger">
+        <div class="works-card fade-in-up">
+          <p class="works-card-tag">AI Diagnostic</p>
+          <h3>AI活用レベルチェッカー</h3>
+          <p>8つの質問に答えるだけで、AIが自社のAI活用度を4段階で診断。改善提案まで自動生成します。</p>
+          <a href="https://www.ciras.jp/ai-check">試してみる <span class="arrow">→</span></a>
+        </div>
+        <div class="works-card fade-in-up">
+          <p class="works-card-tag">AI Analysis</p>
+          <h3>Webサイト状況チェッカー</h3>
+          <p>URLを入力するだけで、AI検索への対応度を100点満点で診断。改善ポイントを具体的に提示します。</p>
+          <a href="https://www.ciras.jp/web-check">試してみる <span class="arrow">→</span></a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FREE DIAGNOSTIC -->
-<section class="free-diagnostic">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Free Diagnostic</p>
-      <h2>まずは、現状を知ることから</h2>
-      <p class="free-diagnostic-lead">AIの活用度やWebサイトの状態を、30秒でセルフチェックできます。</p>
+  <!-- ── PRICING ── -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+      <div class="section-heading fade-in-up">
+        <p class="section-label">Pricing</p>
+        <h2>料金</h2>
+      </div>
+      <div class="pricing-card fade-in-up">
+        <p class="pricing-name">AI業務システム開発</p>
+        <p class="pricing-amount">330,000<span>円〜（税込）</span></p>
+        <p class="pricing-note">一般的なシステム開発は数百万〜数千万円が相場です。Cirasは開発工程にAIを活用し、コードの自動生成やテストの効率化で工数を削減。その分を価格に反映しています。機能・規模により変動するため、まずはご相談ください。</p>
+        <div class="pricing-cta">
+          <a href="https://www.ciras.jp/contact" class="btn-primary">無料で相談する <span class="arrow" style="margin-left:8px">→</span></a>
+        </div>
+      </div>
     </div>
-    <div class="diag-grid fade-in">
-      <a href="/ai-check" class="diag-card">
-        <h3>AI活用レベルチェッカー</h3>
-        <p>自社のAI活用度をチェック →</p>
-      </a>
-      <a href="/web-check" class="diag-card">
-        <h3>Webサイト状況チェッカー</h3>
-        <p>AI検索への対応度をチェック →</p>
-      </a>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- FINAL CTA -->
-<section class="final-cta">
-  <div class="container fade-in">
-    <h2>その仕事、一緒に減らしませんか？</h2>
-    <p>「何を、どう減らせばいいか」からで大丈夫です。<br>状況を整理し、次の一手を一緒に決めます。</p>
-    <div class="cta-buttons">
-      <a href="/contact" class="btn btn--white">まずは無料で相談する</a>
-      <a href="https://lin.ee/s2u6VUw" class="btn btn--white-outline">LINEで相談</a>
+  <!-- ── FLOW ── -->
+  <section class="flow">
+    <div class="container">
+      <div class="section-heading fade-in-up">
+        <p class="section-label">Flow</p>
+        <h2>開発の進め方</h2>
+      </div>
+      <div class="flow-grid stagger">
+        <div class="flow-step fade-in-up"><div class="flow-step-num">1</div><h3>ヒアリング</h3><p>困っていることを整理します</p><svg class="flow-step-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 6l6 6-6 6"/></svg></div>
+        <div class="flow-step fade-in-up"><div class="flow-step-num">2</div><h3>設計・開発</h3><p>必要な機能だけに絞って作ります</p><svg class="flow-step-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 6l6 6-6 6"/></svg></div>
+        <div class="flow-step fade-in-up"><div class="flow-step-num">3</div><h3>導入・改善</h3><p>使いながら調整していきます</p></div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <div class="footer-logo"><img src="images/logo-green.png" alt="Ciras（シラス）株式会社"></div>
-        <p>Ciras（シラス）株式会社</p>
-        <p>愛媛県松山市萱町3-2-3 9CROSS 501</p>
-        <p>TEL: <a href="tel:050-3637-6324">050-3637-6324</a></p>
-        <p>営業時間: 10:00〜17:30（土日祝休）</p>
-      </div>
-      <div class="footer-links">
-        <h4>サービス</h4>
-        <ul>
-          <li><a href="/ai-komon">Ciras AI顧問</a></li>
-          <li><a href="/web">AI活用 Webサイト制作</a></li>
-          <li><a href="/system">AI業務システム開発</a></li>
-          <li><a href="/kagemusha">影武者</a></li>
-          <li><a href="/seminar">セミナー</a></li>
-        </ul>
-      </div>
-      <div class="footer-links">
-        <h4>情報</h4>
-        <ul>
-          <li><a href="/company">会社概要</a></li>
-          <li><a href="/voice">お客様の声</a></li>
-          <li><a href="/faq">よくある質問</a></li>
-          <li><a href="/blog/">ブログ</a></li>
-          <li><a href="/partner">採用・協業</a></li>
-        </ul>
+  <!-- ── FAQ ── -->
+  <section class="faq">
+    <div class="container">
+      <div class="section-heading fade-in-up"><p class="section-label">FAQ</p><h2>よくある質問</h2></div>
+      <div class="faq-list fade-in-up">
+        <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">開発期間はどれくらいですか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">シンプルなもので1〜2ヶ月、複雑なものでも3ヶ月程度です。まず最小限で作り、使いながら改善します。</div></div>
+        <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">ITに詳しくなくても大丈夫ですか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。「こういうことがしたい」だけ聞かせてください。専門用語は使いません。</div></div>
+        <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">公開後の修正や機能追加はできますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。AI顧問（月額33,000円）で保守・相談もまとめて対応できます。</div></div>
+        <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">LINEやGoogleスプレッドシートと連携できますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">多くの場合可能です。お使いのツールに合わせて設計します。</div></div>
+        <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">どんな業種でも対応できますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">業種は問いません。精肉店のオンライン注文、介護事業所の事前ヒアリング、イベントの申込管理など、さまざまな実績があります。</div></div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <div>
-        <a href="/privacy">プライバシーポリシー</a>
-        <a href="/privacy#tokusho">特定商取引法に基づく表記</a>
-      </div>
-      <span>© 2026 Ciras Inc.（シラス株式会社）</span>
-    </div>
-  </div>
-</footer>
+  </section>
 
-<script>
-function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('active');document.querySelector('.hamburger').classList.toggle('active')}
-function toggleFaq(el){var item=el.parentElement,answer=item.querySelector('.faq-a'),isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight=null});if(!isOpen){item.classList.add('open');answer.style.maxHeight=answer.scrollHeight+'px'}}
-document.addEventListener('DOMContentLoaded',function(){var targets=document.querySelectorAll('.fade-in');if('IntersectionObserver' in window){var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}})},{threshold:0.15,rootMargin:'0px 0px -40px 0px'});targets.forEach(function(t){observer.observe(t)})}else{targets.forEach(function(t){t.classList.add('is-visible')})}});
-</script>
+  <!-- ── CTA ── -->
+  <section class="cta">
+    <div class="container"><div class="cta-inner fade-in-up">
+      <p class="section-label" style="color:#666">Contact</p>
+      <h2>「こんなこと、できる？」</h2>
+      <p>その質問から始められます。<br>状況を聞いて、必要な機能を一緒に整理します。</p>
+      <div class="cta-buttons">
+        <a href="https://www.ciras.jp/contact" class="btn-white">無料で相談する <span class="arrow" style="margin-left:8px">→</span></a>
+        <a href="https://lin.ee/s2u6VUw" class="btn-ghost">LINEで相談</a>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer"><div class="container"><div class="footer-inner"><div class="footer-grid">
+    <div><p class="footer-logo">Ciras</p><p class="footer-info">Ciras（シラス）株式会社<br>愛媛県松山市萱町3-2-3<br>9CROSS 501</p><p class="footer-info mt">TEL: <a href="tel:050-3637-6324" style="color:#999">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</p></div>
+    <div class="footer-col"><p class="footer-col-label">Service</p><nav><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a><a href="https://www.ciras.jp/kagemusha">影武者</a></nav></div>
+    <div class="footer-col"><p class="footer-col-label">Information</p><nav><a href="https://www.ciras.jp/seminar">セミナー</a><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/voice">お客様の声</a><a href="https://www.ciras.jp/blog/">ブログ</a><a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/faq">よくある質問</a><a href="https://www.ciras.jp/privacy">プライバシーポリシー</a><a href="https://www.ciras.jp/privacy#tokusho">特定商取引法に基づく表記</a></nav></div>
+    <div class="footer-col"><p class="footer-col-label">Contact</p><div style="display:flex;flex-direction:column;gap:12px"><a href="https://www.ciras.jp/contact" class="footer-btn-white">お問い合わせ</a><a href="https://lin.ee/s2u6VUw" class="footer-btn-outline">LINEで相談</a></div></div>
+  </div><div class="footer-bottom"><p>&copy; 2026 Ciras Inc.（シラス株式会社）</p></div></div></div></footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 10); }, { passive: true });
+    const mobileToggle = document.getElementById('mobileToggle'), mobileMenu = document.getElementById('mobileMenu'), menuIcon = document.getElementById('menuIcon'), closeIcon = document.getElementById('closeIcon');
+    let mobileOpen = false;
+    mobileToggle.addEventListener('click', () => { mobileOpen = !mobileOpen; mobileMenu.classList.toggle('open', mobileOpen); menuIcon.style.display = mobileOpen ? 'none' : 'block'; closeIcon.style.display = mobileOpen ? 'block' : 'none'; document.body.style.overflow = mobileOpen ? 'hidden' : ''; });
+    function closeMobile() { mobileOpen = false; mobileMenu.classList.remove('open'); menuIcon.style.display = 'block'; closeIcon.style.display = 'none'; document.body.style.overflow = ''; }
+    function toggleAccordion(btn) { btn.parentElement.classList.toggle('open'); }
+    function toggleFaq(btn) { btn.parentElement.classList.toggle('open'); }
+    const fadeObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in-up').forEach(el => fadeObserver.observe(el));
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { const href = this.getAttribute('href'); if (href === '#') return; e.preventDefault(); const t = document.querySelector(href); if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth' }); }); });
+  </script>
 </body>
 </html>
