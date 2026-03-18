@@ -14,9 +14,91 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/style.css" />
   <style>
-/* ── HERO（AI顧問専用・温度感を変える） ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: "Noto Sans JP", "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif; font-feature-settings: "palt"; -webkit-font-smoothing: antialiased; color: #242422; background: #fff; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; height: auto; display: block; }
+    ul { list-style: none; }
+    button { border: none; background: none; font: inherit; cursor: pointer; }
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    @media (min-width: 640px) { .container { padding: 0 1.5rem; } }
+    @media (min-width: 1024px) { .container { padding: 0 2rem; } }
+    .section-label { font-size: 12px; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: #888; margin-bottom: 12px; }
+    .section-label--light { color: #777; }
+    .section-heading { margin-bottom: 40px; }
+    @media (min-width: 1024px) { .section-heading { margin-bottom: 56px; } }
+    .section-heading h2 { font-size: 28px; font-weight: 700; line-height: 1.35; letter-spacing: -0.02em; }
+    @media (min-width: 1024px) { .section-heading h2 { font-size: 36px; } }
+    .section-heading h2.light { color: #fff; }
+    .section-heading .subtitle { margin-top: 16px; font-size: 15px; line-height: 1.9; color: #666; max-width: 640px; }
+    .section-heading .subtitle.light { color: #aaa; }
+    .fade-in-up { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+    .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+    .stagger > .fade-in-up:nth-child(1) { transition-delay: 0s; }
+    .stagger > .fade-in-up:nth-child(2) { transition-delay: 0.08s; }
+    .stagger > .fade-in-up:nth-child(3) { transition-delay: 0.12s; }
+    .stagger > .fade-in-up:nth-child(4) { transition-delay: 0.16s; }
+    .stagger > .fade-in-up:nth-child(5) { transition-delay: 0.18s; }
+    .stagger > .fade-in-up:nth-child(6) { transition-delay: 0.2s; }
+    .stagger > .fade-in-up:nth-child(7) { transition-delay: 0.22s; }
+    .stagger > .fade-in-up:nth-child(8) { transition-delay: 0.24s; }
+    .arrow { transition: transform 0.3s; display: inline-block; }
+
+    /* ── HEADER ── */
+    .header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: #fff; transition: box-shadow 0.3s, background 0.3s; }
+    .header.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); box-shadow: 0 1px 0 0 rgba(0,0,0,0.06); }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    @media (min-width: 1024px) { .header-inner { height: 80px; } }
+    .header-logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .header-logo-main { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: #242422; }
+    .header-logo-sub { font-size: 11px; font-weight: 300; color: #888; letter-spacing: 0.05em; }
+    @media (max-width: 639px) { .header-logo-sub { display: none; } }
+    .header-nav { display: none; align-items: center; gap: 28px; }
+    @media (min-width: 1024px) { .header-nav { display: flex; } }
+    .header-nav > a, .header-nav .nav-dropdown > .nav-dropdown-trigger { font-size: 14px; font-weight: 500; color: #242422; position: relative; transition: color 0.2s; cursor: pointer; background: none; border: none; font-family: inherit; padding: 0; }
+    .header-nav > a:hover, .header-nav .nav-dropdown-trigger:hover { color: #666; }
+    .header-nav > a::after, .header-nav .nav-dropdown-trigger::after { content: ""; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: #242422; transition: width 0.3s; }
+    .header-nav > a:hover::after, .header-nav .nav-dropdown-trigger:hover::after { width: 100%; }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-trigger { display: flex; align-items: center; gap: 4px; }
+    .nav-dropdown-trigger .chevron { width: 10px; height: 10px; transition: transform 0.2s; }
+    .nav-dropdown:hover .nav-dropdown-trigger .chevron { transform: rotate(180deg); }
+    .nav-dropdown-menu { display: none; position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%); min-width: 220px; background: #fff; border: 1px solid #eee; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 8px 0; z-index: 60; }
+    .nav-dropdown-menu::before { content: ""; position: absolute; top: -12px; left: 0; right: 0; height: 12px; }
+    .nav-dropdown:hover .nav-dropdown-menu { display: block; }
+    .nav-dropdown-menu a { display: block; padding: 10px 20px; font-size: 13px; font-weight: 400; color: #444; transition: background 0.15s, color 0.15s; white-space: nowrap; }
+    .nav-dropdown-menu a::after { display: none; }
+    .nav-dropdown-menu a:hover { background: #F7F7F7; color: #242422; }
+    .header-cta { display: none; align-items: center; gap: 12px; }
+    @media (min-width: 1024px) { .header-cta { display: flex; } }
+    .header-cta-link { font-size: 13px; font-weight: 500; color: #242422; transition: color 0.2s; }
+    .btn-primary { display: inline-flex; align-items: center; justify-content: center; padding: 10px 20px; font-size: 13px; font-weight: 500; color: #fff; background: #242422; border-radius: 3px; transition: background 0.2s; }
+    .btn-primary:hover { background: #333; }
+    .btn-outline { display: inline-flex; align-items: center; justify-content: center; padding: 10px 20px; font-size: 14px; font-weight: 500; color: #242422; border: 1px solid #ddd; border-radius: 3px; transition: border-color 0.2s; }
+    .btn-outline:hover { border-color: #aaa; }
+    .btn-white { display: inline-flex; align-items: center; justify-content: center; padding: 14px 32px; font-size: 14px; font-weight: 500; color: #242422; background: #fff; border-radius: 3px; transition: background 0.2s; }
+    .btn-white:hover { background: #f0f0f0; }
+    .btn-ghost { display: inline-flex; align-items: center; justify-content: center; padding: 14px 32px; font-size: 14px; font-weight: 500; color: #fff; border: 1px solid #444; border-radius: 3px; transition: border-color 0.2s; }
+    .btn-ghost:hover { border-color: #666; }
+    .mobile-toggle { display: block; padding: 8px; color: #242422; }
+    @media (min-width: 1024px) { .mobile-toggle { display: none; } }
+    .mobile-toggle svg { width: 24px; height: 24px; }
+    .mobile-menu { display: none; position: fixed; inset: 0; top: 72px; background: #fff; z-index: 40; overflow-y: auto; }
+    .mobile-menu.open { display: block; }
+    .mobile-menu nav { padding: 32px 1rem; display: flex; flex-direction: column; }
+    .mobile-menu a { padding: 16px 0; font-size: 16px; font-weight: 500; color: #242422; border-bottom: 1px solid #eee; }
+    .mobile-menu .mobile-cta { margin-top: 24px; }
+    .mobile-menu .mobile-cta a { width: 100%; padding: 14px 24px; text-align: center; border: none; }
+    .mobile-accordion { border-bottom: 1px solid #eee; }
+    .mobile-accordion-trigger { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 16px 0; font-size: 16px; font-weight: 500; color: #242422; background: none; border: none; font-family: inherit; cursor: pointer; text-align: left; }
+    .mobile-accordion-trigger .chevron-mobile { width: 14px; height: 14px; transition: transform 0.25s; color: #aaa; }
+    .mobile-accordion.open .mobile-accordion-trigger .chevron-mobile { transform: rotate(180deg); }
+    .mobile-accordion-panel { display: none; padding: 0 0 12px 16px; }
+    .mobile-accordion.open .mobile-accordion-panel { display: block; }
+    .mobile-accordion-panel a { display: block; padding: 10px 0; font-size: 14px; font-weight: 400; color: #666; border-bottom: none; }
+
+    /* ── HERO（AI顧問専用・温度感を変える） ── */
     .hero { padding-top: 100px; padding-bottom: 56px; background: #fff; }
     @media (min-width: 1024px) { .hero { padding-top: 120px; padding-bottom: 80px; } }
     .hero-grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; } @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1fr 1fr; gap: 64px; } }
@@ -177,7 +259,7 @@
           <div class="nav-dropdown"><button class="nav-dropdown-trigger">サービス <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a><a href="https://www.ciras.jp/kagemusha">影武者</a></div></div>
           <a href="https://www.ciras.jp/needs">課題から探す</a>
           <a href="https://www.ciras.jp/seminar">セミナー</a>
-          <div class="nav-dropdown"><button class="nav-dropdown-trigger">会社概要 <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/voice">お客様の声</a><a href="https://www.ciras.jp/faq">よくある質問</a></div></div>
+          <div class="nav-dropdown"><button class="nav-dropdown-trigger">会社概要 <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/faq">よくある質問</a></div></div>
           <a href="https://www.ciras.jp/partner">採用・協業</a>
           <a href="https://www.ciras.jp/blog/">ブログ</a>
         </nav>
@@ -195,7 +277,7 @@
       <nav class="container">
         <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">サービス <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/ai-komon" onclick="closeMobile()">Ciras AI顧問</a><a href="https://www.ciras.jp/web" onclick="closeMobile()">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system" onclick="closeMobile()">AI業務システム開発</a><a href="https://www.ciras.jp/kagemusha" onclick="closeMobile()">影武者</a></div></div>
         <a href="https://www.ciras.jp/needs" onclick="closeMobile()">課題から探す</a><a href="https://www.ciras.jp/seminar" onclick="closeMobile()">セミナー</a>
-        <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">会社概要 <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/company" onclick="closeMobile()">会社概要</a><a href="https://www.ciras.jp/voice" onclick="closeMobile()">お客様の声</a><a href="https://www.ciras.jp/faq" onclick="closeMobile()">よくある質問</a></div></div>
+        <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">会社概要 <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/company" onclick="closeMobile()">会社概要</a><a href="https://www.ciras.jp/company#review" onclick="closeMobile()">お客様の声</a><a href="https://www.ciras.jp/faq" onclick="closeMobile()">よくある質問</a></div></div>
         <a href="https://www.ciras.jp/partner" onclick="closeMobile()">採用・協業</a>
         <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">無料診断ツール <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/ai-check" onclick="closeMobile()">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check" onclick="closeMobile()">Webサイト状況チェッカー</a></div></div>
         <a href="https://www.ciras.jp/blog/" onclick="closeMobile()">ブログ</a>
@@ -393,7 +475,7 @@
         <div class="footer-grid">
           <div><p class="footer-logo">Ciras</p><p class="footer-info">Ciras（シラス）株式会社<br>愛媛県松山市萱町3-2-3<br>9CROSS 501</p><p class="footer-info mt">TEL: <a href="tel:050-3637-6324" style="color:#999">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</p></div>
           <div class="footer-col"><p class="footer-col-label">Service</p><nav><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a><a href="https://www.ciras.jp/kagemusha">影武者</a></nav></div>
-          <div class="footer-col"><p class="footer-col-label">Information</p><nav><a href="https://www.ciras.jp/seminar">セミナー</a><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/voice">お客様の声</a><a href="https://www.ciras.jp/blog/">ブログ</a><a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/faq">よくある質問</a><a href="https://www.ciras.jp/privacy">プライバシーポリシー</a><a href="https://www.ciras.jp/privacy#tokusho">特定商取引法に基づく表記</a></nav></div>
+          <div class="footer-col"><p class="footer-col-label">Information</p><nav><a href="https://www.ciras.jp/seminar">セミナー</a><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/blog/">ブログ</a><a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/faq">よくある質問</a><a href="https://www.ciras.jp/privacy">プライバシーポリシー</a><a href="https://www.ciras.jp/privacy#tokusho">特定商取引法に基づく表記</a></nav></div>
           <div class="footer-col"><p class="footer-col-label">Contact</p><div style="display:flex;flex-direction:column;gap:12px"><a href="https://www.ciras.jp/contact" class="footer-btn-white">お問い合わせ</a><a href="https://lin.ee/s2u6VUw" class="footer-btn-outline">LINEで相談</a></div></div>
         </div>
         <div class="footer-bottom"><p>&copy; 2026 Ciras Inc.（シラス株式会社）</p></div>
