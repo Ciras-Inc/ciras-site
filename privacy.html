@@ -53,8 +53,8 @@ img{max-width:100%;display:block}ul{list-style:none}
 .nav-dropdown-menu a:hover{background:#F7F7F7}
 .header-cta{display:none;align-items:center;gap:12px}
 .header-cta-link{font-size:13px;font-weight:500;color:#242422}
-.nav-cta{display:inline-flex;align-items:center;justify-content:center;padding:10px 20px;font-size:13px;font-weight:500;color:#fff;background:#242422;border-radius:3px;transition:background 0.2s}
-.nav-cta:hover{background:#333}
+.btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:10px 20px;font-size:13px;font-weight:500;color:#fff;background:#242422;border-radius:3px;transition:background 0.2s}
+.btn-primary:hover{background:#333}
 .mobile-toggle{display:block;padding:8px;color:#242422;background:none;border:none;cursor:pointer}
 .mobile-toggle svg{width:24px;height:24px}
 .mobile-menu{display:none;position:fixed;inset:0;top:72px;background:#fff;z-index:40;overflow-y:auto}
@@ -135,239 +135,54 @@ img{max-width:100%;display:block}ul{list-style:none}
 }
 </style>
 
-<!-- JSON-LD -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "プライバシーポリシー｜Ciras株式会社",
-  "description": "Ciras株式会社のプライバシーポリシーおよび特定商取引法に基づく表記",
-  "url": "https://www.ciras.jp/privacy",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Ciras株式会社",
-    "alternateName": "シラス株式会社",
-    "url": "https://www.ciras.jp",
-    "telephone": "050-3637-6324",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "萱町3丁目2番3号 9CROSS 501",
-      "addressLocality": "松山市",
-      "addressRegion": "愛媛県",
-      "postalCode": "790-0813",
-      "addressCountry": "JP"
-    }
-  }
-}
-</script>
-</head>
-<body>
-
-<!-- HEADER -->
 <header class="header" id="header">
-  <div class="header-inner">
-    <a href="https://www.ciras.jp/" class="header-logo"><span class="header-logo-main">Ciras</span><span class="header-logo-sub">シラス株式会社</span></a>
-    <nav class="header-nav">
-      <div class="nav-dropdown"><button class="nav-dropdown-trigger">サービス <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a><a href="https://www.ciras.jp/kagemusha">影武者</a></div></div>
-      <a href="https://www.ciras.jp/needs">課題から探す</a>
-      <a href="https://www.ciras.jp/seminar">セミナー</a>
-      <div class="nav-dropdown"><button class="nav-dropdown-trigger">会社概要 <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/faq">よくある質問</a></div></div>
-      <a href="https://www.ciras.jp/partner">採用・協業</a>
-      <a href="https://www.ciras.jp/blog/">ブログ</a>
-    </nav>
-    <div class="header-cta">
-      <div class="nav-dropdown"><button class="nav-dropdown-trigger header-cta-link">無料診断ツール <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/ai-check">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check">Webサイト状況チェッカー</a></div></div>
-      <a href="https://www.ciras.jp/contact" class="nav-cta">お問い合わせ</a>
-    </div>
-    <button class="mobile-toggle" id="mobileToggle" aria-label="メニューを開く">
-      <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      <svg id="closeIcon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <nav>
-      <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">サービス <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/ai-komon" onclick="closeMobile()">Ciras AI顧問</a><a href="https://www.ciras.jp/web" onclick="closeMobile()">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system" onclick="closeMobile()">AI業務システム開発</a><a href="https://www.ciras.jp/kagemusha" onclick="closeMobile()">影武者</a></div></div>
-      <a href="https://www.ciras.jp/needs" onclick="closeMobile()">課題から探す</a><a href="https://www.ciras.jp/seminar" onclick="closeMobile()">セミナー</a>
-      <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">会社概要 <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/company" onclick="closeMobile()">会社概要</a><a href="https://www.ciras.jp/company#review" onclick="closeMobile()">お客様の声</a><a href="https://www.ciras.jp/faq" onclick="closeMobile()">よくある質問</a></div></div>
-      <a href="https://www.ciras.jp/partner" onclick="closeMobile()">採用・協業</a>
-      <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">無料診断ツール <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/ai-check" onclick="closeMobile()">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check" onclick="closeMobile()">Webサイト状況チェッカー</a></div></div>
-      <a href="https://www.ciras.jp/blog/" onclick="closeMobile()">ブログ</a>
-      <div class="mobile-cta"><a href="https://www.ciras.jp/contact" onclick="closeMobile()">お問い合わせ</a></div>
-    </nav>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <p class="section-label">Privacy Policy</p>
-    <h1>プライバシーポリシー</h1>
-    <p class="hero-lead">個人情報の取り扱いおよび特定商取引法に基づく表記について。</p>
-  </div>
-</section>
-
-<!-- PRIVACY POLICY -->
-<section class="policy">
-  <div class="container">
-    <div class="policy-inner fade-in">
-      <p style="font-size:0.95rem;color:var(--text-secondary);line-height:2;margin-bottom:48px">Ciras株式会社（以下「当社」）は、お客様からお預かりする個人情報の重要性を認識し、以下のとおり適切に取り扱います。</p>
-
-      <div class="policy-section">
-        <h2>1. 個人情報の定義</h2>
-        <p>本ポリシーにおける「個人情報」とは、氏名、メールアドレス、電話番号、住所など、特定の個人を識別できる情報を指します。</p>
-      </div>
-
-      <div class="policy-section">
-        <h2>2. 個人情報の収集</h2>
-        <p>当社は、以下の場面でお客様の個人情報を収集することがあります。</p>
-        <ul>
-          <li>お問い合わせフォームからのご連絡</li>
-          <li>LINEでのご相談</li>
-          <li>サービスのお申し込み・ご契約</li>
-          <li>セミナーへのお申し込み</li>
-          <li>無料診断ツール（AI活用レベルチェッカー、Webサイト状況チェッカー）のご利用</li>
-        </ul>
-      </div>
-
-      <div class="policy-section">
-        <h2>3. 個人情報の利用目的</h2>
-        <p>収集した個人情報は、以下の目的で利用します。</p>
-        <ul>
-          <li>お問い合わせへの回答・ご連絡</li>
-          <li>サービスの提供・運営</li>
-          <li>契約に関するご連絡・事務処理</li>
-          <li>セミナー等のご案内</li>
-          <li>サービスの改善・新サービスの開発</li>
-          <li>無料診断ツールの結果提供・詳細レポートの送付</li>
-        </ul>
-      </div>
-
-      <div class="policy-section">
-        <h2>4. 個人情報の第三者提供</h2>
-        <p>当社は、以下の場合を除き、お客様の同意なく個人情報を第三者に提供しません。</p>
-        <ul>
-          <li>法令に基づく場合</li>
-          <li>人の生命・身体・財産の保護のために必要な場合</li>
-          <li>公衆衛生の向上または児童の健全な育成の推進のために必要な場合</li>
-          <li>国の機関等への協力が必要な場合</li>
-        </ul>
-      </div>
-
-      <div class="policy-section">
-        <h2>5. 個人情報の管理</h2>
-        <p>当社は、個人情報の漏えい・紛失・改ざんを防止するため、適切な安全管理措置を講じます。</p>
-      </div>
-
-      <div class="policy-section">
-        <h2>6. 個人情報の開示・訂正・削除</h2>
-        <p>お客様ご本人から個人情報の開示・訂正・削除のご依頼があった場合、本人確認のうえ、速やかに対応します。</p>
-      </div>
-
-      <div class="policy-section">
-        <h2>7. Cookieの使用について</h2>
-        <p>当社のWebサイトでは、アクセス状況の把握やサービス改善のためにCookieを使用する場合があります。Cookieはブラウザの設定により無効にすることができます。</p>
-      </div>
-
-      <div class="policy-section">
-        <h2>8. アクセス解析ツールについて</h2>
-        <p>当社のWebサイトでは、Googleアナリティクスを使用してアクセス情報を収集する場合があります。データはCookieを用いて匿名で収集されており、個人を特定するものではありません。Googleアナリティクスの利用規約およびプライバシーポリシーについては、Google社のWebサイトをご確認ください。</p>
-      </div>
-
-      <div class="policy-section">
-        <h2>9. 本ポリシーの変更</h2>
-        <p>当社は、必要に応じて本ポリシーの内容を見直し、変更することがあります。変更後のポリシーは、当Webサイトに掲載した時点から効力を生じます。</p>
-      </div>
-
-      <div class="policy-section">
-        <h2>10. お問い合わせ先</h2>
-        <p>個人情報の取り扱いに関するお問い合わせは、下記までご連絡ください。</p>
-        <p>Ciras株式会社<br>〒790-0813 愛媛県松山市萱町3-2-3 9CROSS 501<br>TEL: <a href="tel:050-3637-6324" style="color:var(--green);font-weight:500">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</p>
-      </div>
-
-      <div class="policy-date">
-        <p>制定日：2026年2月1日</p>
-        <div class="policy-company">
-          <p>Ciras株式会社<br>代表取締役 杉本竜弥</p>
+    <div class="container">
+      <div class="header-inner">
+        <a href="https://www.ciras.jp/" class="header-logo"><span class="header-logo-main">Ciras</span><span class="header-logo-sub">シラス株式会社</span></a>
+        <nav class="header-nav">
+          <div class="nav-dropdown"><button class="nav-dropdown-trigger">サービス <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a><a href="https://www.ciras.jp/kagemusha">影武者</a></div></div>
+          <a href="https://www.ciras.jp/needs">課題から探す</a>
+          <a href="https://www.ciras.jp/seminar">セミナー</a>
+          <div class="nav-dropdown"><button class="nav-dropdown-trigger">会社概要 <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/faq">よくある質問</a></div></div>
+          <a href="https://www.ciras.jp/partner">採用・協業</a>
+          <a href="https://www.ciras.jp/blog/">ブログ</a>
+        </nav>
+        <div class="header-cta">
+          <div class="nav-dropdown"><button class="nav-dropdown-trigger header-cta-link">無料診断ツール <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/ai-check">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check">Webサイト状況チェッカー</a></div></div>
+          <a href="https://www.ciras.jp/contact" class="btn-primary">お問い合わせ</a>
         </div>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="メニューを開く">
+          <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <svg id="closeIcon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- 特定商取引法に基づく表記 -->
-<section class="tokusho" id="tokusho">
-  <div class="container">
-    <div class="tokusho-inner fade-in">
-      <p class="section-label">Legal Notice</p>
-      <h2>特定商取引法に基づく表記</h2>
-      <table class="tokusho-table">
-        <tr>
-          <th>販売事業者</th>
-          <td>Ciras株式会社（シラス株式会社）</td>
-        </tr>
-        <tr>
-          <th>代表者</th>
-          <td>代表取締役 杉本竜弥</td>
-        </tr>
-        <tr>
-          <th>所在地</th>
-          <td>〒790-0813 愛媛県松山市萱町3丁目2番3号 9CROSS 501</td>
-        </tr>
-        <tr>
-          <th>電話番号</th>
-          <td><a href="tel:050-3637-6324">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</td>
-        </tr>
-        <tr>
-          <th>メールアドレス</th>
-          <td><a href="mailto:info@ciras.jp">info@ciras.jp</a></td>
-        </tr>
-        <tr>
-          <th>URL</th>
-          <td><a href="https://www.ciras.jp">https://www.ciras.jp</a></td>
-        </tr>
-        <tr>
-          <th>販売価格</th>
-          <td>各サービスページに記載（税込表示）</td>
-        </tr>
-        <tr>
-          <th>支払方法</th>
-          <td>銀行振込</td>
-        </tr>
-        <tr>
-          <th>支払時期</th>
-          <td>サービス提供月の翌月末日</td>
-        </tr>
-        <tr>
-          <th>サービスの提供時期</th>
-          <td>お申し込み・ご契約後、双方合意のスケジュールに基づき提供</td>
-        </tr>
-        <tr>
-          <th>返品・キャンセル</th>
-          <td>サービスの性質上、提供開始後の返品はお受けしておりません。契約期間満了の1ヶ月前までにお申し出いただければ、次期更新を停止いたします。</td>
-        </tr>
-        <tr>
-          <th>追加費用</th>
-          <td>サービス内容により追加費用が発生する場合は、事前にお見積りのうえご案内いたします。</td>
-        </tr>
-      </table>
+    <div class="mobile-menu" id="mobileMenu">
+      <nav class="container">
+        <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">サービス <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/ai-komon" onclick="closeMobile()">Ciras AI顧問</a><a href="https://www.ciras.jp/web" onclick="closeMobile()">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system" onclick="closeMobile()">AI業務システム開発</a><a href="https://www.ciras.jp/kagemusha" onclick="closeMobile()">影武者</a></div></div>
+        <a href="https://www.ciras.jp/needs" onclick="closeMobile()">課題から探す</a><a href="https://www.ciras.jp/seminar" onclick="closeMobile()">セミナー</a>
+        <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">会社概要 <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/company" onclick="closeMobile()">会社概要</a><a href="https://www.ciras.jp/company#review" onclick="closeMobile()">お客様の声</a><a href="https://www.ciras.jp/faq" onclick="closeMobile()">よくある質問</a></div></div>
+        <a href="https://www.ciras.jp/partner" onclick="closeMobile()">採用・協業</a>
+        <div class="mobile-accordion"><button class="mobile-accordion-trigger" onclick="toggleAccordion(this)">無料診断ツール <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/ai-check" onclick="closeMobile()">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check" onclick="closeMobile()">Webサイト状況チェッカー</a></div></div>
+        <a href="https://www.ciras.jp/blog/" onclick="closeMobile()">ブログ</a>
+        <div class="mobile-cta"><a href="https://www.ciras.jp/contact" class="btn-primary" onclick="closeMobile()">お問い合わせ</a></div>
+      </nav>
     </div>
-  </div>
-</section>
+  </header>
 
-<!-- FOOTER -->
 <footer class="footer">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-grid">
-        <div><p class="footer-logo">Ciras</p><p class="footer-info">Ciras（シラス）株式会社<br>愛媛県松山市萱町3-2-3<br>9CROSS 501</p><p class="footer-info mt">TEL: <a href="tel:050-3637-6324" style="color:#999">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</p></div>
-        <div class="footer-col"><p class="footer-col-label">Service</p><nav><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a><a href="https://www.ciras.jp/kagemusha">影武者</a></nav></div>
-        <div class="footer-col"><p class="footer-col-label">Information</p><nav><a href="https://www.ciras.jp/seminar">セミナー</a><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/blog/">ブログ</a><a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/faq">よくある質問</a><a href="https://www.ciras.jp/privacy">プライバシーポリシー</a><a href="https://www.ciras.jp/privacy#tokusho">特定商取引法に基づく表記</a></nav></div>
-        <div class="footer-col"><p class="footer-col-label">Contact</p><div style="display:flex;flex-direction:column;gap:12px"><a href="https://www.ciras.jp/contact" class="footer-btn-white">お問い合わせ</a><a href="https://lin.ee/s2u6VUw" class="footer-btn-outline">LINEで相談</a></div></div>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-grid">
+          <div><p class="footer-logo">Ciras</p><p class="footer-info">Ciras（シラス）株式会社<br>愛媛県松山市萱町3-2-3<br>9CROSS 501</p><p class="footer-info mt">TEL: <a href="tel:050-3637-6324" style="color:#999">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</p></div>
+          <div class="footer-col"><p class="footer-col-label">Service</p><nav><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a><a href="https://www.ciras.jp/kagemusha">影武者</a></nav></div>
+          <div class="footer-col"><p class="footer-col-label">Information</p><nav><a href="https://www.ciras.jp/seminar">セミナー</a><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/blog/">ブログ</a><a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/faq">よくある質問</a><a href="https://www.ciras.jp/privacy">プライバシーポリシー</a><a href="https://www.ciras.jp/privacy#tokusho">特定商取引法に基づく表記</a></nav></div>
+          <div class="footer-col"><p class="footer-col-label">Contact</p><div style="display:flex;flex-direction:column;gap:12px"><a href="https://www.ciras.jp/contact" class="footer-btn-white">お問い合わせ</a><a href="https://lin.ee/s2u6VUw" class="footer-btn-outline">LINEで相談</a></div></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2026 Ciras Inc.（シラス株式会社）</p></div>
       </div>
-      <div class="footer-bottom"><p>&copy; 2026 Ciras Inc.（シラス株式会社）</p></div>
     </div>
-  </div>
-</footer>
+  </footer>
 
 <script>
 const header = document.getElementById('header');
