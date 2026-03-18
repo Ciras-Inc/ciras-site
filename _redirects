@@ -2,6 +2,7 @@
 
 # === 旧Wix/WordPress URL → 新URL 301リダイレクト ===
 /about              /company            301
+/voice              /company#review     301
 
 # 旧ブログ記事
 /post/241128        /blog               301
