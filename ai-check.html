@@ -618,10 +618,10 @@ function displayResults(result){
   document.getElementById('resultLevelName').textContent = result.levelName;
 
   var summaryTexts = {
-    1: 'AIの活用はまだこれからですが、だからこそ伸びしろは十分です。Cirasの「AI顧問」なら、何から始めればいいかを一緒に整理し、最初の一歩をサポートします。',
-    2: 'AIに触れ始めた今がチャンスです。自己流から一歩進んで、Cirasの「AI顧問」で業務に合った正しい使い方を身につければ、日々の仕事がぐっと楽になります。',
-    3: '一部でAIを活用されているのは素晴らしいスタートです。Cirasの「AI業務システム開発」で仕組み化すれば、効果をさらに大きく広げられます。',
-    4: '組織的にAIを活用されている先進的な取り組みです。Cirasと連携して業務システムの高度化やWeb戦略の強化を進め、さらなる差別化を実現しましょう。'
+    1: 'AIの活用はまだこれからです。まずは「どの業務に使うか」を整理するところから始めましょう。',
+    2: 'AIに触れ始めた段階です。自己流ではなく、業務に合った使い方を整理すると効果が出やすくなります。',
+    3: '一部でAIを活用されています。仕組み化して他の業務にも広げると、効果がさらに大きくなります。',
+    4: '組織的にAIを活用されています。業務システムの高度化やWeb戦略の強化で、さらに差をつけられます。'
   };
   document.getElementById('resultSummary').textContent = summaryTexts[result.level] || summaryTexts[1];
 

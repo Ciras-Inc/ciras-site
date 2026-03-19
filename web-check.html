@@ -615,7 +615,7 @@ function showError(msg){
   if(msg) document.getElementById('errorMessage').innerHTML=msg;
   document.getElementById('inputSection').style.display='none';
   document.getElementById('featuresSection').style.display='none';
-  document.getElementById('freeDiagSection').style.display='none';
+  var freeDiag = document.getElementById('freeDiagSection'); if(freeDiag) freeDiag.style.display='none';
   document.getElementById('errorSection').classList.add('active');
 }
 
@@ -623,7 +623,7 @@ function showError(msg){
 function resetDiagnosis(){
   document.getElementById('inputSection').style.display='';
   document.getElementById('featuresSection').style.display='';
-  document.getElementById('freeDiagSection').style.display='';
+  var freeDiag = document.getElementById('freeDiagSection'); if(freeDiag) freeDiag.style.display='';
   document.getElementById('errorSection').classList.remove('active');
   document.getElementById('resultsSection').classList.remove('active');
   document.getElementById('urlInput').value='';
@@ -656,24 +656,24 @@ function scoreToLevel(score){
 
 function scoreToComment(score){
   if(score >= 90) return {
-    text: 'すばらしい結果です！AI検索への対応がしっかりできています。この状態を維持しつつ、さらに上を目指しましょう。',
+    text: 'AI検索への対応がしっかりできています。この状態を維持しつつ、さらに上を目指しましょう。',
     cta: ''
   };
   if(score >= 70) return {
-    text: '良い水準ですが、あと少しの改善で大きく差がつきます。特に弱いポイントを重点的に改善すれば、AI検索での露出がさらに向上します。',
-    cta: '改善ポイントの優先順位を一緒に整理しませんか？ → <a href="/contact">無料相談はこちら</a>'
+    text: '良い水準ですが、あと少しの改善で差がつきます。弱いポイントを重点的に改善すれば、AI検索での露出がさらに向上します。',
+    cta: ''
   };
   if(score >= 50) return {
-    text: 'AI検索で見つけてもらえる土台はありますが、競合に差をつけられている可能性があります。いくつかの改善で、スコアは大きく伸びます。',
-    cta: 'Webサイトの改善で、AI検索からの集客を強化しませんか？ → <a href="/contact">無料相談はこちら</a>'
+    text: 'AI検索で見つけてもらえる土台はありますが、競合に差をつけられている可能性があります。いくつかの改善でスコアは大きく伸びます。',
+    cta: ''
   };
   if(score >= 30) return {
-    text: 'AI検索で御社の情報が正しく伝わっていない状態です。Webサイトの構成を見直すことで、AI経由の新規問い合わせ獲得が期待できます。',
-    cta: 'サイトリニューアルで、AI時代の集客基盤を整えませんか？ → <a href="/contact">無料相談はこちら</a>'
+    text: 'AI検索で御社の情報が正しく伝わっていない状態です。サイトの構成を見直すことで改善できます。',
+    cta: ''
   };
   return {
-    text: 'AI検索にほとんど対応できていない状態です。このままでは、AIが御社を紹介する機会を逃し続けてしまいます。早めの対策をおすすめします。',
-    cta: 'まずはプロに相談して、何から始めるか整理しましょう → <a href="/contact">無料相談はこちら</a>'
+    text: 'AI検索にほとんど対応できていない状態です。対策を始めることで、AIが御社を紹介する機会を作れます。',
+    cta: ''
   };
 }
 
@@ -683,49 +683,18 @@ function updateNextStepCTA(score){
   var support = document.getElementById('nextStepSupport');
   var buttons = document.getElementById('nextStepButtons');
   if(typeof score !== 'number') return;
-
-  if(score >= 90){
-    heading.innerHTML = '高スコアの今こそ、<br>さらに一歩先へ進みませんか。';
-    lead.innerHTML = '現在の良い状態を維持しながら、AI検索からの問い合わせ獲得を<br>さらに強化する方法をご提案できます。';
-    support.innerHTML =
-      '<div class="support-item">高スコアを維持するための定期的な改善アドバイス</div>' +
-      '<div class="support-item">競合との差をさらに広げる戦略のご提案</div>' +
-      '<div class="support-item">AI検索からの問い合わせを増やすコンテンツ設計</div>' +
-      '<div class="support-item">月額コンサルティングで継続的にサポート</div>';
-    buttons.innerHTML =
-      '<a href="/contact" class="btn btn--green">さらに上を目指して相談する</a>' +
-      '<a href="https://lin.ee/s2u6VUw" class="btn" style="background:var(--green-light);color:var(--green)">LINEで相談</a>';
-  } else if(score >= 70){
-    heading.innerHTML = 'あと少しの改善で、<br>AI検索の上位表示が見えてきます。';
-    lead.innerHTML = '70点台は「惜しい」ゾーン。弱点を重点的に改善すれば、<br>AI検索での露出が大きく変わります。';
-    support.innerHTML =
-      '<div class="support-item">診断結果をもとに、弱点の優先順位を一緒に整理</div>' +
-      '<div class="support-item">80点超えに向けた具体的な改善策をご提案</div>' +
-      '<div class="support-item">月額コンサルティングで継続的に改善をサポート</div>' +
-      '<div class="support-item">専門知識は不要。わかりやすくご説明します</div>';
-  } else if(score >= 50){
-    heading.innerHTML = '伸びしろは十分あります。<br>プロと一緒に改善しませんか。';
-    lead.innerHTML = 'サイトの土台はあるので、正しい改善を行えば<br>AI検索での評価は大きく上がります。';
-    support.innerHTML =
-      '<div class="support-item">「何から手をつけるか」を一緒に整理</div>' +
-      '<div class="support-item">御社のサイトに合った改善策を具体的にご提案</div>' +
-      '<div class="support-item">サイトリニューアルのお見積りも可能</div>' +
-      '<div class="support-item">専門知識は不要。わかりやすくご説明します</div>';
-    buttons.innerHTML =
-      '<a href="/contact" class="btn btn--green">まずは無料で相談する</a>' +
-      '<a href="/web" class="btn" style="background:var(--green-light);color:var(--green)">Webサイト制作サービスを見る</a>';
+  support.style.display = 'none';
+  support.innerHTML = '';
+  if(score >= 70){
+    heading.innerHTML = 'この診断結果をもとに、何から手をつければいいか一緒に整理します。';
+    lead.innerHTML = 'AI活用 Webサイト制作（22万円〜）では、AI検索で<br>正しく引用される設計と原稿づくりをセットで対応します。';
   } else {
-    heading.innerHTML = '今のままだと、<br>AI検索で見つけてもらえません。';
-    lead.innerHTML = 'でも、ご安心ください。正しく対策すれば、スコアは大きく改善できます。<br>まずはプロに相談して、最短ルートで改善を始めましょう。';
-    support.innerHTML =
-      '<div class="support-item">現状の課題を分析し、改善の優先順位を整理</div>' +
-      '<div class="support-item">AI検索に強いサイト構成への改善提案</div>' +
-      '<div class="support-item">サイトリニューアルのお見積りも可能</div>' +
-      '<div class="support-item">専門知識は不要。わかりやすくご説明します</div>';
-    buttons.innerHTML =
-      '<a href="/contact" class="btn btn--green">まずは無料で相談する</a>' +
-      '<a href="/web" class="btn" style="background:var(--green-light);color:var(--green)">Webサイト制作サービスを見る</a>';
+    heading.innerHTML = 'この診断結果をもとに、何から手をつければいいか一緒に整理します。';
+    lead.innerHTML = 'AI活用 Webサイト制作（22万円〜）では、AI検索で<br>正しく引用される設計と原稿づくりをセットで対応します。';
   }
+  buttons.innerHTML =
+    '<a href="/contact" class="btn btn--green">無料で相談する</a>' +
+    '<a href="https://lin.ee/s2u6VUw" class="btn" style="background:var(--green-light);color:var(--green)">LINEで相談</a>';
 }
 
 function escapeHtml(str){
@@ -852,7 +821,7 @@ function displayResults(data){
   // Show results, hide input
   document.getElementById('inputSection').style.display='none';
   document.getElementById('featuresSection').style.display='none';
-  document.getElementById('freeDiagSection').style.display='none';
+  var freeDiag = document.getElementById('freeDiagSection'); if(freeDiag) freeDiag.style.display='none';
   document.getElementById('resultsSection').classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
 }
