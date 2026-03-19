@@ -371,12 +371,14 @@ function extractAllInternalLinks(html, baseUrl) {
   const links = new Set();
   try {
     const base = new URL(baseUrl);
+    const baseHost = base.hostname.replace(/^www\./, '');
     const regex = /<a[^>]*href=["']([^"'#]*?)["']/gi;
     let match;
     while ((match = regex.exec(html)) !== null) {
       try {
         const linkUrl = new URL(match[1], baseUrl);
-        if (linkUrl.hostname === base.hostname && linkUrl.pathname !== base.pathname) {
+        const linkHost = linkUrl.hostname.replace(/^www\./, '');
+        if (linkHost === baseHost && linkUrl.pathname !== base.pathname) {
           const ext = linkUrl.pathname.split('.').pop().toLowerCase();
           if (!ext || ext === 'html' || ext === 'htm' || ext === 'php' || !linkUrl.pathname.includes('.')) {
             links.add(linkUrl.origin + linkUrl.pathname);
@@ -576,6 +578,7 @@ function extractNavLinks(html, baseUrl) {
   const links = [];
   try {
     const base = new URL(baseUrl);
+    const baseHost = base.hostname.replace(/^www\./, '');
     // Try to find nav/header links first
     const navMatch = html.match(/<nav[^>]*>([\s\S]*?)<\/nav>/i) || html.match(/<header[^>]*>([\s\S]*?)<\/header>/i);
     const searchHtml = navMatch ? navMatch[1] : html.substring(0, Math.min(html.length, 50000));
@@ -584,7 +587,8 @@ function extractNavLinks(html, baseUrl) {
     while ((match = regex.exec(searchHtml)) !== null) {
       try {
         const linkUrl = new URL(match[1], baseUrl);
-        if (linkUrl.hostname === base.hostname && linkUrl.pathname !== base.pathname && linkUrl.pathname !== '/') {
+        const linkHost = linkUrl.hostname.replace(/^www\./, '');
+        if (linkHost === baseHost && linkUrl.pathname !== base.pathname && linkUrl.pathname !== '/') {
           const ext = linkUrl.pathname.split('.').pop().toLowerCase();
           if (!ext || ext === 'html' || ext === 'htm' || ext === 'php' || !linkUrl.pathname.includes('.')) {
             const full = linkUrl.origin + linkUrl.pathname;
@@ -762,6 +766,7 @@ function extractHeadings(html) {
 function countInternalLinks(html, baseUrl) {
   try {
     const base = new URL(baseUrl);
+    const baseHost = base.hostname.replace(/^www\./, '');
     const links = html.match(/<a[^>]*href=["']([^"'#]*?)["']/gi) || [];
     let internal = 0;
     for (const link of links) {
@@ -769,7 +774,8 @@ function countInternalLinks(html, baseUrl) {
       if (href && href[1]) {
         try {
           const linkUrl = new URL(href[1], baseUrl);
-          if (linkUrl.hostname === base.hostname) internal++;
+          const linkHost = linkUrl.hostname.replace(/^www\./, '');
+          if (linkHost === baseHost) internal++;
         } catch (e) { internal++; } // relative links are internal
       }
     }
