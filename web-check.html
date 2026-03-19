@@ -339,6 +339,198 @@ img{max-width:100%;display:block}ul{list-style:none}
     </div>
   </header>
 
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <p class="section-label fade-in">Free Diagnostic</p>
+    <h1 class="fade-in">Webサイト状況チェッカー</h1>
+    <p class="hero-sub fade-in">URLを入力するだけで、あなたのホームページが<br>ChatGPTなどのAI検索で見つかる状態かを診断します。</p>
+    <div class="fade-in"><span class="hero-time">所要時間：約30〜60秒</span></div>
+  </div>
+</section>
+
+<!-- INPUT -->
+<section class="input-section" id="inputSection">
+  <div class="container">
+    <div class="input-form fade-in">
+      <label class="input-label">診断したいWebサイトのURLを入力</label>
+      <div class="url-input-wrap">
+        <input type="url" class="url-input" id="urlInput" placeholder="https://example.com" autocomplete="url">
+        <button class="btn btn--green btn-diagnose" onclick="startDiagnosis()">診断する</button>
+      </div>
+      <p class="input-error" id="inputError">正しいURLを入力してください（例: https://example.com）</p>
+      <p class="input-note">※ 無料・登録不要でご利用いただけます</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="featuresSection">
+  <div class="container">
+    <div class="features-grid fade-in">
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>5つの視点で診断</h3>
+        <p>AI検索で引用されるために必要な5つの視点で診断します</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>AIに御社のことを聞いてみます</h3>
+        <p>実際にAIに質問し、御社がどう認識されているか確認します</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>約30〜60秒で完了</h3>
+        <p>URLを入力するだけ。質問への回答は不要です</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div>
+    <div class="loading-text" id="loadingText">主要ページを読み込んでいます...</div>
+    <div class="loading-sub" id="loadingSub">トップページ内のリンクから、重要なページを自動で選んでいます</div>
+  </div>
+</div>
+
+<!-- ERROR -->
+<section class="error-section" id="errorSection">
+  <div class="container">
+    <div class="error-icon">⚠</div>
+    <h2>診断できませんでした</h2>
+    <p id="errorMessage">入力されたURLにアクセスできませんでした。<br>URLが正しいか確認のうえ、再度お試しください。</p>
+    <button class="btn btn--green" onclick="resetDiagnosis()">もう一度試す</button>
+  </div>
+</section>
+
+<!-- RESULTS (hidden until diagnosis complete) -->
+<div class="results-section" id="resultsSection">
+
+  <!-- Result Hero -->
+  <section class="result-hero">
+    <div class="container">
+      <p class="result-label">Diagnostic Result</p>
+      <div class="result-level-badge">
+        <div class="result-score-wrap">
+          <span class="result-score" id="resultScore">-</span><span class="result-score-max">/ 100</span>
+        </div>
+        <div class="result-score-info">
+          <div class="result-score-tag">LEVEL</div>
+          <div class="result-score-name" id="resultLevel">診断中...</div>
+        </div>
+      </div>
+      <p class="result-summary" id="resultSummary"></p>
+      <div class="result-comment" id="resultComment"></div>
+      <p class="result-disclaimer">⚠ 本診断はWebサイトに掲載されている情報をAIが読み込み分析した結果です。<br>実際の購買のしやすさ・閲覧体験・デザインの印象・売上等は評価対象外です。</p>
+    </div>
+  </section>
+
+  <!-- Page Status -->
+  <section class="page-status">
+    <div class="container">
+      <div class="page-status-inner">
+        <h3>読み込んだページ</h3>
+        <div class="page-status-list" id="pageStatusList">
+          <!-- Dynamically inserted -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Company Analysis -->
+  <section class="company-analysis">
+    <div class="container">
+      <p class="section-label">Company Analysis</p>
+      <h2>サイトから読み取った御社の情報</h2>
+      <p class="company-analysis-lead">AIがWebサイトの内容から、御社の基本情報を整理しました。</p>
+      <div class="company-info-card" id="companyInfoCard">
+        <!-- Dynamically inserted -->
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Search Preview -->
+  <section class="ai-preview">
+    <div class="container">
+      <p class="section-label">AI Search Preview</p>
+      <h2>AI検索で、あなたの会社はこう紹介されます</h2>
+      <p class="ai-preview-lead">実際にAIに御社のことを質問した結果です。</p>
+      <div class="ai-preview-card">
+        <div class="ai-preview-header">
+          <div class="ai-preview-avatar">AI</div>
+          <div class="ai-preview-label">AIの回答イメージ</div>
+        </div>
+        <div class="ai-preview-body" id="aiPreviewBody">
+          <!-- Dynamically inserted -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Checkpoints -->
+  <section class="checkpoints">
+    <div class="container">
+      <p class="section-label">Checkpoints</p>
+      <h2>診断チェックポイント</h2>
+      <p class="checkpoints-lead">AI検索で引用されるために必要な5つの視点で診断しました。</p>
+      <div class="checkpoint-cards" id="checkpointCards">
+        <!-- Dynamically inserted -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Strengths -->
+  <section class="strengths">
+    <div class="container">
+      <p class="section-label">Strengths</p>
+      <h2>ここが良いポイントです</h2>
+      <p class="strengths-lead">御社のサイトで、すでに良くできている点をまとめました。</p>
+      <div class="strength-list" id="strengthList">
+        <!-- Dynamically inserted -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Retry -->
+  <div class="retry-area">
+    <div class="container" style="text-align:center">
+      <button class="btn" style="background:var(--green-light);color:var(--green)" onclick="resetDiagnosis()">別のURLを診断する</button>
+    </div>
+  </div>
+
+  <!-- Solutions -->
+  <section class="solutions">
+    <div class="container">
+      <p class="section-label">Solutions</p>
+      <h2>こうすれば、もっと良くなります</h2>
+      <p class="solutions-lead">サイト分析の結果をもとに、AIが具体的な改善案を作成しました。<br>「今の状態」と「改善後」を比べてご覧ください。</p>
+      <div class="solution-cards" id="solutionCards">
+        <!-- Dynamically inserted -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Next Step CTA -->
+  <section class="next-step">
+    <div class="container">
+      <div class="next-step-inner">
+        <p class="section-label">Next Step</p>
+        <h2 id="nextStepHeading">この診断結果をもとに、何から手をつければいいか一緒に整理します。</h2>
+        <p class="next-step-lead" id="nextStepLead">AI活用 Webサイト制作（22万円〜）では、AI検索で<br>正しく引用される設計と原稿づくりをセットで対応します。</p>
+        <div class="support-list" id="nextStepSupport" style="display:none"></div>
+        <div class="cta-buttons" id="nextStepButtons">
+          <a href="/contact" class="btn btn--green">無料で相談する</a>
+          <a href="https://lin.ee/s2u6VUw" class="btn" style="background:var(--green-light);color:var(--green)">LINEで相談</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
 <footer class="footer">
     <div class="container">
       <div class="footer-inner">
