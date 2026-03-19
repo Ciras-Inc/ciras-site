@@ -102,7 +102,7 @@
 
     /* ── INFO TABLE ── */
     .info { padding: 80px 0; background: #F7F7F7; } @media (min-width: 1024px) { .info { padding: 112px 0; } }
-    .info-table { width: 100%; max-width: 800px; border-collapse: collapse; margin: 0 auto; }
+    .info-table { width: 100%; max-width: 800px; border-collapse: collapse; }
     .info-table th, .info-table td { padding: 18px 16px; font-size: 14px; line-height: 1.6; border-bottom: 1px solid #ddd; text-align: left; vertical-align: top; }
     .info-table th { width: 30%; font-weight: 600; color: #242422; background: #fff; } @media (max-width: 639px) { .info-table th { width: 35%; font-size: 13px; } }
     .info-table td { color: #555; }
@@ -119,21 +119,21 @@
 
     /* ── HISTORY ── */
     .history { padding: 80px 0; background: #F7F7F7; } @media (min-width: 1024px) { .history { padding: 112px 0; } }
-    .history-list { max-width: 640px; margin: 0 auto; }
+    .history-list { max-width: 640px; }
     .history-item { display: flex; gap: 24px; padding: 16px 0; border-bottom: 1px solid #ddd; }
     .history-year { font-size: 14px; font-weight: 700; color: #242422; flex-shrink: 0; width: 80px; }
     .history-text { font-size: 14px; color: #555; line-height: 1.6; }
 
     /* ── MEDIA ── */
     .media { padding: 80px 0; background: #fff; } @media (min-width: 1024px) { .media { padding: 112px 0; } }
-    .media-list { max-width: 640px; margin: 0 auto; }
+    .media-list { max-width: 640px; }
     .media-item { display: flex; gap: 24px; padding: 16px 0; border-bottom: 1px solid #eee; align-items: baseline; }
     .media-name { font-size: 15px; font-weight: 600; color: #242422; }
     .media-desc { font-size: 13px; color: #888; }
 
     /* ── GOOGLE REVIEW ── */
     .greview { padding: 80px 0; background: #F7F7F7; } @media (min-width: 1024px) { .greview { padding: 112px 0; } }
-    .greview-card { max-width: 560px; padding: 40px; background: #fff; border-radius: 4px; border: 1px solid #eee; text-align: center; margin: 0 auto; }
+    .greview-card { max-width: 560px; padding: 40px; background: #fff; border-radius: 4px; border: 1px solid #eee; text-align: center; }
     .greview-score { font-size: 56px; font-weight: 900; letter-spacing: -0.02em; line-height: 1; }
     .greview-stars { margin-top: 8px; font-size: 24px; color: #F5A623; letter-spacing: 4px; }
     .greview-count { margin-top: 8px; font-size: 14px; color: #888; }
@@ -144,7 +144,7 @@
     /* ── ACCESS ── */
     .access { padding: 80px 0; background: #fff; } @media (min-width: 1024px) { .access { padding: 112px 0; } }
     .access-address { font-size: 15px; line-height: 1.8; color: #555; margin-bottom: 24px; }
-    .access-map { width: 100%; max-width: 800px; border-radius: 4px; overflow: hidden; border: 1px solid #eee; margin: 0 auto; }
+    .access-map { width: 100%; max-width: 800px; border-radius: 4px; overflow: hidden; border: 1px solid #eee; }
     .access-map iframe { width: 100%; height: 320px; border: 0; } @media (min-width: 768px) { .access-map iframe { height: 400px; } }
 
     /* ── CTA ── */
@@ -392,8 +392,4 @@
     mobileToggle.addEventListener('click', () => { mobileOpen = !mobileOpen; mobileMenu.classList.toggle('open', mobileOpen); menuIcon.style.display = mobileOpen ? 'none' : 'block'; closeIcon.style.display = mobileOpen ? 'block' : 'none'; document.body.style.overflow = mobileOpen ? 'hidden' : ''; });
     function closeMobile() { mobileOpen = false; mobileMenu.classList.remove('open'); menuIcon.style.display = 'block'; closeIcon.style.display = 'none'; document.body.style.overflow = ''; }
     function toggleAccordion(btn) { btn.parentElement.classList.toggle('open'); }
-    const fadeObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.fade-in-up').forEach(el => fadeObserver.observe(el));
-  </script>
-</body>
-</html>
+    const fadeObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry
