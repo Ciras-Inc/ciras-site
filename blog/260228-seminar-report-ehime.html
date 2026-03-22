@@ -3,19 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-  <title>ブログ｜AI活用・Web活用の実践情報｜Ciras（シラス）株式会社</title>
-  <meta name="description" content="Ciras株式会社のブログ。中小企業向けのAI活用、AEO対策、Webサイト運用に関する実践情報を発信しています。" />
-  <link rel="canonical" href="https://www.ciras.jp/blog/" />
-  <meta property="og:title" content="ブログ｜Ciras株式会社" />
-  <meta property="og:url" content="https://www.ciras.jp/blog/" />
-  <meta property="og:type" content="website" />
+  <title>生成AI活用塾 開催レポート｜2026年2月 愛媛｜Ciras（シラス）株式会社</title>
+  <meta name="description" content="2026年2月27日、松山市にて生成AI活用塾を開催しました。参加者7名。ChatGPT・Geminiの導入サポート、情報漏洩を防ぐ初期設定、音声会話の活用などに取り組みました。" />
+  <link rel="canonical" href="https://www.ciras.jp/blog/260228-seminar-report-ehime" />
+  <meta property="og:title" content="生成AI活用塾 開催レポート｜2026年2月 愛媛｜Ciras株式会社" />
+  <meta property="og:url" content="https://www.ciras.jp/blog/260228-seminar-report-ehime" />
+  <meta property="og:type" content="article" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "生成AI活用塾 開催レポート｜2026年2月 愛媛",
+    "datePublished": "2026-02-28",
+    "author": { "@type": "Person", "name": "杉本竜弥" },
+    "publisher": { "@type": "Organization", "name": "Ciras株式会社", "url": "https://www.ciras.jp" },
+    "mainEntityOfPage": "https://www.ciras.jp/blog/260228-seminar-report-ehime"
+  }
+  </script>
+
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: "Noto Sans JP", "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif; font-feature-settings: "palt"; -webkit-font-smoothing: antialiased; color: #242422; background: #fff; line-height: 1.6; }
-    a { color: inherit; text-decoration: none; } img { max-width: 100%; height: auto; display: block; } ul { list-style: none; } button { border: none; background: none; font: inherit; cursor: pointer; }
+    a { color: inherit; text-decoration: none; } img { max-width: 100%; height: auto; display: block; } button { border: none; background: none; font: inherit; cursor: pointer; }
     .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; } @media (min-width: 640px) { .container { padding: 0 1.5rem; } } @media (min-width: 1024px) { .container { padding: 0 2rem; } }
     .section-label { font-size: 12px; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: #888; margin-bottom: 12px; }
     .fade-in-up { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; } .fade-in-up.visible { opacity: 1; transform: translateY(0); }
@@ -35,21 +48,31 @@
     .mobile-menu { display: none; position: fixed; inset: 0; top: 72px; background: #fff; z-index: 40; overflow-y: auto; } .mobile-menu.open { display: block; } .mobile-menu nav { padding: 32px 1rem; display: flex; flex-direction: column; } .mobile-menu a { padding: 16px 0; font-size: 16px; font-weight: 500; color: #242422; border-bottom: 1px solid #eee; } .mobile-menu .mobile-cta { margin-top: 24px; } .mobile-menu .mobile-cta a { width: 100%; padding: 14px 24px; text-align: center; border: none; }
     .mobile-accordion { border-bottom: 1px solid #eee; } .mobile-accordion-trigger { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 16px 0; font-size: 16px; font-weight: 500; color: #242422; background: none; border: none; font-family: inherit; cursor: pointer; text-align: left; } .mobile-accordion-trigger .chevron-mobile { width: 14px; height: 14px; transition: transform 0.25s; color: #aaa; } .mobile-accordion.open .mobile-accordion-trigger .chevron-mobile { transform: rotate(180deg); } .mobile-accordion-panel { display: none; padding: 0 0 12px 16px; } .mobile-accordion.open .mobile-accordion-panel { display: block; } .mobile-accordion-panel a { display: block; padding: 10px 0; font-size: 14px; font-weight: 400; color: #666; border-bottom: none; }
 
-    /* ── HERO ── */
-    .hero { padding-top: 100px; padding-bottom: 40px; } @media (min-width: 1024px) { .hero { padding-top: 120px; padding-bottom: 56px; } }
-    .hero h1 { font-size: 30px; font-weight: 700; line-height: 1.35; letter-spacing: -0.02em; } @media (min-width: 640px) { .hero h1 { font-size: 38px; } } @media (min-width: 1024px) { .hero h1 { font-size: 42px; } }
+    /* ── ARTICLE ── */
+    .article-hero { padding-top: 100px; padding-bottom: 32px; } @media (min-width: 1024px) { .article-hero { padding-top: 120px; padding-bottom: 40px; } }
+    .breadcrumb { font-size: 13px; color: #aaa; margin-bottom: 16px; } .breadcrumb a { color: #888; border-bottom: 1px solid transparent; } .breadcrumb a:hover { border-color: #888; }
+    .article-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .article-tag { display: inline-block; padding: 2px 10px; font-size: 11px; font-weight: 500; color: #fff; background: #242422; border-radius: 2px; }
+    .article-date { font-size: 13px; color: #aaa; }
+    .article-hero h1 { font-size: 26px; font-weight: 700; line-height: 1.4; letter-spacing: -0.02em; } @media (min-width: 640px) { .article-hero h1 { font-size: 32px; } } @media (min-width: 1024px) { .article-hero h1 { font-size: 36px; } }
+    .article-lead { margin-top: 20px; font-size: 15px; line-height: 1.9; color: #666; }
 
-    /* ── BLOG LIST ── */
-    .blog-list { padding: 0 0 80px; } @media (min-width: 1024px) { .blog-list { padding: 0 0 112px; } }
-    .blog-grid { max-width: 800px; margin: 0 auto; }
-    .blog-card { display: block; padding: 32px 0; border-bottom: 1px solid #eee; transition: background 0.2s; }
-    .blog-card:first-child { padding-top: 0; }
-    .blog-card:hover { opacity: 0.7; }
-    .blog-card-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-    .blog-card-tag { display: inline-block; padding: 2px 10px; font-size: 11px; font-weight: 500; color: #fff; background: #242422; border-radius: 2px; }
-    .blog-card-date { font-size: 13px; color: #aaa; }
-    .blog-card h2 { font-size: 18px; font-weight: 700; line-height: 1.5; } @media (min-width: 1024px) { .blog-card h2 { font-size: 20px; } }
-    .blog-card p { margin-top: 8px; font-size: 14px; line-height: 1.7; color: #888; }
+    .article-body { padding: 0 0 80px; } @media (min-width: 1024px) { .article-body { padding: 0 0 112px; } }
+    .article-content { max-width: 800px; margin: 0 auto; }
+    .article-content h2 { font-size: 22px; font-weight: 700; margin-top: 48px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #eee; } @media (min-width: 1024px) { .article-content h2 { font-size: 26px; } }
+    .article-content h3 { font-size: 18px; font-weight: 700; margin-top: 32px; margin-bottom: 12px; } @media (min-width: 1024px) { .article-content h3 { font-size: 20px; } }
+    .article-content p { font-size: 15px; line-height: 2; color: #444; margin-bottom: 20px; }
+    .article-content ul, .article-content ol { margin-bottom: 20px; padding-left: 24px; }
+    .article-content li { font-size: 15px; line-height: 2; color: #444; padding: 4px 0; list-style: disc; }
+    .article-content ol li { list-style: decimal; }
+    .article-content strong { font-weight: 700; color: #242422; }
+    .article-content blockquote { margin: 24px 0; padding: 20px 24px; background: #F7F7F7; border-left: 3px solid #242422; border-radius: 0 4px 4px 0; font-size: 15px; line-height: 2; color: #555; }
+    .article-content table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+    .article-content table th, .article-content table td { padding: 12px 16px; font-size: 14px; line-height: 1.6; border: 1px solid #ddd; text-align: left; }
+    .article-content table th { background: #F7F7F7; font-weight: 600; }
+    .article-content a { color: #242422; border-bottom: 1px solid #ccc; } .article-content a:hover { border-color: #242422; }
+    .article-back { margin-top: 48px; padding-top: 24px; border-top: 1px solid #eee; }
+    .article-back a { font-size: 14px; font-weight: 500; color: #888; } .article-back a:hover { color: #242422; }
 
     /* ── FOOTER ── */
     .footer { background: #1A1A1A; color: #fff; } .footer-inner { padding: 64px 0; } @media (min-width: 1024px) { .footer-inner { padding: 80px 0; } }
@@ -86,64 +109,48 @@
     <div class="mobile-cta"><a href="https://www.ciras.jp/contact" class="btn-primary" onclick="closeMobile()">お問い合わせ</a></div>
   </nav></div></header>
 
-  <!-- ── HERO ── -->
-  <section class="hero"><div class="container"><div class="fade-in-up">
-    <p class="section-label">Blog</p>
-    <h1>ブログ</h1>
+  <!-- ── ARTICLE HERO ── -->
+  <section class="article-hero"><div class="container"><div class="fade-in-up">
+    <p class="breadcrumb"><a href="https://www.ciras.jp/">ホーム</a> &gt; <a href="https://www.ciras.jp/blog/">ブログ</a> &gt; 生成AI活用塾 開催レポート｜2026年2月 愛媛</p>
+    <div class="article-meta"><span class="article-tag">セミナー</span><span class="article-date">2026.2.28</span></div>
+    <h1>生成AI活用塾 開催レポート｜2026年2月 愛媛</h1>
   </div></div></section>
 
-  <!-- ── BLOG LIST ── -->
-  <section class="blog-list"><div class="container">
-    <div class="blog-grid fade-in-up">
+  <!-- ── ARTICLE BODY ── -->
+  <section class="article-body"><div class="container">
+    <div class="article-content fade-in-up">
 
-      <a href="/blog/260320-seminar-report-ehime" class="blog-card">
-        <div class="blog-card-meta"><span class="blog-card-tag">セミナー</span><span class="blog-card-date">2026.3.20</span></div>
-        <h2>生成AI活用塾 開催レポート｜2026年3月 愛媛</h2>
-        <p>Geminiの画像生成の文字化け修正、NotebookLMスライドのデザイン調整、生成AIを活用したチラシづくりなどに取り組みました。</p>
-      </a>
+      <p>2026年2月27日、松山市にて「生成AI活用塾」を開催しました。参加者は7名です。</p>
 
-      <a href="/blog/260317-seminar-report-hiroshima" class="blog-card">
-        <div class="blog-card-meta"><span class="blog-card-tag">セミナー</span><span class="blog-card-date">2026.3.17</span></div>
-        <h2>生成AI活用塾 開催レポート｜2026年3月 広島</h2>
-        <p>午前6名・午後6名の計12名が参加。NotebookLMでのスライド作成、Excelマクロの生成AIへの置き換えなどに取り組みました。</p>
-      </a>
+      <h2>今回取り組んだこと</h2>
 
-      <a href="/blog/260228-seminar-report-ehime" class="blog-card">
-        <div class="blog-card-meta"><span class="blog-card-tag">セミナー</span><span class="blog-card-date">2026.2.28</span></div>
-        <h2>生成AI活用塾 開催レポート｜2026年2月 愛媛</h2>
-        <p>ChatGPT・Geminiの導入サポート、情報漏洩を防ぐ初期設定、音声会話の活用などに取り組みました。</p>
-      </a>
+      <p>参加者それぞれの状況に合わせて、以下のようなテーマを扱いました。</p>
 
-      <a href="https://www.ciras.jp/blog/260214-ai-search-guide" class="blog-card">
-        <div class="blog-card-meta"><span class="blog-card-tag">Web運用</span><span class="blog-card-date">2026.2.14</span></div>
-        <h2>中小企業がAI検索で見つけてもらうためにやるべきこと</h2>
-        <p>AI検索に対応するための考え方と、中小企業が今すぐできる具体策を整理しました。</p>
-      </a>
+      <h3>ChatGPT・Geminiの導入と使い方のサポート</h3>
 
-      <a href="https://www.ciras.jp/blog/260214-wix-migration" class="blog-card">
-        <div class="blog-card-meta"><span class="blog-card-tag">Web運用</span><span class="blog-card-date">2026.2.14</span></div>
-        <h2>WixからHTML＋Cloudflareに移行した記録と成果</h2>
-        <p>自社サイトをWixからHTML＋CSSに書き換え、Cloudflare Pagesに移行した経緯と成果の記録です。</p>
-      </a>
+      <p>初めてChatGPTやGeminiを使う方を対象に、導入と初めての使い方をサポートしました。</p>
 
-      <a href="https://www.ciras.jp/blog/shindan-tool-release" class="blog-card">
-        <div class="blog-card-meta"><span class="blog-card-tag">お知らせ</span><span class="blog-card-date">2026.2.12</span></div>
-        <h2>無料診断ツールを公開しました</h2>
-        <p>AI活用レベルチェッカーとWebサイト状況チェッカーの2つの無料診断ツールを公開しました。</p>
-      </a>
+      <h3>情報漏洩しないための初期設定</h3>
 
-      <a href="https://www.ciras.jp/blog/aeo-taisaku-kihon" class="blog-card">
-        <div class="blog-card-meta"><span class="blog-card-tag">AEO対策</span><span class="blog-card-date">2026.2.8</span></div>
-        <h2>AI検索時代のホームページ設計とは？AEO対策の基本を解説</h2>
-        <p>ChatGPTやPerplexityで自社が正しく紹介されるために必要なAEO対策の基本を解説します。</p>
-      </a>
+      <p>生成AIを業務で使うにあたり、情報漏洩しないために確認すべき初期設定について説明しました。</p>
 
-      <a href="https://www.ciras.jp/blog/ai-katsuyou-3points" class="blog-card">
-        <div class="blog-card-meta"><span class="blog-card-tag">AI活用</span><span class="blog-card-date">2026.2.8</span></div>
-        <h2>中小企業がAI活用で失敗しないための3つのポイント</h2>
-        <p>中小企業がAI活用で失敗しないために押さえるべき3つのポイントをお伝えします。</p>
-      </a>
+      <h3>ChatGPTと音声で会話する方法</h3>
 
+      <p>ChatGPTと音声で会話して、飲み相手になってもらう方法を紹介しました。</p>
+
+      <p>このほかにも、参加者の方それぞれの疑問や課題に対応しました。</p>
+
+      <h2>生成AI活用塾について</h2>
+
+      <p>生成AI活用塾は、生成AIを今より使えるようにすることを目的としたセミナーです。Cirasは「できる」を増やすことを大切にしています。生成AIに興味はあるけど手が出なかった方が、使えるようになる。それだけで、日々の仕事の選択肢は確実に広がります。</p>
+
+      <p>ただし塾形式のため、限られた時間の中で参加者の方々と関わる形になります。自分の業務に合わせたマンツーマンの個別対応をご希望の方は、<a href="/ai-komon.html">Ciras AI顧問</a>または<a href="/kagemusha.html">影武者</a>をご検討ください。</p>
+
+      <h2>次回の開催について</h2>
+
+      <p>生成AI活用塾は、愛媛・広島を中心に定期開催しています。次回の予定は<a href="/seminar.html">セミナーページ</a>をご確認ください。</p>
+
+      <div class="article-back"><a href="https://www.ciras.jp/blog/">← ブログ一覧に戻る</a></div>
     </div>
   </div></section>
 
