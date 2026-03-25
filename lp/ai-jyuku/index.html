@@ -169,8 +169,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </script>
 
   <style>
-    :root{--green:#2D5A27;--green-light:#E8F0E6;--black:#1A1A1A;--gray-dark:#4A4A4A;--gray:#888;--gray-light:#E5E5E5;--white:#FFF;--bg:#FAFAFA}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Noto Sans JP',sans-serif;font-weight:400;color:var(--black);line-height:1.9;background:var(--bg);font-size:15px;letter-spacing:.03em}a{color:inherit;text-decoration:none}
-    header{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--white);border-bottom:1px solid var(--gray-light);transition:box-shadow .3s}header.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}.header-inner{max-width:1200px;margin:0 auto;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}.logo{display:flex;align-items:center}.logo-img{height:32px;width:auto}.header-cta{font-size:.85rem;color:var(--white)!important;background:var(--green);padding:.7rem 1.8rem;border-radius:4px;transition:all .3s;box-shadow:0 2px 8px rgba(45,90,39,.3);font-weight:600;letter-spacing:.05em;display:inline-block}.header-cta:hover{opacity:.9;box-shadow:0 4px 12px rgba(45,90,39,.4);transform:translateY(-1px)}
+    :root{--green:#2D5A27;--green-light:#E8F0E6;--black:#1A1A1A;--gray-dark:#4A4A4A;--gray:#888;--gray-light:#E5E5E5;--white:#FFF;--bg:#FAFAFA}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Noto Sans JP',sans-serif;font-weight:400;color:var(--black);line-height:1.9;background:var(--bg);font-size:15px;letter-spacing:.03em}a{color:inherit;text-decoration:none;transition:color 0.2s}a:focus-visible,button:focus-visible{outline:2px solid #242422;outline-offset:2px;border-radius:2px}img{max-width:100%;height:auto;display:block}ul{list-style:none}button{border:none;background:none;font:inherit;cursor:pointer}
+    .container{width:100%;max-width:1200px;margin:0 auto;padding:0 1rem}@media(min-width:640px){.container{padding:0 1.5rem}}@media(min-width:1024px){.container{padding:0 2rem}}
+    /* === HEADER === */
+    .header{position:fixed;top:0;left:0;right:0;z-index:50;background:#fff;transition:box-shadow .3s,background .3s,backdrop-filter .3s}.header.scrolled{background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 0 rgba(0,0,0,0.06)}.header-inner{display:flex;align-items:center;justify-content:space-between;height:72px}@media(min-width:1024px){.header-inner{height:80px}}.header-logo{display:flex;align-items:center;gap:8px;flex-shrink:0}.header-logo-main{font-size:22px;font-weight:700;letter-spacing:-0.02em;color:#242422}.header-logo-sub{font-size:11px;font-weight:300;color:#888;letter-spacing:0.05em}@media(max-width:639px){.header-logo-sub{display:none}}.header-nav{display:none;align-items:center;gap:28px}@media(min-width:1024px){.header-nav{display:flex}}.header-nav>a,.header-nav .nav-dropdown>.nav-dropdown-trigger{font-size:14px;font-weight:500;color:#242422;position:relative;transition:color .2s;cursor:pointer;background:none;border:none;font-family:inherit;padding:0}.header-nav>a:hover,.header-nav .nav-dropdown-trigger:hover{color:#666}.header-nav>a::after,.header-nav .nav-dropdown-trigger::after{content:"";position:absolute;bottom:-2px;left:0;width:0;height:1px;background:#242422;transition:width .3s}.header-nav>a:hover::after,.header-nav .nav-dropdown-trigger:hover::after{width:100%}.nav-dropdown{position:relative}.nav-dropdown-trigger{display:flex;align-items:center;gap:4px}.nav-dropdown-trigger .chevron{width:10px;height:10px;transition:transform .2s}.nav-dropdown:hover .nav-dropdown-trigger .chevron{transform:rotate(180deg)}.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);min-width:220px;background:#fff;border:1px solid #eee;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,0.08);padding:8px 0;z-index:60}.nav-dropdown-menu::before{content:"";position:absolute;top:-12px;left:0;right:0;height:12px}.nav-dropdown:hover .nav-dropdown-menu{display:block}.nav-dropdown-menu a{display:block;padding:10px 20px;font-size:13px;font-weight:400;color:#444;transition:background .15s,color .15s;white-space:nowrap}.nav-dropdown-menu a::after{display:none}.nav-dropdown-menu a:hover{background:#F7F7F7;color:#242422}.nav-dropdown-menu .menu-group-label{display:block;padding:10px 20px 4px;font-size:11px;font-weight:500;color:#aaa;letter-spacing:0.08em;pointer-events:none}.nav-dropdown-menu .menu-group-label+a{padding-top:6px}.nav-dropdown-menu .menu-divider{margin:6px 16px;border:none;border-top:1px solid #eee}.header-cta{display:none;align-items:center;gap:12px}@media(min-width:1024px){.header-cta{display:flex}}.header-cta-link{font-size:13px;font-weight:500;color:#242422;transition:color .2s}
+    .btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:10px 20px;font-size:13px;font-weight:500;color:#fff;background:#242422;border-radius:3px;transition:background .2s,transform .15s}.btn-primary:hover{background:#333;transform:translateY(-1px)}.btn-primary:active{transform:translateY(0)}
+    /* === MOBILE MENU === */
+    .mobile-toggle{display:block;padding:8px;color:#242422}@media(min-width:1024px){.mobile-toggle{display:none}}.mobile-toggle svg{width:24px;height:24px}.mobile-menu{position:fixed;inset:0;top:72px;background:#fff;z-index:40;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(0.4,0,0.2,1);visibility:hidden}.mobile-menu.open{transform:translateX(0);visibility:visible}.mobile-menu nav{padding:32px 1rem;display:flex;flex-direction:column}.mobile-menu a{padding:16px 0;font-size:16px;font-weight:500;color:#242422;border-bottom:1px solid #eee}.mobile-menu .mobile-cta{margin-top:24px}.mobile-menu .mobile-cta a{width:100%;padding:14px 24px;text-align:center;border:none}.mobile-accordion{border-bottom:1px solid #eee}.mobile-accordion-trigger{display:flex;align-items:center;justify-content:space-between;width:100%;padding:16px 0;font-size:16px;font-weight:500;color:#242422;background:none;border:none;font-family:inherit;cursor:pointer;text-align:left}.mobile-accordion-trigger .chevron-mobile{width:14px;height:14px;transition:transform .3s cubic-bezier(0.4,0,0.2,1);color:#aaa}.mobile-accordion.open .mobile-accordion-trigger .chevron-mobile{transform:rotate(180deg)}.mobile-accordion-panel{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(0.4,0,0.2,1);padding:0 0 0 16px}.mobile-accordion.open .mobile-accordion-panel{max-height:500px;padding-bottom:12px}.mobile-accordion-panel a{display:block;padding:10px 0;font-size:14px;font-weight:400;color:#666;border-bottom:none}.mobile-accordion-panel .mobile-group-label{display:block;padding:12px 0 4px;font-size:11px;font-weight:500;color:#aaa;letter-spacing:0.08em}.mobile-accordion-panel .mobile-group-divider{margin:4px 0;border:none;border-top:1px solid #eee}
     .hero{padding:7rem 2rem 4rem;text-align:center;background:var(--white)}.hero-inner{max-width:800px;margin:0 auto}.hero-label{font-size:.7rem;font-weight:600;letter-spacing:.2em;color:var(--green);margin-bottom:1.5rem}h1{font-size:clamp(2rem,5vw,2.8rem);font-weight:700;line-height:1.4;margin-bottom:.5rem}.hero-sub{font-size:clamp(1.1rem,2.5vw,1.4rem);font-weight:600;color:var(--green);margin-bottom:1.5rem}.hero-lead{font-size:1rem;color:var(--gray-dark);line-height:2;margin-bottom:1.5rem}.hero-date{font-size:1rem;font-weight:600;color:var(--black);margin-bottom:2rem}.hero-date span{background:var(--green-light);padding:.3rem .8rem;border-radius:4px;margin:0 .3rem}.cta-btn{display:inline-block;font-size:1rem;font-weight:600;color:var(--white);background:var(--green);padding:1rem 2.5rem;border-radius:4px;transition:all .3s;box-shadow:0 2px 8px rgba(45,90,39,.3)}.cta-btn:hover{opacity:.9;box-shadow:0 4px 12px rgba(45,90,39,.4);transform:translateY(-2px)}.hero-note{font-size:.8rem;color:var(--gray);margin-top:1rem}
     .section{padding:5rem 2rem}.section-inner{max-width:800px;margin:0 auto}.section-gray{background:var(--bg)}.section-white{background:var(--white)}.section-label{font-size:.7rem;font-weight:600;letter-spacing:.2em;color:var(--green);margin-bottom:1rem;text-align:center}.section h2{font-size:clamp(1.3rem,3vw,1.6rem);font-weight:700;text-align:center;margin-bottom:2.5rem;line-height:1.5}
     .problem-list{list-style:none;counter-reset:problem}.problem-item{counter-increment:problem;display:flex;gap:1rem;align-items:flex-start;padding:1.2rem 0;border-bottom:1px solid var(--gray-light)}.problem-item::before{content:counter(problem,decimal-leading-zero);font-size:.8rem;font-weight:700;color:var(--green);background:var(--green-light);min-width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}.problem-text{font-size:.95rem;color:var(--gray-dark);line-height:1.8}.problem-close{text-align:center;margin-top:2rem;font-size:1rem;font-weight:600;color:var(--black);line-height:1.8}
@@ -180,7 +185,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .instructor{display:flex;gap:2rem;align-items:flex-start}.instructor-icon{width:80px;height:80px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--green);flex-shrink:0}.instructor-name{font-size:1.1rem;font-weight:700;margin-bottom:.3rem}.instructor-title{font-size:.8rem;color:var(--gray);margin-bottom:.8rem}.instructor-bio{font-size:.9rem;color:var(--gray-dark);line-height:2;margin-bottom:.8rem}.instructor-record{font-size:.85rem;font-weight:600;color:var(--green)}
     .faq-item{border-bottom:1px solid var(--gray-light)}.faq-item:first-child{border-top:1px solid var(--gray-light)}.faq-question{display:flex;align-items:center;gap:.6rem;padding:1.25rem 3rem 1.25rem 0;font-size:.95rem;font-weight:600;color:var(--black);cursor:pointer;list-style:none;position:relative;transition:color .2s}.faq-question::-webkit-details-marker{display:none}.faq-question:hover{color:var(--green)}.faq-question::after{content:'+';position:absolute;right:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-size:1.2rem;font-weight:600;line-height:1;transition:background .2s}.faq-item[open]>.faq-question::after{content:'\2212';background:var(--gray-dark)}.faq-q{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;min-width:28px;background:var(--green);color:#fff;font-size:.8rem;font-weight:700;border-radius:50%;line-height:1;flex-shrink:0;font-family:'Noto Sans JP',sans-serif}.faq-answer{font-size:.9rem;color:var(--gray-dark);line-height:2;padding:0 1rem 1.5rem 2.5rem}.faq-answer p{margin:0}
     .final-cta{background:var(--green);color:var(--white);padding:5rem 2rem;text-align:center}.final-cta-inner{max-width:700px;margin:0 auto}.final-cta h2{font-size:clamp(1.2rem,3vw,1.5rem);font-weight:700;color:var(--white);margin-bottom:1rem;line-height:1.6}.final-cta-lead{font-size:.95rem;color:rgba(255,255,255,.85);line-height:2;margin-bottom:2rem}.final-cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}.final-cta-btn{display:inline-block;font-size:.95rem;font-weight:600;color:var(--green);background:var(--white);padding:1rem 2rem;border-radius:4px;transition:all .3s;min-width:220px}.final-cta-btn:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
-    footer{background:#111;color:#ccc;padding:3rem 2rem 2rem}.footer-inner{max-width:800px;margin:0 auto;text-align:center}.footer-company{font-size:.85rem;line-height:2;margin-bottom:1.5rem}.footer-copy{font-size:.75rem;color:#888}
+    /* === FOOTER === */
+    .footer{background:#1A1A1A;color:#fff}.footer-inner{padding:64px 0}@media(min-width:1024px){.footer-inner{padding:80px 0}}.footer-grid{display:grid;grid-template-columns:1fr;gap:40px}@media(min-width:768px){.footer-grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:1024px){.footer-grid{grid-template-columns:repeat(4,1fr);gap:32px}}.footer-logo{font-size:20px;font-weight:700;letter-spacing:-0.02em;margin-bottom:16px}.footer-info{font-size:13px;color:#999;line-height:1.8}.footer-info.mt{margin-top:12px}.footer-col-label{font-size:12px;font-weight:300;letter-spacing:0.15em;text-transform:uppercase;color:#666;margin-bottom:16px}.footer-col nav{display:flex;flex-direction:column;gap:10px}.footer-col nav a{font-size:13px;color:#bbb;transition:color .2s}.footer-col nav a:hover{color:#fff}.footer-col .footer-sub-label{font-size:11px;color:#555;margin-top:14px;margin-bottom:6px;letter-spacing:0.05em}.footer-col .footer-sub-label:first-child{margin-top:0}.footer-btn-white{display:flex;align-items:center;justify-content:center;width:100%;padding:12px 20px;font-size:13px;font-weight:500;color:#242422;background:#fff;border-radius:3px;transition:background .2s}.footer-btn-white:hover{background:#f0f0f0}.footer-btn-outline{display:flex;align-items:center;justify-content:center;width:100%;padding:12px 20px;font-size:13px;font-weight:500;color:#fff;border:1px solid #444;border-radius:3px;transition:border-color .2s}.footer-btn-outline:hover{border-color:#666}.footer-bottom{margin-top:56px;padding-top:24px;border-top:1px solid #333}.footer-bottom p{font-size:11px;color:#666}
     .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}.fade-in.visible{opacity:1;transform:translateY(0)}
     @media(max-width:768px){.hero{padding:6rem 1.5rem 3rem}.section{padding:3.5rem 1.5rem}.instructor{flex-direction:column;align-items:center;text-align:center}.program-flow{flex-direction:column}.flow-arrow{transform:rotate(90deg)}.final-cta-buttons{flex-direction:column;align-items:center}.schedule-table th{width:80px}}
   </style>
@@ -191,7 +197,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager -->
 
-  <header><div class="header-inner"><a href="/" class="logo" aria-label="Ciras（シラス）株式会社 ホーム"><img src="../../images/logo-green.png" alt="Ciras（シラス）株式会社" class="logo-img"></a><a href="#schedule" class="header-cta">セミナーに申し込む →</a></div></header>
+  <header class="header" id="header" role="banner"><div class="container"><div class="header-inner">
+    <a href="https://www.ciras.jp/" class="header-logo" aria-label="Ciras株式会社 トップページ"><span class="header-logo-main">Ciras</span><span class="header-logo-sub">シラス株式会社</span></a>
+    <nav class="header-nav" aria-label="メインナビゲーション">
+      <div class="nav-dropdown"><button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">サービス <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu" role="menu"><span class="menu-group-label">顧問サービス</span><a href="https://www.ciras.jp/ai-komon" role="menuitem">Ciras AI顧問</a><a href="https://www.ciras.jp/ai-donyu" role="menuitem">Ciras AI導入</a><a href="https://www.ciras.jp/kagemusha" role="menuitem">影武者</a><hr class="menu-divider"><span class="menu-group-label">制作・開発</span><a href="https://www.ciras.jp/web" role="menuitem">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system" role="menuitem">AI業務システム開発</a></div></div>
+      <a href="https://www.ciras.jp/needs">課題から探す</a><a href="https://www.ciras.jp/seminar">セミナー</a>
+      <div class="nav-dropdown"><button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">会社概要 <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu" role="menu"><a href="https://www.ciras.jp/company" role="menuitem">会社概要</a><a href="https://www.ciras.jp/company#review" role="menuitem">お客様の声</a><a href="https://www.ciras.jp/faq" role="menuitem">よくある質問</a></div></div>
+      <a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/blog/">ブログ</a>
+    </nav>
+    <div class="header-cta">
+      <div class="nav-dropdown"><button class="nav-dropdown-trigger header-cta-link" aria-expanded="false" aria-haspopup="true">無料診断ツール <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu" role="menu"><a href="https://www.ciras.jp/ai-check" role="menuitem">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check" role="menuitem">Webサイト状況チェッカー</a></div></div>
+      <a href="https://www.ciras.jp/contact" class="btn-primary">お問い合わせ</a>
+    </div>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="メニューを開く" aria-expanded="false"><svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg><svg id="closeIcon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div></div>
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true"><nav class="container" aria-label="モバイルナビゲーション">
+    <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">サービス <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><span class="mobile-group-label">顧問サービス</span><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/ai-donyu">Ciras AI導入</a><a href="https://www.ciras.jp/kagemusha">影武者</a><hr class="mobile-group-divider"><span class="mobile-group-label">制作・開発</span><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a></div></div>
+    <a href="https://www.ciras.jp/needs">課題から探す</a><a href="https://www.ciras.jp/seminar">セミナー</a>
+    <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">会社概要 <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/faq">よくある質問</a></div></div>
+    <a href="https://www.ciras.jp/partner">採用・協業</a>
+    <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">無料診断ツール <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/ai-check">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check">Webサイト状況チェッカー</a></div></div>
+    <a href="https://www.ciras.jp/blog/">ブログ</a>
+    <div class="mobile-cta"><a href="https://www.ciras.jp/contact" class="btn-primary">お問い合わせ</a></div>
+  </nav></div></header>
 
   <main>
     <!-- セクション① ヒーロー -->
@@ -349,15 +377,65 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
   </main>
 
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-company">Ciras（シラス）株式会社<br>愛媛県松山市萱町3-2-3 9CROSS 501</div>
-      <div class="footer-copy">&copy; 2026 Ciras Inc.（シラス株式会社）</div>
-    </div>
-  </footer>
+  <footer class="footer" role="contentinfo"><div class="container"><div class="footer-inner"><div class="footer-grid">
+    <div><p class="footer-logo">Ciras</p><p class="footer-info">Ciras（シラス）株式会社<br>愛媛県松山市萱町3丁目2番3号<br>9CROSS 501</p><p class="footer-info mt">TEL: <a href="tel:050-3637-6324" style="color:#999">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</p></div>
+    <div class="footer-col"><p class="footer-col-label">Service</p><nav aria-label="サービスリンク"><p class="footer-sub-label">顧問サービス</p><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/ai-donyu">Ciras AI導入</a><a href="https://www.ciras.jp/kagemusha">影武者</a><p class="footer-sub-label">制作・開発</p><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a></nav></div>
+    <div class="footer-col"><p class="footer-col-label">Information</p><nav aria-label="情報リンク"><a href="https://www.ciras.jp/seminar">セミナー</a><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/blog/">ブログ</a><a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/faq">よくある質問</a><a href="https://www.ciras.jp/privacy">プライバシーポリシー</a><a href="https://www.ciras.jp/privacy#tokusho">特定商取引法に基づく表記</a></nav></div>
+    <div class="footer-col"><p class="footer-col-label">Contact</p><div style="display:flex;flex-direction:column;gap:12px"><a href="https://www.ciras.jp/contact" class="footer-btn-white">お問い合わせ</a><a href="https://lin.ee/s2u6VUw" class="footer-btn-outline" rel="noopener noreferrer">LINEで相談</a></div></div>
+  </div><div class="footer-bottom"><p>&copy; 2026 Ciras Inc.（シラス株式会社）</p></div></div></div></footer>
 
   <script>
-    (function(){var h=document.querySelector('header'),s=false;window.addEventListener('scroll',function(){if(window.scrollY>60&&!s){h.classList.add('scrolled');s=true}else if(window.scrollY<=60&&s){h.classList.remove('scrolled');s=false}},{passive:true})})();
+    /* Header scroll */
+    const header = document.getElementById('header');
+    function onScroll() {
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* Mobile menu */
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIcon = document.getElementById('menuIcon');
+    const closeIcon = document.getElementById('closeIcon');
+    let mobileOpen = false;
+
+    mobileToggle.addEventListener('click', () => {
+      mobileOpen = !mobileOpen;
+      mobileMenu.classList.toggle('open', mobileOpen);
+      mobileMenu.setAttribute('aria-hidden', !mobileOpen);
+      menuIcon.style.display = mobileOpen ? 'none' : 'block';
+      closeIcon.style.display = mobileOpen ? 'block' : 'none';
+      document.body.style.overflow = mobileOpen ? 'hidden' : '';
+      mobileToggle.setAttribute('aria-label', mobileOpen ? 'メニューを閉じる' : 'メニューを開く');
+      mobileToggle.setAttribute('aria-expanded', mobileOpen);
+    });
+
+    function closeMobile() {
+      mobileOpen = false;
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      menuIcon.style.display = 'block';
+      closeIcon.style.display = 'none';
+      document.body.style.overflow = '';
+      mobileToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    /* Mobile accordion */
+    document.querySelectorAll('.mobile-accordion-trigger').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const accordion = btn.parentElement;
+        const isOpen = accordion.classList.contains('open');
+        accordion.classList.toggle('open');
+        btn.setAttribute('aria-expanded', !isOpen);
+      });
+    });
+
+    /* Mobile menu link clicks */
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMobile);
+    });
+
+    /* Fade-in animation */
     (function(){var els=document.querySelectorAll('.fade-in');if(!els.length)return;var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})},{threshold:.15});els.forEach(function(el){io.observe(el)})})();
   </script>
 </body>
