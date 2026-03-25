@@ -99,6 +99,10 @@
       background: rgba(255,255,255,0.95);
       box-shadow: 0 1px 0 0 rgba(0,0,0,0.06);
     }
+    .header.menu-open {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
     .header-inner {
       display: flex;
       align-items: center;
@@ -225,7 +229,8 @@
 
     /* Mobile Menu */
     .mobile-menu {
-      display: none; position: fixed; inset: 0; top: 72px;
+      display: none; position: fixed; top: 72px; left: 0; right: 0;
+      height: calc(100vh - 72px); height: calc(100dvh - 72px);
       background: #fff; z-index: 40; overflow-y: auto;
     }
     .mobile-menu.open { display: block; }
@@ -235,7 +240,7 @@
       color: #242422; border-bottom: 1px solid #eee;
     }
     .mobile-menu .mobile-cta { margin-top: 24px; }
-    .mobile-menu .mobile-cta a { width: 100%; padding: 14px 24px; text-align: center; border: none; }
+    .mobile-menu .mobile-cta a { width: 100%; padding: 14px 24px; text-align: center; border: none; color: #fff; }
 
     /* Mobile Accordion */
     .mobile-accordion { border-bottom: 1px solid #eee; }

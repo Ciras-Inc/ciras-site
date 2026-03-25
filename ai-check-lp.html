@@ -95,6 +95,7 @@
     /* === HEADER === */
     .header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: #fff; transition: box-shadow 0.3s, background 0.3s, backdrop-filter 0.3s; }
     .header.scrolled { background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 0 rgba(0,0,0,0.06); }
+    .header.menu-open { backdrop-filter: none; -webkit-backdrop-filter: none; }
     .header-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }
     @media (min-width: 1024px) { .header-inner { height: 80px; } }
     .header-logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
@@ -137,12 +138,12 @@
     .mobile-toggle { display: block; padding: 8px; color: #242422; }
     @media (min-width: 1024px) { .mobile-toggle { display: none; } }
     .mobile-toggle svg { width: 24px; height: 24px; }
-    .mobile-menu { position: fixed; inset: 0; top: 72px; background: #fff; z-index: 40; overflow-y: auto; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); visibility: hidden; }
+    .mobile-menu { position: fixed; top: 72px; left: 0; right: 0; height: calc(100vh - 72px); height: calc(100dvh - 72px); background: #fff; z-index: 40; overflow-y: auto; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); visibility: hidden; }
     .mobile-menu.open { transform: translateX(0); visibility: visible; }
     .mobile-menu nav { padding: 32px 1rem; display: flex; flex-direction: column; }
     .mobile-menu a { padding: 16px 0; font-size: 16px; font-weight: 500; color: #242422; border-bottom: 1px solid #eee; }
     .mobile-menu .mobile-cta { margin-top: 24px; }
-    .mobile-menu .mobile-cta a { width: 100%; padding: 14px 24px; text-align: center; border: none; }
+    .mobile-menu .mobile-cta a { width: 100%; padding: 14px 24px; text-align: center; border: none; color: #fff; }
     .mobile-accordion { border-bottom: 1px solid #eee; }
     .mobile-accordion-trigger { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 16px 0; font-size: 16px; font-weight: 500; color: #242422; background: none; border: none; font-family: inherit; cursor: pointer; text-align: left; }
     .mobile-accordion-trigger .chevron-mobile { width: 14px; height: 14px; transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); color: #aaa; }
@@ -498,6 +499,7 @@
     mobileToggle.addEventListener('click', () => {
       mobileOpen = !mobileOpen;
       mobileMenu.classList.toggle('open', mobileOpen);
+      document.querySelector('.header').classList.toggle('menu-open', mobileOpen);
       mobileMenu.setAttribute('aria-hidden', !mobileOpen);
       menuIcon.style.display = mobileOpen ? 'none' : 'block';
       closeIcon.style.display = mobileOpen ? 'block' : 'none';
@@ -508,6 +510,7 @@
     function closeMobile() {
       mobileOpen = false;
       mobileMenu.classList.remove('open');
+      document.querySelector('.header').classList.remove('menu-open');
       mobileMenu.setAttribute('aria-hidden', 'true');
       menuIcon.style.display = 'block';
       closeIcon.style.display = 'none';
