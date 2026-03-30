@@ -19,3 +19,7 @@
 
 # 旧Wixブログのキャッチオール
 /post/*             /blog               301
+
+# 生成AI活用塾LP
+/ai-jyuku           /seminar/ai-juku    301
+/lp/ai-jyuku        /seminar/ai-juku    301
