@@ -1,0 +1,19 @@
+.cursorrules
+# ciras-site プロジェクトルール
+# 詳細は CLAUDE.md を正とする
+
+## 技術スタック
+- 静的HTML/CSS/JavaScript
+- ホスティング: Cloudflare Pages
+- AEO（AI Engine Optimization）対応サイト
+
+## コーディング規約
+- セマンティックなHTML構造を維持すること
+- JSON-LD 構造化データを壊さないこと
+- 既存のファイル命名規則に従うこと
+- 画像は適切に圧縮・alt属性を必ず付けること
+
+## 禁止事項
+- jQuery等の外部ライブラリの追加導入
+- インラインスタイルの多用
+- CLAUDE.md に記載のルールに反する変更

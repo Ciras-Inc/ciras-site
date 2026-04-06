@@ -1,0 +1,9 @@
+# AIに読ませても意味がないファイルを除外
+node_modules/
+dist/
+.git/
+*.min.js
+*.min.css
+images/
+ciras-generated-images/
+quality_reports/
