@@ -1,0 +1,15 @@
+{
+  "name": "ciras-site",
+  "version": "1.0.0",
+  "description": "Ciras株式会社 公式サイト",
+  "scripts": {
+    "sitemap": "node scripts/generate-sitemap.js",
+    "check": "node scripts/pre-deploy-check.js",
+    "deploy": "node scripts/deploy.js",
+    "gsc": "node scripts/gsc-report.js"
+  },
+  "private": true,
+  "devDependencies": {
+    "googleapis": "^171.4.0"
+  }
+}

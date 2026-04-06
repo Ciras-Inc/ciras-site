@@ -1,0 +1,25 @@
+# Cloudflare Pages serves .html files without extension automatically
+
+# === 旧Wix/WordPress URL → 新URL 301リダイレクト ===
+/about              /company            301
+/voice              /company#review     301
+
+# 旧ブログ記事
+/post/241128        /blog               301
+/post/241130        /blog               301
+/post/241201        /blog               301
+/post/241031        /blog               301
+/post/241112        /blog               301
+/post/241118        /blog               301
+/post/241107        /blog               301
+/post/241030        /blog               301
+/post/241125        /blog               301
+/post/241103        /blog               301
+/post/20220904      /blog               301
+
+# 旧Wixブログのキャッチオール
+/post/*             /blog               301
+
+# 生成AI活用塾LP
+/ai-jyuku           /seminar/ai-juku    301
+/lp/ai-jyuku        /seminar/ai-juku    301

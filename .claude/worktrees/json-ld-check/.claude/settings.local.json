@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node .claude/hooks/protect-files.js)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(node .claude/hooks/pre-compact-snapshot.js)",
+      "Bash(bash:*)",
+      "Bash(python3:*)",
+      "Bash(node:*)",
+      "Bash(winget install:*)",
+      "Bash(git pull:*)",
+      "Bash(git rebase:*)",
+      "Bash(git fetch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git rm:*)",
+      "Bash(python /tmp/extract_jsonld.py)",
+      "Bash(tee /tmp/jsonld_report.txt)",
+      "Bash(python /tmp/full_jsonld_dump.py)"
+    ]
+  }
+}
