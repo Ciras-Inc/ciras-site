@@ -106,7 +106,7 @@
   </script>
   <!-- Schema.org: BreadcrumbList -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://www.ciras.jp/"},{"@type":"ListItem","position":2,"name":"AI活用レベルチェッカー"}]}
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://www.ciras.jp/"},{"@type":"ListItem","position":2,"name":"無料診断ツール"},{"@type":"ListItem","position":3,"name":"AI活用レベルチェッカー","item":"https://www.ciras.jp/ai-check"}]}
   </script>
   <!-- Schema.org: FAQPage -->
   <script type="application/ld+json">
@@ -137,6 +137,8 @@
 
     /* === SECTION COMMON === */
     .section-label { font-size: 12px; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: #888; margin-bottom: 12px; }
+    /* 変更理由: Webサイト状況チェッカーと同様、カテゴリを日本語でも明示する */
+    .hero-category-ja { font-size: 13px; font-weight: 500; letter-spacing: 0.06em; color: #888; margin-top: -4px; margin-bottom: 16px; }
 
     /* === ANIMATIONS === */
     .fade-in-up { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94); }
@@ -418,12 +420,13 @@
   <main id="main-content">
 
   <!-- BREADCRUMB -->
-  <nav class="breadcrumb" aria-label="パンくずリスト"><div class="container"><div class="breadcrumb-inner"><a href="https://www.ciras.jp/">ホーム</a><span>/</span>AI活用レベルチェッカー</div></div></nav>
+  <nav class="breadcrumb" aria-label="パンくずリスト"><div class="container"><div class="breadcrumb-inner"><a href="https://www.ciras.jp/">ホーム</a><span>/</span>無料診断ツール<span>/</span>AI活用レベルチェッカー</div></div></nav>
 
   <!-- HERO -->
   <section class="hero"><div class="container"><div class="hero-grid">
     <div class="fade-in-up">
       <p class="section-label">Free Diagnostic</p>
+      <p class="hero-category-ja">無料診断ツール</p>
       <h1>AI活用レベルチェッカー</h1>
       <p class="hero-desc">6つの質問に答えるだけで、あなたのビジネスに合った<br>AI活用の提案を、AIがその場で作成します。</p>
       <div class="hero-badges">
