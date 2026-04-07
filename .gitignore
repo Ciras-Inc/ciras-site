@@ -1,5 +1,6 @@
 quality_reports/session_snapshots/
 CLAUDE.md.bak
+CLAUDE.md.local.bak
 .claude/settings.local.json
 gsc-credentials.json
 node_modules/
