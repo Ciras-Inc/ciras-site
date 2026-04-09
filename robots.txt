@@ -20,6 +20,9 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
+User-agent: Bytespider
+Allow: /
+
 Sitemap: https://www.ciras.jp/sitemap.xml
 
 # LLMs.txt - AI model information files
