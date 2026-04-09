@@ -321,18 +321,46 @@ async function runTechChecks(baseUrl, crawlResult) {
   ]);
 
   const html = crawlResult.html || '';
-  const hasOgp = /property=["']og:(title|description|url)["']/i.test(html);
   const hasOrganization = (crawlResult.jsonLdTypes || []).some(t => /organization/i.test(t));
   const hasFaqSchema = (crawlResult.jsonLdTypes || []).some(t => /faqpage/i.test(t));
+
+  // OGP個別チェック
+  const ogpTitle = /property=["']og:title["']/i.test(html);
+  const ogpDescription = /property=["']og:description["']/i.test(html);
+  const ogpImage = /property=["']og:image["']/i.test(html);
+
+  // dateModified（JSON-LD内）
+  let dateModified = false;
+  const ldRegex = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+  let ldMatch;
+  while ((ldMatch = ldRegex.exec(html)) !== null) {
+    try {
+      const ld = JSON.parse(ldMatch[1]);
+      if (ld.dateModified) { dateModified = true; break; }
+      if (Array.isArray(ld['@graph']) && ld['@graph'].some(item => item.dateModified)) { dateModified = true; break; }
+    } catch (e) {}
+  }
+
+  // meta description文字数
+  const descText = (crawlResult.metaDescription || '').trim();
+  const metaDescriptionLength = descText.length;
 
   return {
     robotsTxt,
     sitemapXml,
     llmsTxt,
-    metaDescription: !!(crawlResult.metaDescription && crawlResult.metaDescription.trim()),
-    ogp: hasOgp,
+    https: !!crawlResult.isHttps,
+    responseTimeMs: crawlResult.responseTimeMs || null,
+    metaDescription: metaDescriptionLength > 0,
+    metaDescriptionLength,
+    ogp: ogpTitle && ogpDescription && ogpImage,
+    ogpTitle,
+    ogpDescription,
+    ogpImage,
     canonical: !!crawlResult.hasCanonical,
     jsonLd: !!crawlResult.hasJsonLd,
+    jsonLdTypes: crawlResult.jsonLdTypes || [],
+    dateModified,
     schemaOrganization: hasOrganization,
     schemaFaq: hasFaqSchema
   };
@@ -347,11 +375,13 @@ async function crawlPage(url, env) {
     const isSelf = selfDomains.includes(parsedUrl.hostname.toLowerCase());
 
     let response;
+    let responseTimeMs = null;
     if (isSelf && env && env.ASSETS) {
       response = await env.ASSETS.fetch(new Request(url, { headers: { 'Accept': 'text/html' } }));
     } else {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 15000);
+      const fetchStart = Date.now();
       response = await fetch(url, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (compatible; CirasWebChecker/1.0; +https://ciras.jp)',
@@ -361,6 +391,7 @@ async function crawlPage(url, env) {
         redirect: 'follow',
         signal: controller.signal
       });
+      responseTimeMs = Date.now() - fetchStart;
       clearTimeout(timeout);
     }
 
@@ -401,7 +432,8 @@ async function crawlPage(url, env) {
       textContent: extractTextContent(truncatedHtml).substring(0, 5000),
       contentLength: extractTextContent(truncatedHtml).length,
       headingsText: extractHeadingsText(truncatedHtml),
-      isHttps: finalUrl.startsWith('https://')
+      isHttps: finalUrl.startsWith('https://'),
+      responseTimeMs
     };
   } catch (err) {
     console.error('crawlPage error:', url, err.message);
@@ -731,6 +763,7 @@ function buildSiteProfile(pages, homepage) {
     success: true,
     finalUrl: homepage.url,
     isHttps: homepage.isHttps,
+    responseTimeMs: homepage.responseTimeMs,
     html: homepage.html,
     pageSize: homepage.pageSize,
     title: homepage.title,

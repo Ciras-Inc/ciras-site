@@ -1024,49 +1024,65 @@
       var section = document.getElementById('techCheckSection');
       var groupsEl = document.getElementById('techCheckGroups');
       if (!section || !groupsEl || !techCheck) return;
-      var groups = [
-        {
-          title: 'AI対応設定',
-          items: [
-            { key: 'robotsTxt', label: 'robots.txt', warn: false },
-            { key: 'sitemapXml', label: 'sitemap.xml', warn: false },
-            { key: 'llmsTxt', label: 'llms.txt（AI向け案内）', warn: true },
-            { key: 'metaDescription', label: 'meta description', warn: false },
-            { key: 'ogp', label: 'OGP（SNS共有タグ）', warn: true },
-            { key: 'canonical', label: 'canonical タグ', warn: false }
-          ]
-        },
-        {
-          title: '構造化データ',
-          items: [
-            { key: 'jsonLd', label: 'JSON-LD（構造化データ）', warn: false },
-            { key: 'schemaOrganization', label: 'Organization スキーマ', warn: true },
-            { key: 'schemaFaq', label: 'FAQPage スキーマ', warn: true }
-          ]
-        }
-      ];
+
+      // items: { label, cls: 'ok'|'warn'|'ng', status }
+      function makeItem(label, cls, status) {
+        return { label: label, cls: cls, status: status };
+      }
+      function boolItem(val, label, okText, warnText, warn) {
+        if (val === true) return makeItem(label, 'ok', okText || '検出');
+        return makeItem(label, warn ? 'tc-warn-ng' : 'ng', warnText || '未検出');
+      }
+
+      var items = [];
+
+      // AI対応設定
+      // HTTPS
+      items.push(makeItem('HTTPS対応', techCheck.https ? 'ok' : 'ng', techCheck.https ? '通信が暗号化されています' : '非HTTPS（セキュリティリスク）'));
+
+      // 応答速度
+      if (techCheck.responseTimeMs != null) {
+        var rt = techCheck.responseTimeMs;
+        var rtCls = rt < 2000 ? 'ok' : 'warn';
+        items.push(makeItem('応答速度', rtCls, rt + 'ms' + (rt < 2000 ? '（良好）' : '（2秒超・改善推奨）')));
+      }
+
+      items.push(makeItem('robots.txt', techCheck.robotsTxt ? 'ok' : 'ng', techCheck.robotsTxt ? '検出されました' : '設置を推奨します'));
+      items.push(makeItem('sitemap.xml', techCheck.sitemapXml ? 'ok' : 'ng', techCheck.sitemapXml ? '検出されました' : '設置を推奨します'));
+      items.push(makeItem('llms.txt（AI向け案内ファイル）', techCheck.llmsTxt ? 'ok' : 'warn', techCheck.llmsTxt ? '検出されました' : 'AI検索対応として推奨します'));
+
+      // meta description
+      var descCls = !techCheck.metaDescription ? 'ng' : (techCheck.metaDescriptionLength >= 60 && techCheck.metaDescriptionLength <= 160 ? 'ok' : 'warn');
+      var descStatus = !techCheck.metaDescription ? '未設定' : techCheck.metaDescriptionLength + '文字' + (techCheck.metaDescriptionLength < 60 ? '（短め）' : techCheck.metaDescriptionLength > 160 ? '（長め）' : '（適切）');
+      items.push(makeItem('meta description', descCls, descStatus));
+
+      items.push(makeItem('OGP: og:title', techCheck.ogpTitle ? 'ok' : 'ng', techCheck.ogpTitle ? '設定済み' : '未設定'));
+      items.push(makeItem('OGP: og:description', techCheck.ogpDescription ? 'ok' : 'ng', techCheck.ogpDescription ? '設定済み' : '未設定'));
+      items.push(makeItem('OGP: og:image', techCheck.ogpImage ? 'ok' : 'ng', techCheck.ogpImage ? '設定済み' : '未設定'));
+      items.push(makeItem('canonical タグ', techCheck.canonical ? 'ok' : 'ng', techCheck.canonical ? '設定済み' : '未設定'));
+
+      // 構造化データ
+      var typesStr = (techCheck.jsonLdTypes || []).join(', ');
+      items.push(makeItem('JSON-LD（構造化データ）', techCheck.jsonLd ? 'ok' : 'ng', techCheck.jsonLd ? '設置済み' + (typesStr ? '：' + typesStr : '') : '未設置'));
+      items.push(makeItem('dateModified（更新日）', techCheck.dateModified ? 'ok' : 'warn', techCheck.dateModified ? '構造化データ内に設定済み' : '更新日の設定を推奨します'));
+      items.push(makeItem('Organization スキーマ', techCheck.schemaOrganization ? 'ok' : 'warn', techCheck.schemaOrganization ? '設定済み' : '推奨（会社情報の明示）'));
+      items.push(makeItem('FAQPage スキーマ', techCheck.schemaFaq ? 'ok' : 'warn', techCheck.schemaFaq ? '設定済み' : '推奨（FAQ掲載サイト向け）'));
+
+      var iconMap = { ok: '✓', warn: '!', ng: '✕' };
+      var iconClsMap = { ok: 'tc-ok', warn: 'tc-warn', ng: 'tc-ng' };
+
       groupsEl.innerHTML = '';
-      groups.forEach(function(group) {
-        var groupEl = document.createElement('div');
-        groupEl.innerHTML = '<div class="tech-check-group-title">' + escapeHtml(group.title) + '</div><div class="tech-check-items" id="tci_' + group.title + '"></div>';
-        groupsEl.appendChild(groupEl);
-        var itemsEl = groupEl.querySelector('.tech-check-items');
-        group.items.forEach(function(def) {
-          var val = techCheck[def.key];
-          var iconCls, iconChar, statusText;
-          if (val === true || val === 'ok') {
-            iconCls = 'tc-ok'; iconChar = '✓'; statusText = '検出';
-          } else if (def.warn) {
-            iconCls = 'tc-warn'; iconChar = '!'; statusText = '未設定（推奨）';
-          } else {
-            iconCls = 'tc-ng'; iconChar = '✕'; statusText = '未検出';
-          }
-          var el = document.createElement('div');
-          el.className = 'tech-check-item';
-          el.innerHTML = '<div class="tech-check-icon ' + iconCls + '">' + iconChar + '</div><div class="tech-check-label">' + escapeHtml(def.label) + '</div><div class="tech-check-status">' + statusText + '</div>';
-          itemsEl.appendChild(el);
-        });
+      items.forEach(function(item) {
+        var cls = item.cls === 'tc-warn-ng' ? 'tc-ng' : (iconClsMap[item.cls] || 'tc-ng');
+        var icon = item.cls === 'warn' ? '!' : (item.cls === 'ok' ? '✓' : '✕');
+        var el = document.createElement('div');
+        el.className = 'tech-check-item';
+        el.innerHTML = '<div class="tech-check-icon ' + cls + '">' + icon + '</div>'
+          + '<div class="tech-check-label">' + escapeHtml(item.label) + '</div>'
+          + '<div class="tech-check-status">' + escapeHtml(item.status) + '</div>';
+        groupsEl.appendChild(el);
       });
+
       section.style.display = '';
     }
 
