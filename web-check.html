@@ -440,6 +440,39 @@
 
     /* === PROGRESS BAR === */
     .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: #242422; z-index: 60; width: 0; transition: width 0.1s linear; }
+
+    /* === GRADE BADGE === */
+    .result-grade { font-size: 40px; font-weight: 900; width: 72px; height: 72px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; letter-spacing: -0.02em; }
+    .grade-s { background: #2D7A27; color: #fff; }
+    .grade-a { background: #3a8c4e; color: #fff; }
+    .grade-b { background: #d4850a; color: #fff; }
+    .grade-c { background: #c0392b; color: #fff; }
+    .grade-d { background: #555; color: #fff; }
+
+    /* === RADAR CHART + CATEGORY BARS === */
+    .result-chart-area { margin: 28px auto 0; display: flex; flex-direction: column; align-items: center; gap: 20px; max-width: 580px; }
+    @media (min-width: 580px) { .result-chart-area { flex-direction: row; justify-content: center; align-items: center; } }
+    #radarChart { display: block; flex-shrink: 0; }
+    .cat-bars { flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 180px; }
+    .cat-bar-item { display: flex; flex-direction: column; gap: 4px; }
+    .cat-bar-label { font-size: 12px; color: rgba(255,255,255,0.65); display: flex; justify-content: space-between; align-items: baseline; }
+    .cat-bar-label span:last-child { font-weight: 700; color: #fff; font-size: 13px; }
+    .cat-bar-track { height: 5px; background: rgba(255,255,255,0.12); border-radius: 3px; overflow: hidden; }
+    .cat-bar-fill { height: 100%; border-radius: 3px; transition: width 0.9s cubic-bezier(0.22,1,0.36,1); }
+    .bar-green { background: #4CAF50; }
+    .bar-yellow { background: #FFC107; }
+    .bar-red { background: #f44336; }
+
+    /* === PRIORITY ACTIONS === */
+    .priority-actions { background: #F7F7F7; padding: 80px 0; }
+    @media (min-width: 1024px) { .priority-actions { padding: 112px 0; } }
+    .priority-actions h2 { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
+    @media (min-width: 1024px) { .priority-actions h2 { font-size: 28px; } }
+    .priority-actions-lead { font-size: 15px; color: #666; margin-bottom: 32px; line-height: 1.8; }
+    .priority-action-list { display: flex; flex-direction: column; gap: 14px; max-width: 720px; }
+    .priority-action-item { background: #fff; border-radius: 4px; padding: 18px 24px; display: flex; align-items: flex-start; gap: 16px; border: 1px solid #eee; }
+    .priority-action-num { width: 30px; height: 30px; border-radius: 50%; background: #242422; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .priority-action-text { font-size: 15px; color: #242422; line-height: 1.9; }
   </style>
 </head>
 <body>
@@ -548,11 +581,16 @@
     <section class="result-hero"><div class="container">
       <p class="result-label">Diagnostic Result</p>
       <div class="result-level-badge">
+        <div class="result-grade" id="resultGrade" style="display:none"></div>
         <div class="result-score-wrap"><span class="result-score" id="resultScore">-</span><span class="result-score-max">/ 100</span></div>
         <div class="result-score-info"><div class="result-score-tag">Level</div><div class="result-score-name" id="resultLevel">診断中...</div></div>
       </div>
       <p class="result-summary" id="resultSummary"></p>
       <div class="result-comment" id="resultComment"></div>
+      <div class="result-chart-area" id="resultChartArea" style="display:none">
+        <svg id="radarChart" width="220" height="190" viewBox="0 0 270 225" aria-hidden="true"></svg>
+        <div class="cat-bars" id="catBars"></div>
+      </div>
       <p class="result-disclaimer">本診断はWebサイトに掲載されている情報をAIが読み込み分析した結果です。実際の購買のしやすさ・閲覧体験・デザインの印象・売上等は評価対象外です。</p>
     </div></section>
 
@@ -576,6 +614,13 @@
         <div class="ai-preview-header"><div class="ai-preview-avatar">AI</div><div class="ai-preview-label">AIの回答イメージ</div></div>
         <div class="ai-preview-body" id="aiPreviewBody"></div>
       </div>
+    </div></section>
+
+    <section class="priority-actions" id="priorityActionsSection" style="display:none"><div class="container">
+      <p class="section-label">Priority Actions</p>
+      <h2>まず取り組むべき改善</h2>
+      <p class="priority-actions-lead">スコアへの影響が大きい順に、優先して対応すべき改善点を示します。</p>
+      <div class="priority-action-list" id="priorityActionList"></div>
     </div></section>
 
     <section class="checkpoints"><div class="container">
@@ -610,7 +655,7 @@
       <div class="support-list" id="nextStepSupport" style="display:none"></div>
       <div class="cta-buttons" id="nextStepButtons">
         <a href="https://www.ciras.jp/contact" class="btn-primary">無料で相談する <span class="arrow" style="margin-left:8px">&rarr;</span></a>
-        <a href="https://lin.ee/s2u6VUw" class="btn-secondary" rel="noopener noreferrer">LINEで相談</a>
+        <a href="https://www.ciras.jp/web" class="btn-secondary">AI対応のサイト制作について聞く（22万円〜）</a>
       </div>
     </div></div></section>
   </div>
@@ -840,13 +885,97 @@
       support.innerHTML = '';
       heading.innerHTML = 'この診断結果をもとに、何から手をつければいいか一緒に整理します。';
       lead.innerHTML = 'AI活用 Webサイト制作（22万円〜）では、AI検索で<br>正しく引用される設計と原稿づくりをセットで対応します。';
-      buttons.innerHTML = '<a href="https://www.ciras.jp/contact" class="btn-primary">無料で相談する <span class="arrow" style="margin-left:8px">&rarr;</span></a><a href="https://lin.ee/s2u6VUw" class="btn-secondary" rel="noopener noreferrer">LINEで相談</a>';
+      buttons.innerHTML = '<a href="https://www.ciras.jp/contact" class="btn-primary">無料で相談する <span class="arrow" style="margin-left:8px">&rarr;</span></a><a href="https://www.ciras.jp/web" class="btn-secondary">AI対応のサイト制作について聞く（22万円〜）</a>';
     }
 
     function escapeHtml(str) {
       var d = document.createElement('div');
       d.appendChild(document.createTextNode(str));
       return d.innerHTML;
+    }
+
+    function scoreToGrade(score) {
+      if (score >= 90) return { letter: 'S', cls: 'grade-s' };
+      if (score >= 75) return { letter: 'A', cls: 'grade-a' };
+      if (score >= 55) return { letter: 'B', cls: 'grade-b' };
+      if (score >= 35) return { letter: 'C', cls: 'grade-c' };
+      return { letter: 'D', cls: 'grade-d' };
+    }
+
+    function barColorCls(score) {
+      if (score >= 70) return 'bar-green';
+      if (score >= 40) return 'bar-yellow';
+      return 'bar-red';
+    }
+
+    function renderRadarChart(categories) {
+      var svg = document.getElementById('radarChart');
+      if (!svg) return;
+      var cx = 135, cy = 113, r = 76;
+      var order = ['entity', 'structured_data', 'content_structure', 'local_signal', 'technical'];
+      var shortNames = { entity: '会社認識', structured_data: '構造化', content_structure: '文章構造', local_signal: '地域性', technical: '技術' };
+      var scores = {};
+      categories.forEach(function(c) { scores[c.id] = c.score; });
+      function ang(i) { return (-90 + i * 72) * Math.PI / 180; }
+      function pt(i, ratio) { var a = ang(i); return [cx + r * ratio * Math.cos(a), cy + r * ratio * Math.sin(a)]; }
+      var html = '';
+      [0.33, 0.66, 1.0].forEach(function(ratio) {
+        var pts = order.map(function(_, i) { var p = pt(i, ratio); return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+        html += '<polygon points="' + pts + '" fill="none" stroke="rgba(255,255,255,' + (ratio === 1 ? '0.3' : '0.12') + ')" stroke-width="1"/>';
+      });
+      order.forEach(function(_, i) {
+        var p = pt(i, 1);
+        html += '<line x1="' + cx + '" y1="' + cy + '" x2="' + p[0].toFixed(1) + '" y2="' + p[1].toFixed(1) + '" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>';
+      });
+      var dataPts = order.map(function(id, i) { var s = (scores[id] || 0) / 100; var p = pt(i, s); return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+      html += '<polygon points="' + dataPts + '" fill="rgba(76,175,80,0.25)" stroke="#4CAF50" stroke-width="2"/>';
+      order.forEach(function(id, i) {
+        var s = (scores[id] || 0) / 100; var p = pt(i, s);
+        html += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3.5" fill="#4CAF50" stroke="rgba(255,255,255,0.8)" stroke-width="1"/>';
+      });
+      order.forEach(function(id, i) {
+        var lp = pt(i, 1.45); var lx = lp[0], ly = lp[1];
+        var anchor = lx < cx - 15 ? 'end' : lx > cx + 15 ? 'start' : 'middle';
+        html += '<text x="' + lx.toFixed(1) + '" y="' + (ly + 4).toFixed(1) + '" text-anchor="' + anchor + '" font-size="10" fill="rgba(255,255,255,0.7)" font-family="Noto Sans JP,sans-serif">' + escapeHtml(shortNames[id] || id) + '</text>';
+      });
+      svg.innerHTML = html;
+    }
+
+    function renderCatBars(categories) {
+      var order = ['entity', 'structured_data', 'content_structure', 'local_signal', 'technical'];
+      var scores = {};
+      categories.forEach(function(c) { scores[c.id] = c.score; });
+      var container = document.getElementById('catBars');
+      if (!container) return;
+      container.innerHTML = '';
+      order.forEach(function(id) {
+        var score = scores[id] || 0;
+        var item = document.createElement('div');
+        item.className = 'cat-bar-item';
+        item.innerHTML = '<div class="cat-bar-label"><span>' + escapeHtml(categoryNames[id] || id) + '</span><span>' + score + '点</span></div><div class="cat-bar-track"><div class="cat-bar-fill ' + barColorCls(score) + '" style="width:0%"></div></div>';
+        container.appendChild(item);
+      });
+      setTimeout(function() {
+        container.querySelectorAll('.cat-bar-fill').forEach(function(el, i) {
+          var id = order[i]; el.style.width = (scores[id] || 0) + '%';
+        });
+      }, 100);
+    }
+
+    function renderPriorityActions(summaryActions) {
+      var section = document.getElementById('priorityActionsSection');
+      var list = document.getElementById('priorityActionList');
+      if (!section || !list) return;
+      if (!summaryActions || summaryActions.length === 0) { section.style.display = 'none'; return; }
+      var top3 = summaryActions.slice(0, 3);
+      list.innerHTML = '';
+      top3.forEach(function(action, i) {
+        var item = document.createElement('div');
+        item.className = 'priority-action-item';
+        item.innerHTML = '<div class="priority-action-num">' + (i + 1) + '</div><div class="priority-action-text">' + escapeHtml(action) + '</div>';
+        list.appendChild(item);
+      });
+      section.style.display = '';
     }
 
     function displayResults(data) {
@@ -857,6 +986,13 @@
 
       document.getElementById('resultScore').textContent = score;
       document.getElementById('resultLevel').textContent = typeof score === 'number' ? scoreToLevel(score) : '';
+      var gradeEl = document.getElementById('resultGrade');
+      if (gradeEl && typeof score === 'number') {
+        var g = scoreToGrade(score);
+        gradeEl.textContent = g.letter;
+        gradeEl.className = 'result-grade ' + g.cls;
+        gradeEl.style.display = '';
+      }
 
       var commentEl = document.getElementById('resultComment');
       if (typeof score === 'number') {
@@ -934,6 +1070,13 @@
       var strengthsSection = strList.closest('.strengths');
       if (strengthsSection) strengthsSection.style.display = categories.some(function(c) { return c.score >= 60; }) ? '' : 'none';
 
+      /* Radar chart + category bars */
+      if (categories.length) {
+        renderRadarChart(categories);
+        renderCatBars(categories);
+        document.getElementById('resultChartArea').style.display = '';
+      }
+
       /* Solutions */
       var solContainer = document.getElementById('solutionCards');
       solContainer.innerHTML = '';
@@ -947,6 +1090,9 @@
         card.innerHTML = '<div class="sol-card-title"><span class="sol-card-num">' + (i + 1) + '</span>' + escapeHtml(title) + '</div><div class="sol-before"><div class="sol-before-label">\u73FE\u72B6</div><p>' + escapeHtml(currentText) + '</p></div><div class="sol-arrow">\u2192</div><div class="sol-after"><div class="sol-after-label">\u6539\u5584\u3059\u308B\u3068</div><p>' + escapeHtml(improvedText) + '</p></div>';
         solContainer.appendChild(card);
       });
+
+      /* Priority actions */
+      renderPriorityActions(analysis.summary_actions || []);
 
       updateNextStepCTA(score);
 
