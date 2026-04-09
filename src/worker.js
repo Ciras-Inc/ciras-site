@@ -263,6 +263,10 @@ async function handleSiteCheck(request, env) {
     // Determine overall score (0-100)
     const overallScore = typeof analysisData.overall_score === 'number' ? analysisData.overall_score : 0;
 
+    // Tech checks (mechanical, non-AI)
+    let techCheck = null;
+    try { techCheck = await runTechChecks(crawlResult.finalUrl, crawlResult); } catch (e) { console.error('runTechChecks error:', e); }
+
     const id = crypto.randomUUID();
     const diagnosis = {
       id, type: 'site-check',
@@ -288,12 +292,50 @@ async function handleSiteCheck(request, env) {
       aiTest: { query: aiTestQuery, response: aiTestResponse, sources: aiTestSources, companyName, error: aiTestError },
       url: crawlResult.finalUrl,
       pages: crawlResult.pageStatuses,
-      overallScore
+      overallScore,
+      techCheck
     });
   } catch (err) {
     console.error('handleSiteCheck error:', err);
     return jsonResponse({ error: '診断中にエラーが発生しました。時間をおいて再度お試しください。' }, 503);
   }
+}
+
+// ========== Tech Checks (mechanical, non-AI) ==========
+
+async function runTechChecks(baseUrl, crawlResult) {
+  const origin = (() => { try { return new URL(baseUrl).origin; } catch (e) { return null; } })();
+  if (!origin) return null;
+
+  const fetchOk = async (url) => {
+    try {
+      const r = await fetch(url, { method: 'HEAD', redirect: 'follow', signal: AbortSignal.timeout(5000) });
+      return r.ok;
+    } catch (e) { return false; }
+  };
+
+  const [robotsTxt, sitemapXml, llmsTxt] = await Promise.all([
+    fetchOk(origin + '/robots.txt'),
+    fetchOk(origin + '/sitemap.xml'),
+    fetchOk(origin + '/llms.txt')
+  ]);
+
+  const html = crawlResult.html || '';
+  const hasOgp = /property=["']og:(title|description|url)["']/i.test(html);
+  const hasOrganization = (crawlResult.jsonLdTypes || []).some(t => /organization/i.test(t));
+  const hasFaqSchema = (crawlResult.jsonLdTypes || []).some(t => /faqpage/i.test(t));
+
+  return {
+    robotsTxt,
+    sitemapXml,
+    llmsTxt,
+    metaDescription: !!(crawlResult.metaDescription && crawlResult.metaDescription.trim()),
+    ogp: hasOgp,
+    canonical: !!crawlResult.hasCanonical,
+    jsonLd: !!crawlResult.hasJsonLd,
+    schemaOrganization: hasOrganization,
+    schemaFaq: hasFaqSchema
+  };
 }
 
 // ========== Multi-Page Website Crawling ==========
@@ -1524,6 +1566,11 @@ overall_scoreは5カテゴリのスコアの加重平均とする。重みは pr
     }
   ],
   "summary_actions": ["最も優先度の高い改善項目を1行で", "次の改善項目を1行で", "次の改善項目を1行で"],
+  "priority_actions": [
+    { "title": "改善タイトル（15文字以内）", "description": "具体的な改善内容（50文字以内）" },
+    { "title": "改善タイトル（15文字以内）", "description": "具体的な改善内容（50文字以内）" },
+    { "title": "改善タイトル（15文字以内）", "description": "具体的な改善内容（50文字以内）" }
+  ],
   "ai_test_judgment": "accurate|partial|unknown"
 }
 
@@ -1538,6 +1585,8 @@ business_impactは、50歳以上の経営者が読んで理解できる平易な
 overall_scoreは5カテゴリのスコアの加重平均として算出すること（priority 1=30%, priority 2=25%, priority 3=20%, priority 4=15%, priority 5=10%）。
 
 summary_actionsは、79点以下だったカテゴリのbusiness_impactから要約して、優先度順に最大4つ生成すること。すべて80点以上なら空配列にすること。
+
+priority_actionsは、スコアへの影響が大きい順に最大3つ生成すること。titleは15文字以内の端的なラベル、descriptionは50文字以内の具体的な行動指針とすること。79点以下のカテゴリがない場合は空配列にすること。
 
 ai_test_judgmentは、下記に提供される「Google AI検索の結果」を読んで判定すること。Google AIの回答が、サイトに書かれている会社情報と合致しているかで判断する。
 - "accurate" = Google AIの回答が会社の事業内容や所在地を正しく説明できている

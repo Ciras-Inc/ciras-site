@@ -443,11 +443,11 @@
 
     /* === GRADE BADGE === */
     .result-grade { font-size: 40px; font-weight: 900; width: 72px; height: 72px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; letter-spacing: -0.02em; }
-    .grade-s { background: #2D7A27; color: #fff; }
+    .grade-s { background: #2c5926; color: #fff; }
     .grade-a { background: #3a8c4e; color: #fff; }
-    .grade-b { background: #d4850a; color: #fff; }
-    .grade-c { background: #c0392b; color: #fff; }
-    .grade-d { background: #555; color: #fff; }
+    .grade-b { background: #1B4F8A; color: #fff; }
+    .grade-c { background: #BA7517; color: #fff; }
+    .grade-d { background: #A32D2D; color: #fff; }
 
     /* === RADAR CHART + CATEGORY BARS === */
     .result-chart-area { margin: 28px auto 0; display: flex; flex-direction: column; align-items: center; gap: 20px; max-width: 580px; }
@@ -459,9 +459,9 @@
     .cat-bar-label span:last-child { font-weight: 700; color: #fff; font-size: 13px; }
     .cat-bar-track { height: 5px; background: rgba(255,255,255,0.12); border-radius: 3px; overflow: hidden; }
     .cat-bar-fill { height: 100%; border-radius: 3px; transition: width 0.9s cubic-bezier(0.22,1,0.36,1); }
-    .bar-green { background: #4CAF50; }
-    .bar-yellow { background: #FFC107; }
-    .bar-red { background: #f44336; }
+    .bar-green { background: #2c5926; }
+    .bar-yellow { background: #BA7517; }
+    .bar-red { background: #A32D2D; }
 
     /* === PRIORITY ACTIONS === */
     .priority-actions { background: #F7F7F7; padding: 80px 0; }
@@ -473,6 +473,31 @@
     .priority-action-item { background: #fff; border-radius: 4px; padding: 18px 24px; display: flex; align-items: flex-start; gap: 16px; border: 1px solid #eee; }
     .priority-action-num { width: 30px; height: 30px; border-radius: 50%; background: #242422; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
     .priority-action-text { font-size: 15px; color: #242422; line-height: 1.9; }
+    .priority-action-title { font-weight: 700; margin-bottom: 2px; }
+    .priority-action-desc { color: #555; font-size: 14px; }
+
+    /* === TECH CHECK === */
+    .tech-check { background: #fff; padding: 80px 0; }
+    @media (min-width: 1024px) { .tech-check { padding: 112px 0; } }
+    .tech-check h2 { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
+    @media (min-width: 1024px) { .tech-check h2 { font-size: 28px; } }
+    .tech-check-lead { font-size: 15px; color: #666; margin-bottom: 32px; line-height: 1.8; }
+    .tech-check-groups { display: flex; flex-direction: column; gap: 28px; max-width: 720px; }
+    .tech-check-group-title { font-size: 13px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+    .tech-check-items { display: flex; flex-direction: column; gap: 8px; }
+    .tech-check-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: #F7F7F7; border-radius: 4px; }
+    .tech-check-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+    .tc-ok { background: #2c5926; color: #fff; }
+    .tc-warn { background: #BA7517; color: #fff; }
+    .tc-ng { background: #A32D2D; color: #fff; }
+    .tech-check-label { font-size: 14px; color: #333; flex: 1; }
+    .tech-check-status { font-size: 12px; color: #888; }
+    .tech-check-legend { margin-top: 20px; display: flex; gap: 20px; font-size: 12px; color: #888; flex-wrap: wrap; }
+    .tech-check-legend span { display: flex; align-items: center; gap: 6px; }
+
+    /* === BTN OUTLINE === */
+    .btn-outline { display: inline-flex; align-items: center; justify-content: center; padding: 14px 28px; border: 2px solid #2D5A27; color: #2D5A27; background: transparent; border-radius: 2px; font-size: 15px; font-weight: 700; text-decoration: none; transition: background 0.2s, color 0.2s; cursor: pointer; }
+    .btn-outline:hover { background: #2D5A27; color: #fff; }
   </style>
 </head>
 <body>
@@ -630,6 +655,18 @@
       <div class="checkpoint-cards" id="checkpointCards"></div>
     </div></section>
 
+    <section class="tech-check" id="techCheckSection" style="display:none"><div class="container">
+      <p class="section-label">Technical Check</p>
+      <h2>技術チェック結果</h2>
+      <p class="tech-check-lead">robots.txt・sitemap・構造化データなど、AI検索対応に必要な技術設定を機械的にチェックしました。</p>
+      <div class="tech-check-groups" id="techCheckGroups"></div>
+      <div class="tech-check-legend">
+        <span><span class="tech-check-icon tc-ok" style="display:inline-flex">✓</span>検出・設定済み</span>
+        <span><span class="tech-check-icon tc-warn" style="display:inline-flex">!</span>推奨・未設定</span>
+        <span><span class="tech-check-icon tc-ng" style="display:inline-flex">✕</span>未検出</span>
+      </div>
+    </div></section>
+
     <section class="strengths"><div class="container">
       <p class="section-label">Strengths</p>
       <h2>ここが良いポイントです</h2>
@@ -651,11 +688,11 @@
     <section class="next-step"><div class="container"><div class="next-step-inner">
       <p class="section-label">Next Step</p>
       <h2 id="nextStepHeading">この診断結果をもとに、何から手をつければいいか一緒に整理します。</h2>
-      <p class="next-step-lead" id="nextStepLead">AI活用 Webサイト制作（22万円〜）では、AI検索で<br>正しく引用される設計と原稿づくりをセットで対応します。</p>
+      <p class="next-step-lead" id="nextStepLead"></p>
       <div class="support-list" id="nextStepSupport" style="display:none"></div>
       <div class="cta-buttons" id="nextStepButtons">
         <a href="https://www.ciras.jp/contact" class="btn-primary">無料で相談する <span class="arrow" style="margin-left:8px">&rarr;</span></a>
-        <a href="https://www.ciras.jp/web" class="btn-secondary">AI対応のサイト制作について聞く（22万円〜）</a>
+        <a href="https://www.ciras.jp/web" class="btn-outline">AI対応のサイト制作について聞く（22万円〜）</a>
       </div>
     </div></div></section>
   </div>
@@ -884,8 +921,8 @@
       support.style.display = 'none';
       support.innerHTML = '';
       heading.innerHTML = 'この診断結果をもとに、何から手をつければいいか一緒に整理します。';
-      lead.innerHTML = 'AI活用 Webサイト制作（22万円〜）では、AI検索で<br>正しく引用される設計と原稿づくりをセットで対応します。';
-      buttons.innerHTML = '<a href="https://www.ciras.jp/contact" class="btn-primary">無料で相談する <span class="arrow" style="margin-left:8px">&rarr;</span></a><a href="https://www.ciras.jp/web" class="btn-secondary">AI対応のサイト制作について聞く（22万円〜）</a>';
+      lead.innerHTML = '';
+      buttons.innerHTML = '<a href="https://www.ciras.jp/contact" class="btn-primary">無料で相談する <span class="arrow" style="margin-left:8px">&rarr;</span></a><a href="https://www.ciras.jp/web" class="btn-outline">AI対応のサイト制作について聞く（22万円〜）</a>';
     }
 
     function escapeHtml(str) {
@@ -896,9 +933,9 @@
 
     function scoreToGrade(score) {
       if (score >= 90) return { letter: 'S', cls: 'grade-s' };
-      if (score >= 75) return { letter: 'A', cls: 'grade-a' };
-      if (score >= 55) return { letter: 'B', cls: 'grade-b' };
-      if (score >= 35) return { letter: 'C', cls: 'grade-c' };
+      if (score >= 70) return { letter: 'A', cls: 'grade-a' };
+      if (score >= 50) return { letter: 'B', cls: 'grade-b' };
+      if (score >= 30) return { letter: 'C', cls: 'grade-c' };
       return { letter: 'D', cls: 'grade-d' };
     }
 
@@ -928,10 +965,10 @@
         html += '<line x1="' + cx + '" y1="' + cy + '" x2="' + p[0].toFixed(1) + '" y2="' + p[1].toFixed(1) + '" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>';
       });
       var dataPts = order.map(function(id, i) { var s = (scores[id] || 0) / 100; var p = pt(i, s); return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
-      html += '<polygon points="' + dataPts + '" fill="rgba(76,175,80,0.25)" stroke="#4CAF50" stroke-width="2"/>';
+      html += '<polygon points="' + dataPts + '" fill="rgba(44,89,38,0.15)" stroke="#2c5926" stroke-width="2"/>';
       order.forEach(function(id, i) {
         var s = (scores[id] || 0) / 100; var p = pt(i, s);
-        html += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3.5" fill="#4CAF50" stroke="rgba(255,255,255,0.8)" stroke-width="1"/>';
+        html += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3" fill="#2c5926" stroke="rgba(255,255,255,0.8)" stroke-width="1"/>';
       });
       order.forEach(function(id, i) {
         var lp = pt(i, 1.45); var lx = lp[0], ly = lp[1];
@@ -962,18 +999,73 @@
       }, 100);
     }
 
-    function renderPriorityActions(summaryActions) {
+    function renderPriorityActions(summaryActions, priorityActions) {
       var section = document.getElementById('priorityActionsSection');
       var list = document.getElementById('priorityActionList');
       if (!section || !list) return;
-      if (!summaryActions || summaryActions.length === 0) { section.style.display = 'none'; return; }
-      var top3 = summaryActions.slice(0, 3);
+      var items = priorityActions && priorityActions.length ? priorityActions : summaryActions;
+      if (!items || items.length === 0) { section.style.display = 'none'; return; }
+      var top3 = items.slice(0, 3);
       list.innerHTML = '';
       top3.forEach(function(action, i) {
         var item = document.createElement('div');
         item.className = 'priority-action-item';
-        item.innerHTML = '<div class="priority-action-num">' + (i + 1) + '</div><div class="priority-action-text">' + escapeHtml(action) + '</div>';
+        if (action && typeof action === 'object' && action.title) {
+          item.innerHTML = '<div class="priority-action-num">' + (i + 1) + '</div><div class="priority-action-text"><div class="priority-action-title">' + escapeHtml(action.title) + '</div><div class="priority-action-desc">' + escapeHtml(action.description || '') + '</div></div>';
+        } else {
+          item.innerHTML = '<div class="priority-action-num">' + (i + 1) + '</div><div class="priority-action-text">' + escapeHtml(String(action)) + '</div>';
+        }
         list.appendChild(item);
+      });
+      section.style.display = '';
+    }
+
+    function renderTechCheck(techCheck) {
+      var section = document.getElementById('techCheckSection');
+      var groupsEl = document.getElementById('techCheckGroups');
+      if (!section || !groupsEl || !techCheck) return;
+      var groups = [
+        {
+          title: 'AI対応設定',
+          items: [
+            { key: 'robotsTxt', label: 'robots.txt', warn: false },
+            { key: 'sitemapXml', label: 'sitemap.xml', warn: false },
+            { key: 'llmsTxt', label: 'llms.txt（AI向け案内）', warn: true },
+            { key: 'metaDescription', label: 'meta description', warn: false },
+            { key: 'ogp', label: 'OGP（SNS共有タグ）', warn: true },
+            { key: 'canonical', label: 'canonical タグ', warn: false }
+          ]
+        },
+        {
+          title: '構造化データ',
+          items: [
+            { key: 'jsonLd', label: 'JSON-LD（構造化データ）', warn: false },
+            { key: 'schemaOrganization', label: 'Organization スキーマ', warn: true },
+            { key: 'schemaFaq', label: 'FAQPage スキーマ', warn: true }
+          ]
+        }
+      ];
+      groupsEl.innerHTML = '';
+      groups.forEach(function(group) {
+        var groupEl = document.createElement('div');
+        groupEl.innerHTML = '<div class="tech-check-group-title">' + escapeHtml(group.title) + '</div><div class="tech-check-items" id="tci_' + group.title + '"></div>';
+        groupsEl.appendChild(groupEl);
+        var itemsEl = groupEl.querySelector('.tech-check-items');
+        group.items.forEach(function(def) {
+          var val = techCheck[def.key];
+          var iconCls, iconChar, statusText;
+          if (val === true || val === 'ok') {
+            iconCls = 'tc-ok'; iconChar = '✓'; statusText = '検出';
+          } else if (def.warn) {
+            iconCls = 'tc-warn'; iconChar = '!'; statusText = '未設定（推奨）';
+          } else {
+            iconCls = 'tc-ng'; iconChar = '✕'; statusText = '未検出';
+          }
+          var el = document.createElement('div');
+          el.className = 'tech-check-item';
+          el.innerHTML = '<div class="tech-check-icon ' + iconCls + '">' + iconChar + '</div><div class="tech-check-label">' + escapeHtml(def.label) + '</div><div class="tech-check-status">' + statusText + '</div>';
+          itemsEl.appendChild(el);
+        });
       });
       section.style.display = '';
     }
@@ -1092,7 +1184,10 @@
       });
 
       /* Priority actions */
-      renderPriorityActions(analysis.summary_actions || []);
+      renderPriorityActions(analysis.summary_actions || [], analysis.priority_actions || []);
+
+      /* Tech check */
+      renderTechCheck(data.techCheck || null);
 
       updateNextStepCTA(score);
 
