@@ -317,11 +317,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .blog-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
     @media (min-width: 768px) { .blog-grid { grid-template-columns: repeat(3, 1fr); } }
     .blog-card a { display: block; }
-    .blog-card-thumb { aspect-ratio: 16/9; background: #e8e8e8; border-radius: 4px; margin-bottom: 16px; overflow: hidden; }
-    .blog-card-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-    .blog-card a:hover .blog-card-thumb img { transform: scale(1.04); }
-    .blog-card-date { font-size: 12px; color: #aaa; margin-bottom: 8px; }
-    .blog-card h3 { font-size: 15px; font-weight: 600; color: #242422; line-height: 1.6; transition: color 0.2s; }
+    .blog-card-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .blog-card-tag { display: inline-block; padding: 2px 8px; font-size: 11px; font-weight: 500; color: #fff; background: #242422; border-radius: 2px; }
+    .blog-card-date { font-size: 12px; color: #aaa; }
+    .blog-card h3 { font-size: 15px; font-weight: 600; color: #242422; line-height: 1.6; margin-bottom: 6px; transition: color 0.2s; }
+    .blog-card-desc { font-size: 13px; color: #888; line-height: 1.7; }
     .blog-card a:hover h3 { color: #555; }
     .blog-more { margin-top: 32px; }
     .blog-more a { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: #242422; }
@@ -541,9 +541,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="blog"><div class="container">
     <div class="section-heading fade-in-up"><p class="section-label">Blog</p><h2>ブログ</h2></div>
     <div class="blog-grid stagger">
-      <article class="blog-card fade-in-up"><a href="https://www.ciras.jp/blog/260320-seminar-report-ehime"><div class="blog-card-thumb"><img src="https://www.ciras.jp/images/ogp-blog.jpg" alt="生成AI活用塾 開催レポート｜2026年3月 愛媛" loading="lazy" /></div><p class="blog-card-date">2026.3.20</p><h3>生成AI活用塾 開催レポート｜2026年3月 愛媛</h3></a></article>
-      <article class="blog-card fade-in-up"><a href="https://www.ciras.jp/blog/260214-ai-search-guide"><div class="blog-card-thumb"><img src="https://www.ciras.jp/images/ogp-blog.jpg" alt="中小企業がAI検索で見つけてもらうためにやるべきこと" loading="lazy" /></div><p class="blog-card-date">2026.2.14</p><h3>中小企業がAI検索で見つけてもらうためにやるべきこと</h3></a></article>
-      <article class="blog-card fade-in-up"><a href="https://www.ciras.jp/blog/260214-wix-migration"><div class="blog-card-thumb"><img src="https://www.ciras.jp/images/ogp-blog.jpg" alt="WixからHTML＋Cloudflareに移行した記録と成果" loading="lazy" /></div><p class="blog-card-date">2026.2.14</p><h3>WixからHTML＋Cloudflareに移行した記録と成果</h3></a></article>
+      <article class="blog-card fade-in-up"><a href="https://www.ciras.jp/blog/260320-seminar-report-ehime"><div class="blog-card-meta"><span class="blog-card-tag">セミナー</span><span class="blog-card-date">2026.3.20</span></div><h3>生成AI活用塾 開催レポート｜2026年3月 愛媛</h3><p class="blog-card-desc">2026年3月19日、松山市で生成AI活用塾を開催。参加者7名がGemini画像生成やNotebookLMのデザイン調整を実践。</p></a></article>
+      <article class="blog-card fade-in-up"><a href="https://www.ciras.jp/blog/260214-ai-search-guide"><div class="blog-card-meta"><span class="blog-card-tag">AEO対策</span><span class="blog-card-date">2026.2.14</span></div><h3>中小企業がAI検索で見つけてもらうためにやるべきこと</h3><p class="blog-card-desc">AI検索に対応するための考え方と、中小企業が今すぐできる具体策。FAQ、構造化データ、robots.txt、表示速度、専門コンテンツの5つの施策を解説。</p></a></article>
+      <article class="blog-card fade-in-up"><a href="https://www.ciras.jp/blog/260214-wix-migration"><div class="blog-card-meta"><span class="blog-card-tag">Web運用</span><span class="blog-card-date">2026.2.14</span></div><h3>WixからHTML＋Cloudflareに移行した記録と成果</h3><p class="blog-card-desc">Ciras株式会社がWixからHTML＋Cloudflare Pagesに移行した経緯、作業内容、成果の記録。</p></a></article>
     </div>
     <div class="blog-more fade-in-up"><a href="https://www.ciras.jp/blog/">記事をもっと見る <span class="arrow">→</span></a></div>
   </div></section>

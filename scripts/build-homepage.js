@@ -42,15 +42,15 @@ function pickArticles(articles, max) {
 function buildCard(article) {
   const url = `${BASE_URL}/blog/${article.slug}`;
   const date = formatDate(article.publishedAt);
-  const img = article.heroImage;
-  const alt = article.title.replace(/"/g, '&quot;');
+  const tag = article.category;
   const title = article.title;
+  const desc = article.description;
   return (
     `      <article class="blog-card fade-in-up">` +
     `<a href="${url}">` +
-    `<div class="blog-card-thumb"><img src="${img}" alt="${alt}" loading="lazy" /></div>` +
-    `<p class="blog-card-date">${date}</p>` +
+    `<div class="blog-card-meta"><span class="blog-card-tag">${tag}</span><span class="blog-card-date">${date}</span></div>` +
     `<h3>${title}</h3>` +
+    `<p class="blog-card-desc">${desc}</p>` +
     `</a></article>`
   );
 }
