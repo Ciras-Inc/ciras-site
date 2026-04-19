@@ -24,11 +24,11 @@
   function attachListeners() {
     window.dataLayer = window.dataLayer || [];
     var links = document.querySelectorAll(
-      'a[href="/contact"], a[href="/contact/"], a[href^="/contact?"]'
+      'a[href="/contact"], a[href="/contact/"], a[href^="/contact?"],' +
+      'a[href="https://www.ciras.jp/contact"], a[href="https://www.ciras.jp/contact/"], a[href^="https://www.ciras.jp/contact?"]'
     );
     links.forEach(function (a) {
       a.addEventListener('click', function () {
-        console.log('[Ciras Blog Analytics] Pushing event:', { event: 'blog_to_contact', from_slug: slug, from_category: category });
         window.dataLayer.push({
           event: 'blog_to_contact',
           from_slug: slug,
