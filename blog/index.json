@@ -1,0 +1,125 @@
+{
+  "version": "1.0",
+  "articles": [
+    {
+      "slug": "260320-seminar-report-ehime",
+      "title": "生成AI活用塾 開催レポート｜2026年3月 愛媛",
+      "description": "2026年3月19日、松山市で生成AI活用塾を開催。参加者7名がGemini画像生成やNotebookLMのデザイン調整を実践。",
+      "category": "セミナー",
+      "publishedAt": "2026-03-20",
+      "updatedAt": "2026-03-20",
+      "heroImage": "https://www.ciras.jp/images/ogp-blog.jpg",
+      "author": "杉本竜弥",
+      "tags": [
+        "セミナー"
+      ],
+      "expires_at": null,
+      "archived": false
+    },
+    {
+      "slug": "260317-seminar-report-hiroshima",
+      "title": "生成AI活用塾 開催レポート｜2026年3月 広島",
+      "description": "2026年3月16日、広島市で生成AI活用塾を開催。計12名がNotebookLMでのスライド作成やExcelマクロの代替を実践。",
+      "category": "セミナー",
+      "publishedAt": "2026-03-17",
+      "updatedAt": "2026-03-17",
+      "heroImage": "https://www.ciras.jp/images/ogp-blog.jpg",
+      "author": "杉本竜弥",
+      "tags": [
+        "セミナー"
+      ],
+      "expires_at": null,
+      "archived": false
+    },
+    {
+      "slug": "260228-seminar-report-ehime",
+      "title": "生成AI活用塾 開催レポート｜2026年2月 愛媛",
+      "description": "2026年2月27日、松山市で生成AI活用塾を開催。参加者7名がChatGPT・Gemini設定や音声会話などを実践しました。",
+      "category": "セミナー",
+      "publishedAt": "2026-02-28",
+      "updatedAt": "2026-02-28",
+      "heroImage": "https://www.ciras.jp/images/ogp-blog.jpg",
+      "author": "杉本竜弥",
+      "tags": [
+        "セミナー"
+      ],
+      "expires_at": null,
+      "archived": false
+    },
+    {
+      "slug": "260214-ai-search-guide",
+      "title": "中小企業がAI検索で見つけてもらうためにやるべきこと",
+      "description": "AI検索に対応するための考え方と、中小企業が今すぐできる具体策。FAQ、構造化データ、robots.txt、表示速度、専門コンテンツの5つの施策を解説。",
+      "category": "AEO対策",
+      "publishedAt": "2026-02-14",
+      "updatedAt": "2026-02-14",
+      "heroImage": "https://www.ciras.jp/images/ogp-blog.jpg",
+      "author": "杉本竜弥",
+      "tags": [
+        "AEO対策"
+      ],
+      "expires_at": null,
+      "archived": false
+    },
+    {
+      "slug": "260214-wix-migration",
+      "title": "WixからHTML＋Cloudflareに移行した記録と成果",
+      "description": "Ciras株式会社がWixからHTML＋Cloudflare Pagesに移行した経緯、作業内容、成果の記録。",
+      "category": "Web運用",
+      "publishedAt": "2026-02-14",
+      "updatedAt": "2026-02-14",
+      "heroImage": "https://www.ciras.jp/images/ogp-blog.jpg",
+      "author": "杉本竜弥",
+      "tags": [
+        "Web運用"
+      ],
+      "expires_at": null,
+      "archived": false
+    },
+    {
+      "slug": "shindan-tool-release",
+      "title": "無料診断ツールを公開しました",
+      "description": "AI活用レベルチェッカーとWebサイト状況チェッカーの2つの無料診断ツールをCiras株式会社が新たに公開しました。",
+      "category": "お知らせ",
+      "publishedAt": "2026-02-12",
+      "updatedAt": "2026-02-12",
+      "heroImage": "https://www.ciras.jp/images/ogp-blog.jpg",
+      "author": "杉本竜弥",
+      "tags": [
+        "お知らせ"
+      ],
+      "expires_at": null,
+      "archived": false
+    },
+    {
+      "slug": "aeo-taisaku-kihon",
+      "title": "AI検索時代のホームページ設計とは？AEO対策の基本を解説",
+      "description": "ChatGPTやPerplexityで自社が正しく紹介されるために必要なAEO対策の基本。構造化データ、AIクローラー、一次情報、FAQ、定期更新の5ポイント。",
+      "category": "AEO対策",
+      "publishedAt": "2026-02-08",
+      "updatedAt": "2026-02-08",
+      "heroImage": "https://www.ciras.jp/images/ogp-blog.jpg",
+      "author": "杉本竜弥",
+      "tags": [
+        "AEO対策"
+      ],
+      "expires_at": null,
+      "archived": false
+    },
+    {
+      "slug": "ai-katsuyou-3points",
+      "title": "中小企業がAI活用で失敗しないための3つのポイント",
+      "description": "中小企業がAI活用で失敗しないために押さえるべき3つのポイント。課題が先、小さく始める、使い続ける仕組みを作る。",
+      "category": "AI活用",
+      "publishedAt": "2026-02-08",
+      "updatedAt": "2026-02-08",
+      "heroImage": "https://www.ciras.jp/images/ogp-blog.jpg",
+      "author": "杉本竜弥",
+      "tags": [
+        "AI活用"
+      ],
+      "expires_at": null,
+      "archived": false
+    }
+  ]
+}
