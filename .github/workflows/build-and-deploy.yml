@@ -1,0 +1,55 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # min-release-age は npm v11.10.0+ が必要。GitHub Actions の node:20 付属の npm は
+      # 古い場合があるため、最新版に更新する
+      - name: Upgrade npm to v11.10.0+
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build homepage blog section
+        run: node scripts/build-homepage.js
+
+      - name: Build blog list page
+        run: node scripts/build-blog-list.js
+
+      - name: Commit regenerated files if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html blog/index.html
+          if git diff --cached --quiet; then
+            echo "差分なし。コミットをスキップします。"
+          else
+            git commit -m "chore(ci): regenerate homepage and blog list [skip ci]"
+            git push
+          fi
+
+      # 将来 Cloudflare Pages を GitHub 連携から API デプロイに切り替える場合:
+      # - name: Deploy to Cloudflare Pages
+      #   env:
+      #     CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      #   run: npx wrangler pages deploy . --project-name=ciras-site
