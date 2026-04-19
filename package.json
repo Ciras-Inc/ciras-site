@@ -10,6 +10,7 @@
   },
   "private": true,
   "devDependencies": {
+    "cheerio": "^1.2.0",
     "googleapis": "^171.4.0"
   }
 }
