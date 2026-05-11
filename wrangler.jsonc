@@ -18,6 +18,10 @@
     {
       "binding": "DIAGNOSES",
       "id": "6dfd7236c51846c79a4edfbdd276d8a5"
+    },
+    {
+      "binding": "INSTAGRAM_FEED",
+      "id": "f9269e0c679d48009355e69e50641492"
     }
   ]
 }

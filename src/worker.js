@@ -23,6 +23,16 @@ export default {
     }
 
     // API routes
+    // Instagram feed (read-only, public)
+    if (path === '/api/instagram') {
+      if (request.method === 'GET' || request.method === 'HEAD') {
+        return handleInstagram(request, env);
+      }
+      return new Response('method not allowed', {
+        status: 405,
+        headers: { 'Allow': 'GET, HEAD' }
+      });
+    }
     if (path === '/api/ai-check' && request.method === 'POST') {
       return handleAiCheck(request, env);
     }
@@ -2079,6 +2089,57 @@ function generateNotFoundHTML() {
 
 function generateErrorHTML() {
   return `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>エラー｜Ciras株式会社</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Noto Sans JP',sans-serif;color:#1A1A1A;line-height:1.9;background:#FAFAFA;font-size:15px;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem;text-align:center}h1{font-size:1.5rem;margin-bottom:1rem;color:#2D5A27}p{color:#4A4A4A;margin-bottom:1.5rem}a{color:#2D5A27;font-weight:500}</style></head><body><div><h1>エラーが発生しました</h1><p>申し訳ございません。しばらくしてから再度お試しください。</p><a href="/">トップページへ</a></div></body></html>`;
+}
+
+// ========== Instagram Feed ==========
+
+const INSTAGRAM_ALLOWED_ORIGINS = new Set([
+  'https://ciras.jp',
+  'https://www.ciras.jp',
+]);
+
+function instagramCorsHeaders(request) {
+  const origin = request.headers.get('Origin') || '';
+  const allow = INSTAGRAM_ALLOWED_ORIGINS.has(origin) ? origin : 'https://ciras.jp';
+  return {
+    'Access-Control-Allow-Origin': allow,
+    'Vary': 'Origin',
+  };
+}
+
+function instagramJsonResponse(body, init) {
+  const headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Cache-Control': `public, max-age=${init.cacheSeconds ?? 300}`,
+    ...instagramCorsHeaders(init.request),
+  };
+  return new Response(JSON.stringify(body), {
+    status: init.status ?? 200,
+    headers,
+  });
+}
+
+async function handleInstagram(request, env) {
+  try {
+    if (!env.INSTAGRAM_FEED) {
+      console.error('INSTAGRAM_FEED binding missing');
+      return instagramJsonResponse(
+        { posts: [], error: 'feed unavailable' },
+        { status: 500, cacheSeconds: 60, request }
+      );
+    }
+    const feed = await env.INSTAGRAM_FEED.get('feed:latest', 'json');
+    if (!feed || typeof feed !== 'object' || !Array.isArray(feed.posts)) {
+      return instagramJsonResponse({ posts: [] }, { request });
+    }
+    return instagramJsonResponse(feed, { request });
+  } catch (err) {
+    console.error('instagram_api_error', err instanceof Error ? err.message : String(err));
+    return instagramJsonResponse(
+      { posts: [], error: 'feed unavailable' },
+      { status: 500, cacheSeconds: 60, request }
+    );
+  }
 }
 
 // ========== Utilities ==========
