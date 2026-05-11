@@ -40,6 +40,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/instagram.css" />
   <style>
     /* === RESET === */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -547,6 +548,80 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="blog-more fade-in-up"><a href="https://www.ciras.jp/blog/">記事をもっと見る <span class="arrow">→</span></a></div>
   </div></section>
+
+  <!-- INSTAGRAM -->
+  <section class="instagram-section" aria-label="Cirasの最新Instagram投稿">
+    <div class="container">
+      <header class="instagram-header fade-in-up">
+        <span class="section-label">Instagram</span>
+        <h2 class="instagram-title">Instagram</h2>
+        <p class="instagram-subtitle">日々の活動・セミナー・現場の様子をお届けしています。</p>
+      </header>
+      <div class="instagram-grid" id="instagram-grid" aria-live="polite">
+        <div class="instagram-skeleton"></div>
+        <div class="instagram-skeleton"></div>
+        <div class="instagram-skeleton"></div>
+        <div class="instagram-skeleton"></div>
+        <div class="instagram-skeleton"></div>
+        <div class="instagram-skeleton"></div>
+      </div>
+      <footer class="instagram-footer">
+        <a href="https://www.instagram.com/ciras.inc/" target="_blank" rel="noopener noreferrer" class="instagram-follow-link">Instagramでフォローする →</a>
+      </footer>
+    </div>
+  </section>
+  <script>
+  (function () {
+    var section = document.querySelector('.instagram-section');
+    var grid = document.getElementById('instagram-grid');
+    if (!section || !grid) return;
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+    function safeHttpsUrl(u) {
+      if (typeof u !== 'string') return '';
+      try {
+        var parsed = new URL(u);
+        return parsed.protocol === 'https:' ? parsed.toString() : '';
+      } catch (e) { return ''; }
+    }
+
+    fetch('/api/instagram', { credentials: 'omit' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('feed_fetch_failed');
+        return res.json();
+      })
+      .then(function (data) {
+        var posts = (data && Array.isArray(data.posts)) ? data.posts.slice(0, 6) : [];
+        if (posts.length === 0) {
+          section.style.display = 'none';
+          return;
+        }
+        grid.innerHTML = posts.map(function (post) {
+          var media = safeHttpsUrl(post.media_url);
+          var link = safeHttpsUrl(post.permalink);
+          if (!media || !link) return '';
+          var alt = escapeHtml((post.caption || '').slice(0, 80));
+          var aria = escapeHtml((post.caption || 'Instagram投稿').slice(0, 80));
+          var likes = typeof post.like_count === 'number' ? post.like_count : '-';
+          var comments = typeof post.comments_count === 'number' ? post.comments_count : '-';
+          return '<a href="' + link + '" target="_blank" rel="noopener noreferrer" class="instagram-tile" aria-label="' + aria + '">' +
+            '<img src="' + media + '" alt="' + alt + '" loading="lazy" decoding="async" />' +
+            '<div class="instagram-overlay" aria-hidden="true">' +
+              '<span class="instagram-stat">♥ ' + escapeHtml(String(likes)) + '</span>' +
+              '<span class="instagram-stat">💬 ' + escapeHtml(String(comments)) + '</span>' +
+            '</div>' +
+          '</a>';
+        }).join('');
+      })
+      .catch(function () {
+        section.style.display = 'none';
+      });
+  })();
+  </script>
 
   <!-- CTA -->
   <section class="cta"><div class="container"><div class="cta-inner fade-in-up">
