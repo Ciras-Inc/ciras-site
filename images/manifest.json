@@ -1,7 +1,7 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "model": "gpt-image-1",
-  "notes": "OpenAI Image API（gpt-image-1 を既定）で生成する画像の定義。OPENAI_IMAGE_MODEL 環境変数で上書き可能。",
+  "notes": "OpenAI Image API（gpt-image-1 を既定）で生成する画像の定義。OPENAI_IMAGE_MODEL 環境変数で上書き可能。supporting image はトップカードとは別軸の補助ビジュアル。",
   "images": [
     {
       "id": "homepage-hero",
@@ -33,7 +33,7 @@
       "size": "1792x1024",
       "quality": "high",
       "regenerate": true,
-      "prompt": "Ciras AI顧問のページHero。白基調、モノクロ、ミニマル。月額顧問契約による継続的なサポートを象徴する、二人での落ち着いた打ち合わせシーン。書類とノートPC。柔らかい自然光、信頼感。テキストは入れない。"
+      "prompt": "Ciras AI顧問のページHero。白基調、モノクロ、ミニマル。継続的なサポートを象徴する、二人での落ち着いた打ち合わせシーン。書類とノートPC。柔らかい自然光、信頼感。テキストは入れない。"
     },
     {
       "id": "kagemusha-hero",
@@ -41,7 +41,7 @@
       "size": "1792x1024",
       "quality": "high",
       "regenerate": true,
-      "prompt": "影武者サービスのページHero。白基調、モノクロ、ミニマル。経営者の隣で静かに支える社外パートナーの存在を象徴。会議室のテーブルで真剣に議論する様子の俯瞰、または背後のシルエット。柔らかい自然光、専門性と並走感。テキストは入れない。"
+      "prompt": "影武者サービスのページHero。白基調、モノクロ、ミニマル。経営者の身近に静かに関わる社外パートナーの存在を象徴。会議室のテーブルで真剣に議論する様子の俯瞰、または背後のシルエット。柔らかい自然光、専門性と距離感を両立。テキストは入れない。"
     },
     {
       "id": "web-hero",
@@ -49,7 +49,7 @@
       "size": "1792x1024",
       "quality": "high",
       "regenerate": true,
-      "prompt": "AI時代のホームページ制作のページHero。白基調、モノクロ、ミニマル。AI検索やAEOを象徴するように、ノートPCの画面を見ながら検討する手元の俯瞰。柔らかい自然光、知的で清潔感のある印象。テキストは入れない。"
+      "prompt": "AI時代のホームページ制作のページHero。白基調、モノクロ、ミニマル。AI検索を象徴するように、ノートPCの画面を見ながら検討する手元の俯瞰。柔らかい自然光、知的で清潔感のある印象。テキストは入れない。"
     },
     {
       "id": "system-hero",
@@ -64,8 +64,56 @@
       "filename": "ciras-generated-images/mission-vision.png",
       "size": "1792x1024",
       "quality": "high",
-      "regenerate": false,
+      "regenerate": true,
       "prompt": "Cirasの価値観を表す抽象的なビジュアル。白基調、モノクロ、ミニマル。「できる」を増やす、「知らない」を楽しめる日常を象徴する、扉が開いて光が差す情景、または静かに広がる風景。テキストは入れない。"
+    },
+    {
+      "id": "service-distance-supporting",
+      "filename": "ciras-generated-images/service-distance.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "サービスセクションの supporting image。白基調、モノクロ、ミニマル。「御社との距離感」を象徴する、3つの椅子が異なる距離で並ぶ静物、または手と手が異なる距離感で触れ合うイメージ。テキストは入れない。"
+    },
+    {
+      "id": "contact-supporting",
+      "filename": "ciras-generated-images/contact-supporting.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "Contact ページの supporting image。白基調、モノクロ、ミニマル。「ご相談から始まる」を象徴する、ノートに書き留める手元、または机を挟んだ穏やかな対話シーン。柔らかい自然光。テキストは入れない。"
+    },
+    {
+      "id": "faq-supporting",
+      "filename": "ciras-generated-images/faq-supporting.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "FAQ ページの supporting image。白基調、モノクロ、ミニマル。「疑問に答える」を象徴する、書類を確認する穏やかな手元、または整列したノートとペン。柔らかい自然光。テキストは入れない。"
+    },
+    {
+      "id": "privacy-supporting",
+      "filename": "ciras-generated-images/privacy-supporting.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "プライバシーポリシーページの supporting image。白基調、モノクロ、ミニマル。「情報を守る」を象徴する、閉じたノートと鍵のシンプルな静物、または静かな書類整理のシーン。柔らかい自然光。テキストは入れない。"
+    },
+    {
+      "id": "ai-initial-setup-supporting",
+      "filename": "ciras-generated-images/ai-initial-setup-supporting.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "AI初期設定パックの supporting image。白基調、モノクロ、ミニマル。「設定の説明資料」を象徴する、整理された資料ページが机に並ぶ俯瞰、またはノートに項目を書き留める手元。柔らかい自然光。テキストは入れない。"
+    },
+    {
+      "id": "system-supporting",
+      "filename": "ciras-generated-images/system-supporting.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "AI時代の業務システム開発の supporting image。白基調、モノクロ、ミニマル。「業務の仕組み化」を象徴する、フロー図を描く手元のクローズアップ、または整理されたタスクボードの俯瞰。柔らかい自然光。テキストは入れない。"
     }
   ]
 }
