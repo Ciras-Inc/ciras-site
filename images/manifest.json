@@ -1,0 +1,71 @@
+{
+  "version": "1.0",
+  "model": "gpt-image-1",
+  "notes": "OpenAI Image API（gpt-image-1 を既定）で生成する画像の定義。OPENAI_IMAGE_MODEL 環境変数で上書き可能。",
+  "images": [
+    {
+      "id": "homepage-hero",
+      "filename": "ciras-generated-images/homepage-hero.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "「AIを、もっと使えるかたちに」をテーマにした横長メインビジュアル。白基調、モノクロ、ミニマル。中小企業の経営者がデスクで穏やかに考える様子をリアル写真風に表現。柔らかい自然光、清潔感、ノイズ少なめ。テキストは入れない。"
+    },
+    {
+      "id": "ogp-default",
+      "filename": "images/ogp.png",
+      "size": "1536x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "Ciras株式会社のOGP画像。白基調、モノクロ、ミニマル。「AIを、もっと使えるかたちに」のメッセージが伝わる象徴的なビジュアル。テキストは入れない（メッセージは別途レイヤーで重ねる）。中央に余白を残す。"
+    },
+    {
+      "id": "ai-initial-setup-hero",
+      "filename": "ciras-generated-images/ai-initial-setup-hero.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "AI初期設定パックのページHero。白基調、モノクロ、ミニマル。ChatGPT・Gemini・Claudeを使う場面を象徴する、整理された清潔なデスクの俯瞰。ノートPCと書類、観葉植物。柔らかい自然光。テキストは入れない。"
+    },
+    {
+      "id": "ai-komon-hero",
+      "filename": "ciras-generated-images/ai-komon-hero-v2.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "Ciras AI顧問のページHero。白基調、モノクロ、ミニマル。月額顧問契約による継続的なサポートを象徴する、二人での落ち着いた打ち合わせシーン。書類とノートPC。柔らかい自然光、信頼感。テキストは入れない。"
+    },
+    {
+      "id": "kagemusha-hero",
+      "filename": "ciras-generated-images/kagemusha-hero.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "影武者サービスのページHero。白基調、モノクロ、ミニマル。経営者の隣で静かに支える社外パートナーの存在を象徴。会議室のテーブルで真剣に議論する様子の俯瞰、または背後のシルエット。柔らかい自然光、専門性と並走感。テキストは入れない。"
+    },
+    {
+      "id": "web-hero",
+      "filename": "ciras-generated-images/web-hero.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "AI時代のホームページ制作のページHero。白基調、モノクロ、ミニマル。AI検索やAEOを象徴するように、ノートPCの画面を見ながら検討する手元の俯瞰。柔らかい自然光、知的で清潔感のある印象。テキストは入れない。"
+    },
+    {
+      "id": "system-hero",
+      "filename": "ciras-generated-images/system-hero.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": true,
+      "prompt": "AI時代の業務システム開発のページHero。白基調、モノクロ、ミニマル。業務効率化と仕組み化を象徴する、整理されたデスクと複数のディスプレイを俯瞰。柔らかい自然光、機能美。テキストは入れない。"
+    },
+    {
+      "id": "mission-vision",
+      "filename": "ciras-generated-images/mission-vision.png",
+      "size": "1792x1024",
+      "quality": "high",
+      "regenerate": false,
+      "prompt": "Cirasの価値観を表す抽象的なビジュアル。白基調、モノクロ、ミニマル。「できる」を増やす、「知らない」を楽しめる日常を象徴する、扉が開いて光が差す情景、または静かに広がる風景。テキストは入れない。"
+    }
+  ]
+}

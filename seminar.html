@@ -44,10 +44,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
 
   <style>
+    /* === DESIGN TOKENS === */
+    :root {
+      --color-bg: #FFFFFF;
+      --color-bg-alt: #FAFAFA;
+      --color-text: #242422;
+      --color-text-sub: #666666;
+      --color-text-mute: #888888;
+      --color-text-soft: #aaaaaa;
+      --color-border: #E5E5E5;
+      --color-border-soft: #eeeeee;
+      --color-dark-bg: #1A1A1A;
+      --color-dark-text: #ffffff;
+      --color-dark-text-sub: #cccccc;
+      --color-dark-text-mute: #999999;
+      --font-base: 18px;
+      --font-base-mobile: 16px;
+      --line-height-body: 1.8;
+      --radius: 8px;
+      --radius-sm: 4px;
+    }
+
     /* === RESET === */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { font-family: "Noto Sans JP", "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif; font-feature-settings: "palt"; -webkit-font-smoothing: antialiased; color: #242422; background: #fff; line-height: 1.6; overflow-x: hidden; }
+    body { font-family: "Noto Sans JP", "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif; font-feature-settings: "palt"; -webkit-font-smoothing: antialiased; color: var(--color-text); background: var(--color-bg); line-height: var(--line-height-body); overflow-x: hidden; font-size: var(--font-base-mobile); }
+    @media (min-width: 768px) { body { font-size: var(--font-base); } }
     a { color: inherit; text-decoration: none; transition: color 0.2s; }
     a:focus-visible, button:focus-visible { outline: 2px solid #242422; outline-offset: 2px; border-radius: 2px; }
     img { max-width: 100%; height: auto; display: block; }
@@ -335,7 +357,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   ],
   "legalName": "Ciras株式会社",
   "url": "https://www.ciras.jp",
-  "description": "愛媛県松山市を拠点に中小企業の生成AI活用を支援する会社。AI顧問・AI導入・影武者の3つの顧問サービスと、Webサイト制作・業務システム開発を提供。セミナー登壇80回超、相談対応5,000件超。",
+  "description": "愛媛県松山市を拠点に中小企業の生成AI活用を支援する会社。AI顧問・AI初期設定パック・影武者の3つの顧問サービスと、Webサイト制作・業務システム開発を提供。セミナー登壇80回超、相談対応5,000件超。",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "萱町3丁目2番3号 9CROSS 501",
@@ -405,7 +427,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
     {"@type":"Question","name":"AIの知識がなくても参加できますか？","acceptedAnswer":{"@type":"Answer","text":"はい。すべてのセミナーが初めての方を前提に構成しています。専門用語は使いません。"}},
     {"@type":"Question","name":"生成AI活用セミナーと生成AI活用塾の違いは？","acceptedAnswer":{"@type":"Answer","text":"生成AI活用セミナーは30分の入門編（無料・オンライン）で毎回テーマが変わります。生成AI活用塾は対面の実践型（3,000円）で、実際にAIを操作しながら基本を学び、設定を行います。"}},
-    {"@type":"Question","name":"セミナーの後、もっと深く学びたくなったらどうすればいい？","acceptedAnswer":{"@type":"Answer","text":"段階に応じたサービスがあります。自分で使えるようになりたい方はCiras AI顧問（月額33,000円）。AIの仕組みを作って納品してほしい場合はCiras AI導入（月額88,000円）。社内に入って一緒に推進してほしい場合は影武者（月額275,000円〜）で対応します。"}},
+    {"@type":"Question","name":"セミナーの後、もっと深く学びたくなったらどうすればいい？","acceptedAnswer":{"@type":"Answer","text":"段階に応じたサービスがあります。自分で使えるようになりたい方はCiras AI顧問（月額33,000円）。AIの仕組みを作って納品してほしい場合はCiras AI顧問（月額33,000円〜）。社内に入って一緒に推進してほしい場合は影武者（月額275,000円〜）で対応します。"}},
     {"@type":"Question","name":"愛媛県で開催している生成AIセミナーはありますか？","acceptedAnswer":{"@type":"Answer","text":"はい。Ciras株式会社が愛媛県松山市で毎月開催しています。対面の生成AI活用塾（3,000円・1.5時間）と、オンラインの生成AI活用セミナー（無料・30分）があります。開催実績80回超。"}},
     {"@type":"Question","name":"広島で開催している生成AIセミナーはありますか？","acceptedAnswer":{"@type":"Answer","text":"はい。Ciras株式会社が広島市でも生成AI活用塾を開催しています。対面1.5時間の実践型で、参加費は3,000円です。"}},
     {"@type":"Question","name":"愛媛県外でも対面セミナーに参加できますか？","acceptedAnswer":{"@type":"Answer","text":"現在は松山と広島で開催しています。社内研修・出張講師としては全国対応可能です。"}},
@@ -422,41 +444,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 
   <!-- HEADER -->
-  <header class="header" id="header" role="banner">
-    <div class="container">
-      <div class="header-inner">
-        <a href="https://www.ciras.jp/" class="header-logo"><span class="header-logo-main">Ciras</span><span class="header-logo-sub">シラス株式会社</span></a>
-        <nav class="header-nav" role="navigation" aria-label="メインナビゲーション">
-          <div class="nav-dropdown"><button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">サービス <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><span class="menu-group-label">顧問サービス</span><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/ai-donyu">Ciras AI導入</a><a href="https://www.ciras.jp/kagemusha">影武者</a><hr class="menu-divider"><span class="menu-group-label">制作・開発</span><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a></div></div>
-          <a href="https://www.ciras.jp/needs">課題から探す</a>
-          <a href="https://www.ciras.jp/seminar">セミナー</a>
-          <div class="nav-dropdown"><button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">会社概要 <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/faq">よくある質問</a></div></div>
-          <a href="https://www.ciras.jp/partner">採用・協業</a>
-          <a href="https://www.ciras.jp/blog/">ブログ</a>
-        </nav>
-        <div class="header-cta">
-          <div class="nav-dropdown"><button class="nav-dropdown-trigger header-cta-link" aria-expanded="false" aria-haspopup="true">無料診断ツール <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu"><a href="https://www.ciras.jp/ai-check">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check">Webサイト状況チェッカー</a></div></div>
-          <a href="https://www.ciras.jp/contact" class="btn-primary">お問い合わせ</a>
-        </div>
-        <button class="mobile-toggle" id="mobileToggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobileMenu">
-          <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          <svg id="closeIcon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
+  <header class="header" id="header" role="banner"><div class="container"><div class="header-inner">
+    <a href="https://www.ciras.jp/" class="header-logo" aria-label="Ciras株式会社 トップページ"><span class="header-logo-main">Ciras</span><span class="header-logo-sub">シラス株式会社</span></a>
+    <nav class="header-nav" aria-label="メインナビゲーション">
+      <div class="nav-dropdown"><button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">サービス <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu" role="menu"><span class="menu-group-label">最初の一歩</span><a href="https://www.ciras.jp/ai-initial-setup" role="menuitem">AI初期設定パック</a><hr class="menu-divider"><span class="menu-group-label">相談・サポート</span><a href="https://www.ciras.jp/ai-komon" role="menuitem">Ciras AI顧問</a><a href="https://www.ciras.jp/kagemusha" role="menuitem">影武者</a><hr class="menu-divider"><span class="menu-group-label">制作・開発</span><a href="https://www.ciras.jp/web" role="menuitem">AI時代のホームページ制作</a><a href="https://www.ciras.jp/system" role="menuitem">AI時代の業務システム開発</a></div></div>
+      <a href="https://www.ciras.jp/seminar">セミナー</a>
+      <div class="nav-dropdown"><button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">会社概要 <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu" role="menu"><a href="https://www.ciras.jp/company" role="menuitem">会社概要</a><a href="https://www.ciras.jp/company#review" role="menuitem">お客様の声</a><a href="https://www.ciras.jp/faq" role="menuitem">よくある質問</a><a href="https://www.ciras.jp/needs" role="menuitem">課題から探す</a></div></div>
+      <a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/blog/">ブログ</a>
+    </nav>
+    <div class="header-cta">
+      <div class="nav-dropdown"><button class="nav-dropdown-trigger header-cta-link" aria-expanded="false" aria-haspopup="true">無料診断ツール <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu" role="menu"><a href="https://www.ciras.jp/ai-check" role="menuitem">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check" role="menuitem">Webサイト状況チェッカー</a></div></div>
+      <a href="https://www.ciras.jp/contact" class="btn-primary">お問い合わせ</a>
     </div>
-    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-      <nav class="container">
-        <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">サービス <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><span class="mobile-group-label">顧問サービス</span><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/ai-donyu">Ciras AI導入</a><a href="https://www.ciras.jp/kagemusha">影武者</a><hr class="mobile-group-divider"><span class="mobile-group-label">制作・開発</span><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a></div></div>
-        <a href="https://www.ciras.jp/needs">課題から探す</a>
-        <a href="https://www.ciras.jp/seminar">セミナー</a>
-        <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">会社概要 <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/faq">よくある質問</a></div></div>
-        <a href="https://www.ciras.jp/partner">採用・協業</a>
-        <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">無料診断ツール <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/ai-check">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check">Webサイト状況チェッカー</a></div></div>
-        <a href="https://www.ciras.jp/blog/">ブログ</a>
-        <div class="mobile-cta"><a href="https://www.ciras.jp/contact" class="btn-primary">お問い合わせ</a></div>
-      </nav>
-    </div>
-  </header>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="メニューを開く" aria-expanded="false"><svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg><svg id="closeIcon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div></div>
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true"><nav class="container" aria-label="モバイルナビゲーション">
+    <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">サービス <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><span class="mobile-group-label">最初の一歩</span><a href="https://www.ciras.jp/ai-initial-setup">AI初期設定パック</a><hr class="mobile-group-divider"><span class="mobile-group-label">相談・サポート</span><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/kagemusha">影武者</a><hr class="mobile-group-divider"><span class="mobile-group-label">制作・開発</span><a href="https://www.ciras.jp/web">AI時代のホームページ制作</a><a href="https://www.ciras.jp/system">AI時代の業務システム開発</a></div></div>
+    <a href="https://www.ciras.jp/seminar">セミナー</a>
+    <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">会社概要 <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/faq">よくある質問</a><a href="https://www.ciras.jp/needs">課題から探す</a></div></div>
+    <a href="https://www.ciras.jp/partner">採用・協業</a>
+    <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">無料診断ツール <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/ai-check">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check">Webサイト状況チェッカー</a></div></div>
+    <a href="https://www.ciras.jp/blog/">ブログ</a>
+    <div class="mobile-cta"><a href="https://www.ciras.jp/contact" class="btn-primary">お問い合わせ</a></div>
+  </nav></div></header>
 
   <main id="main">
 
@@ -724,7 +734,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="faq-list fade-in-up">
         <div class="faq-item"><button class="faq-question" aria-expanded="false">AIの知識がなくても参加できますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。すべてのセミナーが初めての方を前提に構成しています。専門用語は使いません。</div></div>
         <div class="faq-item"><button class="faq-question" aria-expanded="false">生成AI活用セミナーと生成AI活用塾の違いは？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">生成AI活用セミナーは30分の入門編（無料・オンライン）で、毎回テーマが変わります。生成AI活用塾は対面の実践型（3,000円）で、実際にAIを操作しながら基本を学び、設定を行います。</div></div>
-        <div class="faq-item"><button class="faq-question" aria-expanded="false">セミナーの後、もっと深く学びたくなったらどうすればいい？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">段階に応じたサービスがあります。自分で使えるようになりたい方はCiras AI顧問（月額33,000円）。AIの仕組みを作って納品してほしい場合はCiras AI導入（月額88,000円）。社内に入って一緒に推進してほしい場合は影武者（月額275,000円〜）で対応します。</div></div>
+        <div class="faq-item"><button class="faq-question" aria-expanded="false">セミナーの後、もっと深く学びたくなったらどうすればいい？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">段階に応じたサービスがあります。自分で使えるようになりたい方はCiras AI顧問（月額33,000円）。AIの仕組みを作って納品してほしい場合はCiras AI顧問（月額33,000円〜）。社内に入って一緒に推進してほしい場合は影武者（月額275,000円〜）で対応します。</div></div>
         <div class="faq-item"><button class="faq-question" aria-expanded="false">愛媛県で開催している生成AIセミナーはありますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。Ciras株式会社が愛媛県松山市で毎月開催しています。対面の生成AI活用塾（3,000円・1.5時間）と、オンラインの生成AI活用セミナー（無料・30分）があります。開催実績80回超。</div></div>
         <div class="faq-item"><button class="faq-question" aria-expanded="false">広島で開催している生成AIセミナーはありますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。Ciras株式会社が広島市でも生成AI活用塾を開催しています。対面1.5時間の実践型で、参加費は3,000円です。</div></div>
         <div class="faq-item"><button class="faq-question" aria-expanded="false">愛媛県外でも対面セミナーに参加できますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">現在は松山と広島で開催しています。社内研修・出張講師としては全国対応可能です。</div></div>
@@ -741,7 +751,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="cta-inner fade-in-up">
         <p class="section-label" style="color:#666">Next Step</p>
         <h2>セミナーで触ってみた後は、<br>御社に合った支援を選べます。</h2>
-        <p>使い方を学びたいならCiras AI顧問。仕組みを作ってほしいならCiras AI導入。<br>社内に入って推進してほしいなら影武者。まずは無料相談から。</p>
+        <p>使い方を学びたいならCiras AI顧問。仕組みを作ってほしいならCiras AI顧問。<br>社内に入って推進してほしいなら影武者。まずは無料相談から。</p>
         <div class="cta-buttons">
           <a href="https://www.ciras.jp/contact" class="btn-white">無料で相談する <span class="arrow" style="margin-left:8px">→</span></a>
           <a href="https://www.ciras.jp/ai-komon" class="btn-ghost">サービスを見る</a>
@@ -751,54 +761,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- FOOTER -->
-  <footer class="footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-grid">
-          <div>
-            <p class="footer-logo">Ciras</p>
-            <p class="footer-info">Ciras（シラス）株式会社<br>愛媛県松山市萱町3丁目2番3号<br>9CROSS 501</p>
-            <p class="footer-info mt">TEL: <a href="tel:050-3637-6324" style="color:#999">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</p>
-          </div>
-          <div class="footer-col">
-            <p class="footer-col-label">Service</p>
-            <nav>
-              <p class="footer-sub-label">顧問サービス</p>
-              <a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a>
-              <a href="https://www.ciras.jp/ai-donyu">Ciras AI導入</a>
-              <a href="https://www.ciras.jp/kagemusha">影武者</a>
-              <p class="footer-sub-label">制作・開発</p>
-              <a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a>
-              <a href="https://www.ciras.jp/system">AI業務システム開発</a>
-            </nav>
-          </div>
-          <div class="footer-col">
-            <p class="footer-col-label">Information</p>
-            <nav>
-              <a href="https://www.ciras.jp/seminar">セミナー</a>
-              <a href="https://www.ciras.jp/company">会社概要</a>
-              <a href="https://www.ciras.jp/company#review">お客様の声</a>
-              <a href="https://www.ciras.jp/blog/">ブログ</a>
-              <a href="https://www.ciras.jp/partner">採用・協業</a>
-              <a href="https://www.ciras.jp/faq">よくある質問</a>
-              <a href="https://www.ciras.jp/privacy">プライバシーポリシー</a>
-              <a href="https://www.ciras.jp/privacy#tokusho">特定商取引法に基づく表記</a>
-            </nav>
-          </div>
-          <div class="footer-col">
-            <p class="footer-col-label">Contact</p>
-            <div style="display:flex;flex-direction:column;gap:12px">
-              <a href="https://www.ciras.jp/contact" class="footer-btn-white">お問い合わせ</a>
-              <a href="https://lin.ee/s2u6VUw" class="footer-btn-outline" rel="noopener noreferrer">LINEで相談</a>
-            </div>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>&copy; 2026 Ciras Inc.（シラス株式会社）</p>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <footer class="footer" role="contentinfo"><div class="container"><div class="footer-inner"><div class="footer-grid">
+    <div><p class="footer-logo">Ciras</p><p class="footer-info">Ciras（シラス）株式会社<br>愛媛県松山市萱町3丁目2番3号<br>9CROSS 501</p><p class="footer-info mt">TEL: <a href="tel:050-3637-6324" style="color:#999">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</p></div>
+    <div class="footer-col"><p class="footer-col-label">Service</p><nav aria-label="サービスリンク"><p class="footer-sub-label">最初の一歩</p><a href="https://www.ciras.jp/ai-initial-setup">AI初期設定パック</a><p class="footer-sub-label">相談・サポート</p><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/kagemusha">影武者</a><p class="footer-sub-label">制作・開発</p><a href="https://www.ciras.jp/web">AI時代のホームページ制作</a><a href="https://www.ciras.jp/system">AI時代の業務システム開発</a></nav></div>
+    <div class="footer-col"><p class="footer-col-label">Information</p><nav aria-label="情報リンク"><a href="https://www.ciras.jp/seminar">セミナー</a><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/needs">課題から探す</a><a href="https://www.ciras.jp/blog/">ブログ</a><a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/faq">よくある質問</a><a href="https://www.ciras.jp/privacy">プライバシーポリシー</a><a href="https://www.ciras.jp/privacy#tokusho">特定商取引法に基づく表記</a></nav></div>
+    <div class="footer-col"><p class="footer-col-label">Contact</p><div style="display:flex;flex-direction:column;gap:12px"><a href="https://www.ciras.jp/contact" class="footer-btn-white">お問い合わせ</a><a href="https://lin.ee/s2u6VUw" class="footer-btn-outline" rel="noopener noreferrer">LINEで相談</a></div></div>
+  </div><div class="footer-bottom"><p>&copy; 2026 Ciras Inc.（シラス株式会社）</p></div></div></div></footer>
 
   <!-- Scroll to top button -->
   <button class="scroll-top" id="scrollTop" aria-label="ページトップへ戻る">

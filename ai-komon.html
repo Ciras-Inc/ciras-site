@@ -12,7 +12,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
   <title>Ciras AI顧問｜月額33,000円の生成AI活用支援｜愛媛県松山市</title>
   <meta name="description" content="月1回の面談と日々のチャット相談で生成AI活用を支援。プロンプト指導・ツール選びを月額33,000円で。愛媛県松山市のCiras株式会社。" />
-  <meta name="keywords" content="AI顧問,生成AI,AI活用支援,ChatGPT,Claude,中小企業,愛媛県,松山市,AI導入,プロンプト,DX支援,月額33000円,AI相談,広島県" />
+  <meta name="keywords" content="AI顧問,生成AI,AI活用支援,ChatGPT,Claude,中小企業,愛媛県,松山市,AI初期設定,プロンプト,DX支援,月額33000円,AI相談,広島県" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="author" content="Ciras株式会社（シラス株式会社）" />
   <meta name="theme-color" content="#242422" />
@@ -41,10 +41,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
   <style>
+    /* === DESIGN TOKENS === */
+    :root {
+      --color-bg: #FFFFFF;
+      --color-bg-alt: #FAFAFA;
+      --color-text: #242422;
+      --color-text-sub: #666666;
+      --color-text-mute: #888888;
+      --color-text-soft: #aaaaaa;
+      --color-border: #E5E5E5;
+      --color-border-soft: #eeeeee;
+      --color-dark-bg: #1A1A1A;
+      --color-dark-text: #ffffff;
+      --color-dark-text-sub: #cccccc;
+      --color-dark-text-mute: #999999;
+      --font-base: 18px;
+      --font-base-mobile: 16px;
+      --line-height-body: 1.8;
+      --radius: 8px;
+      --radius-sm: 4px;
+    }
+
     /* === RESET === */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { font-family: "Noto Sans JP", "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif; font-feature-settings: "palt"; -webkit-font-smoothing: antialiased; color: #242422; background: #fff; line-height: 1.6; overflow-x: hidden; }
+    body { font-family: "Noto Sans JP", "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif; font-feature-settings: "palt"; -webkit-font-smoothing: antialiased; color: var(--color-text); background: var(--color-bg); line-height: var(--line-height-body); overflow-x: hidden; font-size: var(--font-base-mobile); }
+    @media (min-width: 768px) { body { font-size: var(--font-base); } }
     a { color: inherit; text-decoration: none; transition: color 0.2s; }
     a:focus-visible, button:focus-visible { outline: 2px solid #242422; outline-offset: 2px; border-radius: 2px; }
     img { max-width: 100%; height: auto; display: block; }
@@ -339,7 +361,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   ],
   "legalName": "Ciras株式会社",
   "url": "https://www.ciras.jp",
-  "description": "愛媛県松山市を拠点に中小企業の生成AI活用を支援する会社。AI顧問・AI導入・影武者の3つの顧問サービスと、Webサイト制作・業務システム開発を提供。セミナー登壇80回超、相談対応5,000件超。",
+  "description": "愛媛県松山市を拠点に中小企業の生成AI活用を支援する会社。AI顧問・AI初期設定パック・影武者の3つの顧問サービスと、Webサイト制作・業務システム開発を提供。セミナー登壇80回超、相談対応5,000件超。",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "萱町3丁目2番3号 9CROSS 501",
@@ -408,17 +430,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     {"@type":"Question","name":"AIの知識がまったくなくても大丈夫ですか？","acceptedAnswer":{"@type":"Answer","text":"はい。生成AIを触ったことがない方から、使っているがうまくいかない方まで対応しています。画面を一緒に見ながら進めます。"}},
     {"@type":"Question","name":"月1回以外でも相談できますか？","acceptedAnswer":{"@type":"Answer","text":"はい。LINEやメールでいつでも相談できます。「ちょっと聞きたい」を歓迎しています。原則1営業日以内に回答します。"}},
     {"@type":"Question","name":"対面でのレクチャーは可能ですか？","acceptedAnswer":{"@type":"Answer","text":"愛媛県松山市内は対面で対応できます。他エリアはオンライン対応です（旅費別途で訪問も可）。多くの方はZoomを利用されており、画面共有で対面と同じように進められます。"}},
-    {"@type":"Question","name":"AIの仕組みの構築もお願いできますか？","acceptedAnswer":{"@type":"Answer","text":"はい。AIの仕組みの構築・納品が必要な場合は、Ciras AI導入（月額88,000円）で対応しています。AI顧問は「自分で使えるようになる」ための相談サービスです。"}},
-    {"@type":"Question","name":"Ciras AI導入との違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"Ciras AI顧問は「自分で使えるようになる」ための相談サービスです。月1回の面談で使い方を教わりながら、少しずつ業務に取り入れます。Ciras AI導入（月額88,000円）は「AIの仕組みを作って納品し、動く状態を保つ」サービスです。"}},
+    {"@type":"Question","name":"AI初期設定パックとの違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"AI初期設定パック（55,000円〜・買い切り）は、ChatGPT・Gemini・Claudeの初期設定を構築してお渡しする買い切り型サービスです。Ciras AI顧問（月額33,000円〜）は、日々のチャット相談を含む継続的な伴走サービスです。先に初期設定パックで土台を整え、その後 AI顧問で継続的にチューニングしていくケースが多いです。"}},
     {"@type":"Question","name":"影武者との違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"影武者（月額275,000円〜）は、AIの仕組みの構築に加えて、社内会議への同席・社員への研修・経営判断への関与まで行うサービスです。経営者と同じ目線で動きます。AI顧問は相談と助言に特化しています。"}},
     {"@type":"Question","name":"最低契約期間はありますか？","acceptedAnswer":{"@type":"Answer","text":"原則1ヶ月単位です。ただし、AI活用の定着には3〜6ヶ月ほどかかることが多く、実際に80%以上の方が3年以上続けています。"}},
-    {"@type":"Question","name":"オプションだけ申し込めますか？","acceptedAnswer":{"@type":"Answer","text":"Ciras AI顧問またはCiras AI導入をご契約中の方が対象です。オプション単体でのお申し込みはできません。求人対策（月額22,000円〜）やWeb広告運用（月額22,000円〜）があります。"}},
+    {"@type":"Question","name":"オプションだけ申し込めますか？","acceptedAnswer":{"@type":"Answer","text":"Ciras AI顧問をご契約中の方が対象です。Web広告 初期設定（55,000円〜/1媒体）、Web広告運用（+22,000円〜/月）、求人媒体（+22,000円〜/月）、コンサル相談（+22,000円〜/月）などをオプションでご利用いただけます。"}},
     {"@type":"Question","name":"ChatGPTやClaudeの使い方も教えてもらえますか？","acceptedAnswer":{"@type":"Answer","text":"はい。ChatGPT、Claude、Claude Code、Cursor、AI画像生成ツールなど、主要な生成AIツールの使い方を御社の業務に合わせてお伝えします。どのツールを選べばよいかの相談にも対応しています。"}},
     {"@type":"Question","name":"議事録やプレゼン資料のAI活用も教えてもらえますか？","acceptedAnswer":{"@type":"Answer","text":"はい。議事録の自動生成、プレゼン資料のたたき台作成、報告書の下書き、メール文面の作成など、実際の業務で使いながらお伝えします。AIの出力をどう直すか、どこは人がやるべきかも含めて対応します。"}},
     {"@type":"Question","name":"愛媛県外からでも利用できますか？","acceptedAnswer":{"@type":"Answer","text":"はい。オンライン（Zoom）での面談・相談に対応しているため、全国どこからでもご利用いただけます。愛媛県・広島県を中心に全国の中小企業をサポートしています。"}},
     {"@type":"Question","name":"Ciras AI顧問の料金は？月額いくらですか？","acceptedAnswer":{"@type":"Answer","text":"Ciras AI顧問は月額33,000円（税込）です。月1回のレクチャー（約1時間）、日々の相談対応（LINE・メール）、Ciras制作物の保守・管理が含まれます。オプションとして、求人対策（月額22,000円〜）、Web広告運用（月額22,000円〜）、Web広告初期設定（55,000円〜）も追加できます。"}},
     {"@type":"Question","name":"生成AIの業務活用を支援してくれる会社はありますか？","acceptedAnswer":{"@type":"Answer","text":"Ciras株式会社（愛媛県松山市）が、中小企業向けに生成AIの業務活用を支援しています。月額33,000円のCiras AI顧問では、プロンプトの書き方からツール選び、業務への組み込み方まで月1回の面談と日々のチャットで対応します。セミナー登壇80回超、相談対応5,000件超の実績があります。"}},
-    {"@type":"Question","name":"Excel自動化やLINE自動応答の相談もできますか？","acceptedAnswer":{"@type":"Answer","text":"はい。Excelの集計自動化やLINEの自動応答設定など、具体的な業務の自動化についても相談できます。AI顧問では助言・手順の説明を行い、仕組みの構築が必要な場合はCiras AI導入（月額88,000円）で対応します。"}}
+    {"@type":"Question","name":"Excel自動化やLINE自動応答の相談もできますか？","acceptedAnswer":{"@type":"Answer","text":"はい。Excelの集計自動化やLINEの自動応答設定など、具体的な業務の自動化についても相談できます。AI顧問では助言・手順の説明を行い、仕組みの構築が必要な場合はAI時代の業務システム開発（330,000円〜）で対応します。"}}
   ]}
   </script>
   <!-- Schema.org: HowTo -->
@@ -427,7 +448,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </script>
   <!-- Schema.org: ItemList -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"ItemList","name":"Ciras顧問サービスの比較","description":"AI活用支援のニーズに応じた3つのプラン","itemListElement":[{"@type":"ListItem","position":1,"name":"Ciras AI顧問","url":"https://www.ciras.jp/ai-komon","description":"自分でAIを使えるようになりたい方向け。月額33,000円。月1回の面談と日々のチャット相談。"},{"@type":"ListItem","position":2,"name":"Ciras AI導入","url":"https://www.ciras.jp/ai-donyu","description":"AIの仕組みを作って納品してほしい方向け。月額88,000円。最初の3ヶ月で仕組みを3つ構築。"},{"@type":"ListItem","position":3,"name":"影武者","url":"https://www.ciras.jp/kagemusha","description":"社内に入って一緒に推進してほしい方向け。月額275,000円〜。会議同席・社員研修・経営判断への関与。"}]}
+  {"@context":"https://schema.org","@type":"ItemList","name":"Ciras顧問サービスの比較","description":"AI活用支援のニーズに応じた3つのプラン","itemListElement":[{"@type":"ListItem","position":1,"name":"Ciras AI顧問","url":"https://www.ciras.jp/ai-komon","description":"自分でAIを使えるようになりたい方向け。月額33,000円。月1回の面談と日々のチャット相談。"},{"@type":"ListItem","position":2,"name":"Ciras AI顧問","url":"https://www.ciras.jp/ai-komon","description":"AIの仕組みを作って納品してほしい方向け。月額33,000円〜。最初の3ヶ月で仕組みを3つ構築。"},{"@type":"ListItem","position":3,"name":"影武者","url":"https://www.ciras.jp/kagemusha","description":"社内に入って一緒に推進してほしい方向け。月額275,000円〜。会議同席・社員研修・経営判断への関与。"}]}
   </script>
 </head>
 <body>
@@ -442,9 +463,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <header class="header" id="header" role="banner"><div class="container"><div class="header-inner">
     <a href="https://www.ciras.jp/" class="header-logo" aria-label="Ciras株式会社 トップページ"><span class="header-logo-main">Ciras</span><span class="header-logo-sub">シラス株式会社</span></a>
     <nav class="header-nav" aria-label="メインナビゲーション">
-      <div class="nav-dropdown"><button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">サービス <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu" role="menu"><span class="menu-group-label">顧問サービス</span><a href="https://www.ciras.jp/ai-komon" role="menuitem">Ciras AI顧問</a><a href="https://www.ciras.jp/ai-donyu" role="menuitem">Ciras AI導入</a><a href="https://www.ciras.jp/kagemusha" role="menuitem">影武者</a><hr class="menu-divider"><span class="menu-group-label">制作・開発</span><a href="https://www.ciras.jp/web" role="menuitem">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system" role="menuitem">AI業務システム開発</a></div></div>
-      <a href="https://www.ciras.jp/needs">課題から探す</a><a href="https://www.ciras.jp/seminar">セミナー</a>
-      <div class="nav-dropdown"><button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">会社概要 <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu" role="menu"><a href="https://www.ciras.jp/company" role="menuitem">会社概要</a><a href="https://www.ciras.jp/company#review" role="menuitem">お客様の声</a><a href="https://www.ciras.jp/faq" role="menuitem">よくある質問</a></div></div>
+      <div class="nav-dropdown"><button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">サービス <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu" role="menu"><span class="menu-group-label">最初の一歩</span><a href="https://www.ciras.jp/ai-initial-setup" role="menuitem">AI初期設定パック</a><hr class="menu-divider"><span class="menu-group-label">相談・サポート</span><a href="https://www.ciras.jp/ai-komon" role="menuitem">Ciras AI顧問</a><a href="https://www.ciras.jp/kagemusha" role="menuitem">影武者</a><hr class="menu-divider"><span class="menu-group-label">制作・開発</span><a href="https://www.ciras.jp/web" role="menuitem">AI時代のホームページ制作</a><a href="https://www.ciras.jp/system" role="menuitem">AI時代の業務システム開発</a></div></div>
+      <a href="https://www.ciras.jp/seminar">セミナー</a>
+      <div class="nav-dropdown"><button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">会社概要 <svg class="chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5L5 6.5L8 3.5"/></svg></button><div class="nav-dropdown-menu" role="menu"><a href="https://www.ciras.jp/company" role="menuitem">会社概要</a><a href="https://www.ciras.jp/company#review" role="menuitem">お客様の声</a><a href="https://www.ciras.jp/faq" role="menuitem">よくある質問</a><a href="https://www.ciras.jp/needs" role="menuitem">課題から探す</a></div></div>
       <a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/blog/">ブログ</a>
     </nav>
     <div class="header-cta">
@@ -454,9 +475,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <button class="mobile-toggle" id="mobileToggle" aria-label="メニューを開く" aria-expanded="false"><svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg><svg id="closeIcon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
   </div></div>
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true"><nav class="container" aria-label="モバイルナビゲーション">
-    <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">サービス <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><span class="mobile-group-label">顧問サービス</span><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/ai-donyu">Ciras AI導入</a><a href="https://www.ciras.jp/kagemusha">影武者</a><hr class="mobile-group-divider"><span class="mobile-group-label">制作・開発</span><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a></div></div>
-    <a href="https://www.ciras.jp/needs">課題から探す</a><a href="https://www.ciras.jp/seminar">セミナー</a>
-    <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">会社概要 <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/faq">よくある質問</a></div></div>
+    <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">サービス <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><span class="mobile-group-label">最初の一歩</span><a href="https://www.ciras.jp/ai-initial-setup">AI初期設定パック</a><hr class="mobile-group-divider"><span class="mobile-group-label">相談・サポート</span><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/kagemusha">影武者</a><hr class="mobile-group-divider"><span class="mobile-group-label">制作・開発</span><a href="https://www.ciras.jp/web">AI時代のホームページ制作</a><a href="https://www.ciras.jp/system">AI時代の業務システム開発</a></div></div>
+    <a href="https://www.ciras.jp/seminar">セミナー</a>
+    <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">会社概要 <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/faq">よくある質問</a><a href="https://www.ciras.jp/needs">課題から探す</a></div></div>
     <a href="https://www.ciras.jp/partner">採用・協業</a>
     <div class="mobile-accordion"><button class="mobile-accordion-trigger" aria-expanded="false">無料診断ツール <svg class="chevron-mobile" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5L7 9L11 5"/></svg></button><div class="mobile-accordion-panel"><a href="https://www.ciras.jp/ai-check">AI活用レベルチェッカー</a><a href="https://www.ciras.jp/web-check">Webサイト状況チェッカー</a></div></div>
     <a href="https://www.ciras.jp/blog/">ブログ</a>
@@ -545,9 +566,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="can-do-note fade-in-up">※対面は愛媛県松山市内のみ。他エリアは旅費別途　※保守対象はCiras制作物に限ります　※制作・設定作業は別途お見積り</p>
 
       <div class="can-do-bottom fade-in-up">
-        <p>「自分で使えるようになりたい」なら<strong>Ciras AI顧問</strong>。<br>「仕組みを作って、動く状態にしてほしい」なら<strong>Ciras AI導入</strong>。<br>「社内に入って一緒に推進してほしい」なら<strong>影武者</strong>。</p>
+        <p>「今使っている生成AIを業務に合わせて整えたい」なら<strong>AI初期設定パック</strong>。<br>「日々のチャットで気軽に相談したい」なら<strong>Ciras AI顧問</strong>。<br>「社内に入って一緒に推進してほしい」なら<strong>影武者</strong>。</p>
         <div class="can-do-bottom-buttons">
-          <a href="https://www.ciras.jp/ai-donyu" class="btn-outline">Ciras AI導入を見る <span class="arrow" style="margin-left:6px">→</span></a>
+          <a href="https://www.ciras.jp/ai-initial-setup" class="btn-outline">AI初期設定パックを見る <span class="arrow" style="margin-left:6px">→</span></a>
           <a href="https://www.ciras.jp/kagemusha" class="btn-outline">影武者を見る <span class="arrow" style="margin-left:6px">→</span></a>
         </div>
       </div>
@@ -619,10 +640,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <a href="https://www.ciras.jp/contact">無料で相談する <span class="arrow">→</span></a>
         </div>
         <div class="guide-card guide-card--alt fade-in-up">
-          <h3>Ciras AI導入</h3>
-          <p class="guide-price">月額 88,000円（税込）</p>
-          <p>AIの仕組みを作って納品してほしい。自分で作るのは難しいが、動く状態にしてほしい方向け。</p>
-          <a href="https://www.ciras.jp/ai-donyu">Ciras AI導入を見る <span class="arrow">→</span></a>
+          <h3>AI初期設定パック</h3>
+          <p class="guide-price">55,000円 / 88,000円（税込・買い切り）</p>
+          <p>今使っているChatGPT・Gemini・Claudeを、御社の業務向けに整えたい方向け。Custom GPT / Project / Skillsの初期設定と説明資料。</p>
+          <a href="https://www.ciras.jp/ai-initial-setup">AI初期設定パックを見る <span class="arrow">→</span></a>
         </div>
         <div class="guide-card guide-card--alt fade-in-up">
           <h3>影武者</h3>
@@ -635,28 +656,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- 比較テーブル -->
       <div class="compare-table-wrap fade-in-up">
         <table class="compare-table">
-          <caption class="sr-only">Ciras AI顧問・Ciras AI導入・影武者の比較</caption>
+          <caption class="sr-only">AI初期設定パック・Ciras AI顧問・影武者の比較</caption>
           <thead>
             <tr>
               <th></th>
+              <th>AI初期設定パック</th>
               <th class="hl">Ciras AI顧問</th>
-              <th>Ciras AI導入</th>
               <th>影武者</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>何をするか</td><td class="hl">相談と助言</td><td>仕組みの構築・保守</td><td>構築＋AIの専門家がチームにいる状態</td></tr>
-            <tr><td>AIの仕組みの構築</td><td class="hl"><span class="ds">－</span></td><td><span class="ck">◯</span>　月1件まで</td><td><span class="ck">◯</span></td></tr>
-            <tr><td>構築した仕組みの保守</td><td class="hl"><span class="ds">－</span></td><td><span class="ck">◯</span></td><td><span class="ck">◯</span></td></tr>
-            <tr><td>会議参加・営業同行</td><td class="hl"><span class="ds">－</span></td><td><span class="ds">－</span></td><td><span class="ck">◯</span></td></tr>
-            <tr><td>社員への研修・指導</td><td class="hl"><span class="ds">－</span></td><td><span class="ds">－</span></td><td><span class="ck">◯</span></td></tr>
-            <tr><td>経営判断への関与</td><td class="hl"><span class="ds">－</span></td><td><span class="ds">－</span></td><td><span class="ck">◯</span></td></tr>
-            <tr><td>面談</td><td class="hl">月1回</td><td>月1回</td><td>適宜</td></tr>
-            <tr><td>チャット相談</td><td class="hl"><span class="ck">◯</span></td><td><span class="ck">◯</span></td><td><span class="ck">◯</span></td></tr>
-            <tr><td>Ciras制作物の保守</td><td class="hl"><span class="ck">◯</span></td><td><span class="ck">◯</span></td><td><span class="ck">◯</span></td></tr>
-            <tr><td>テキスト制作・SNSサポート</td><td class="hl"><span class="ds">－</span></td><td><span class="ds">－</span></td><td><span class="ck">◯</span></td></tr>
-            <tr><td>オプション</td><td class="hl">追加可能</td><td>追加可能</td><td>含まれている</td></tr>
-            <tr class="price-row"><td>月額（税込）</td><td class="hl">33,000円</td><td>88,000円</td><td>275,000円〜</td></tr>
+            <tr><td>何をするか</td><td>Custom GPT / Project / Skills の初期設定</td><td class="hl">相談と助言（チャット中心）</td><td>構築＋AIの専門家がチームにいる状態</td></tr>
+            <tr><td>初回ヒアリング</td><td><span class="ck">◯</span></td><td class="hl">必要に応じて</td><td><span class="ck">◯</span></td></tr>
+            <tr><td>チャット相談</td><td><span class="ds">－</span></td><td class="hl"><span class="ck">◯</span></td><td><span class="ck">◯</span></td></tr>
+            <tr><td>使い方の説明資料</td><td><span class="ck">◯</span></td><td class="hl">必要に応じて</td><td><span class="ck">◯</span></td></tr>
+            <tr><td>会議参加・営業同行</td><td><span class="ds">－</span></td><td class="hl"><span class="ds">－</span></td><td><span class="ck">◯</span></td></tr>
+            <tr><td>社員への研修・指導</td><td><span class="ds">－</span></td><td class="hl"><span class="ds">－</span></td><td><span class="ck">◯</span></td></tr>
+            <tr><td>経営判断への関与</td><td><span class="ds">－</span></td><td class="hl"><span class="ds">－</span></td><td><span class="ck">◯</span></td></tr>
+            <tr><td>納品後の保守</td><td>AI顧問にて対応</td><td class="hl"><span class="ck">◯</span></td><td><span class="ck">◯</span></td></tr>
+            <tr><td>納期 / 期間</td><td>2〜3週間</td><td class="hl">月単位</td><td>月単位（適宜）</td></tr>
+            <tr class="price-row"><td>料金（税込）</td><td>55,000〜88,000円 / 買い切り</td><td class="hl">月額 33,000円〜</td><td>月額 275,000円〜</td></tr>
           </tbody>
         </table>
       </div>
@@ -675,15 +694,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="faq-item"><button class="faq-question" aria-expanded="false">AIの知識がまったくなくても大丈夫ですか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。触ったことがない方から、使っているがうまくいかない方まで対応しています。画面を一緒に見ながら進めます。</div></div>
         <div class="faq-item"><button class="faq-question" aria-expanded="false">月1回以外でも相談できますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。LINEやメールでいつでも相談できます。「ちょっと聞きたい」を歓迎しています。原則1営業日以内に回答します。</div></div>
         <div class="faq-item"><button class="faq-question" aria-expanded="false">対面でのレクチャーは可能ですか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">愛媛県松山市内は対面で対応できます。他エリアはオンライン対応です（旅費別途で訪問も可）。多くの方はZoomを利用されており、画面共有で対面と同じように進められます。</div></div>
-        <div class="faq-item"><button class="faq-question" aria-expanded="false">AIの仕組みの構築もお願いできますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。AIの仕組みの構築・納品が必要な場合は、Ciras AI導入（月額88,000円）で対応しています。</div></div>
-        <div class="faq-item"><button class="faq-question" aria-expanded="false">Ciras AI導入との違いは何ですか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">Ciras AI顧問は「自分で使えるようになる」ための相談サービスです。Ciras AI導入は「AIの仕組みを作って納品し、動く状態を保つ」サービスです。</div></div>
+        <div class="faq-item"><button class="faq-question" aria-expanded="false">AI初期設定パックとの違いは何ですか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">AI初期設定パック（55,000円〜・買い切り）は、ChatGPT・Gemini・Claudeの初期設定を構築してお渡しする買い切り型サービスです。Ciras AI顧問（月額33,000円〜）は、日々のチャット相談を含む継続的な伴走サービスです。先に初期設定パックで土台を整え、その後 AI顧問で継続的にチューニングしていくケースが多いです。</div></div>
         <div class="faq-item"><button class="faq-question" aria-expanded="false">影武者との違いは何ですか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">影武者は、AIの仕組みの構築に加えて、社内会議への同席・社員への研修・経営判断への関与まで行うサービスです。月額275,000円〜。</div></div>
         <div class="faq-item"><button class="faq-question" aria-expanded="false">最低契約期間はありますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">原則1ヶ月単位です。ただし、AI活用の定着には3〜6ヶ月ほどかかることが多く、実際に80%以上の方が3年以上続けています。</div></div>
-        <div class="faq-item"><button class="faq-question" aria-expanded="false">オプションだけ申し込めますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">Ciras AI顧問またはCiras AI導入をご契約中の方が対象です。オプション単体でのお申し込みはできません。</div></div>
+        <div class="faq-item"><button class="faq-question" aria-expanded="false">オプションだけ申し込めますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">Ciras AI顧問をご契約中の方が対象です。Web広告 初期設定（55,000円〜/1媒体）、Web広告運用（+22,000円〜/月）、求人媒体（+22,000円〜/月）、コンサル相談（+22,000円〜/月）などをオプションでご利用いただけます。</div></div>
         <div class="faq-item"><button class="faq-question" aria-expanded="false">ChatGPTやClaudeの使い方も教えてもらえますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。ChatGPT、Claude、Claude Code、Cursor、AI画像生成ツールなど、主要な生成AIツールの使い方を御社の業務に合わせてお伝えします。どのツールを選べばよいかの相談にも対応しています。</div></div>
         <div class="faq-item"><button class="faq-question" aria-expanded="false">議事録やプレゼン資料のAI活用も教えてもらえますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。議事録の自動生成、プレゼン資料のたたき台作成、報告書の下書き、メール文面の作成など、実際の業務で使いながらお伝えします。AIの出力をどう直すか、どこは人がやるべきかも含めて対応します。</div></div>
         <div class="faq-item"><button class="faq-question" aria-expanded="false">愛媛県外からでも利用できますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。オンライン（Zoom）での面談・相談に対応しているため、全国どこからでもご利用いただけます。愛媛県・広島県を中心に全国の中小企業をサポートしています。</div></div>
-        <div class="faq-item"><button class="faq-question" aria-expanded="false">Excel自動化やLINE自動応答の相談もできますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。Excelの集計自動化やLINEの自動応答設定など、具体的な業務の自動化についても相談できます。AI顧問では助言・手順の説明を行い、仕組みの構築が必要な場合はCiras AI導入（月額88,000円）で対応します。</div></div>
+        <div class="faq-item"><button class="faq-question" aria-expanded="false">Excel自動化やLINE自動応答の相談もできますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">はい。Excelの集計自動化やLINEの自動応答設定など、具体的な業務の自動化についても相談できます。AI顧問では助言・手順の説明を行い、仕組みの構築が必要な場合はAI時代の業務システム開発（330,000円〜）で対応します。</div></div>
       </div>
     </div>
   </section>
@@ -706,19 +724,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- FOOTER -->
-  <footer class="footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-grid">
-          <div><p class="footer-logo">Ciras</p><p class="footer-info">Ciras（シラス）株式会社<br>愛媛県松山市萱町3丁目2番3号<br>9CROSS 501</p><p class="footer-info mt">TEL: <a href="tel:050-3637-6324" style="color:#999">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</p></div>
-          <div class="footer-col"><p class="footer-col-label">Service</p><nav><p class="footer-sub-label">顧問サービス</p><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/ai-donyu">Ciras AI導入</a><a href="https://www.ciras.jp/kagemusha">影武者</a><p class="footer-sub-label">制作・開発</p><a href="https://www.ciras.jp/web">AI活用 Webサイト制作</a><a href="https://www.ciras.jp/system">AI業務システム開発</a></nav></div>
-          <div class="footer-col"><p class="footer-col-label">Information</p><nav><a href="https://www.ciras.jp/seminar">セミナー</a><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/blog/">ブログ</a><a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/faq">よくある質問</a><a href="https://www.ciras.jp/privacy">プライバシーポリシー</a><a href="https://www.ciras.jp/privacy#tokusho">特定商取引法に基づく表記</a></nav></div>
-          <div class="footer-col"><p class="footer-col-label">Contact</p><div style="display:flex;flex-direction:column;gap:12px"><a href="https://www.ciras.jp/contact" class="footer-btn-white">お問い合わせ</a><a href="https://lin.ee/s2u6VUw" class="footer-btn-outline" rel="noopener noreferrer">LINEで相談</a></div></div>
-        </div>
-        <div class="footer-bottom"><p>&copy; 2026 Ciras Inc.（シラス株式会社）</p></div>
-      </div>
-    </div>
-  </footer>
+  <footer class="footer" role="contentinfo"><div class="container"><div class="footer-inner"><div class="footer-grid">
+    <div><p class="footer-logo">Ciras</p><p class="footer-info">Ciras（シラス）株式会社<br>愛媛県松山市萱町3丁目2番3号<br>9CROSS 501</p><p class="footer-info mt">TEL: <a href="tel:050-3637-6324" style="color:#999">050-3637-6324</a><br>営業時間: 10:00〜17:30（土日祝休）</p></div>
+    <div class="footer-col"><p class="footer-col-label">Service</p><nav aria-label="サービスリンク"><p class="footer-sub-label">最初の一歩</p><a href="https://www.ciras.jp/ai-initial-setup">AI初期設定パック</a><p class="footer-sub-label">相談・サポート</p><a href="https://www.ciras.jp/ai-komon">Ciras AI顧問</a><a href="https://www.ciras.jp/kagemusha">影武者</a><p class="footer-sub-label">制作・開発</p><a href="https://www.ciras.jp/web">AI時代のホームページ制作</a><a href="https://www.ciras.jp/system">AI時代の業務システム開発</a></nav></div>
+    <div class="footer-col"><p class="footer-col-label">Information</p><nav aria-label="情報リンク"><a href="https://www.ciras.jp/seminar">セミナー</a><a href="https://www.ciras.jp/company">会社概要</a><a href="https://www.ciras.jp/company#review">お客様の声</a><a href="https://www.ciras.jp/needs">課題から探す</a><a href="https://www.ciras.jp/blog/">ブログ</a><a href="https://www.ciras.jp/partner">採用・協業</a><a href="https://www.ciras.jp/faq">よくある質問</a><a href="https://www.ciras.jp/privacy">プライバシーポリシー</a><a href="https://www.ciras.jp/privacy#tokusho">特定商取引法に基づく表記</a></nav></div>
+    <div class="footer-col"><p class="footer-col-label">Contact</p><div style="display:flex;flex-direction:column;gap:12px"><a href="https://www.ciras.jp/contact" class="footer-btn-white">お問い合わせ</a><a href="https://lin.ee/s2u6VUw" class="footer-btn-outline" rel="noopener noreferrer">LINEで相談</a></div></div>
+  </div><div class="footer-bottom"><p>&copy; 2026 Ciras Inc.（シラス株式会社）</p></div></div></div></footer>
 
   <!-- Scroll to top button -->
   <button class="scroll-top" id="scrollTop" aria-label="ページトップへ戻る">

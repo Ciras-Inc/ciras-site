@@ -23,3 +23,6 @@
 # 生成AI活用塾LP
 /ai-jyuku           /seminar/ai-juku    301
 /lp/ai-jyuku        /seminar/ai-juku    301
+
+# 廃止サービス（Ciras AI導入 → Ciras AI顧問へ誘導）
+/ai-donyu           /ai-komon           301

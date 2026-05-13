@@ -6,7 +6,10 @@
     "sitemap": "node scripts/generate-sitemap.js",
     "check": "node scripts/pre-deploy-check.js",
     "deploy": "node scripts/deploy.js",
-    "gsc": "node scripts/gsc-report.js"
+    "gsc": "node scripts/gsc-report.js",
+    "generate-images": "node scripts/generate-images.js",
+    "build-homepage": "node scripts/build-homepage.js",
+    "build-blog-list": "node scripts/build-blog-list.js"
   },
   "private": true,
   "devDependencies": {
