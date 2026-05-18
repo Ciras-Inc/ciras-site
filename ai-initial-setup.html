@@ -11,7 +11,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
   <title>AI初期設定パック｜ChatGPT・Gemini・Claudeを御社の業務に合わせて整える｜Ciras（シラス）株式会社</title>
-  <meta name="description" content="ChatGPT・Gemini・Claudeを、御社の業務に合わせて初期設定するパック。Custom GPT / Project / Skillsの推奨設定。ライト55,000円・スタンダード88,000円（1アカウント・買い切り・税込）。" />
+  <meta name="description" content="ChatGPT・Gemini・Claudeを、御社の業務に合わせて初期設定するパック。Custom GPT・Project・Skillsの推奨設定。ライト55,000円・スタンダード88,000円（1アカウント・買い切り・税込）。" />
   <meta name="keywords" content="AI初期設定パック,Custom GPT,Project,Skills,ChatGPT,Gemini,Claude,生成AI,中小企業,愛媛県,松山市" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="author" content="Ciras株式会社（シラス株式会社）" />
@@ -22,7 +22,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="alternate" hreflang="x-default" href="https://www.ciras.jp/ai-initial-setup" />
   <!-- Open Graph -->
   <meta property="og:title" content="AI初期設定パック｜ChatGPT・Gemini・Claudeを御社の業務に合わせて整える" />
-  <meta property="og:description" content="今使っている生成AIを、御社の業務に合わせて整えます。Custom GPT / Project / Skills の推奨設定と説明資料。ライト55,000円・スタンダード88,000円。" />
+  <meta property="og:description" content="今使っている生成AIを、御社の業務に合わせて整えます。Custom GPT・Project・Skills の推奨設定と説明資料。ライト55,000円・スタンダード88,000円。" />
   <meta property="og:url" content="https://www.ciras.jp/ai-initial-setup" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Ciras（シラス）株式会社" />
@@ -175,6 +175,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     @media (min-width: 640px) { .hero-buttons { flex-direction: row; } }
     .hero-img { width: 100%; border-radius: var(--radius); box-shadow: 0 8px 30px rgba(0,0,0,0.08); aspect-ratio: 16/9; object-fit: cover; background: var(--color-bg-alt); }
 
+    /* === BEFORE / AFTER === */
+    .change { padding: var(--section-pad-mobile) 0; background: var(--color-bg); }
+    @media (min-width: 1024px) { .change { padding: var(--section-pad) 0; } }
+    .change-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 768px) { .change-grid { grid-template-columns: 1fr 1fr; gap: 24px; } }
+    .change-col { padding: 28px; border: 1px solid var(--color-border-soft); border-radius: var(--radius); background: var(--color-bg-alt); }
+    .change-col--after { border-left: 3px solid var(--color-text); background: var(--color-bg); }
+    .change-label { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; color: var(--color-text-mute); margin-bottom: 12px; }
+    .change-col--after .change-label { color: var(--color-text); }
+    .change-list { list-style: none; padding: 0; margin: 0; }
+    .change-list li { padding: 8px 0 8px 20px; position: relative; line-height: 1.8; color: var(--color-text-sub); }
+    .change-list li::before { content: "—"; position: absolute; left: 0; color: var(--color-text-soft); }
+    .change-col--after .change-list li { color: var(--color-text); }
+
     /* === OVERVIEW === */
     .overview { padding: var(--section-pad-mobile) 0; background: var(--color-bg-alt); }
     @media (min-width: 1024px) { .overview { padding: var(--section-pad) 0; } }
@@ -274,11 +288,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <!-- Schema.org: Service -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Service","@id":"https://www.ciras.jp/ai-initial-setup#service","name":"AI初期設定パック","description":"ChatGPT・Gemini・Claudeを、御社の業務に合わせて初期設定するパック。Custom GPT / Project / Skills などの推奨設定と、使い方の説明資料をお届けします。ライト55,000円・スタンダード88,000円（1アカウント・買い切り・税込）。","url":"https://www.ciras.jp/ai-initial-setup","provider":{"@id":"https://www.ciras.jp/#organization"},"serviceType":"AI初期設定支援","category":"AI活用支援","areaServed":{"@type":"Country","name":"日本"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"AI初期設定パック プラン","itemListElement":[{"@type":"Offer","name":"AI初期設定パック ライト","price":"55000","priceCurrency":"JPY","priceSpecification":{"@type":"UnitPriceSpecification","price":"55000","priceCurrency":"JPY","unitText":"1アカウント買い切り"},"description":"Cirasの推奨内容のみを設定。納期2〜3週間。"},{"@type":"Offer","name":"AI初期設定パック スタンダード","price":"88000","priceCurrency":"JPY","priceSpecification":{"@type":"UnitPriceSpecification","price":"88000","priceCurrency":"JPY","unitText":"1アカウント買い切り"},"description":"推奨内容＋お客様要望を反映（難易度高=1件、低=2件、それ以上は要相談）。納期2〜3週間。"}]}}
+  {"@context":"https://schema.org","@type":"Service","@id":"https://www.ciras.jp/ai-initial-setup#service","name":"AI初期設定パック","description":"ChatGPT・Gemini・Claudeを、御社の業務に合わせて初期設定するパック。Custom GPT・Project・Skills などの推奨設定と、使い方の説明資料をお届けします。ライト55,000円・スタンダード88,000円（1アカウント・買い切り・税込）。","url":"https://www.ciras.jp/ai-initial-setup","provider":{"@id":"https://www.ciras.jp/#organization"},"serviceType":"AI初期設定支援","category":"AI活用支援","areaServed":{"@type":"Country","name":"日本"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"AI初期設定パック プラン","itemListElement":[{"@type":"Offer","name":"AI初期設定パック ライト","price":"55000","priceCurrency":"JPY","priceSpecification":{"@type":"UnitPriceSpecification","price":"55000","priceCurrency":"JPY","unitText":"1アカウント買い切り"},"description":"Cirasの推奨内容のみを設定。納期2〜3週間。"},{"@type":"Offer","name":"AI初期設定パック スタンダード","price":"88000","priceCurrency":"JPY","priceSpecification":{"@type":"UnitPriceSpecification","price":"88000","priceCurrency":"JPY","unitText":"1アカウント買い切り"},"description":"推奨内容＋お客様要望を反映（難易度高=1件、低=2件、それ以上は要相談）。納期2〜3週間。"}]}}
   </script>
   <!-- Schema.org: WebPage -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebPage","@id":"https://www.ciras.jp/ai-initial-setup#webpage","url":"https://www.ciras.jp/ai-initial-setup","name":"AI初期設定パック｜Ciras（シラス）株式会社","description":"ChatGPT・Gemini・Claudeを、御社の業務に合わせて初期設定するパック。Custom GPT / Project / Skills の推奨設定と説明資料。ライト55,000円・スタンダード88,000円。","isPartOf":{"@id":"https://www.ciras.jp/#website"},"about":{"@id":"https://www.ciras.jp/ai-initial-setup#service"},"datePublished":"2026-05-13","dateModified":"2026-05-13","inLanguage":"ja","breadcrumb":{"@id":"https://www.ciras.jp/ai-initial-setup#breadcrumb"}}
+  {"@context":"https://schema.org","@type":"WebPage","@id":"https://www.ciras.jp/ai-initial-setup#webpage","url":"https://www.ciras.jp/ai-initial-setup","name":"AI初期設定パック｜Ciras（シラス）株式会社","description":"ChatGPT・Gemini・Claudeを、御社の業務に合わせて初期設定するパック。Custom GPT・Project・Skills の推奨設定と説明資料。ライト55,000円・スタンダード88,000円。","isPartOf":{"@id":"https://www.ciras.jp/#website"},"about":{"@id":"https://www.ciras.jp/ai-initial-setup#service"},"datePublished":"2026-05-13","dateModified":"2026-05-13","inLanguage":"ja","breadcrumb":{"@id":"https://www.ciras.jp/ai-initial-setup#breadcrumb"}}
   </script>
   <!-- Schema.org: BreadcrumbList -->
   <script type="application/ld+json">
@@ -288,7 +302,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
     {"@type":"Question","name":"AI初期設定パックの対象は誰ですか？","acceptedAnswer":{"@type":"Answer","text":"ChatGPT・Gemini・Claudeのいずれかをすでに使っている方が対象です。これからAIを使い始める方には、まずはご相談からご案内します。"}},
-    {"@type":"Question","name":"何を作ってもらえますか？","acceptedAnswer":{"@type":"Answer","text":"Custom GPT、Project、Skillsの初期設定です。Ciras推奨内容で組み、各項目の使い方を説明する資料もお渡しします。"}},
+    {"@type":"Question","name":"何を作ってもらえますか？","acceptedAnswer":{"@type":"Answer","text":"Custom GPT・Project・Skillsの初期設定です。Ciras推奨内容で組み、各項目の使い方を説明する資料もお渡しします。"}},
     {"@type":"Question","name":"ライトとスタンダードの違いは何ですか？","acceptedAnswer":{"@type":"Answer","text":"ライト（55,000円）はCirasの推奨内容のみの設定で、カスタマイズ性は低めです。スタンダード（88,000円）は推奨内容に加えてお客様の要望を反映します。難易度が高い要望は1件、低い要望は2件まで対応します。それ以上は要相談です。"}},
     {"@type":"Question","name":"難易度はどのように判定しますか？","acceptedAnswer":{"@type":"Answer","text":"事前ヒアリングで、ご要望の内容を伺った上でCirasが判定します。曖昧な場合はライト相当として扱い、追加要望は別途お見積りとなります。"}},
     {"@type":"Question","name":"1アカウントとは？","acceptedAnswer":{"@type":"Answer","text":"1ログイン（ワークスペース）= 1アカウント です。複数のメンバーで共有しているワークスペース1つも、個人のChatGPT 1アカウントも、いずれも1アカウント扱いです。"}},
@@ -337,7 +351,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="fade-in-up">
       <p class="section-label">AI初期設定パック</p>
       <h1>使っている生成AIを、<br>御社の業務に合わせて整えます。</h1>
-      <p class="hero-desc">ChatGPT・Gemini・Claude のいずれかをすでに使っている方向けの初期設定パックです。Custom GPT / Project / Skills の推奨設定と、使い方の資料をお届けします。</p>
+      <p class="hero-desc">ChatGPT・Gemini・Claude のいずれかをすでに使っている方向けの初期設定パックです。Custom GPT・Project・Skills（あなたの業務専用の ChatGPT 設定）の推奨設定と、使い方の資料をお届けします。</p>
       <p class="hero-price"><strong>55,000</strong> 円 〜（1アカウント・買い切り・税込）</p>
       <div class="hero-buttons">
         <a href="https://www.ciras.jp/contact" class="btn-primary">ご相談 <span class="arrow" style="margin-left:8px">→</span></a>
@@ -347,12 +361,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="fade-in-up"><img src="/ciras-generated-images/ai-initial-setup-hero.png" alt="AI初期設定パック - ChatGPT・Gemini・Claudeを御社の業務に合わせて整える" class="hero-img" width="896" height="504" loading="eager" /></div>
   </div></div></section>
 
+  <!-- BEFORE / AFTER -->
+  <section class="change"><div class="container">
+    <div class="section-heading fade-in-up"><p class="section-label">Before / After</p><h2>初期設定パックで、何が変わるか</h2></div>
+    <div class="change-grid stagger">
+      <div class="change-col change-col--before fade-in-up">
+        <p class="change-label">今</p>
+        <ul class="change-list">
+          <li>毎回ゼロからプロンプトを書いている</li>
+          <li>業務に合った答えが返ってこない</li>
+          <li>ChatGPT を使っているが、活用しきれていない</li>
+        </ul>
+      </div>
+      <div class="change-col change-col--after fade-in-up">
+        <p class="change-label">導入後</p>
+        <ul class="change-list">
+          <li>業務に合わせた初期設定で、すぐ役立つ答えが返る</li>
+          <li>プロンプトを毎回書かなくていい</li>
+          <li>「うちの業務ならこう使う」が言語化された状態</li>
+        </ul>
+      </div>
+    </div>
+  </div></section>
+
   <!-- OVERVIEW -->
   <section class="overview"><div class="container">
     <div class="section-heading fade-in-up"><p class="section-label">Overview</p><h2>パックの概要</h2></div>
     <div class="overview-list fade-in-up">
       <div class="overview-row"><div class="overview-key">対象</div><div class="overview-val">ChatGPT・Gemini・Claude のいずれかをすでに使っている方</div></div>
-      <div class="overview-row"><div class="overview-key">構築内容</div><div class="overview-val">Custom GPT / Project / Skills などの初期設定</div></div>
+      <div class="overview-row"><div class="overview-key">構築内容</div><div class="overview-val">Custom GPT・Project・Skills などの初期設定</div></div>
       <div class="overview-row"><div class="overview-key">成果物</div><div class="overview-val">構築 + 各項目の説明資料</div></div>
       <div class="overview-row"><div class="overview-key">納期</div><div class="overview-val">2〜3週間</div></div>
       <div class="overview-row"><div class="overview-key">1アカウントの定義</div><div class="overview-val">1ログイン（ワークスペース）= 1アカウント</div></div>
@@ -369,9 +406,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="pricing-name">ライト</p>
         <p class="pricing-price">55,000<span>円</span></p>
         <p class="pricing-price-sub">1アカウント・買い切り・税込</p>
-        <p class="pricing-desc">Cirasの推奨内容のみを設定します。カスタマイズ性は低めですが、すぐに使い始められる構成です。</p>
+        <p class="pricing-desc">Cirasの推奨設定をそのまま納品。早く始めたい方向け。カスタマイズ性は低めですが、すぐに使い始められる構成です。</p>
         <ul class="pricing-list">
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Cirasの推奨設定（Custom GPT / Project / Skills）</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Cirasの推奨設定（Custom GPT・Project・Skills）</li>
           <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>各項目の使い方を説明する資料</li>
           <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>納期2〜3週間</li>
         </ul>
@@ -382,7 +419,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="pricing-name">スタンダード</p>
         <p class="pricing-price">88,000<span>円</span></p>
         <p class="pricing-price-sub">1アカウント・買い切り・税込</p>
-        <p class="pricing-desc">推奨内容に加えて、お客様の要望を反映します。より使いやすさを高めたい方向け。</p>
+        <p class="pricing-desc">推奨設定 + 御社の要望2件まで反映。細かく合わせたい方向け。</p>
         <ul class="pricing-list">
           <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>ライトの全内容</li>
           <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>お客様要望の反映（難易度高=1件 / 低=2件）</li>
@@ -411,7 +448,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="section-heading fade-in-up"><p class="section-label">FAQ</p><h2>よくある質問</h2></div>
     <div class="faq-list fade-in-up">
       <div class="faq-item"><button class="faq-question" aria-expanded="false">対象は誰ですか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">ChatGPT・Gemini・Claude のいずれかをすでに使っている方が対象です。これから使い始める方には、まずご相談からご案内します。</div></div>
-      <div class="faq-item"><button class="faq-question" aria-expanded="false">何を作ってもらえますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">Custom GPT、Project、Skillsの初期設定です。Ciras推奨内容で組み、各項目の使い方を説明する資料もお渡しします。</div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">何を作ってもらえますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">Custom GPT・Project・Skillsの初期設定です。Ciras推奨内容で組み、各項目の使い方を説明する資料もお渡しします。</div></div>
       <div class="faq-item"><button class="faq-question" aria-expanded="false">ライトとスタンダードの違いは？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">ライト（55,000円）は Cirasの推奨内容のみの設定で、カスタマイズ性は低めです。スタンダード（88,000円）は推奨内容に加えてお客様の要望を反映します。難易度が高い要望は1件、低い要望は2件まで対応します。それ以上は要相談です。</div></div>
       <div class="faq-item"><button class="faq-question" aria-expanded="false">難易度はどう判定しますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">事前ヒアリングで、ご要望の内容を伺った上で Cirasが判定します。曖昧な場合はライト相当として扱い、追加要望は別途お見積りとなります。</div></div>
       <div class="faq-item"><button class="faq-question" aria-expanded="false">1アカウントとは？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer">1ログイン（ワークスペース）= 1アカウント です。複数のメンバーで共有しているワークスペース1つも、個人のChatGPT 1アカウントも、いずれも1アカウント扱いです。</div></div>
