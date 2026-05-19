@@ -62,23 +62,38 @@
   <style>
     /* === DESIGN TOKENS === */
     :root {
+      /* モノクロ6階調 */
+      --ciras-mono-1: #FAFAF9;
+      --ciras-mono-2: #E5E5E2;
+      --ciras-mono-3: #A6A6A4;
+      --ciras-mono-4: #6B6B6A;
+      --ciras-mono-5: #4A4A48;
+      --ciras-mono-6: #242422;
+      /* セマンティック色 */
       --color-bg: #FFFFFF;
-      --color-bg-alt: #FAFAFA;
-      --color-text: #242422;
-      --color-text-sub: #666666;
-      --color-text-mute: #888888;
-      --color-text-soft: #aaaaaa;
-      --color-border: #E5E5E5;
-      --color-border-soft: #eeeeee;
-      --color-dark-bg: #1A1A1A;
-      --color-dark-text: #ffffff;
-      --color-dark-text-sub: #cccccc;
-      --color-dark-text-mute: #999999;
-      --font-base: 18px;
-      --font-base-mobile: 16px;
+      --color-bg-alt: var(--ciras-mono-1);
+      --color-text: var(--ciras-mono-6);
+      --color-text-sub: var(--ciras-mono-4);
+      --color-text-mute: var(--ciras-mono-3);
+      --color-text-soft: #C2C2C0;
+      --color-border: var(--ciras-mono-2);
+      --color-border-soft: #ECECE9;
+      --color-dark-bg: var(--ciras-mono-6);
+      --color-dark-text: #FFFFFF;
+      --color-dark-text-sub: #D0D0CE;
+      --color-dark-text-mute: var(--ciras-mono-3);
+      /* タイポ */
+      --font-base: 20px;
+      --font-base-mobile: 17px;
       --line-height-body: 1.8;
+      --line-height-heading: 1.4;
+      --paragraph-gap: 1.5em;
       --radius: 8px;
       --radius-sm: 4px;
+      /* 余白・タップ */
+      --section-pad: 144px;
+      --section-pad-mobile: 96px;
+      --tap-min: 44px;
     }
 
     /* === RESET === */
