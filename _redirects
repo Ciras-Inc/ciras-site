@@ -26,3 +26,6 @@
 
 # 廃止サービス（Ciras AI導入 → Ciras AI顧問へ誘導）
 /ai-donyu           /ai-komon           301
+
+# 廃止サービス（AI初期設定パック → Ciras AI顧問へ誘導、初期設定は AI顧問のオプション化）
+/ai-initial-setup   /ai-komon           301
