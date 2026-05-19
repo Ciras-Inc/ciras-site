@@ -1898,7 +1898,7 @@ const REPORT_HEAD = `<meta charset="UTF-8">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">`;
 
 const REPORT_STYLES = `<style>
-    :root{--green:#2D5A27;--green-light:#E8F0E6;--black:#1A1A1A;--gray-dark:#4A4A4A;--gray:#888;--gray-light:#E5E5E5;--white:#FFF;--bg:#FAFAFA}
+    :root{--green:#242422;--green-light:#F0F0F0;--black:#1A1A1A;--gray-dark:#4A4A4A;--gray:#888;--gray-light:#E5E5E5;--white:#FFF;--bg:#FAFAFA}
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:'Noto Sans JP',sans-serif;font-weight:400;color:var(--black);line-height:1.9;background:var(--bg);font-size:15px;letter-spacing:.03em}
     .mincho{font-family:'Shippori Mincho',serif}
@@ -1957,14 +1957,14 @@ function generateAiCheckReportHTML(diagnosis) {
         <div class="solution-card">
           <div class="solution-num">${String(i + 1).padStart(2, '0')}</div>
           <h3 class="solution-title">${escapeHTML(s.title)}</h3>
-          ${s.point ? `<p style="font-weight:600;color:#2D5A27;background:#E8F0E6;padding:.6rem 1rem;border-radius:4px;margin-bottom:1rem;font-size:.95rem">${escapeHTML(s.point)}</p>` : ''}
+          ${s.point ? `<p style="font-weight:600;color:#242422;background:#F0F0F0;padding:.6rem 1rem;border-radius:4px;margin-bottom:1rem;font-size:.95rem">${escapeHTML(s.point)}</p>` : ''}
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:6px;overflow:hidden;border:1px solid #E5E5E5">
             <div style="background:#FFF5F5;padding:1.2rem 1.5rem;border-right:1px solid #E5E5E5">
               <p style="font-size:.75rem;font-weight:700;color:#C41E3A;margin-bottom:.4rem">&#x2716; 今の状態</p>
               <p style="font-size:.9rem;color:#4A4A4A;line-height:1.8">${escapeHTML(s.before || s.description || '')}</p>
             </div>
             <div style="background:#F0FFF0;padding:1.2rem 1.5rem">
-              <p style="font-size:.75rem;font-weight:700;color:#2D5A27;margin-bottom:.4rem">&#x2714; AIを使うと</p>
+              <p style="font-size:.75rem;font-weight:700;color:#242422;margin-bottom:.4rem">&#x2714; AIを使うと</p>
               <p style="font-size:.9rem;color:#4A4A4A;line-height:1.8">${escapeHTML(s.after || '')}</p>
             </div>
           </div>
@@ -2034,14 +2034,14 @@ function generateWebCheckReportHTML(diagnosis) {
         <div class="solution-card">
           <div class="solution-num">${String(i + 1).padStart(2, '0')}</div>
           <h3 class="solution-title">${escapeHTML(sol.title)}</h3>
-          ${sol.point ? `<p style="font-weight:600;color:#2D5A27;background:#E8F0E6;padding:.6rem 1rem;border-radius:4px;margin-bottom:1rem;font-size:.95rem">${escapeHTML(sol.point)}</p>` : ''}
+          ${sol.point ? `<p style="font-weight:600;color:#242422;background:#F0F0F0;padding:.6rem 1rem;border-radius:4px;margin-bottom:1rem;font-size:.95rem">${escapeHTML(sol.point)}</p>` : ''}
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:6px;overflow:hidden;border:1px solid #E5E5E5">
             <div style="background:#FFF5F5;padding:1.2rem 1.5rem;border-right:1px solid #E5E5E5">
               <p style="font-size:.75rem;font-weight:700;color:#C41E3A;margin-bottom:.4rem">&#x2716; 今の状態</p>
               <p style="font-size:.9rem;color:#4A4A4A;line-height:1.8">${escapeHTML(sol.before || '')}</p>
             </div>
             <div style="background:#F0FFF0;padding:1.2rem 1.5rem">
-              <p style="font-size:.75rem;font-weight:700;color:#2D5A27;margin-bottom:.4rem">&#x2714; 改善すると</p>
+              <p style="font-size:.75rem;font-weight:700;color:#242422;margin-bottom:.4rem">&#x2714; 改善すると</p>
               <p style="font-size:.9rem;color:#4A4A4A;line-height:1.8">${escapeHTML(sol.after || '')}</p>
             </div>
           </div>
@@ -2084,11 +2084,11 @@ function generateWebCheckReportHTML(diagnosis) {
 }
 
 function generateNotFoundHTML() {
-  return `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>レポートが見つかりません｜Ciras株式会社</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600&family=Shippori+Mincho:wght@600&display=swap" rel="stylesheet"><style>:root{--green:#2D5A27;--gray-dark:#4A4A4A;--bg:#FAFAFA}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Noto Sans JP',sans-serif;color:#1A1A1A;line-height:1.9;background:var(--bg);font-size:15px;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem;text-align:center}h1{font-family:'Shippori Mincho',serif;font-size:1.5rem;margin-bottom:1rem;color:var(--green)}p{color:var(--gray-dark);margin-bottom:1.5rem}a{color:var(--green);font-weight:500}</style></head><body><div><h1>レポートが見つかりません</h1><p>指定されたレポートは存在しないか、URLが正しくない可能性があります。</p><a href="/">Ciras株式会社 トップページへ</a></div></body></html>`;
+  return `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>レポートが見つかりません｜Ciras株式会社</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600&family=Shippori+Mincho:wght@600&display=swap" rel="stylesheet"><style>:root{--green:#242422;--gray-dark:#4A4A4A;--bg:#FAFAFA}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Noto Sans JP',sans-serif;color:#1A1A1A;line-height:1.9;background:var(--bg);font-size:15px;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem;text-align:center}h1{font-family:'Shippori Mincho',serif;font-size:1.5rem;margin-bottom:1rem;color:var(--green)}p{color:var(--gray-dark);margin-bottom:1.5rem}a{color:var(--green);font-weight:500}</style></head><body><div><h1>レポートが見つかりません</h1><p>指定されたレポートは存在しないか、URLが正しくない可能性があります。</p><a href="/">Ciras株式会社 トップページへ</a></div></body></html>`;
 }
 
 function generateErrorHTML() {
-  return `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>エラー｜Ciras株式会社</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Noto Sans JP',sans-serif;color:#1A1A1A;line-height:1.9;background:#FAFAFA;font-size:15px;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem;text-align:center}h1{font-size:1.5rem;margin-bottom:1rem;color:#2D5A27}p{color:#4A4A4A;margin-bottom:1.5rem}a{color:#2D5A27;font-weight:500}</style></head><body><div><h1>エラーが発生しました</h1><p>申し訳ございません。しばらくしてから再度お試しください。</p><a href="/">トップページへ</a></div></body></html>`;
+  return `<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>エラー｜Ciras株式会社</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Noto Sans JP',sans-serif;color:#1A1A1A;line-height:1.9;background:#FAFAFA;font-size:15px;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem;text-align:center}h1{font-size:1.5rem;margin-bottom:1rem;color:#242422}p{color:#4A4A4A;margin-bottom:1.5rem}a{color:#242422;font-weight:500}</style></head><body><div><h1>エラーが発生しました</h1><p>申し訳ございません。しばらくしてから再度お試しください。</p><a href="/">トップページへ</a></div></body></html>`;
 }
 
 // ========== Instagram Feed ==========
