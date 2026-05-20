@@ -183,6 +183,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .info-item a:hover { border-color: #242422; }
 
     /* === CTA === */
+    .routes { padding: 56px 0; }
+    @media (min-width: 1024px) { .routes { padding: 72px 0; } }
+    .route-list { display: grid; grid-template-columns: 1fr; gap: 14px; max-width: 760px; margin: 0 auto; }
+    .route-item { display: flex; align-items: center; gap: 18px; padding: 20px 24px; background: #fff; border: 1px solid #e5e5e5; border-radius: 4px; transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; }
+    .route-item:hover { border-color: #242422; transform: translateX(4px); box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+    .route-item:hover .arrow { transform: translateX(4px); }
+    .route-num { font-size: 18px; font-weight: 700; color: #aaa; flex-shrink: 0; }
+    .route-body { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .route-title { font-size: 16px; font-weight: 700; color: #242422; line-height: 1.5; }
+    .route-desc { font-size: 13px; color: #666; line-height: 1.7; }
+    .route-item .arrow { color: #aaa; flex-shrink: 0; }
+    .form-guide { max-width: 720px; margin: 0 auto 28px; background: #fff; border: 1px solid #e5e5e5; border-radius: 4px; padding: 24px 28px; }
+    .form-guide-lead { font-size: 15px; font-weight: 600; color: #242422; margin-bottom: 14px; }
+    .form-guide-list { display: flex; flex-direction: column; gap: 10px; margin: 0 0 14px; }
+    .form-guide-list li { position: relative; padding-left: 24px; font-size: 14px; line-height: 1.7; color: #444; }
+    .form-guide-list li::before { content: ""; position: absolute; left: 0; top: 8px; width: 7px; height: 7px; background: #242422; border-radius: 50%; }
+    .form-guide-note { font-size: 13px; line-height: 1.8; color: #666; padding-top: 12px; border-top: 1px solid #e5e5e5; }
     .cta { padding: 80px 0; background: #1A1A1A; }
     @media (min-width: 1024px) { .cta { padding: 112px 0; } }
     .cta-inner { max-width: 640px; margin: 0 auto; text-align: center; }
@@ -243,7 +260,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   "legalName": "Ciras株式会社",
   "url": "https://www.ciras.jp",
   "logo": "https://www.ciras.jp/images/logo-green.png",
-  "description": "愛媛県松山市を拠点に中小企業の生成AI活用を支援する会社。AI顧問・影武者の2つの顧問サービスと、Webサイト制作・業務システム開発を提供。セミナー登壇100回超、相談対応5,000件超。",
+  "description": "愛媛県松山市を拠点に中小企業のAI活用・Webサイト制作・業務システム開発を支援する会社。AI顧問・影武者の2つの顧問サービスと、Webサイト制作・業務システム開発を提供。セミナー登壇100回超、相談対応5,000件超。",
   "foundingDate": "2021-06",
   "address": {
     "@type": "PostalAddress",
@@ -358,6 +375,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div></div></section>
 
+  <!-- 相談の前に：4つの入り口 -->
+  <section class="routes" aria-labelledby="routes-heading"><div class="container">
+    <div class="section-heading fade-in-up">
+      <p class="section-label">Where to Start</p>
+      <h2 id="routes-heading">相談の前に、どこから？</h2>
+      <p class="subtitle">最初から相談内容がまとまっていなくて大丈夫です。先に診断や課題ページを見ておくと、初回相談で話が早く進みます。</p>
+    </div>
+    <div class="route-list stagger">
+      <a href="https://www.ciras.jp/ai-check" class="route-item fade-in-up"><span class="route-num">01</span><span class="route-body"><span class="route-title">AI活用を何から始めればよいか分からない</span><span class="route-desc">AI活用レベルチェッカーで、今の活用状況を診断します。</span></span><span class="arrow">→</span></a>
+      <a href="https://www.ciras.jp/web-check" class="route-item fade-in-up"><span class="route-num">02</span><span class="route-body"><span class="route-title">ホームページの状態を知りたい</span><span class="route-desc">Webサイト状況チェッカーで、AI検索への対応度を診断します。</span></span><span class="arrow">→</span></a>
+      <a href="https://www.ciras.jp/needs" class="route-item fade-in-up"><span class="route-num">03</span><span class="route-body"><span class="route-title">自社の課題に近いものを探したい</span><span class="route-desc">課題から探すで、近い課題と合うサービスを確認できます。</span></span><span class="arrow">→</span></a>
+      <a href="#form" class="route-item fade-in-up"><span class="route-num">04</span><span class="route-body"><span class="route-title">すぐ相談したい</span><span class="route-desc">下のお問い合わせフォーム、またはLINEからどうぞ。</span></span><span class="arrow">→</span></a>
+    </div>
+  </div></section>
+
   <!-- Quick Access -->
   <section class="quick"><div class="container">
     <div class="quick-grid">
@@ -420,6 +452,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="section-label">Form</p>
       <h2>お問い合わせフォーム</h2>
       <p class="subtitle">2営業日以内に返信します。</p>
+    </div>
+    <div class="form-guide fade-in-up">
+      <p class="form-guide-lead">フォームには、分かる範囲で構いませんので、次の内容をご記入ください。</p>
+      <ul class="form-guide-list">
+        <li>相談したいこと</li>
+        <li>現在困っている業務</li>
+        <li>使っているAIツールやWebサービス</li>
+        <li>診断ツールを使った場合は、その結果</li>
+        <li>希望するサービスがある場合は、サービス名</li>
+      </ul>
+      <p class="form-guide-note">詳しく書けない場合は、「まだ整理できていない」と書いていただければ問題ありません。</p>
     </div>
     <div class="form-embed fade-in-up">
       <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScuWO3hDyCffOD3GE50yVVeSymItIp9zvwMjsKRLDYY6CD68g/viewform?embedded=true" loading="lazy" title="お問い合わせフォーム">読み込み中…</iframe>

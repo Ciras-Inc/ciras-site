@@ -308,6 +308,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     @media (min-width: 1024px) { .diagnosis { padding: var(--section-pad) 0; } }
     .diagnosis-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
     @media (min-width: 768px) { .diagnosis-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .diagnosis-grid { grid-template-columns: repeat(3, 1fr); } }
     .diagnosis-card { padding: 36px; background: #fff; border-radius: var(--radius); border: 1px solid var(--color-border-soft); transition: box-shadow 0.3s, transform 0.3s; }
     .diagnosis-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); transform: translateY(-2px); }
     @media (min-width: 1024px) { .diagnosis-card { padding: 44px; } }
@@ -318,6 +319,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .diagnosis-card a { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--color-text); transition: color 0.2s; }
     .diagnosis-card a:hover { color: var(--color-text-sub); }
     .diagnosis-card a:hover .arrow { transform: translateX(4px); }
+
+    /* === START GUIDE (4導線の整理) === */
+    .start-guide { padding: var(--section-pad-mobile) 0; background: var(--color-bg); }
+    @media (min-width: 1024px) { .start-guide { padding: var(--section-pad) 0; } }
+    .start-list { display: grid; grid-template-columns: 1fr; gap: 16px; max-width: 820px; margin: 0 auto; }
+    .start-item { display: flex; align-items: center; gap: 20px; min-height: var(--tap-min); padding: 24px 28px; background: var(--color-bg-alt); border: 1px solid var(--color-border); border-radius: var(--radius); transition: background 0.2s, border-color 0.2s, transform 0.2s; }
+    .start-item:hover { background: #fff; border-color: var(--color-text); transform: translateX(4px); }
+    .start-item:hover .arrow { transform: translateX(4px); }
+    .start-num { font-size: 20px; font-weight: 700; color: var(--color-text-mute); letter-spacing: 0.04em; flex-shrink: 0; }
+    .start-body { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .start-title { font-size: 18px; font-weight: 700; color: var(--color-text); }
+    .start-desc { font-size: 15px; color: var(--color-text-sub); line-height: 1.7; }
+    .start-item .arrow { color: var(--color-text-soft); flex-shrink: 0; }
+    @media (min-width: 1024px) { .start-title { font-size: 19px; } .start-desc { font-size: 16px; } }
 
     /* === WHY CIRAS (Why + AI Search 統合) === */
     .why { padding: var(--section-pad-mobile) 0; background: var(--color-dark-bg); color: var(--color-dark-text); }
@@ -437,7 +452,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <!-- Schema.org: Organization + ProfessionalService -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"ProfessionalService","@id":"https://www.ciras.jp/#organization","name":"Ciras株式会社（シラス株式会社）","alternateName":["Ciras","シラス株式会社","Ciras Inc.","シラス"],"legalName":"Ciras株式会社","url":"https://www.ciras.jp","logo":"https://www.ciras.jp/images/logo-green.png","description":"Ciras株式会社は、愛媛県松山市を拠点に中小企業の生成AI活用を支援する会社です。月額33,000円〜のAI顧問（初期設定オプションあり）、月額275,000円〜の影武者、AI時代のホームページ制作（330,000円〜）、AI時代の業務システム開発（330,000円〜）を提供。セミナー登壇100回超、相談対応5,000件超の実績。愛媛県・広島県を中心に全国対応。","foundingDate":"2021-06","numberOfEmployees":{"@type":"QuantitativeValue","value":2},"areaServed":[{"@type":"AdministrativeArea","name":"愛媛県"},{"@type":"AdministrativeArea","name":"広島県"},{"@type":"Country","name":"日本"}],"address":{"@type":"PostalAddress","streetAddress":"萱町3丁目2番3号 9CROSS 501","addressLocality":"松山市","addressRegion":"愛媛県","postalCode":"790-0813","addressCountry":"JP"},"geo":{"@type":"GeoCoordinates","latitude":33.8434,"longitude":132.7557},"telephone":"050-3637-6324","openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"10:00","closes":"17:30"},"priceRange":"¥33,000〜","slogan":"AIを、もっと使えるかたちに。","sameAs":["https://x.com/wakfut01","https://www.threads.net/@wakfut","https://lin.ee/s2u6VUw"],"knowsAbout":["AI活用支援","生成AI活用コンサルティング","ChatGPT活用支援","Claude活用支援","Gemini活用支援","Claude Code","Cursor","AI画像生成","中小企業AI活用","ホームページ制作","AI時代の業務システム開発","AI検索対策","AI検索向けの最適化","LINE自動応答","業務自動化","AI顧問","AI研修","生成AIセミナー","Custom GPT","Projects"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Cirasサービス一覧","itemListElement":[{"@type":"OfferCatalog","name":"相談・サポート","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Ciras AI顧問","description":"AIの相談に乗ります。日々のチャットで気軽に。Web広告・採用・補助金の話もAIの観点でまとめて対応します。","url":"https://www.ciras.jp/ai-komon","provider":{"@id":"https://www.ciras.jp/#organization"},"serviceType":"AI活用コンサルティング"},"price":"33000","priceCurrency":"JPY","priceSpecification":{"@type":"UnitPriceSpecification","price":"33000","priceCurrency":"JPY","unitText":"月額"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"影武者","description":"AIやデジタルの判断を社内の人間として一緒に背負います。会議への同席や営業同行など、外から見える立場と内に踏み込む距離感を両立させます。","url":"https://www.ciras.jp/kagemusha","provider":{"@id":"https://www.ciras.jp/#organization"},"serviceType":"AI経営支援"},"price":"275000","priceCurrency":"JPY","priceSpecification":{"@type":"UnitPriceSpecification","price":"275000","priceCurrency":"JPY","unitText":"月額"}}]},{"@type":"OfferCatalog","name":"制作・開発","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"AI時代のホームページ制作","description":"AI検索で御社名が出たときに間違って紹介されないように作ります。AI検索向けの作り方とAI活用での原稿づくりを組み込んだホームページ制作。","url":"https://www.ciras.jp/web","provider":{"@id":"https://www.ciras.jp/#organization"},"serviceType":"ホームページ制作"},"price":"330000","priceCurrency":"JPY"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"AI時代の業務システム開発","description":"これシステムにできる？と思った業務をAIで仕組み化。「これも頼めるかも」が、形になります。","url":"https://www.ciras.jp/system","provider":{"@id":"https://www.ciras.jp/#organization"},"serviceType":"業務システム開発"},"price":"330000","priceCurrency":"JPY"}]}]},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"50","bestRating":"5"},"review":[{"@type":"Review","reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},"author":{"@type":"Person","name":"愛媛県内の製造業経営者"},"reviewBody":"AIの使い方が分からなかったが、面談で具体的に教えてもらえるので助かっている。"}]}
+  {"@context":"https://schema.org","@type":"ProfessionalService","@id":"https://www.ciras.jp/#organization","name":"Ciras株式会社（シラス株式会社）","alternateName":["Ciras","シラス株式会社","Ciras Inc.","シラス"],"legalName":"Ciras株式会社","url":"https://www.ciras.jp","logo":"https://www.ciras.jp/images/logo-green.png","description":"Ciras株式会社は、愛媛県松山市を拠点に中小企業のAI活用・Webサイト制作・業務システム開発を支援する会社です。月額33,000円〜のAI顧問（初期設定オプションあり）、月額275,000円〜の影武者、AI時代のホームページ制作（330,000円〜）、AI時代の業務システム開発（330,000円〜）を提供。セミナー登壇100回超、相談対応5,000件超の実績。愛媛県・広島県を中心に全国対応。","foundingDate":"2021-06","numberOfEmployees":{"@type":"QuantitativeValue","value":2},"areaServed":[{"@type":"AdministrativeArea","name":"愛媛県"},{"@type":"AdministrativeArea","name":"広島県"},{"@type":"Country","name":"日本"}],"address":{"@type":"PostalAddress","streetAddress":"萱町3丁目2番3号 9CROSS 501","addressLocality":"松山市","addressRegion":"愛媛県","postalCode":"790-0813","addressCountry":"JP"},"geo":{"@type":"GeoCoordinates","latitude":33.8434,"longitude":132.7557},"telephone":"050-3637-6324","openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"10:00","closes":"17:30"},"priceRange":"¥33,000〜","slogan":"AIを、もっと使えるかたちに。","sameAs":["https://x.com/wakfut01","https://www.threads.net/@wakfut","https://lin.ee/s2u6VUw"],"knowsAbout":["AI活用支援","生成AI活用コンサルティング","ChatGPT活用支援","Claude活用支援","Gemini活用支援","Claude Code","Cursor","AI画像生成","中小企業AI活用","ホームページ制作","AI時代の業務システム開発","AI検索対策","AI検索向けの最適化","LINE自動応答","業務自動化","AI顧問","AI研修","生成AIセミナー","Custom GPT","Projects"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Cirasサービス一覧","itemListElement":[{"@type":"OfferCatalog","name":"相談・サポート","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Ciras AI顧問","description":"AIの相談に乗ります。日々のチャットで気軽に。Web広告・採用・補助金などの相談にもAIの観点で対応します（運用・実作業はオプション/別途）。","url":"https://www.ciras.jp/ai-komon","provider":{"@id":"https://www.ciras.jp/#organization"},"serviceType":"AI活用コンサルティング"},"price":"33000","priceCurrency":"JPY","priceSpecification":{"@type":"UnitPriceSpecification","price":"33000","priceCurrency":"JPY","unitText":"月額"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"影武者","description":"AIやデジタルの判断を社内の人間として一緒に背負います。会議への同席や営業同行など、外から見える立場と内に踏み込む距離感を両立させます。","url":"https://www.ciras.jp/kagemusha","provider":{"@id":"https://www.ciras.jp/#organization"},"serviceType":"AI経営支援"},"price":"275000","priceCurrency":"JPY","priceSpecification":{"@type":"UnitPriceSpecification","price":"275000","priceCurrency":"JPY","unitText":"月額"}}]},{"@type":"OfferCatalog","name":"制作・開発","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"AI時代のホームページ制作","description":"AI検索で御社名が出たときに間違って紹介されないように作ります。AI検索向けの作り方とAI活用での原稿づくりを組み込んだホームページ制作。","url":"https://www.ciras.jp/web","provider":{"@id":"https://www.ciras.jp/#organization"},"serviceType":"ホームページ制作"},"price":"330000","priceCurrency":"JPY"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"AI時代の業務システム開発","description":"これシステムにできる？と思った業務をAIで仕組み化。「これも頼めるかも」が、形になります。","url":"https://www.ciras.jp/system","provider":{"@id":"https://www.ciras.jp/#organization"},"serviceType":"業務システム開発"},"price":"330000","priceCurrency":"JPY"}]}]},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"50","bestRating":"5"},"review":[{"@type":"Review","reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},"author":{"@type":"Person","name":"愛媛県内の製造業経営者"},"reviewBody":"AIの使い方が分からなかったが、面談で具体的に教えてもらえるので助かっている。"}]}
   </script>
   <!-- Schema.org: WebSite + SearchAction -->
   <script type="application/ld+json">
@@ -453,7 +468,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </script>
   <!-- Schema.org: FAQPage -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"生成AIは使っていますが、もっとうまく使いたい。相談できますか？","acceptedAnswer":{"@type":"Answer","text":"むしろ、そのご相談が一番多いです。ツール選び・使い方・設定の質問、業務への組み込み方を、御社の状況に応じて具体的に進めます。"}},{"@type":"Question","name":"費用はどれくらいかかりますか？","acceptedAnswer":{"@type":"Answer","text":"Ciras AI顧問は月額33,000円〜（税込）。初期設定はAI顧問の初月オプションで対応します。ホームページ制作は330,000円〜、業務システム開発は330,000円〜です。なお、初回のご相談は無料です。まずは状況をお聞かせください。なお、業務システム開発は、AI活用により一般的なシステム開発会社より30〜70%程度低価格になる場合があります。"}},{"@type":"Question","name":"愛媛県外からでも利用できますか？","acceptedAnswer":{"@type":"Answer","text":"はい。Zoomでの面談・相談に対応していますので、全国どこからでもご利用いただけます。"}},{"@type":"Question","name":"AI検索（ChatGPT・Google AIモード）に対応したホームページを作れますか？","acceptedAnswer":{"@type":"Answer","text":"はい。AI検索エンジンから正しく引用されるよう、構造化データ（JSON-LD）の実装やAI検索向けの作り方を含めて制作します。"}},{"@type":"Question","name":"ChatGPT、Gemini、Claudeのどれを使えばいいか分かりません。","acceptedAnswer":{"@type":"Answer","text":"ご相談ください。御社の業務と相性を見て、提案します。"}}]}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"生成AIは使っていますが、もっとうまく使いたい。相談できますか？","acceptedAnswer":{"@type":"Answer","text":"むしろ、そのご相談が一番多いです。ツール選び・使い方・設定の質問、業務への組み込み方を、御社の状況に応じて具体的に進めます。"}},{"@type":"Question","name":"費用はどれくらいかかりますか？","acceptedAnswer":{"@type":"Answer","text":"Ciras AI顧問は月額33,000円〜（税込）。初期設定はAI顧問の初月オプションで対応します。ホームページ制作は330,000円〜、業務システム開発は330,000円〜です。なお、初回のご相談は無料です。まずは状況をお聞かせください。なお、業務システム開発は、AIで開発工程を効率化し、小規模な業務改善から始めやすくしています。費用は内容・連携先・機能数・セキュリティ要件・運用方法によって変わります。"}},{"@type":"Question","name":"愛媛県外からでも利用できますか？","acceptedAnswer":{"@type":"Answer","text":"はい。Zoomでの面談・相談に対応していますので、全国どこからでもご利用いただけます。"}},{"@type":"Question","name":"AI検索（ChatGPT・Google AIモード）に対応したホームページを作れますか？","acceptedAnswer":{"@type":"Answer","text":"はい。AI検索エンジンから正しく引用されるよう、構造化データ（JSON-LD）の実装やAI検索向けの作り方を含めて制作します。"}},{"@type":"Question","name":"ChatGPT、Gemini、Claudeのどれを使えばいいか分かりません。","acceptedAnswer":{"@type":"Answer","text":"ご相談ください。御社の業務と相性を見て、提案します。"}}]}
   </script>
   <!-- Schema.org: HowTo -->
   <script type="application/ld+json">
@@ -496,7 +511,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- HERO -->
   <section class="hero"><div class="container"><div class="hero-grid">
-    <div class="fade-in-up"><p class="section-label">AI Consulting — Ehime, Japan</p><h1>AIを、<br>もっと使えるかたちに。</h1><p class="hero-desc">ChatGPT・Gemini・Claudeで、御社の『できる』を増やします。愛媛・松山から、中小企業のAI活用を支援しています。</p><div class="hero-buttons"><a href="https://www.ciras.jp/contact" class="btn-primary">ご相談 <span class="arrow" style="margin-left:8px">→</span></a><a href="https://www.ciras.jp/seminar" class="btn-outline">セミナーを見る</a></div></div>
+    <div class="fade-in-up"><p class="section-label">AI × Web × System — Ehime, Japan</p><h1>AIを、<br>もっと使えるかたちに。</h1><p class="hero-desc">AI・Web・業務システムを、中小企業が無理なく使える形に整えます。ChatGPT・Gemini・Claudeの活用から、ホームページ制作、業務の仕組みづくりまで。愛媛・松山から支援しています。</p><div class="hero-buttons"><a href="https://www.ciras.jp/contact" class="btn-primary">ご相談 <span class="arrow" style="margin-left:8px">→</span></a><a href="https://www.ciras.jp/seminar" class="btn-outline">セミナーを見る</a></div></div>
     <div class="fade-in-up"><img src="/ciras-generated-images/homepage-hero-old.png" alt="愛媛・松山のCiras株式会社によるAI活用支援" class="hero-img" width="896" height="504" loading="eager" /></div>
   </div></div></section>
 
@@ -504,7 +519,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="mv" aria-label="ミッション・ビジョン"><div class="container">
     <div class="section-heading fade-in-up"><p class="section-label">Mission &amp; Vision</p><h2>Cirasの目指す姿</h2></div>
     <div class="mv-grid stagger">
-      <div class="mv-card fade-in-up"><p class="mv-card-label">Mission</p><h3>「できる」を増やす。</h3><p>AIやWebを使って、企業ができることを広げます。</p></div>
+      <div class="mv-card fade-in-up"><p class="mv-card-label">Mission</p><h3>「できる」を増やす。</h3><p>AI・Web・業務システムを使って、企業ができることを広げます。</p></div>
       <div class="mv-card fade-in-up"><p class="mv-card-label">Vision</p><h3>知らないを、楽しめる日常に。</h3><p>新しい技術に触れることが、チャンスにつながる。そういう環境を作ります。</p></div>
     </div>
   </div></section>
@@ -584,10 +599,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- DIAGNOSIS -->
   <section class="diagnosis"><div class="container">
-    <div class="section-heading fade-in-up"><p class="section-label">Diagnostic</p><h2>診断ツール</h2><p class="subtitle">1〜2分の質問に答えるだけ。AIがその場で分析し、提案をお届けします。</p></div>
+    <div class="section-heading fade-in-up"><p class="section-label">Diagnostic</p><h2>診断ツール</h2><p class="subtitle">1〜2分の質問に答えるだけ。AIがその場で分析します。何から始めるか迷う方は「課題から探す」へ。</p></div>
     <div class="diagnosis-grid stagger">
       <div class="diagnosis-card fade-in-up"><h3>AI活用レベルチェッカー</h3><p>6つの質問に答えるだけ。あなたのビジネスに合ったAI活用の提案をAIが作成します。</p><a href="https://www.ciras.jp/ai-check">診断する <span class="arrow">→</span></a></div>
       <div class="diagnosis-card fade-in-up"><h3>Webサイト状況チェッカー</h3><p>AI検索時代に対応できているか診断。URLを入力すると100点満点でスコア評価します。</p><a href="https://www.ciras.jp/web-check">診断する <span class="arrow">→</span></a></div>
+      <div class="diagnosis-card fade-in-up"><h3>課題から探す</h3><p>何から始めるか迷う方へ。今の課題から、合うサービスや診断へご案内します。</p><a href="https://www.ciras.jp/needs">課題から探す <span class="arrow">→</span></a></div>
     </div>
   </div></section>
 
@@ -596,7 +612,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="section-heading fade-in-up"><p class="section-label">FAQ</p><h2>よくある質問</h2></div>
     <div class="faq-list fade-in-up">
       <div class="faq-item"><button class="faq-question" aria-expanded="false">生成AIは使っていますが、もっとうまく使いたい。相談できますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer" role="region">むしろ、そのご相談が一番多いです。ツール選び・使い方・設定の質問、業務への組み込み方を、御社の状況に応じて具体的に進めます。</div></div>
-      <div class="faq-item"><button class="faq-question" aria-expanded="false">費用はどれくらいかかりますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer" role="region">Ciras AI顧問は月額33,000円〜（税込）。初期設定はAI顧問の初月オプションで対応します。ホームページ制作は330,000円〜、業務システム開発は330,000円〜です。なお、初回のご相談は無料です。まずは状況をお聞かせください。<br><br>※業務システム開発は、AI活用により一般的なシステム開発会社より30〜70%程度低価格になる場合があります。</div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">費用はどれくらいかかりますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer" role="region">Ciras AI顧問は月額33,000円〜（税込）。初期設定はAI顧問の初月オプションで対応します。ホームページ制作は330,000円〜、業務システム開発は330,000円〜です。なお、初回のご相談は無料です。まずは状況をお聞かせください。<br><br>※業務システム開発は、AIで開発工程を効率化し、小規模な業務改善から始めやすくしています。費用は内容・連携先・機能数・セキュリティ要件・運用方法によって変わります。</div></div>
       <div class="faq-item"><button class="faq-question" aria-expanded="false">愛媛県外からでも利用できますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer" role="region">はい。Zoomでの面談・相談に対応していますので、全国どこからでもご利用いただけます。</div></div>
       <div class="faq-item"><button class="faq-question" aria-expanded="false">AI検索（ChatGPT・Google AIモード）に対応したホームページを作れますか？<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer" role="region">はい。AI検索エンジンから正しく引用されるよう、構造化データ（JSON-LD）の実装やAI検索向けの作り方を含めて制作します。</div></div>
       <div class="faq-item"><button class="faq-question" aria-expanded="false">ChatGPT、Gemini、Claudeのどれを使えばいいか分かりません。<svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-answer" role="region">ご相談ください。御社の業務と相性を見て、提案します。</div></div>
@@ -717,6 +733,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       });
   })();
   </script>
+
+  <!-- START GUIDE (4導線の整理) -->
+  <section class="start-guide" aria-label="始めるための4つの入り口"><div class="container">
+    <div class="section-heading fade-in-up"><p class="section-label">Where to Start</p><h2>まず、どこから？</h2><p class="subtitle">迷ったら、4つの入り口があります。気になるところからご覧ください。</p></div>
+    <div class="start-list stagger">
+      <a href="https://www.ciras.jp/ai-check" class="start-item fade-in-up"><span class="start-num">01</span><span class="start-body"><span class="start-title">AI活用レベルを測る</span><span class="start-desc">6つの質問で、今のAI活用度を診断します。</span></span><span class="arrow">→</span></a>
+      <a href="https://www.ciras.jp/web-check" class="start-item fade-in-up"><span class="start-num">02</span><span class="start-body"><span class="start-title">Webサイトの状態を測る</span><span class="start-desc">AI検索時代への対応度を100点満点で診断します。</span></span><span class="arrow">→</span></a>
+      <a href="https://www.ciras.jp/needs" class="start-item fade-in-up"><span class="start-num">03</span><span class="start-body"><span class="start-title">課題から探す</span><span class="start-desc">今の課題から、合うサービスへご案内します。</span></span><span class="arrow">→</span></a>
+      <a href="https://www.ciras.jp/contact" class="start-item fade-in-up"><span class="start-num">04</span><span class="start-body"><span class="start-title">すぐ相談する</span><span class="start-desc">話しながら整理したい方はこちらから。</span></span><span class="arrow">→</span></a>
+    </div>
+  </div></section>
 
   <!-- CTA (Contact) -->
   <section class="cta"><div class="container"><div class="cta-inner fade-in-up">

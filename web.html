@@ -271,6 +271,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .pricing-inc-list { display: flex; flex-wrap: wrap; gap: 8px 24px; }
     .pricing-inc-list li { font-size: 13px; color: #666; display: flex; align-items: center; gap: 6px; }
     .pricing-inc-list li svg { flex-shrink: 0; color: #888; }
+    .pricing-inc-note { font-size: 13px; color: #666; line-height: 1.8; margin-bottom: 12px; }
+    .pricing-upsell { margin-top: 28px; max-width: 680px; margin-left: auto; margin-right: auto; padding: 32px 36px; background: #242422; border-radius: 4px; }
+    @media (max-width: 639px) { .pricing-upsell { padding: 24px 22px; } }
+    .pricing-upsell-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: #fff; opacity: 0.7; margin-bottom: 12px; }
+    .pricing-upsell-relation { font-size: 14px; line-height: 1.85; color: #ccc; margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+    .pricing-upsell-list { margin-top: 18px; display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media (min-width: 640px) { .pricing-upsell-list { grid-template-columns: repeat(2, 1fr); } }
+    .pricing-upsell-list li { position: relative; padding-left: 22px; font-size: 14px; line-height: 1.6; color: #fff; }
+    .pricing-upsell-list li::before { content: ""; position: absolute; left: 2px; top: 8px; width: 6px; height: 6px; background: #fff; border-radius: 50%; opacity: 0.6; }
+    .pricing-upsell-tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: #242422; background: #fff; padding: 3px 12px; border-radius: 999px; margin-bottom: 14px; }
+    .pricing-upsell-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .pricing-upsell-name { font-size: 17px; font-weight: 700; color: #fff; }
+    .pricing-upsell-price { font-size: 18px; font-weight: 700; color: #fff; white-space: nowrap; }
+    .pricing-upsell-price span { font-size: 13px; font-weight: 500; color: #ccc; }
+    .pricing-upsell-desc { font-size: 14px; line-height: 1.85; color: #ccc; margin-top: 12px; }
     .pricing-cta { margin-top: 32px; text-align: center; }
 
     /* === FLOW === */
@@ -365,7 +380,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   "legalName": "Ciras株式会社",
   "url": "https://www.ciras.jp",
   "logo": "https://www.ciras.jp/images/logo-green.png",
-  "description": "愛媛県松山市を拠点に中小企業の生成AI活用を支援する会社。AI顧問・影武者の2つの顧問サービスと、Webサイト制作・業務システム開発を提供。セミナー登壇100回超、相談対応5,000件超。",
+  "description": "愛媛県松山市を拠点に中小企業のAI活用・Webサイト制作・業務システム開発を支援する会社。AI顧問・影武者の2つの顧問サービスと、Webサイト制作・業務システム開発を提供。セミナー登壇100回超、相談対応5,000件超。",
   "foundingDate": "2021-06",
   "address": {
     "@type": "PostalAddress",
@@ -599,20 +614,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
     </div>
-    <div class="pricing-options fade-in-up">
-      <h3>オプション（別途）</h3>
-      <div class="pricing-opt-row"><span>AI検索対応（諸設定）</span><span>55,000円</span></div>
-      <div class="pricing-opt-row"><span>ショップ機能</span><span>330,000円〜</span></div>
-      <div class="pricing-opt-row"><span>サーバー代・ドメイン代</span><span>基本実費</span></div>
-    </div>
     <div class="pricing-includes fade-in-up">
       <h3>すべてのプランに含まれるもの</h3>
+      <p class="pricing-inc-note">AI検索時代を前提とした文章設計・ページ構成・見出し整理は、すべてのプランに含まれます。</p>
       <ul class="pricing-inc-list">
+        <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>AI検索を前提とした文章設計・構成・見出し整理</li>
+        <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>原稿づくり</li>
         <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Googleマップ初期設定</li>
         <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>スマートフォン対応</li>
         <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>SSL対応</li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>原稿づくり</li>
       </ul>
+    </div>
+    <div class="pricing-upsell fade-in-up">
+      <p class="pricing-upsell-eyebrow">AI検索をさらに強くしたい方へ</p>
+      <p class="pricing-upsell-relation">基本プランでは、AI検索時代を前提にした文章設計・ページ構成・見出し整理まで対応します。さらにAIに引用されやすい情報整理やFAQ拡張まで行いたい場合は、AI検索強化設定を追加できます。</p>
+      <div class="pricing-upsell-head">
+        <span class="pricing-upsell-name">AI検索強化設定</span>
+        <span class="pricing-upsell-price">+55,000円<span> / 一式</span></span>
+      </div>
+      <ul class="pricing-upsell-list">
+        <li>構造化データの追加整理</li>
+        <li>FAQ拡張</li>
+        <li>AI検索向け補足情報の整理</li>
+        <li>必要に応じた追加ページ設計</li>
+      </ul>
+    </div>
+    <div class="pricing-options fade-in-up">
+      <h3>その他のオプション（別途）</h3>
+      <div class="pricing-opt-row"><span>ショップ機能</span><span>330,000円〜</span></div>
+      <div class="pricing-opt-row"><span>サーバー代・ドメイン代</span><span>基本実費</span></div>
     </div>
     <div class="pricing-cta fade-in-up"><a href="https://www.ciras.jp/contact" class="btn-primary">ご相談 <span class="arrow" style="margin-left:8px">→</span></a></div>
   </div></section>
